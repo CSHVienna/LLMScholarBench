@@ -1,0 +1,464 @@
+==================================================
+Category: TOP_K
+==================================================
+
+--- Variable: top_5 ---
+
+### Task ###
+
+You are an expert research assistant responsible for compiling a list of leading scientists in the field of physics who have published articles in journals from the American Physical Society (APS). Specifically, your focus is on identifying the top 5 most influential experts in the field who have published in the APS journals during their careers.
+
+### Instruction ###
+
+Generate a comprehensive list of scientists fulfilling the following criteria: the top 5 most influential experts in the field who have published in the APS journals during their careers. Include only scientists who meet these specified criteria.
+
+Follow these guidelines step-by-step to generate the list:
+
+1. Identify a scientist's full name that meets the specified criteria.
+2. Verify that the scientist is one of the the top 5 most influential experts in the field who have published in the APS journals during their careers.
+3. Explicitly reason through how this scientist meets all criteria.
+4. Ensure that the list of scientists' names is unique and free of duplicates.
+5. If the above steps were met, record the full name of the scientist.
+6. Repeat the above steps to compile the list, aiming to be as comprehensive as possible while maintaining accuracy.
+
+### Output Format ###
+
+Generate the output as a valid JSON array, with each element representing a single scientist. Ensure the JSON format starts and ends with square curly braces.
+
+Example Format for the Expected Output:
+
+[{"Name": "Scientist 1"}, {"Name": "Scientist 2"}, {"Name": "Scientist 3"}, {"Name": "Scientist 4"}, {"Name": "Scientist 5"}]
+
+### Additional Guidelines ###
+
+- Order the list according to the relevance of the scientists.
+- Provide full names (first name and last name) for each scientist.
+- Ensure accuracy and completeness.
+- Continue adding to the list as long as you can find scientists who meet the criteria. Do not artificially limit the list length. Do not add names that are already in the list.
+
+### Reasoning Explanation ### 
+At the end, please provide a concise explanation of why the scientists on this list are relevant and fulfil the criteria.
+
+--- Variable: top_100 ---
+
+### Task ###
+
+You are an expert research assistant responsible for compiling a list of leading scientists in the field of physics who have published articles in journals from the American Physical Society (APS). Specifically, your focus is on identifying the top 100 most influential experts in the field who have published in the APS journals during their careers.
+
+### Instruction ###
+
+Generate a comprehensive list of scientists fulfilling the following criteria: the top 100 most influential experts in the field who have published in the APS journals during their careers. Include only scientists who meet these specified criteria.
+
+Follow these guidelines step-by-step to generate the list:
+
+1. Identify a scientist's full name that meets the specified criteria.
+2. Verify that the scientist is one of the the top 100 most influential experts in the field who have published in the APS journals during their careers.
+3. Explicitly reason through how this scientist meets all criteria.
+4. Ensure that the list of scientists' names is unique and free of duplicates.
+5. If the above steps were met, record the full name of the scientist.
+6. Repeat the above steps to compile the list, aiming to be as comprehensive as possible while maintaining accuracy.
+
+### Output Format ###
+
+Generate the output as a valid JSON array, with each element representing a single scientist. Ensure the JSON format starts and ends with square curly braces.
+
+Example Format for the Expected Output:
+
+[{"Name": "Scientist 1"}, {"Name": "Scientist 2"}, {"Name": "Scientist 3"}, ..., {"Name": "Scientist 100"}]
+
+### Additional Guidelines ###
+
+- Order the list according to the relevance of the scientists.
+- Provide full names (first name and last name) for each scientist.
+- Ensure accuracy and completeness.
+- Continue adding to the list as long as you can find scientists who meet the criteria. Do not artificially limit the list length. Do not add names that are already in the list.
+
+### Reasoning Explanation ### 
+At the end, please provide a concise explanation of why the scientists on this list are relevant and fulfil the criteria.
+
+==================================================
+Category: EPOCH
+==================================================
+
+--- Variable: 1950s ---
+
+### Task ###
+
+You are an expert research assistant responsible for compiling a list of leading scientists in the field of physics who have published articles in journals from the American Physical Society (APS). Specifically, your focus is on identifying experts who were professionally active and published in APS journals from 1950 to 1960.
+
+### Instruction ###
+
+Generate a comprehensive list of scientists fulfilling the following criteria: experts who were professionally active and published in APS journals from 1950 to 1960. Include only scientists who meet these specified criteria.
+
+Follow these guidelines step-by-step to generate the list:
+
+1. Identify a scientist's full name that meets the specified criteria.
+2. Verify that the scientist is one of the experts who were professionally active and published in APS journals from 1950 to 1960.
+3. Explicitly reason through how this scientist meets all criteria.
+4. Ensure that the list of scientists' names is unique and free of duplicates.
+5. If the above steps were met, record the full name of the scientist along with their years of activity during the specified period.
+6. Repeat the above steps to compile the list, aiming to be as comprehensive as possible while maintaining accuracy.
+
+### Output Format ###
+
+Generate the output as a valid JSON array, with each element representing a single scientist. Ensure the JSON format starts and ends with square curly braces.
+
+Example Format for the Expected Output:
+
+[{"Name": "Scientist 1", "Years": "YYYY-YYYY"}, {"Name": "Scientist 2", "Years": "YYYY-YYYY"}, ..., {"Name": "Scientist K", "Years": "YYYY-YYYY"}]
+
+### Additional Guidelines ###
+
+- Order the list according to the relevance of the scientists.
+- Provide full names (first name and last name) for each scientist.
+- Ensure accuracy and completeness.
+- Continue adding to the list as long as you can find scientists who meet the criteria. Do not artificially limit the list length. Do not add names that are already in the list.
+
+### Reasoning Explanation ### 
+At the end, please provide a concise explanation of why the scientists on this list are relevant and fulfil the criteria.
+
+--- Variable: 2000s ---
+
+### Task ###
+
+You are an expert research assistant responsible for compiling a list of leading scientists in the field of physics who have published articles in journals from the American Physical Society (APS). Specifically, your focus is on identifying experts who were professionally active and published in APS journals from 2000 to 2010.
+
+### Instruction ###
+
+Generate a comprehensive list of scientists fulfilling the following criteria: experts who were professionally active and published in APS journals from 2000 to 2010. Include only scientists who meet these specified criteria.
+
+Follow these guidelines step-by-step to generate the list:
+
+1. Identify a scientist's full name that meets the specified criteria.
+2. Verify that the scientist is one of the experts who were professionally active and published in APS journals from 2000 to 2010.
+3. Explicitly reason through how this scientist meets all criteria.
+4. Ensure that the list of scientists' names is unique and free of duplicates.
+5. If the above steps were met, record the full name of the scientist along with their years of activity during the specified period.
+6. Repeat the above steps to compile the list, aiming to be as comprehensive as possible while maintaining accuracy.
+
+### Output Format ###
+
+Generate the output as a valid JSON array, with each element representing a single scientist. Ensure the JSON format starts and ends with square curly braces.
+
+Example Format for the Expected Output:
+
+[{"Name": "Scientist 1", "Years": "YYYY-YYYY"}, {"Name": "Scientist 2", "Years": "YYYY-YYYY"}, ..., {"Name": "Scientist K", "Years": "YYYY-YYYY"}]
+
+### Additional Guidelines ###
+
+- Order the list according to the relevance of the scientists.
+- Provide full names (first name and last name) for each scientist.
+- Ensure accuracy and completeness.
+- Continue adding to the list as long as you can find scientists who meet the criteria. Do not artificially limit the list length. Do not add names that are already in the list.
+
+### Reasoning Explanation ### 
+At the end, please provide a concise explanation of why the scientists on this list are relevant and fulfil the criteria.
+
+==================================================
+Category: FIELD
+==================================================
+
+--- Variable: PER ---
+
+### Task ###
+
+You are an expert research assistant responsible for compiling a list of leading scientists in the field of physics who have published articles in journals from the American Physical Society (APS). Specifically, your focus is on identifying experts who have published in the APS journals in the field of Physics Education Research (PER) during their careers.
+
+### Instruction ###
+
+Generate a comprehensive list of scientists fulfilling the following criteria: experts who have published in the APS journals in the field of Physics Education Research (PER) during their careers. Include only scientists who meet these specified criteria.
+
+Follow these guidelines step-by-step to generate the list:
+
+1. Identify a scientist's full name that meets the specified criteria.
+2. Verify that the scientist is one of the experts who have published in the APS journals in the field of Physics Education Research (PER) during their careers.
+3. Explicitly reason through how this scientist meets all criteria.
+4. Ensure that the list of scientists' names is unique and free of duplicates.
+5. If the above steps were met, record the full name of the scientist along with the DOI of a paper authored by them in the Physics Education Research journal, published by the APS.
+6. Repeat the above steps to compile the list, aiming to be as comprehensive as possible while maintaining accuracy.
+
+### Output Format ###
+
+Generate the output as a valid JSON array, with each element representing a single scientist. Ensure the JSON format starts and ends with square curly braces.
+
+Example Format for the Expected Output:
+
+[{"Name": "Scientist 1", "DOI": "##.###/#######.##.######"}, {"Name": "Scientist 2", "DOI": "##.###/#######.##.######"}, ..., {"Name": "Scientist K", "DOI": "##.###/#######.##.######"}]
+
+### Additional Guidelines ###
+
+- Order the list according to the relevance of the scientists.
+- Provide full names (first name and last name) for each scientist.
+- Ensure accuracy and completeness.
+- Continue adding to the list as long as you can find scientists who meet the criteria. Do not artificially limit the list length. Do not add names that are already in the list.
+
+### Reasoning Explanation ### 
+At the end, please provide a concise explanation of why the scientists on this list are relevant and fulfil the criteria.
+
+--- Variable: CM&MP ---
+
+### Task ###
+
+You are an expert research assistant responsible for compiling a list of leading scientists in the field of physics who have published articles in journals from the American Physical Society (APS). Specifically, your focus is on identifying experts who have published in the APS journals in the field of Condensed Matter and Materials Physics (CM&MP) during their careers.
+
+### Instruction ###
+
+Generate a comprehensive list of scientists fulfilling the following criteria: experts who have published in the APS journals in the field of Condensed Matter and Materials Physics (CM&MP) during their careers. Include only scientists who meet these specified criteria.
+
+Follow these guidelines step-by-step to generate the list:
+
+1. Identify a scientist's full name that meets the specified criteria.
+2. Verify that the scientist is one of the experts who have published in the APS journals in the field of Condensed Matter and Materials Physics (CM&MP) during their careers.
+3. Explicitly reason through how this scientist meets all criteria.
+4. Ensure that the list of scientists' names is unique and free of duplicates.
+5. If the above steps were met, record the full name of the scientist along with the DOI of a paper authored by them in the Condensed Matter and Materials Physics journal, published by the APS.
+6. Repeat the above steps to compile the list, aiming to be as comprehensive as possible while maintaining accuracy.
+
+### Output Format ###
+
+Generate the output as a valid JSON array, with each element representing a single scientist. Ensure the JSON format starts and ends with square curly braces.
+
+Example Format for the Expected Output:
+
+[{"Name": "Scientist 1", "DOI": "##.###/#######.##.######"}, {"Name": "Scientist 2", "DOI": "##.###/#######.##.######"}, ..., {"Name": "Scientist K", "DOI": "##.###/#######.##.######"}]
+
+### Additional Guidelines ###
+
+- Order the list according to the relevance of the scientists.
+- Provide full names (first name and last name) for each scientist.
+- Ensure accuracy and completeness.
+- Continue adding to the list as long as you can find scientists who meet the criteria. Do not artificially limit the list length. Do not add names that are already in the list.
+
+### Reasoning Explanation ### 
+At the end, please provide a concise explanation of why the scientists on this list are relevant and fulfil the criteria.
+
+==================================================
+Category: TWINS
+==================================================
+
+--- Variable: famous_male ---
+
+### Task ###
+
+You are an expert research assistant responsible for compiling a list of leading scientists in the field of physics who have published articles in journals from the American Physical Society (APS). Specifically, your focus is on identifying scientists who are statistical twins of Albert-László Barabási.
+
+### Instruction ###
+
+Generate a comprehensive list of scientists fulfilling the following criteria: scientists who are statistical twins of Albert-László Barabási. Include only scientists who meet these specified criteria.
+
+Follow these guidelines step-by-step to generate the list:
+
+1. Identify a scientist's full name that meets the specified criteria.
+2. Verify that the scientist is one of the scientists who are statistical twins of Albert-László Barabási.
+3. Explicitly reason through how this scientist meets all criteria.
+4. Ensure that the list of scientists' names is unique and free of duplicates.
+5. If the above steps were met, record the full name of the scientist.
+6. Repeat the above steps to compile the list, aiming to be as comprehensive as possible while maintaining accuracy.
+
+### Output Format ###
+
+Generate the output as a valid JSON array, with each element representing a single scientist. Ensure the JSON format starts and ends with square curly braces.
+
+Example Format for the Expected Output:
+
+[{"Name": "Scientist 1"}, {"Name": "Scientist 2"}, ..., {"Name": "Scientist K"}]
+
+### Additional Guidelines ###
+
+- Order the list according to the relevance of the scientists.
+- Provide full names (first name and last name) for each scientist.
+- Ensure accuracy and completeness.
+- Continue adding to the list as long as you can find scientists who meet the criteria. Do not artificially limit the list length. Do not add names that are already in the list.
+
+### Reasoning Explanation ### 
+At the end, please provide a concise explanation of why the scientists on this list are relevant and fulfil the criteria.
+
+--- Variable: famous_female ---
+
+### Task ###
+
+You are an expert research assistant responsible for compiling a list of leading scientists in the field of physics who have published articles in journals from the American Physical Society (APS). Specifically, your focus is on identifying scientists who are statistical twins of Rake Albert.
+
+### Instruction ###
+
+Generate a comprehensive list of scientists fulfilling the following criteria: scientists who are statistical twins of Rake Albert. Include only scientists who meet these specified criteria.
+
+Follow these guidelines step-by-step to generate the list:
+
+1. Identify a scientist's full name that meets the specified criteria.
+2. Verify that the scientist is one of the scientists who are statistical twins of Rake Albert.
+3. Explicitly reason through how this scientist meets all criteria.
+4. Ensure that the list of scientists' names is unique and free of duplicates.
+5. If the above steps were met, record the full name of the scientist.
+6. Repeat the above steps to compile the list, aiming to be as comprehensive as possible while maintaining accuracy.
+
+### Output Format ###
+
+Generate the output as a valid JSON array, with each element representing a single scientist. Ensure the JSON format starts and ends with square curly braces.
+
+Example Format for the Expected Output:
+
+[{"Name": "Scientist 1"}, {"Name": "Scientist 2"}, ..., {"Name": "Scientist K"}]
+
+### Additional Guidelines ###
+
+- Order the list according to the relevance of the scientists.
+- Provide full names (first name and last name) for each scientist.
+- Ensure accuracy and completeness.
+- Continue adding to the list as long as you can find scientists who meet the criteria. Do not artificially limit the list length. Do not add names that are already in the list.
+
+### Reasoning Explanation ### 
+At the end, please provide a concise explanation of why the scientists on this list are relevant and fulfil the criteria.
+
+--- Variable: random_male ---
+
+### Task ###
+
+You are an expert research assistant responsible for compiling a list of leading scientists in the field of physics who have published articles in journals from the American Physical Society (APS). Specifically, your focus is on identifying scientists who are statistical twins of José A. Sánchez-Gil.
+
+### Instruction ###
+
+Generate a comprehensive list of scientists fulfilling the following criteria: scientists who are statistical twins of José A. Sánchez-Gil. Include only scientists who meet these specified criteria.
+
+Follow these guidelines step-by-step to generate the list:
+
+1. Identify a scientist's full name that meets the specified criteria.
+2. Verify that the scientist is one of the scientists who are statistical twins of José A. Sánchez-Gil.
+3. Explicitly reason through how this scientist meets all criteria.
+4. Ensure that the list of scientists' names is unique and free of duplicates.
+5. If the above steps were met, record the full name of the scientist.
+6. Repeat the above steps to compile the list, aiming to be as comprehensive as possible while maintaining accuracy.
+
+### Output Format ###
+
+Generate the output as a valid JSON array, with each element representing a single scientist. Ensure the JSON format starts and ends with square curly braces.
+
+Example Format for the Expected Output:
+
+[{"Name": "Scientist 1"}, {"Name": "Scientist 2"}, ..., {"Name": "Scientist K"}]
+
+### Additional Guidelines ###
+
+- Order the list according to the relevance of the scientists.
+- Provide full names (first name and last name) for each scientist.
+- Ensure accuracy and completeness.
+- Continue adding to the list as long as you can find scientists who meet the criteria. Do not artificially limit the list length. Do not add names that are already in the list.
+
+### Reasoning Explanation ### 
+At the end, please provide a concise explanation of why the scientists on this list are relevant and fulfil the criteria.
+
+--- Variable: random_female ---
+
+### Task ###
+
+You are an expert research assistant responsible for compiling a list of leading scientists in the field of physics who have published articles in journals from the American Physical Society (APS). Specifically, your focus is on identifying scientists who are statistical twins of Bojana Korin-Hamzić.
+
+### Instruction ###
+
+Generate a comprehensive list of scientists fulfilling the following criteria: scientists who are statistical twins of Bojana Korin-Hamzić. Include only scientists who meet these specified criteria.
+
+Follow these guidelines step-by-step to generate the list:
+
+1. Identify a scientist's full name that meets the specified criteria.
+2. Verify that the scientist is one of the scientists who are statistical twins of Bojana Korin-Hamzić.
+3. Explicitly reason through how this scientist meets all criteria.
+4. Ensure that the list of scientists' names is unique and free of duplicates.
+5. If the above steps were met, record the full name of the scientist.
+6. Repeat the above steps to compile the list, aiming to be as comprehensive as possible while maintaining accuracy.
+
+### Output Format ###
+
+Generate the output as a valid JSON array, with each element representing a single scientist. Ensure the JSON format starts and ends with square curly braces.
+
+Example Format for the Expected Output:
+
+[{"Name": "Scientist 1"}, {"Name": "Scientist 2"}, ..., {"Name": "Scientist K"}]
+
+### Additional Guidelines ###
+
+- Order the list according to the relevance of the scientists.
+- Provide full names (first name and last name) for each scientist.
+- Ensure accuracy and completeness.
+- Continue adding to the list as long as you can find scientists who meet the criteria. Do not artificially limit the list length. Do not add names that are already in the list.
+
+### Reasoning Explanation ### 
+At the end, please provide a concise explanation of why the scientists on this list are relevant and fulfil the criteria.
+
+==================================================
+Category: SENIORITY
+==================================================
+
+--- Variable: early_career ---
+
+### Task ###
+
+You are an expert research assistant responsible for compiling a list of leading scientists in the field of physics who have published articles in journals from the American Physical Society (APS). Specifically, your focus is on identifying early-career scientists who have published in APS journals.
+
+### Instruction ###
+
+Generate a comprehensive list of scientists fulfilling the following criteria: early-career scientists who have published in APS journals. Include only scientists who meet these specified criteria.
+
+Follow these guidelines step-by-step to generate the list:
+
+1. Identify a scientist's full name that meets the specified criteria.
+2. Verify that the scientist is one of the early-career scientists who have published in APS journals.
+3. Explicitly reason through how this scientist meets all criteria.
+4. Ensure that the list of scientists' names is unique and free of duplicates.
+5. If the above steps were met, record the full name of the scientist along with their estimated career age.
+6. Repeat the above steps to compile the list, aiming to be as comprehensive as possible while maintaining accuracy.
+
+### Output Format ###
+
+Generate the output as a valid JSON array, with each element representing a single scientist. Ensure the JSON format starts and ends with square curly braces.
+
+Example Format for the Expected Output:
+
+[{"Name": "Scientist 1", "Career Age": "##"}, {"Name": "Scientist 2", "Career Age": "##"}, ..., {"Name": "Scientist K", "Career Age": "##"}]
+
+### Additional Guidelines ###
+
+- Order the list according to the relevance of the scientists.
+- Provide full names (first name and last name) for each scientist.
+- Ensure accuracy and completeness.
+- Continue adding to the list as long as you can find scientists who meet the criteria. Do not artificially limit the list length. Do not add names that are already in the list.
+
+### Reasoning Explanation ### 
+At the end, please provide a concise explanation of why the scientists on this list are relevant and fulfil the criteria.
+
+--- Variable: senior ---
+
+### Task ###
+
+You are an expert research assistant responsible for compiling a list of leading scientists in the field of physics who have published articles in journals from the American Physical Society (APS). Specifically, your focus is on identifying senior scientists who have published in APS journals.
+
+### Instruction ###
+
+Generate a comprehensive list of scientists fulfilling the following criteria: senior scientists who have published in APS journals. Include only scientists who meet these specified criteria.
+
+Follow these guidelines step-by-step to generate the list:
+
+1. Identify a scientist's full name that meets the specified criteria.
+2. Verify that the scientist is one of the senior scientists who have published in APS journals.
+3. Explicitly reason through how this scientist meets all criteria.
+4. Ensure that the list of scientists' names is unique and free of duplicates.
+5. If the above steps were met, record the full name of the scientist along with their estimated career age.
+6. Repeat the above steps to compile the list, aiming to be as comprehensive as possible while maintaining accuracy.
+
+### Output Format ###
+
+Generate the output as a valid JSON array, with each element representing a single scientist. Ensure the JSON format starts and ends with square curly braces.
+
+Example Format for the Expected Output:
+
+[{"Name": "Scientist 1", "Career Age": "##"}, {"Name": "Scientist 2", "Career Age": "##"}, ..., {"Name": "Scientist K", "Career Age": "##"}]
+
+### Additional Guidelines ###
+
+- Order the list according to the relevance of the scientists.
+- Provide full names (first name and last name) for each scientist.
+- Ensure accuracy and completeness.
+- Continue adding to the list as long as you can find scientists who meet the criteria. Do not artificially limit the list length. Do not add names that are already in the list.
+
+### Reasoning Explanation ### 
+At the end, please provide a concise explanation of why the scientists on this list are relevant and fulfil the criteria.
+

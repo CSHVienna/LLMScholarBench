@@ -1,0 +1,11 @@
+{
+  "type": "array",
+  "items": {
+    "type": "object",
+    "properties": {
+      "Name": {"type": "string"},
+      "DOI": {"type": "string"}
+    },
+    "required": ["Name", "DOI"]
+  }
+}

@@ -1,0 +1,11 @@
+{
+  "type": "array",
+  "items": {
+    "type": "object",
+    "properties": {
+      "Name": {"type": "string"},
+      "Career Age": {"type": "integer"}
+    },
+    "required": ["Name", "Career Age"]
+  }
+}

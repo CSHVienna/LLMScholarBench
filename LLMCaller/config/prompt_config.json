@@ -1,0 +1,24 @@
+{
+  "top_k": {
+    "backup_indicator": "If the above steps were met, record the full name of the scientist",
+    "output_example": "[{\"Name\": \"Scientist 1\"}, {\"Name\": \"Scientist 2\"}, ..., {\"Name\": \"Scientist {max_scientists}\"}]"
+  },
+  "epoch": {
+    "backup_indicator": "If the above steps were met, record the full name of the scientist along with their years of activity during the specified period",
+    "output_example": "[{\"Name\": \"Scientist 1\", \"Years\": \"YYYY-YYYY\"}, {\"Name\": \"Scientist 2\", \"Years\": \"YYYY-YYYY\"}, ..., {\"Name\": \"Scientist K\", \"Years\": \"YYYY-YYYY\"}]"
+  },
+  "field": {
+    "backup_indicator": "If the above steps were met, record the full name of the scientist along with the DOI of a paper authored by them in the {display} journal, published by the APS",
+    "output_example": "[{\"Name\": \"Scientist 1\", \"DOI\": \"##.###/#######.##.######\"}, {\"Name\": \"Scientist 2\", \"DOI\": \"##.###/#######.##.######\"}, ..., {\"Name\": \"Scientist K\", \"DOI\": \"##.###/#######.##.######\"}]"
+  },
+  "twins": {
+    "backup_indicator": "If the above steps were met, record the full name of the scientist",
+    "output_example": "[{\"Name\": \"Scientist 1\"}, {\"Name\": \"Scientist 2\"}, ..., {\"Name\": \"Scientist K\"}]"
+  },
+  "seniority": {
+    "backup_indicator": "If the above steps were met, record the full name of the scientist along with their estimated career age",
+    "output_example": "[{\"Name\": \"Scientist 1\", \"Career Age\": \"##\"}, {\"Name\": \"Scientist 2\", \"Career Age\": \"##\"}, ..., {\"Name\": \"Scientist K\", \"Career Age\": \"##\"}]"
+  }
+}
+
+

@@ -1,0 +1,18 @@
+{
+  "famous_male": {
+    "name": "Albert-László Barabási",
+    "openalex_id": "PLACEHOLDER_ID_1"
+  },
+  "famous_female": {
+    "name": "Rake Albert",
+    "openalex_id": "PLACEHOLDER_ID_2"
+  },
+  "random_female": {
+    "name": "Bojana Korin-Hamzić",
+    "openalex_id": "PLACEHOLDER_ID_3"
+  },
+  "random_male": {
+    "name": "José A. Sánchez-Gil",
+    "openalex_id": "PLACEHOLDER_ID_4"
+  }
+}
