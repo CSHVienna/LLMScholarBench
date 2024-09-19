@@ -43,5 +43,5 @@ LLMScholar/
     │   └── validator.py
     ├── main.py
     ├── llm-caller-structure.txt
-    ├── llmcaller-readme.md
+    ├── README.md
     └── requirements.txt
