@@ -88,3 +88,12 @@ If you encounter issues:
 
 For more detailed information on each module, refer to the inline documentation in the respective Python files.
 
+## Fictitious Twin Names
+
+In certain experiment prompts, fictitious names may be required for variables or specific task requirements. For example, the names "Agandaur Heilamin" (Male) and "Huethea Arabalar" (Female) were generated for use in the LLMCaller experiments on **19/09/2024 at 16:00**. These names were created using [Random Word Generator](https://randomwordgenerator.com/name.php), selecting **Fantasy Names** with no specific regional origin and once each for male and female genders.
+
+These names can be easily replaced or extended by modifying the relevant section of the **prompts/generator.py** file.
+
+---
+
+This would integrate the information in a way that fits the overall technical context of LLMCaller and makes the source of the names clear to future users.
