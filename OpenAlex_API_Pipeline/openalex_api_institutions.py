@@ -5,7 +5,7 @@ from tqdm import tqdm
 import random
 
 def get_institution_stats(openalex_id, retries=3):
-    url = f"https://api.openalex.org/institutions/{openalex_id}"
+    url = f"https://api.openalex.org/institutions/I{openalex_id}"
     
     for attempt in range(retries):
         try:
@@ -17,7 +17,10 @@ def get_institution_stats(openalex_id, retries=3):
                     'display_name': data.get('display_name'),
                     'works_count': data.get('works_count'),
                     'cited_by_count': data.get('cited_by_count'),
-                    'summary_stats': data.get('summary_stats', {})
+                    'summary_stats': data.get('summary_stats', {}),
+                    'country_code': data.get('country_code'),
+                    'city': data.get('geo', {}).get('city'),
+                    'error': None
                 }
             else:
                 print(f"Error {response.status_code} for institution ID: {openalex_id}. Retrying in {2 ** attempt} seconds...")
