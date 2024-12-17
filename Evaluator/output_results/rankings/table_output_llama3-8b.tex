@@ -1,0 +1,30 @@
+\begin{table*}[h]
+\centering
+\caption{Ranking Analysis Results for llama3-8b}
+\label{tbl:ranking_analysis_results}
+\begin{tabular}{l|ccccc}
+\toprule
+Use Case & rr1\_rank\_citations\_percentile & rr2\_rank\_publications\_percentile & rr3\_rank\_h\_index\_percentile & rr4\_rank\_e\_index\_percentile & rr5\_rank\_citation\_publication\_age\_percentile \\
+\midrule
+epoch\_1950s & 92.128 ± 16.136 & 89.543 ± 16.252 & 92.182 ± 14.953 & 93.501 ± 15.427 & 55.793 ± 12.693 \\
+epoch\_2000s & -- & -- & -- & -- & -- \\
+field\_CM\&MP & 99.830 ± 0.223 & 99.415 ± 0.778 & 99.825 ± 0.195 & 99.582 ± 0.768 & 56.304 ± 13.788 \\
+field\_PER & 71.694 ± 19.881 & 73.246 ± 28.615 & 71.354 ± 24.450 & 67.851 ± 27.135 & 45.936 ± 12.031 \\
+seniority\_early\_career & -- & -- & -- & -- & -- \\
+seniority\_senior & 99.953 ± 0.045 & 99.245 ± 0.399 & 99.905 ± 0.098 & 99.970 ± 0.020 & 58.397 ± 1.523 \\
+top\_k\_top\_100 & -- & -- & -- & -- & -- \\
+top\_k\_top\_5 & 99.438 ± 0.459 & 95.487 ± 1.990 & 98.380 ± 1.169 & 99.860 ± 0.111 & 69.099 ± 9.557 \\
+twins\_famous\_female & 69.946 ± 33.911 & 63.337 ± 41.251 & 64.771 ± 38.224 & 62.354 ± 40.633 & 40.166 ± 27.660 \\
+twins\_famous\_male & 98.160 ± 0.978 & 95.198 ± 4.265 & 96.654 ± 2.732 & 97.166 ± 2.015 & 50.418 ± 19.627 \\
+twins\_fictitious\_female & 88.065 ± 10.734 & 87.624 ± 9.545 & 86.647 ± 12.065 & 88.330 ± 9.940 & 43.749 ± 16.302 \\
+twins\_fictitious\_male & 43.980 ± 0.000 & 75.540 ± 0.000 & 65.410 ± 0.000 & 57.190 ± 0.000 & 16.030 ± 0.000 \\
+twins\_movie\_female & -- & -- & -- & -- & -- \\
+twins\_movie\_male & 98.288 ± 2.065 & 94.842 ± 3.456 & 96.953 ± 3.164 & 98.623 ± 2.452 & 58.840 ± 15.494 \\
+twins\_politic\_female & 93.110 ± 6.690 & 77.630 ± 16.690 & 84.240 ± 12.500 & 95.970 ± 3.970 & 77.630 ± 8.360 \\
+twins\_politic\_male & -- & -- & -- & -- & -- \\
+twins\_random\_female & -- & -- & -- & -- & -- \\
+twins\_random\_male & -- & -- & -- & -- & -- \\
+Overall & 90.810 ± 17.230 & 88.878 ± 18.695 & 89.724 ± 18.280 & 90.507 ± 19.239 & 52.401 ± 18.815 \\
+\bottomrule
+\end{tabular}
+\end{table*}
