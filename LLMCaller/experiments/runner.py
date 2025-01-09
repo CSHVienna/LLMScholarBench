@@ -1,4 +1,3 @@
-import os
 import time
 from datetime import datetime
 from config.loader import load_category_variables
