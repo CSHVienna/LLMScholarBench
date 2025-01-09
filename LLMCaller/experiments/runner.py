@@ -12,11 +12,11 @@ from prompts.generator import generate_prompt
 import random
 
 class ExperimentRunner:
-    def __init__(self, run_dir, config):
+    def __init__(self, run_dir, config, api_key):
         self.run_dir = run_dir
         self.logger = setup_logging(run_dir)
         self.config = self._validate_config(config)
-        self.api_client = GroqAPI(self.config)
+        self.api_client = GroqAPI(api_key, self.config)
         self.validator = ResponseValidator()
 
     def _validate_config(self, config):

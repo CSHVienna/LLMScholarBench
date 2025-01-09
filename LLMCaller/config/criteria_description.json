@@ -58,6 +58,30 @@
       "random_female": {
         "main_criteria": "statistical twins of",
         "secondary_criteria": "{scientist_name}"
+      },
+      "fictitious_male": {
+	"main_criteria": "statistical twins of",
+	"secondary_criteria": "{scientist_name}"
+      },
+      "fictitious_female": {
+	"main_criteria": "statistical twins of",
+	"secondary_criteria": "{scientist_name}"
+      },
+      "movie_male": {
+	"main_criteria": "statistical twins of",
+	"secondary_criteria": "{scientist_name}"
+      },
+      "movie_female": {
+	"main_criteria": "statistical twins of",
+	"secondary_criteria": "{scientist_name}"
+      },
+      "politic_male": {
+	"main_criteria": "statistical twins of",
+	"secondary_criteria": "{scientist_name}"
+      },
+      "politic_female": {
+	"main_criteria": "statistical twins of",
+	"secondary_criteria": "{scientist_name}"
       }
     },
     "criteria_phrase": "scientists who are {main_criteria} {secondary_criteria}"

@@ -2,6 +2,6 @@
   "top_k": ["top_5", "top_100"],
   "epoch": ["1950s", "2000s"],
   "field": ["PER", "CM&MP"],
-  "twins": ["famous_male", "famous_female", "random_male", "random_female"],
+  "twins": ["famous_male", "famous_female", "random_male", "random_female", "fictitious_male", "fictitious_female", "movie_male", "movie_female", "politic_male", "politic_female"],
   "seniority": ["early_career", "senior"]
 }

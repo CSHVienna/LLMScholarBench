@@ -2,8 +2,8 @@ import os
 from groq import Groq
 
 class GroqAPI:
-    def __init__(self, config):
-        self.client = Groq(api_key=os.environ.get("GROQ_API_KEY"))
+    def __init__(self, api_key, config):
+        self.client = Groq(api_key=api_key)
         self.config = config
 
     def generate_response(self, prompt):
