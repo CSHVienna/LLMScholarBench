@@ -1,0 +1,17 @@
+project_root/
+│
+├── data/
+│   ├── input/
+│   │   └── publications.csv
+│   │
+│   └── output/
+│       ├── openalex_dois_data.json
+│       └── openalex_authors_data.json
+│
+├── scripts/
+│   ├── openalex_api_dois.py
+│   └── openalex_api_authors.py
+│
+├── README.md
+├── requirements.txt
+└── structure.txt

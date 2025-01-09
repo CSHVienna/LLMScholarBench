@@ -1,0 +1,4 @@
+,llama3-8b,gemma2-9b,mixtral-8x7b,llama3-70b
+Total Requests,55.78 ± 29.55,109.33 ± 31.45,51.94 ± 27.79,43.78 ± 10.32
+Unique Answers,2.39 ± 0.70,1.00 ± 0.00,2.11 ± 0.47,18.11 ± 5.97
+Valid Unique Answers,2.00 ± 0.97,0.11 ± 0.32,1.61 ± 0.61,17.67 ± 5.46
