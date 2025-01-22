@@ -15,11 +15,13 @@ def load_ndjson(file_path):
 
 def get_author_percentiles(aps_author_ranking):
     return {
-        'rr1': {entry['id_author']: entry['rr1_rank_citations_percentile'] for entry in aps_author_ranking},
-        'rr2': {entry['id_author']: entry['rr2_rank_publications_percentile'] for entry in aps_author_ranking},
+        'rr1': {entry['id_author']: entry['rr1_rank_publications_percentile'] for entry in aps_author_ranking},
+        'rr2': {entry['id_author']: entry['rr2_rank_citations_percentile'] for entry in aps_author_ranking},
         'rr3': {entry['id_author']: entry['rr3_rank_h_index_percentile'] for entry in aps_author_ranking},
-        'rr4': {entry['id_author']: entry['rr4_rank_e_index_percentile'] for entry in aps_author_ranking},
-        'rr5': {entry['id_author']: entry['rr5_rank_citation_publication_age_percentile'] for entry in aps_author_ranking}
+        'rr4': {entry['id_author']: entry['rr4_rank_i10_index_percentile'] for entry in aps_author_ranking},
+        'rr5': {entry['id_author']: entry['rr5_rank_e_index_percentile'] for entry in aps_author_ranking},
+        'rr6': {entry['id_author']: entry['rr6_rank_citation_publication_age_percentile'] for entry in aps_author_ranking},
+        # 'rr7': {entry['id_author']: entry['rr7_rank_mean_citedness_2yr_percentile'] for entry in aps_author_ranking}
     }
 
 def process_data(root_dir, aps_author_ranking):
@@ -63,7 +65,8 @@ def process_data(root_dir, aps_author_ranking):
                                 percentiles['rr2'].get(author_id, 0),
                                 percentiles['rr3'].get(author_id, 0),
                                 percentiles['rr4'].get(author_id, 0),
-                                percentiles['rr5'].get(author_id, 0)
+                                percentiles['rr5'].get(author_id, 0),
+                                percentiles['rr6'].get(author_id, 0)
                             ]
                             author_rankings_sets[run][author_id] = rankings
 
@@ -79,11 +82,12 @@ def process_data(root_dir, aps_author_ranking):
 
 def create_ranking_tables_avg_std_with_overall(results, config_list):
     ranking_columns = [
-        'rr1_rank_citations_percentile',
-        'rr2_rank_publications_percentile',
+        'rr1_rank_publications_percentile',
+        'rr2_rank_citations_percentile',
         'rr3_rank_h_index_percentile',
-        'rr4_rank_e_index_percentile',
-        'rr5_rank_citation_publication_age_percentile'
+        'rr4_rank_i10_index_percentile',
+        'rr5_rank_e_index_percentile',
+        'rr6_rank_citation_publication_age_percentile'
     ]
 
     summary_data = []
@@ -163,6 +167,7 @@ def main():
     input_dir = "./experiments_validation_results/updated_organized_results"
     rank_with_percentile_path = "./organised_data/aps_author_rankings_with_percentile.json"
     output_dir = "./output_results/rankings"
+    config_path = "../model_config.json"
 
     # Load data
     print("Loading ranking data...")
@@ -173,7 +178,7 @@ def main():
     results = process_data(input_dir, aps_author_ranking)
 
     # Generate tables
-    with open('model_config.json') as f:
+    with open(config_path) as f:
         config_list = [f"config_{model}" for model in json.load(f)['models']]
     
     ranking_tables = create_ranking_tables_avg_std_with_overall(results, config_list)
