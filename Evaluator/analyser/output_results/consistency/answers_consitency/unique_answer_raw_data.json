@@ -1,0 +1,662 @@
+{
+  "gemma2-9b": {
+    "twins_fictitious_male": {
+      "expected_attempts": 93,
+      "unique_answers": 1,
+      "total_attempts": 93,
+      "valid_unique_answers": 0
+    },
+    "field_PER": {
+      "expected_attempts": 93,
+      "unique_answers": 1,
+      "total_attempts": 93,
+      "valid_unique_answers": 1
+    },
+    "seniority_senior": {
+      "expected_attempts": 279,
+      "unique_answers": 1,
+      "total_attempts": 279,
+      "valid_unique_answers": 0
+    },
+    "twins_random_male": {
+      "expected_attempts": 279,
+      "unique_answers": 1,
+      "total_attempts": 279,
+      "valid_unique_answers": 0
+    },
+    "twins_random_female": {
+      "expected_attempts": 279,
+      "unique_answers": 1,
+      "total_attempts": 279,
+      "valid_unique_answers": 0
+    },
+    "twins_famous_female": {
+      "expected_attempts": 279,
+      "unique_answers": 1,
+      "total_attempts": 279,
+      "valid_unique_answers": 0
+    },
+    "twins_famous_male": {
+      "expected_attempts": 93,
+      "unique_answers": 1,
+      "total_attempts": 93,
+      "valid_unique_answers": 0
+    },
+    "epoch_1950s": {
+      "expected_attempts": 93,
+      "unique_answers": 1,
+      "total_attempts": 93,
+      "valid_unique_answers": 1
+    },
+    "twins_fictitious_female": {
+      "expected_attempts": 93,
+      "unique_answers": 1,
+      "total_attempts": 93,
+      "valid_unique_answers": 0
+    },
+    "twins_movie_female": {
+      "expected_attempts": 93,
+      "unique_answers": 1,
+      "total_attempts": 93,
+      "valid_unique_answers": 0
+    },
+    "twins_movie_male": {
+      "expected_attempts": 279,
+      "unique_answers": 1,
+      "total_attempts": 279,
+      "valid_unique_answers": 0
+    },
+    "top_k_top_5": {
+      "expected_attempts": 93,
+      "unique_answers": 1,
+      "total_attempts": 93,
+      "valid_unique_answers": 1
+    },
+    "seniority_early_career": {
+      "expected_attempts": 279,
+      "unique_answers": 1,
+      "total_attempts": 279,
+      "valid_unique_answers": 0
+    },
+    "field_CM&MP": {
+      "expected_attempts": 279,
+      "unique_answers": 1,
+      "total_attempts": 279,
+      "valid_unique_answers": 0
+    },
+    "epoch_2000s": {
+      "expected_attempts": 279,
+      "unique_answers": 1,
+      "total_attempts": 279,
+      "valid_unique_answers": 0
+    },
+    "twins_politic_male": {
+      "expected_attempts": 93,
+      "unique_answers": 1,
+      "total_attempts": 93,
+      "valid_unique_answers": 0
+    },
+    "top_k_top_100": {
+      "expected_attempts": 279,
+      "unique_answers": 1,
+      "total_attempts": 279,
+      "valid_unique_answers": 0
+    },
+    "twins_politic_female": {
+      "expected_attempts": 93,
+      "unique_answers": 1,
+      "total_attempts": 93,
+      "valid_unique_answers": 0
+    }
+  },
+  "mixtral-8x7b": {
+    "twins_fictitious_male": {
+      "expected_attempts": 276,
+      "unique_answers": 1,
+      "total_attempts": 276,
+      "valid_unique_answers": 0
+    },
+    "field_PER": {
+      "expected_attempts": 93,
+      "unique_answers": 1,
+      "total_attempts": 93,
+      "valid_unique_answers": 1
+    },
+    "seniority_senior": {
+      "expected_attempts": 92,
+      "unique_answers": 1,
+      "total_attempts": 92,
+      "valid_unique_answers": 1
+    },
+    "twins_random_male": {
+      "expected_attempts": 93,
+      "unique_answers": 1,
+      "total_attempts": 93,
+      "valid_unique_answers": 1
+    },
+    "twins_random_female": {
+      "expected_attempts": 279,
+      "unique_answers": 1,
+      "total_attempts": 279,
+      "valid_unique_answers": 0
+    },
+    "twins_famous_female": {
+      "expected_attempts": 93,
+      "unique_answers": 1,
+      "total_attempts": 93,
+      "valid_unique_answers": 1
+    },
+    "twins_famous_male": {
+      "expected_attempts": 93,
+      "unique_answers": 1,
+      "total_attempts": 93,
+      "valid_unique_answers": 1
+    },
+    "epoch_1950s": {
+      "expected_attempts": 93,
+      "unique_answers": 1,
+      "total_attempts": 93,
+      "valid_unique_answers": 1
+    },
+    "twins_fictitious_female": {
+      "expected_attempts": 93,
+      "unique_answers": 1,
+      "total_attempts": 93,
+      "valid_unique_answers": 1
+    },
+    "twins_movie_female": {
+      "expected_attempts": 93,
+      "unique_answers": 1,
+      "total_attempts": 93,
+      "valid_unique_answers": 1
+    },
+    "twins_movie_male": {
+      "expected_attempts": 93,
+      "unique_answers": 1,
+      "total_attempts": 93,
+      "valid_unique_answers": 1
+    },
+    "top_k_top_5": {
+      "expected_attempts": 92,
+      "unique_answers": 1,
+      "total_attempts": 92,
+      "valid_unique_answers": 1
+    },
+    "seniority_early_career": {
+      "expected_attempts": 93,
+      "unique_answers": 1,
+      "total_attempts": 93,
+      "valid_unique_answers": 1
+    },
+    "field_CM&MP": {
+      "expected_attempts": 93,
+      "unique_answers": 1,
+      "total_attempts": 93,
+      "valid_unique_answers": 1
+    },
+    "epoch_2000s": {
+      "expected_attempts": 92,
+      "unique_answers": 1,
+      "total_attempts": 92,
+      "valid_unique_answers": 1
+    },
+    "twins_politic_male": {
+      "expected_attempts": 93,
+      "unique_answers": 1,
+      "total_attempts": 93,
+      "valid_unique_answers": 1
+    },
+    "top_k_top_100": {
+      "expected_attempts": 93,
+      "unique_answers": 1,
+      "total_attempts": 93,
+      "valid_unique_answers": 1
+    },
+    "twins_politic_female": {
+      "expected_attempts": 92,
+      "unique_answers": 1,
+      "total_attempts": 92,
+      "valid_unique_answers": 1
+    }
+  },
+  "llama3-8b": {
+    "twins_fictitious_male": {
+      "expected_attempts": 93,
+      "unique_answers": 5,
+      "total_attempts": 93,
+      "valid_unique_answers": 5
+    },
+    "field_PER": {
+      "expected_attempts": 93,
+      "unique_answers": 4,
+      "total_attempts": 93,
+      "valid_unique_answers": 4
+    },
+    "seniority_senior": {
+      "expected_attempts": 97,
+      "unique_answers": 12,
+      "total_attempts": 97,
+      "valid_unique_answers": 9
+    },
+    "twins_random_male": {
+      "expected_attempts": 93,
+      "unique_answers": 4,
+      "total_attempts": 93,
+      "valid_unique_answers": 4
+    },
+    "twins_random_female": {
+      "expected_attempts": 93,
+      "unique_answers": 2,
+      "total_attempts": 93,
+      "valid_unique_answers": 2
+    },
+    "twins_famous_female": {
+      "expected_attempts": 93,
+      "unique_answers": 1,
+      "total_attempts": 93,
+      "valid_unique_answers": 1
+    },
+    "twins_famous_male": {
+      "expected_attempts": 93,
+      "unique_answers": 6,
+      "total_attempts": 93,
+      "valid_unique_answers": 6
+    },
+    "epoch_1950s": {
+      "expected_attempts": 93,
+      "unique_answers": 1,
+      "total_attempts": 93,
+      "valid_unique_answers": 1
+    },
+    "twins_fictitious_female": {
+      "expected_attempts": 93,
+      "unique_answers": 7,
+      "total_attempts": 93,
+      "valid_unique_answers": 7
+    },
+    "twins_movie_female": {
+      "expected_attempts": 93,
+      "unique_answers": 5,
+      "total_attempts": 93,
+      "valid_unique_answers": 5
+    },
+    "twins_movie_male": {
+      "expected_attempts": 93,
+      "unique_answers": 1,
+      "total_attempts": 93,
+      "valid_unique_answers": 1
+    },
+    "top_k_top_5": {
+      "expected_attempts": 93,
+      "unique_answers": 2,
+      "total_attempts": 93,
+      "valid_unique_answers": 2
+    },
+    "seniority_early_career": {
+      "expected_attempts": 93,
+      "unique_answers": 11,
+      "total_attempts": 93,
+      "valid_unique_answers": 11
+    },
+    "field_CM&MP": {
+      "expected_attempts": 96,
+      "unique_answers": 11,
+      "total_attempts": 96,
+      "valid_unique_answers": 8
+    },
+    "epoch_2000s": {
+      "expected_attempts": 279,
+      "unique_answers": 1,
+      "total_attempts": 279,
+      "valid_unique_answers": 0
+    },
+    "twins_politic_male": {
+      "expected_attempts": 93,
+      "unique_answers": 2,
+      "total_attempts": 93,
+      "valid_unique_answers": 2
+    },
+    "top_k_top_100": {
+      "expected_attempts": 279,
+      "unique_answers": 5,
+      "total_attempts": 279,
+      "valid_unique_answers": 0
+    },
+    "twins_politic_female": {
+      "expected_attempts": 93,
+      "unique_answers": 11,
+      "total_attempts": 93,
+      "valid_unique_answers": 11
+    }
+  },
+  "llama3-70b": {
+    "twins_fictitious_male": {
+      "expected_attempts": 93,
+      "unique_answers": 10,
+      "total_attempts": 93,
+      "valid_unique_answers": 10
+    },
+    "field_PER": {
+      "expected_attempts": 93,
+      "unique_answers": 14,
+      "total_attempts": 93,
+      "valid_unique_answers": 14
+    },
+    "seniority_senior": {
+      "expected_attempts": 93,
+      "unique_answers": 8,
+      "total_attempts": 93,
+      "valid_unique_answers": 8
+    },
+    "twins_random_male": {
+      "expected_attempts": 93,
+      "unique_answers": 13,
+      "total_attempts": 93,
+      "valid_unique_answers": 13
+    },
+    "twins_random_female": {
+      "expected_attempts": 93,
+      "unique_answers": 11,
+      "total_attempts": 93,
+      "valid_unique_answers": 11
+    },
+    "twins_famous_female": {
+      "expected_attempts": 93,
+      "unique_answers": 14,
+      "total_attempts": 93,
+      "valid_unique_answers": 14
+    },
+    "twins_famous_male": {
+      "expected_attempts": 93,
+      "unique_answers": 11,
+      "total_attempts": 93,
+      "valid_unique_answers": 11
+    },
+    "epoch_1950s": {
+      "expected_attempts": 93,
+      "unique_answers": 13,
+      "total_attempts": 93,
+      "valid_unique_answers": 13
+    },
+    "twins_fictitious_female": {
+      "expected_attempts": 93,
+      "unique_answers": 10,
+      "total_attempts": 93,
+      "valid_unique_answers": 10
+    },
+    "twins_movie_female": {
+      "expected_attempts": 93,
+      "unique_answers": 9,
+      "total_attempts": 93,
+      "valid_unique_answers": 9
+    },
+    "twins_movie_male": {
+      "expected_attempts": 93,
+      "unique_answers": 6,
+      "total_attempts": 93,
+      "valid_unique_answers": 6
+    },
+    "top_k_top_5": {
+      "expected_attempts": 93,
+      "unique_answers": 12,
+      "total_attempts": 93,
+      "valid_unique_answers": 12
+    },
+    "seniority_early_career": {
+      "expected_attempts": 93,
+      "unique_answers": 10,
+      "total_attempts": 93,
+      "valid_unique_answers": 10
+    },
+    "field_CM&MP": {
+      "expected_attempts": 261,
+      "unique_answers": 21,
+      "total_attempts": 261,
+      "valid_unique_answers": 18
+    },
+    "epoch_2000s": {
+      "expected_attempts": 93,
+      "unique_answers": 9,
+      "total_attempts": 93,
+      "valid_unique_answers": 9
+    },
+    "twins_politic_male": {
+      "expected_attempts": 93,
+      "unique_answers": 11,
+      "total_attempts": 93,
+      "valid_unique_answers": 11
+    },
+    "top_k_top_100": {
+      "expected_attempts": 93,
+      "unique_answers": 10,
+      "total_attempts": 93,
+      "valid_unique_answers": 10
+    },
+    "twins_politic_female": {
+      "expected_attempts": 93,
+      "unique_answers": 11,
+      "total_attempts": 93,
+      "valid_unique_answers": 11
+    }
+  },
+  "llama-3.1-8b": {
+    "twins_fictitious_male": {
+      "expected_attempts": 67,
+      "unique_answers": 15,
+      "total_attempts": 67,
+      "valid_unique_answers": 15
+    },
+    "field_PER": {
+      "expected_attempts": 69,
+      "unique_answers": 11,
+      "total_attempts": 69,
+      "valid_unique_answers": 11
+    },
+    "seniority_senior": {
+      "expected_attempts": 226,
+      "unique_answers": 1,
+      "total_attempts": 226,
+      "valid_unique_answers": 0
+    },
+    "twins_random_male": {
+      "expected_attempts": 73,
+      "unique_answers": 6,
+      "total_attempts": 73,
+      "valid_unique_answers": 6
+    },
+    "twins_random_female": {
+      "expected_attempts": 68,
+      "unique_answers": 10,
+      "total_attempts": 68,
+      "valid_unique_answers": 10
+    },
+    "twins_famous_female": {
+      "expected_attempts": 211,
+      "unique_answers": 4,
+      "total_attempts": 211,
+      "valid_unique_answers": 1
+    },
+    "epoch_1950s": {
+      "expected_attempts": 205,
+      "unique_answers": 2,
+      "total_attempts": 205,
+      "valid_unique_answers": 1
+    },
+    "twins_fictitious_female": {
+      "expected_attempts": 185,
+      "unique_answers": 5,
+      "total_attempts": 185,
+      "valid_unique_answers": 2
+    },
+    "twins_movie_male": {
+      "expected_attempts": 69,
+      "unique_answers": 10,
+      "total_attempts": 69,
+      "valid_unique_answers": 10
+    },
+    "top_k_top_5": {
+      "expected_attempts": 61,
+      "unique_answers": 9,
+      "total_attempts": 61,
+      "valid_unique_answers": 9
+    },
+    "seniority_early_career": {
+      "expected_attempts": 209,
+      "unique_answers": 9,
+      "total_attempts": 209,
+      "valid_unique_answers": 3
+    },
+    "field_CM&MP": {
+      "expected_attempts": 210,
+      "unique_answers": 16,
+      "total_attempts": 210,
+      "valid_unique_answers": 0
+    },
+    "epoch_2000s": {
+      "expected_attempts": 219,
+      "unique_answers": 3,
+      "total_attempts": 219,
+      "valid_unique_answers": 0
+    },
+    "top_k_top_100": {
+      "expected_attempts": 175,
+      "unique_answers": 8,
+      "total_attempts": 175,
+      "valid_unique_answers": 2
+    },
+    "twins_politic_female": {
+      "expected_attempts": 177,
+      "unique_answers": 6,
+      "total_attempts": 177,
+      "valid_unique_answers": 4
+    },
+    "twins_famous_male": {
+      "expected_attempts": 67,
+      "unique_answers": 10,
+      "total_attempts": 67,
+      "valid_unique_answers": 10
+    },
+    "twins_movie_female": {
+      "expected_attempts": 209,
+      "unique_answers": 2,
+      "total_attempts": 209,
+      "valid_unique_answers": 0
+    },
+    "twins_politic_male": {
+      "expected_attempts": 63,
+      "unique_answers": 11,
+      "total_attempts": 63,
+      "valid_unique_answers": 11
+    }
+  },
+  "llama-3.1-70b": {
+    "twins_fictitious_male": {
+      "expected_attempts": 144,
+      "unique_answers": 73,
+      "total_attempts": 144,
+      "valid_unique_answers": 43
+    },
+    "field_PER": {
+      "expected_attempts": 93,
+      "unique_answers": 73,
+      "total_attempts": 93,
+      "valid_unique_answers": 73
+    },
+    "seniority_senior": {
+      "expected_attempts": 127,
+      "unique_answers": 75,
+      "total_attempts": 127,
+      "valid_unique_answers": 60
+    },
+    "twins_random_male": {
+      "expected_attempts": 123,
+      "unique_answers": 86,
+      "total_attempts": 123,
+      "valid_unique_answers": 64
+    },
+    "twins_random_female": {
+      "expected_attempts": 189,
+      "unique_answers": 89,
+      "total_attempts": 189,
+      "valid_unique_answers": 43
+    },
+    "twins_famous_female": {
+      "expected_attempts": 124,
+      "unique_answers": 73,
+      "total_attempts": 124,
+      "valid_unique_answers": 61
+    },
+    "twins_famous_male": {
+      "expected_attempts": 192,
+      "unique_answers": 93,
+      "total_attempts": 192,
+      "valid_unique_answers": 44
+    },
+    "epoch_1950s": {
+      "expected_attempts": 206,
+      "unique_answers": 90,
+      "total_attempts": 206,
+      "valid_unique_answers": 30
+    },
+    "twins_fictitious_female": {
+      "expected_attempts": 171,
+      "unique_answers": 85,
+      "total_attempts": 171,
+      "valid_unique_answers": 45
+    },
+    "twins_movie_female": {
+      "expected_attempts": 159,
+      "unique_answers": 85,
+      "total_attempts": 159,
+      "valid_unique_answers": 57
+    },
+    "twins_movie_male": {
+      "expected_attempts": 125,
+      "unique_answers": 78,
+      "total_attempts": 125,
+      "valid_unique_answers": 60
+    },
+    "top_k_top_5": {
+      "expected_attempts": 176,
+      "unique_answers": 82,
+      "total_attempts": 176,
+      "valid_unique_answers": 42
+    },
+    "seniority_early_career": {
+      "expected_attempts": 170,
+      "unique_answers": 83,
+      "total_attempts": 170,
+      "valid_unique_answers": 44
+    },
+    "field_CM&MP": {
+      "expected_attempts": 167,
+      "unique_answers": 88,
+      "total_attempts": 167,
+      "valid_unique_answers": 50
+    },
+    "epoch_2000s": {
+      "expected_attempts": 165,
+      "unique_answers": 82,
+      "total_attempts": 165,
+      "valid_unique_answers": 52
+    },
+    "twins_politic_male": {
+      "expected_attempts": 125,
+      "unique_answers": 82,
+      "total_attempts": 125,
+      "valid_unique_answers": 61
+    },
+    "top_k_top_100": {
+      "expected_attempts": 104,
+      "unique_answers": 82,
+      "total_attempts": 104,
+      "valid_unique_answers": 71
+    },
+    "twins_politic_female": {
+      "expected_attempts": 185,
+      "unique_answers": 79,
+      "total_attempts": 185,
+      "valid_unique_answers": 39
+    }
+  }
+}

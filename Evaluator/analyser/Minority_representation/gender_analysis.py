@@ -69,12 +69,12 @@ def process_data(root_dir):
     return results
 
 def create_gender_ethnicity_tables_avg_std_with_overall(results, config_list, table_type='gender'):
-    label_mapping = {
-        'white': 'White',
-        'hispanic': 'Hispanic',
-        'Hispanic or Latino': 'Hispanic',
-        'Androgynous': 'Unknown',
-    }
+    # label_mapping = {
+    #     'white': 'White',
+    #     'hispanic': 'Hispanic',
+    #     'Hispanic or Latino': 'Hispanic',
+    #     'Androgynous': 'Unknown',
+    # }
 
     summary_data = []
 
@@ -84,7 +84,7 @@ def create_gender_ethnicity_tables_avg_std_with_overall(results, config_list, ta
 
         if table_type == 'gender':
             label_key_prefix = 'gender_'
-            categories = ['Male', 'Female', 'Unknown']
+            categories = ['Male', 'Female', 'Unisex', 'Unknown']
         else:
             label_key_prefix = 'ethnicity_'
             categories = []
@@ -95,7 +95,7 @@ def create_gender_ethnicity_tables_avg_std_with_overall(results, config_list, ta
                             for label in demographics:
                                 if label.startswith(label_key_prefix):
                                     category = label.split('_')[1]
-                                    category = label_mapping.get(category, category)
+                                    # category = label_mapping.get(category, category)
                                     categories.append(category)
             categories = sorted(set(categories))
 
@@ -116,7 +116,7 @@ def create_gender_ethnicity_tables_avg_std_with_overall(results, config_list, ta
                         for label in demographics:
                             if label.startswith(label_key_prefix):
                                 category = label.split('_')[1]
-                                category = label_mapping.get(category, category)
+                                # category = label_mapping.get(category, category)
                                 category_counts[category] += 1
 
                     if total_authors > 0:
@@ -207,13 +207,14 @@ def main():
     # Set paths
     input_dir = "./experiments_validation_results/updated_organized_results"
     output_folder = "./output_results/minority_representation"
+    config_path = "../model_config.json"
 
     # Process data
     print("Processing demographic data...")
     results = process_data(input_dir)
 
     # Generate tables
-    with open('model_config.json') as f:
+    with open(config_path) as f:
         config_list = [f"config_{model}" for model in json.load(f)['models']]
 
     print("Generating gender tables...")

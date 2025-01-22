@@ -26,7 +26,7 @@ def jaccard_similarity(set1, set2):
 def get_author_decades(author_stats):
     author_decade = {}
     for author in author_stats:
-        author_decade[author['id_author']] = author['aps_years_of_activity'][0] // 10 * 10
+        author_decade[author['id_author']] = author['aps_years_of_activity'][0] // 10 * 10 if len(author['aps_years_of_activity']) > 0 else None
     return author_decade
 
 def get_nobel_laureates(nobel_file_path):

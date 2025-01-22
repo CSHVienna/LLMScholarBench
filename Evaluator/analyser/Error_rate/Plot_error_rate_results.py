@@ -4,12 +4,6 @@ import numpy as np
 import pandas as pd
 from matplotlib import pyplot as plt
 
-# Load model names from the config file
-config_file = "./model_config.json"
-with open(config_file, 'r') as f:
-    config_data = json.load(f)
-    models = config_data["models"]
-
 # Set the main directory path
 main_dir = "./experiments"
 output_dir = "././output_results/error_rate"
@@ -21,6 +15,14 @@ os.makedirs(output_dir, exist_ok=True)
 expected_requests = []
 total_requests_formatted = []
 error_rate_formatted = []
+
+
+# Load model names from the config file
+config_file = os.path.join('../model_config.json')
+with open(config_file, 'r') as f:
+    config_data = json.load(f)
+    models = config_data["models"]
+
 
 # Iterate through the model folders
 for model_name in models:

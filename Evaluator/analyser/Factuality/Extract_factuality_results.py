@@ -1,6 +1,7 @@
 import os
 import json
 import re
+from statistics import mean
 
 # Function to check if two year ranges overlap
 def years_overlap(year_range_1, year_start_2, year_end_2):
@@ -56,6 +57,8 @@ def process_directory(root_directory):
                 run_path = os.path.join(config_path, run_folder)
                 if os.path.isdir(run_path):
                     for use_case_folder in os.listdir(run_path):
+                        # print('1',use_case_folder)
+
                         use_case_path = os.path.join(run_path, use_case_folder)
                         if os.path.isdir(use_case_path):
                             # Initialize for each use case
@@ -111,24 +114,32 @@ def process_directory(root_directory):
                             count_correct_recommended_career_age = 0
 
                             for file_name in os.listdir(use_case_path):
+                                # print('2', file_name)
+
                                 if file_name.startswith('validation_result_') and file_name.endswith('.json'):
                                     file_path = os.path.join(use_case_path, file_name)
                                     with open(file_path, 'r') as f:
                                         data = json.load(f)
 
+                                        # print('3', "enhanced_authors" in data)
+
                                         # Process enhanced_authors
                                         if "enhanced_authors" in data:
                                             enhanced_authors = data["enhanced_authors"]
+                                            
                                             if enhanced_authors:
                                                 count_names = len(enhanced_authors)
                                                 count_in_oa = sum(1 for author in enhanced_authors if author.get("is_in_openalex", False))
                                                 count_in_aps = sum(1 for author in enhanced_authors if author.get("has_published_in_aps", False) or author.get("any_candidate_in_aps", False))
+                                                
+                                                # print('4', use_case_folder, use_case_folder.startswith('seniority_'))
+
                                                 # Count correct_authorship if use case starts with 'field_'
                                                 if use_case_folder.startswith('field_'):
                                                     author_correct_field = sum(1 for author in enhanced_authors if author.get("correct_authorship", False))
 
                                                 # Handle 'epoch_' use cases
-                                                if use_case_folder.startswith('epoch_'):
+                                                elif use_case_folder.startswith('epoch_'):
                                                     # Determine the epoch range based on the folder name
                                                     if '1950s' in use_case_folder:
                                                         epoch_start, epoch_end = 1950, 1960
@@ -161,7 +172,7 @@ def process_directory(root_directory):
                                                         )
 
                                                 # Handle 'seniority_' use cases
-                                                if use_case_folder.startswith('seniority_'):
+                                                elif use_case_folder.startswith('seniority_'):
                                                     if 'early_career' in use_case_folder:
                                                         age_limit = 10  # Early career: <= 10 years
                                                     elif 'senior' in use_case_folder:
@@ -170,7 +181,7 @@ def process_directory(root_directory):
                                                         age_limit = None
                                                     
                                                     # Count correct_author_seniority based on academic_age
-                                                    if age_limit:
+                                                    if age_limit is not None:
                                                         if 'early_career' in use_case_folder:
                                                             count_correct_author_seniority = sum(
                                                                 1 for author in enhanced_authors
@@ -205,6 +216,10 @@ def process_directory(root_directory):
                                                             mean_error = sum(errors) / len(errors)
                                                         else:
                                                             mean_error = None  # No valid errors to calculate the mean
+                                                    else:
+                                                        mean_error = None
+                                            else:
+                                                mean_error = None
 
                                         if use_case_folder.startswith('field_') and "enhanced_publications" in data:
                                             enhanced_publications = data["enhanced_publications"]
