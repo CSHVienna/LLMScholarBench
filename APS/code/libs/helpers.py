@@ -22,8 +22,19 @@ def convert_YYYYMMDD_to_date(date_str):
     
 def convert_HHMM_to_time(time_str):
     try:
-        return datetime.strptime(time_str, "%H%M%S").strftime("%H:%M")
+        h = datetime.strptime(time_str, "%H%M%S").strftime("%H")
+        h = f"{h}:00"
+        return h
     except Exception as e:
         io.printf(e)
         return None
     
+
+def pivot_model_tasks(df, index_col='task_name', columns_col='model', values_col='mean', x_order=None, hue_order=None):
+    tmp = df.pivot_table(index=index_col, columns=columns_col, values=values_col).T.reset_index()
+    if x_order is not None:
+        tmp = tmp[[columns_col] + x_order]
+    if hue_order is not None:
+        tmp[columns_col] = io.pd.Categorical(tmp[columns_col], categories=hue_order, ordered=True)
+    tmp.sort_values(columns_col, inplace=True)
+    return tmp

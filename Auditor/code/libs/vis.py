@@ -696,9 +696,8 @@ def plot_task_param_comparison(df_result, metric, all_labels, model, color_map_a
     fig.legend(loc="lower left", ncols=ncols, bbox_to_anchor=bbox)
 
     # Overall layout
-    plt.tight_layout()
     plt.subplots_adjust(wspace=0.05)  # Reduce horizontal space between subplots
-    plt.show()
+    _finish_plot(fig, fn)
 
 
 
@@ -752,6 +751,4 @@ def plot_gt_demographics(df_gt_stats, attribute, fn=None, **kwargs):
 
 
     # Layout adjustments
-    _finish_plot(fig, None)
-    plt.show()
-    plt.close()
+    _finish_plot(fig, fn)
