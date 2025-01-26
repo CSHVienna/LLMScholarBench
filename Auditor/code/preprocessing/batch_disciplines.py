@@ -16,7 +16,7 @@ def run(aps_os_data_tar_gz: str, aps_data_dir: str, output_dir: str):
     # APS data
     df_publication_topic = io.read_csv(io.path_join(aps_data_dir, constants.APS_PUBLICTION_TOPICS))
     df_disciplines = io.read_csv(io.path_join(aps_data_dir, constants.APS_DISCIPLINES_FN))
-    df_topic_types = io.read_csv(io.path_join(aps_data_dir, constants.APS_TOPIC_TYPES_FN))
+    #df_topic_types = io.read_csv(io.path_join(aps_data_dir, constants.APS_TOPIC_TYPES_FN))
     df_authorships = io.read_csv(io.path_join(aps_data_dir, constants.APS_AUTHORSHIPS_FN))
     df_author_names = io.read_csv(io.path_join(aps_data_dir, constants.APS_AUTHOR_NAMES_FN))
     print("1a. df_authorships: ", df_authorships.shape, df_authorships.id_author_name.nunique())
@@ -58,7 +58,7 @@ def run(aps_os_data_tar_gz: str, aps_data_dir: str, output_dir: str):
     io.printf(f"Authors in disciplines: {df_data_in.shape}")
     print(result_in)
 
-    fn = io.path_join(output_dir, 'metadata', constants.APS_OA_DISCIPLINES_DEMOGRAPHICS_FN)
+    fn = io.path_join(output_dir, constants.METADATA_DIR, constants.APS_OA_DISCIPLINES_DEMOGRAPHICS_FN)
     io.validate_path(fn)
     io.save_csv(result_in, fn)
 

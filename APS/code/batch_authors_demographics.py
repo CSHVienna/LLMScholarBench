@@ -103,7 +103,7 @@ def run(aps_os_data_tar_gz: str, aps_gender_fn:str, intermediate_output_dir:str,
     else:
         df_authors = ethnicity.dx_predict_ethnicity(df_authors, col_longestname, new_col_dx)
         df_authors[new_col_dx] = df_authors[new_col_dx].replace(constants.DEMOGRAPHICX_ETHNICITY_MAPPING).fillna(constants.UNKNOWN_STR)
-        io.save_csv(df_authors[[author_index_col] + [new_col_dx]], fn_dx, index=False)
+        # io.save_csv(df_authors[[author_index_col] + [new_col_dx]], fn_dx, index=False)
     print(f'\n df_authors (ethnicity_dx): {df_authors.shape}  \n {df_authors.head(5)} \n')
     
     # Ethinicity: Ethinicolor (last name)
@@ -113,7 +113,7 @@ def run(aps_os_data_tar_gz: str, aps_gender_fn:str, intermediate_output_dir:str,
     else:
         df_authors = ethnicity.ec_predict_ethnicity(df_authors, col_lastname, new_col_ec)
         df_authors[new_col_ec] = df_authors[new_col_ec].replace(constants.DEMOGRAPHICX_ETHNICITY_MAPPING).fillna(constants.UNKNOWN_STR)
-        io.save_csv(df_authors[[author_index_col] + [new_col_ec]], fn_ec, index=False)
+        # io.save_csv(df_authors[[author_index_col] + [new_col_ec]], fn_ec, index=False)
     print(f'\n df_authors (ethnicity_ec): {df_authors.shape}  \n {df_authors.head(5)} \n')
 
     # Fallback approach
@@ -122,7 +122,7 @@ def run(aps_os_data_tar_gz: str, aps_gender_fn:str, intermediate_output_dir:str,
         df_authors = df_authors.merge(io.read_csv(fn_ethnicity, index_col=None), on=author_index_col, how='left')
     else:
         df_authors[col_ethnicity] = df_authors.apply(lambda row: ethnicity.choose_ethnicity(row, new_col_dx, new_col_ec), axis=1)
-        io.save_csv(df_authors[[author_index_col] + [col_ethnicity]], fn_ethnicity, index=False)
+        # io.save_csv(df_authors[[author_index_col] + [col_ethnicity]], fn_ethnicity, index=False)
     print(f'\n df_authors (ethnicity): {df_authors.shape}  \n {df_authors.head(5)} \n')
 
 
@@ -135,18 +135,22 @@ def run(aps_os_data_tar_gz: str, aps_gender_fn:str, intermediate_output_dir:str,
         df_authors = df_authors.merge(io.read_csv(fn_gender, index_col=None), on=author_index_col, how='left')
     else:
         df_authors[col_gender] = df_authors.progress_apply(lambda row: gender.assign_combined_gender(row, col_ethnicity, col_gender, col_firstname), axis=1).fillna(constants.UNKNOWN_STR)
-        io.save_csv(df_authors[[author_index_col] + [col_gender]], fn_gender, index=False)
+        # io.save_csv(df_authors[[author_index_col] + [col_gender]], fn_gender, index=False)
     print(f'\n df_authors (gender): {df_authors.shape}  \n {df_authors.head(5)} \n')
+
+
+
+
+
+    # Save df_authors 
+    fn = io.path_join(intermediate_output_dir, constants.APS_OA_AUTHORS_DEMOGRAPHICS_FN) 
+    io.save_csv(df_authors.drop(columns=['two_year_mean_citedness','h_index','i10_index','works_count','cited_by_count','ID']), fn, index=False) # remove the columns that are not needed (stats)
+
 
 
 
     # Process final data
     data = [get_object(row) for index, row in tqdm(df_authors.iterrows(), total=len(df_authors), desc="Processing rows")]
-
-
-    # Save df_authors
-    fn = io.path_join(intermediate_output_dir, constants.APS_OA_AUTHORS_DEMOGRAPHICS_FN)
-    io.save_csv(df_authors, fn, index=False)
 
     # Save
     fn = io.path_join(output_dir, constants.AUTHORS_DEMOGRAPHICS_FN)

@@ -27,6 +27,27 @@ def run(aps_os_data_tar_gz: str, output_dir: str):
     df_citations = io.read_file_from_tar_gz_as_dataframe(aps_os_data_tar_gz, constants.APS_OA_CITATIONS_FN)
     print(f'\n df_citations: {df_citations.shape}  \n {df_citations.head(5)} \n')
 
+
+
+
+    ids = df_citations.id_publication_cited.unique()
+    print(f"--- df_authorships with id_publication_cited: {df_authorships.query('id_publication in @ids').shape}")
+    print(f"--- df_authorships WITHOUT id_publication_cited: {df_authorships.query('id_publication not in @ids').shape}")
+
+    ids = df_citations.id_publication_citing.unique()
+    print(f"--- df_authorships with id_publication_citing: {df_authorships.query('id_publication in @ids').shape}")
+    print(f"--- df_authorships WITHOUT id_publication_citing: {df_authorships.query('id_publication not in @ids').shape}")
+
+    ids = df_authorships.id_publication.unique()
+    print(f"--- df_citations with id_publication_cited: {df_citations.query('id_publication_cited in @ids').shape}")
+    print(f"--- df_citations WITHOUT id_publication_cited: {df_citations.query('id_publication_cited not in @ids').shape}")
+
+    print(f"--- df_citations with id_publication_citing: {df_citations.query('id_publication_citing in @ids').shape}")
+    print(f"--- df_citations WITHOUT id_publication_citing: {df_citations.query('id_publication_citing not in @ids').shape}")
+
+
+
+
     # merging
     df_citations = df_citations.merge(df_authorships[['id_publication','id_author']], left_on='id_publication_cited', right_on='id_publication', how='left').drop(columns=['id_publication'])
     print(f'\n df_citations (mwerge authors): {df_citations.shape}  \n {df_citations.head(2)} \n')
@@ -40,7 +61,7 @@ def run(aps_os_data_tar_gz: str, output_dir: str):
 
     # time
     df_time = df_authorships.groupby('id_author').year.agg(['min','max']).reset_index().rename(columns={'min':'min_year','max':'max_year'})
-    df_time['career_age'] = df_time.max_year - df_time.min_year
+    df_time.loc[:,'career_age'] = df_time.apply(lambda row: (row.max_year - row.min_year)+1, axis=1)
     print(f'\n df_time: {df_time.shape}  \n {df_time.head(2)} \n')
 
 
@@ -52,8 +73,8 @@ def run(aps_os_data_tar_gz: str, output_dir: str):
 
 
     # compute normalized citation/publication age
-    df_authors = df_authors.merge(df_time[['id_author','career_age']], on='id_author', how='left')
-    df_authors['citations_per_paper_age'] = df_authors['cited_by_count'] / df_authors['works_count'] / df_authors['career_age']
+    df_authors = df_authors.merge(df_time[['id_author','career_age','max_year','min_year']], on='id_author', how='left')
+    df_authors.loc[:,'citations_per_paper_age'] = df_authors.apply(lambda row: 0 if row.works_count == 0 or row.career_age == 0 else (row.cited_by_count / row.works_count) / row.career_age, axis=1)
     print(f'\n df_author (citations_per_paper_age): {df_authors.shape}  \n {df_authors.head(2)} \n')
 
 
@@ -74,13 +95,22 @@ def run(aps_os_data_tar_gz: str, output_dir: str):
         df_authors[col_perc] = (1 - (df_authors[col_rank] - 1) / total_scientists) * 100
         print(f'\n df_author ({col_perc}): {df_authors.shape}  \n {df_authors.head(2)} \n')
 
+
+
+    # SAVE author stats as CSV
+    fn = io.path_join(output_dir, constants.APS_OA_AUTHORS_STATS_FN)
+    io.save_csv(df_authors, fn, index=False)
+
+
+    # Process final output
     df_authors.sort_values('ID', ascending=True, inplace=True)
     data = [get_object(row) for index, row in tqdm(df_authors.iterrows(), total=len(df_authors), desc="Processing rows")]
 
-
-    # Save
+    # Save as list of dictionaries
     fn = io.path_join(output_dir, constants.AUTHORS_RANKINGS_FN)
     io.save_dicts_to_text_file(dict_list=data, file_path=fn)
+
+
 
 def get_object(row):
     # id_author,created_date,updated_date,name,orcid,two_year_mean_citedness,h_index,i10_index,works_count,cited_by_count

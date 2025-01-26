@@ -33,8 +33,9 @@ class FactualityAuthor(FactualityCheck):
 
         self.df_valid_responses = self.df_valid_responses.merge(df_authors_mapping, on='id_author_oa', how='left')
 
-        # 6. append demographics and compute stats
-        self.df_valid_responses = self.df_valid_responses.merge(self.df_authors_metadata[['id_author_oa']+constants.FACTUALITY_AUTHOR_METADATA_TO_HIDE], on='id_author_oa', how='left')
+        # 6. append demographics and stats
+        self.df_valid_responses = self.df_valid_responses.merge(self.df_authors_metadata[['id_author_oa']+constants.FACTUALITY_AUTHOR_DEMOGRAPHICS_TO_HIDE], on='id_author_oa', how='left')
+        self.df_valid_responses = self.df_valid_responses.merge(self.df_authors_stats[['id_author_oa']+constants.FACTUALITY_AUTHOR_STATS_TO_HIDE], on='id_author_oa', how='left')
 
         # 7. more stats
         self._load_publications()
