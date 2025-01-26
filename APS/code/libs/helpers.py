@@ -2,6 +2,7 @@ import pandas as pd
 from datetime import datetime
 
 from libs import io
+from libs import constants
 
 def is_none(value):
     return value is None or pd.isna(value)
@@ -38,3 +39,9 @@ def pivot_model_tasks(df, index_col='task_name', columns_col='model', values_col
         tmp[columns_col] = io.pd.Categorical(tmp[columns_col], categories=hue_order, ordered=True)
     tmp.sort_values(columns_col, inplace=True)
     return tmp
+
+
+def assign_ax_to_task_param(row):
+    if constants.EXPERIMENT_TASK_TWINS in row.task_name:
+        return constants.TASK_TWINS_GENDER_ORDER.index(row.task_param.split("_")[1])
+    return constants.TASK_PARAMS_BY_TASK[row.task_name].index(row.task_param)

@@ -39,6 +39,7 @@ def run(experiments_dir: str, model: str, max_workers: int, output_dir: str):
 
    # Add metadata to valid responses 
    df_valid_responses = df_valid_responses.merge(df[['llm_model','date','time','task_name','task_param','task_attempt','model','valid_attempt']], on=['llm_model','date','time','task_name','task_param','task_attempt'], how='left')
+   df_valid_responses = df_valid_responses.query("valid_attempt == True")
    fn = io.path_join(output_dir, 'valid_responses', f"{model}.csv")
    io.validate_path(fn)
    io.save_csv(df_valid_responses, fn, index=True)
@@ -91,7 +92,7 @@ def process_results(results):
 if __name__ == "__main__":
     parser = argparse.ArgumentParser()
     parser.add_argument("--experiments_dir", required=True, type=str, help="Directory where the experiment data is stored")
-    parser.add_argument("--model", required=True, type=str, choices=constants.LLMS, help="Model to analyse (eg., gemma2-9b, llama-3.1-8b, llama-3.1-70b, llama3-8b, llama3-70b, mixtral-8x7b)")
+    parser.add_argument("--model", required=True, type=str, choices=constants.LLMS, help="Model to analyse (eg., gemma2-9b llama-3.1-8b llama-3.1-70b llama3-8b llama3-70b mixtral-8x7b)")
     parser.add_argument("--max_workers", type=int, default=1, help="How many jobs to run in parallel maximum")
     parser.add_argument("--output_dir", required=True, type=str, help="Directory where the output files will be saved")
     args = parser.parse_args()

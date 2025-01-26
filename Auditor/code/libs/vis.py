@@ -59,11 +59,12 @@ def _polish_plot(fig, ax, x_col=None, y_col=None, group_col=None, x_order=None, 
         else:
             yticklabels = [f"{tick:.1f}" if i % 2 == 0 else "" for i, tick in enumerate(yticks)]
         ax.set_yticklabels(yticklabels)  # Show every second tick label
-    
 
     # Add labels and legend
-    if x_col and y_col:
+    if x_col:
         ax.set_xlabel(xlabel)
+        
+    if y_col:
         ax.set_ylabel(ylabel)
     
     if xlabel or xlabel is None:
@@ -336,7 +337,7 @@ def plot_parallel_coords(df, hue, hue_order, hue_colors, df_err=None, fn=None, *
 
 def plot_components_by_model_including_population(results, colors, col_order, fn=None, **kwargs):
     
-    colors.update({'APS': 'lightgrey'})
+    colors.update({'APS': constants.COMPONENT_POPULATION_COLOR})
 
     ncols = len(col_order)
     nrows = 1
@@ -391,14 +392,19 @@ def plot_components_by_model_including_population(results, colors, col_order, fn
 
 def plot_components_by_model_and_param_value_including_population(results, col_order, hue_order, fn=None, **kwargs):
     
-    colors = list(plt.cm.Dark2.colors)
+    colors = constants.COMPPONENT_TASK_PARAM_COLORS
     color_map = {task_param: colors[i] for i, task_param in enumerate(hue_order)}
+
+    markers = constants.COMPPONENT_TASK_PARAM_MARKERS
+    marker_map = {task_param: markers[i] for i, task_param in enumerate(hue_order)}
+
     annotated_flag = {model:{} for model in col_order}
 
     for mode in col_order:
         annotated_flag[mode] = {task_param: False for task_param in hue_order}
 
     xticks = kwargs.get('xticks', False)
+    title = kwargs.get('title', None)
 
     ncols = len(col_order)
     nrows = 1
@@ -408,7 +414,6 @@ def plot_components_by_model_and_param_value_including_population(results, col_o
     
     fig, axes = plt.subplots(nrows, ncols, figsize=figsize, sharex=True, sharey=True)
 
-    
     for (model, task_name, task_param), obj in results.items():
         
         c = col_order.index(model)
@@ -418,20 +423,26 @@ def plot_components_by_model_and_param_value_including_population(results, col_o
         if obj is not None:
 
             combined_data = obj['reduction']
+
+            sample_size = combined_data.query('label != "APS"').groupby('task_param', observed=False).size()
             
             for label, data in combined_data.groupby('label', observed=True): 
                 if label == 'APS':
-                    ax.scatter(data['dim1'], data['dim2'], alpha=0.1, color='lightgrey', zorder=-1, rasterized=True) 
+                    ax.scatter(data['dim1'], data['dim2'], alpha=0.1, color=constants.COMPONENT_POPULATION_COLOR, zorder=-1, rasterized=True) 
                     
                 else:
                     
                     for i, (task_param, df) in enumerate(data.groupby('task_param', observed=False)):
+                        
                         color = color_map[task_param]
+                        marker = marker_map[task_param]
+
                         ax.scatter(df['dim1'], df['dim2'], 
                                 label=task_param, 
                                 color=color,
                                 alpha=0.5,
-                                zorder=hue_order.index(task_param) * 100,
+                                marker=marker,
+                                zorder=1/sample_size[task_param], # the smallest group on top
                                 rasterized=True
                                 )
 
@@ -443,17 +454,21 @@ def plot_components_by_model_and_param_value_including_population(results, col_o
             artist.set_rasterized(True)
         #ax.set_rasterized(True)
 
-        y_col = 'PC2' if c==0 else ''
-      
-        kwargs['legend'] = False    
-        _polish_plot(fig, ax, x_col='PC1', y_col=y_col, group_col=None, group_order=None, **kwargs)
-    
     
     # if param was not found in the data
     for model, obj_a in annotated_flag.items():
+        c = col_order.index(model)
+        ax = axes[c]
+
+        if title:
+            ax.set_title(model)
+
+        y_col = 'PC2' if c==0 else False
+        kwargs['legend'] = False    
+        _polish_plot(fig, ax, x_col='PC1', y_col=y_col, group_col=None, group_order=None, **kwargs)
+
         for task_param, flag in obj_a.items():
             if not flag:
-                ax = axes[col_order.index(model)]
                 color = color_map[task_param]
                 y = 0.01 + hue_order.index(task_param) * 0.08
                 ax.text(s=f"0 people", x=0.6, y=y, color=color,fontsize=8, ha='right', va='bottom', transform=ax.transAxes) 
@@ -462,7 +477,7 @@ def plot_components_by_model_and_param_value_including_population(results, col_o
     # add legend
     c = 2
     custom_legend = [Line2D([0], [0], 
-                            color=color, marker="o", 
+                            color=color, marker=marker_map[label], 
                             markersize=6, 
                             label=label.split('_')[-1].replace('career','early_career') if not label.startswith('top_') else label, 
                             linestyle="") for label, color in color_map.items()] 
@@ -559,7 +574,7 @@ def plot_error_box_plot_comparison(df_sample, df_full, metric, fn=None, **kwargs
 
 
 
-def plot_task_param_comparison(df_result, metric, all_labels, model, color_map_attribute, fn=None, **kwargs):
+def plot_task_param_comparison_bars(df_result, metric, all_labels, model, color_map_attribute, fn=None, **kwargs):
     
 
     # Step 1: Group and Aggregate Counts
@@ -698,6 +713,125 @@ def plot_task_param_comparison(df_result, metric, all_labels, model, color_map_a
     # Overall layout
     plt.subplots_adjust(wspace=0.05)  # Reduce horizontal space between subplots
     _finish_plot(fig, fn)
+
+
+
+def plot_task_param_comparison_line(df_result, col_val, col_err, model, fn=None, **kwargs):
+    
+
+    # Step 1: Group and Aggregate Counts
+    grouped = df_result.query("model==@model").groupby(["task_name", "task_param", "attribute_label"]).sum().reset_index()
+
+    # Step 2: Prepare Data for Plotting
+    # Pivot data to organize counts by task_name and task_param/gender
+    pivoted_vals = grouped.pivot_table(
+        index="task_name",
+        columns=["ax", "attribute_label"],
+        values=col_val,
+        fill_value=0,
+    )
+
+    pivoted_errs = [None,None]
+    if col_err:
+        pivoted_errs = grouped.pivot_table(
+            index="task_name",
+            columns=["ax", "attribute_label"],
+            values=col_err,
+            fill_value=0,
+        )
+
+    # Define the unique task_names and task_params
+    task_names = df_result.task_name.unique()
+
+    # sort index
+    pivoted_vals = pivoted_vals.reindex(task_names)
+    pivoted_errs = pivoted_errs.reindex(task_names) if pivoted_errs is not None else None
+    
+    #################################################
+    # Plot setup
+    fig, axes = plt.subplots(1, 3, figsize=(7.5, 4.5), gridspec_kw={'width_ratios': [1, 5, 5]})
+
+    #################################################
+
+    #################################################
+    # Left plot: First task_param
+    #################################################
+
+    index = 0
+    axes[1].errorbar(np.squeeze(pivoted_vals[index].values), task_names, xerr=np.squeeze(pivoted_errs[index].values), fmt='o', color='red', label="Mean ± SD")
+    axes[1].invert_yaxis()
+    axes[1].spines['top'].set_visible(False)
+    axes[1].spines['right'].set_visible(False)
+    axes[1].spines['left'].set_visible(False)
+    axes[1].set_yticks([])
+
+    #################################################
+    # Middle subplot: Names
+    #################################################
+    axes[0].set_yticks([])
+    axes[0].tick_params(axis='x', which='both', bottom=False, top=False, labelbottom=False)
+    axes[0].spines['top'].set_visible(False)
+    axes[0].spines['right'].set_visible(False)
+    axes[0].spines['left'].set_visible(False)
+    axes[0].spines['bottom'].set_visible(False)
+    axes[0].invert_yaxis()  # Match the left subplot
+    axes[0].set_xlim(-1, 1)
+
+    y = 0.1035
+    for i, name in enumerate(task_names):
+        axes[0].text(s=name, x=0, y=0.09 + (i*y), ha='right', va='center', color='black')
+
+
+    #################################################
+    # Right plot: Second task_param
+    #################################################
+    index = 1
+    axes[2].errorbar(np.squeeze(pivoted_vals[index].values), task_names, xerr=np.squeeze(pivoted_errs[index].values), fmt='o', color='red', label="Mean ± SD")
+    axes[2].invert_yaxis()
+    axes[2].set_yticks([])
+    axes[2].spines['top'].set_visible(False)
+    axes[2].spines['right'].set_visible(False)
+    axes[2].spines['left'].set_visible(False)
+
+
+    #################################################
+    # Y-ticks
+    #################################################
+    # Synchronize x-axis limits
+    max_x = max(axes[1].get_xlim()[1], axes[2].get_xlim()[1])
+    min_x = min(axes[1].get_xlim()[0], axes[2].get_xlim()[0])
+    smooth = 0
+    axes[1].set_xlim(min_x-smooth, max_x+smooth)
+    axes[2].set_xlim(min_x-smooth, max_x+smooth)
+     
+
+    for i in [0,1]:
+        j = i + 1
+        ax = axes[j]
+
+        # add task_param values
+        y_ticks = [df_result.groupby(['ax','task_name']).task_param.unique()[i,task_name][0].replace(f"{task_name.split('_')[-1]}_",'') for task_name in task_names]
+        y_ticks = [t.replace('male','(male)').replace('fe(male)','(female)') for t in y_ticks]
+        
+        ax2 = ax.twinx()
+        ax2.set_yticks(range(task_names.shape[0]))
+        ax2.set_yticklabels(y_ticks, color='grey')
+        ax2.invert_yaxis()
+        ax2.spines['top'].set_visible(False)
+        ax2.spines['right'].set_visible(False)
+        ax2.spines['left'].set_visible(False)
+        ax2.set_ylim(ax.get_ylim())
+    
+
+    # Adjust subplot appearance
+    xlabel = "Mean ± SD"
+    axes[1].set_xlabel(xlabel)
+    axes[2].set_xlabel(xlabel)
+
+    # Overall layout
+    plt.subplots_adjust(wspace=0.05)  # Reduce horizontal space between subplots
+    _finish_plot(fig, fn)
+
 
 
 

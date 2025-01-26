@@ -2,6 +2,8 @@ import unicodedata
 import re
 import recordlinkage
 import pandas as pd
+import jellyfish
+import numpy as np
 
 def clean_name(text, lower=True):
     if text is None or pd.isnull(text):
@@ -53,3 +55,24 @@ def replace(txt, replacements, lower=True):
         else:
             txt = txt.replace(k, v)
     return txt
+
+
+def compute_similarity_list_of_text(list_of_text):
+    '''
+    Jaro-Winkler Similarity
+    A metric that gives more weight to characters at the start of strings.
+    Higher values indicate more similar strings.
+    '''
+    
+    if len(list_of_text) < 2:
+        return None
+    
+    similarities = []
+    # Compute pairwise similarity
+    for i in range(len(list_of_text)):
+        for j in range(i + 1, len(list_of_text)):
+            name_i = list_of_text[i]
+            name_j = list_of_text[j]
+            sim = jellyfish.jaro_winkler_similarity(name_i, name_j)
+            similarities.append(sim)
+    return np.mean(similarities) if len(similarities) > 1 else None

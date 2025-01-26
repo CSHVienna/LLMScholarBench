@@ -4,14 +4,16 @@ APS_OA_PUBLICATIONS_FN = 'publications.csv'
 APS_OA_AUTHORS_MAPPING_FN = 'authors_mapping.csv'
 APS_OA_PUBLICATIONS_MAPPING_FN = 'publications_mapping.csv'
 APS_OA_ALTERNATIVE_NAMES_FN = 'alternative_names.csv'
-APS_OA_AUTHORS_INSTITUTION_YEAR_FN = 'author_institution_year.csv'
+APS_OA_AUTHORS_INSTITUTION_YEAR_FN = 'authors_institution_year.csv'
 APS_OA_INSTITUTIONS_FN = 'institution.csv'
 APS_OA_AUTHORSHIPS_FN = 'authorships.csv'
 APS_OA_CITATIONS_FN = 'citations.csv'
-APS_OA_AUTHORS_DEMOGRAPHICS_FN = 'author_demographics.csv'
+APS_OA_AUTHORS_DEMOGRAPHICS_FN = 'authors_demographics.csv'
 APS_OA_PUBLICTION_TOPICS = 'publications_topic.csv'
 APS_OA_TOPICS_FN = 'topics.csv'
 APS_OA_DISCIPLINES_DEMOGRAPHICS_FN = 'disciplines_author_demographics.csv'
+APS_OA_AUTHORS_STATS_FN = 'authors_stats.csv'
+APS_OA_AUTHOR_STATS_FN = 'authors_aps_stats.csv'
 
 AUTHORS_FN = 'authors.json'
 PUBLICATIONS_FN = 'publications.json'
@@ -183,7 +185,9 @@ FACTUALITY_FIELD_CMP = 'CM&MP'
 FACTUALITY_FIELD_CMP_SF = 'Condensed Matter Physics'
 FACTUALITY_SENIORITY_SENIOR_CAREER = 'senior'
 FACTUALITY_COLUMN_ID = 'original_index'
-FACTUALITY_AUTHOR_METADATA_TO_HIDE = ['two_year_mean_citedness','h_index','i10_index','works_count','cited_by_count','ethnicity_dx','ethnicity_ec','ethnicity','gender']
+FACTUALITY_AUTHOR_STATS_TO_HIDE = ['works_count','cited_by_count','h_index','i10_index','e_index','two_year_mean_citedness']
+FACTUALITY_AUTHOR_DEMOGRAPHICS_TO_HIDE = ['ethnicity_dx','ethnicity_ec','ethnicity','gender']
+FACTUALITY_AUTHOR_METADATA_TO_HIDE = FACTUALITY_AUTHOR_STATS_TO_HIDE + FACTUALITY_AUTHOR_DEMOGRAPHICS_TO_HIDE
 FACTUALITY_FIELD_TO_HIDE = ['fact_author_score', 'career_age', 'years', 'id_author_aps_list', 'year_first_publication','year_last_publication','academic_age','seniority_active', 'seniority_now', 'age_now']
 FACTUALITY_EPOCH_TO_HIDE = ['fact_author_score', 'career_age', 'doi', 'id_author_aps_list', 'academic_age', 'age_now', 'seniority_active', 'seniority_now']
 FACTUALITY_SENIORITY_TO_HIDE = ['fact_author_score', 'doi', 'years', 'id_author_aps_list']
@@ -271,3 +275,16 @@ DEMOGRAPHIC_ATTRIBUTE_LABELS_COLOR = {DEMOGRAPHIC_ATTRIBUTE_GENDER: GENDER_COLOR
                                      DEMOGRAPHIC_ATTRIBUTE_ETHNICITY: ETHNICITY_COLOR_DICT}
 
 EXPERIMENT_TASK_PARAMS_ORDER_EXPANDED = [item for sublist in TASK_PARAMS_BY_TASK.values() for item in sublist]
+
+COMPONENT_POPULATION_COLOR = '#d8d6d0' # '#f6e6cb'
+COMPPONENT_TASK_PARAM_COLORS = ['#dd9787', '#a6c48a']
+COMPPONENT_TASK_PARAM_MARKERS = ['o', 'o'] #  'X']
+
+APS_CAREER_AGE_COL = 'aps_career_age'
+OA_CAREER_AGE_COL = 'career_age'
+APS_SCHOLARLY_METRICS_COL = list(APS_RANKING_METRICS.values()) + [APS_CAREER_AGE_COL]
+OA_SCHOLARLY_METRICS_COL = list(RANKING_METRICS.values()) + [OA_CAREER_AGE_COL]
+ALL_SCHOLARLY_METRICS_COL = APS_SCHOLARLY_METRICS_COL + OA_SCHOLARLY_METRICS_COL
+
+METADATA_DIR = 'metadata'
+SIMILARITIES_DIR = 'similarities'

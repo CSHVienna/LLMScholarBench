@@ -48,7 +48,8 @@ class FactualityCheck(object):
         """
         if constants.FACTUALITY_COLUMN_ID in self.df_valid_responses.columns:
             self.df_valid_responses.set_index(constants.FACTUALITY_COLUMN_ID, inplace=True)
-            
+
+        io.validate_path(self.fn_valid_with_fact_check)  
         io.save_csv(self.df_valid_responses.drop(columns=self._columns_to_hide), self.fn_valid_with_fact_check, index=True)
 
     def set_valid_responses(self, df_valid_responses):
@@ -82,7 +83,12 @@ class FactualityCheck(object):
         """
         self.df_authors_metadata = io.read_file_from_tar_gz_as_dataframe(self.aps_os_data_tar_gz, constants.APS_OA_AUTHORS_DEMOGRAPHICS_FN)
         self.df_authors_metadata.rename(columns={'id_author':"id_author_oa"}, inplace=True)
+        
         self.df_authors_mapping = io.read_file_from_tar_gz_as_dataframe(self.aps_os_data_tar_gz, constants.APS_OA_AUTHORS_MAPPING_FN)
+
+        self.df_authors_stats = io.read_file_from_tar_gz_as_dataframe(self.aps_os_data_tar_gz, constants.APS_OA_AUTHORS_STATS_FN)
+        self.df_authors_stats.rename(columns={'id_author':"id_author_oa"}, inplace=True)
+        
         
     def _load_publications(self):
         """

@@ -3,7 +3,7 @@ import itertools
 
 from libs import constants
 from libs import io
-
+from libs import helpers
 
 def get_baselined_from_gt(df_gt, cat_col, cat_order):
     df = df_gt.copy()
@@ -80,11 +80,6 @@ def get_counts_and_percentage(df_data, group_col):
 
 
 def get_demographic_counts_per_task_param(df_llm_real_authors, attribute):
-    def assign_ax(row):
-        if constants.EXPERIMENT_TASK_TWINS in row.task_name:
-            return constants.TASK_TWINS_GENDER_ORDER.index(row.task_param.split("_")[1])
-        return constants.TASK_PARAMS_BY_TASK[row.task_name].index(row.task_param)
-
     all_models = constants.LLMS
     all_task_params = constants.TASK_PARAMS_BY_TASK
     all_labels = constants.DEMOGRAPHIC_ATTRIBUTE_LABELS_ORDER[attribute]
@@ -115,7 +110,7 @@ def get_demographic_counts_per_task_param(df_llm_real_authors, attribute):
 
     # Fill missing percentages with 0 (if sum was 0 for the group)
     result["percentage"] = result["percentage"].fillna(0)
-    result['ax'] = result.apply(assign_ax, axis=1)
+    result['ax'] = result.apply(helpers.assign_ax_to_task_param, axis=1)
     result.rename(columns={attribute: 'attribute_label'}, inplace=True)
 
     return result, all_labels
@@ -132,4 +127,35 @@ def get_data_by_attribute_and_metric(df, attribute, metric):
     result.set_index('label', inplace=True)
     cols = constants.GENDER_LIST if attribute == constants.DEMOGRAPHIC_ATTRIBUTE_GENDER else constants.ETHNICITY_LIST
     result = result[cols]
+    return result
+
+
+def get_stastistics_per_task_param(df_data: io.pd.DataFrame, attribute: str, metrics: list):
+    all_models = constants.LLMS
+    all_task_params = constants.TASK_PARAMS_BY_TASK
+
+    # Create a full cartesian product of all possible combinations
+    combinations = []
+    for task_name, task_params in all_task_params.items():
+        for combo in itertools.product(all_models, [task_name], task_params, [attribute]):
+            combinations.append(combo)
+
+    # Convert the cartesian product to a DataFrame
+    full_index = io.pd.DataFrame(combinations, columns=["model", "task_name", "task_param", attribute])
+
+    data = df_data.copy()
+
+    # split statistical twinns (name/label only)
+    full_index.loc[:,"task_name"] = full_index.apply(lambda row: f"{row['task_name']}_{row['task_param'].split('_')[0]}" if row["task_name"] == constants.EXPERIMENT_TASK_TWINS else row["task_name"], axis=1)
+    data.loc[:,"task_name"] = data.apply(lambda row: f"{row['task_name']}_{row['task_param'].split('_')[0]}" if row["task_name"] == constants.EXPERIMENT_TASK_TWINS else row["task_name"], axis=1)
+
+    # Group by and count records in the original data
+    grouped = data.groupby(["model", "task_name", "task_param"])[attribute].agg(metrics).reset_index()
+
+    # Merge with the full cartesian product to ensure all combinations are included
+    result = full_index.merge(grouped, on=["model", "task_name", "task_param"], how="left").fillna(0)
+
+    result['ax'] = result.apply(helpers.assign_ax_to_task_param, axis=1)
+    result.rename(columns={attribute: 'attribute_label'}, inplace=True)
+
     return result

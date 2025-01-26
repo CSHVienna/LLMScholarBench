@@ -8,7 +8,7 @@ from libs import scholar
 
 tqdm.pandas()
 
-def run(aps_os_data_tar_gz: str, aps_data_path: str, ranking: bool, output_dir: str):
+def run(aps_os_data_tar_gz: str, aps_data_path: str, ranking: bool, intermediate_output_dir: str, output_dir: str):
     
     # 1. Read aps-oa data
     df_authors = io.read_file_from_tar_gz_as_dataframe(aps_os_data_tar_gz, constants.APS_OA_AUTHORS_FN) # id_author (oopenalex)
@@ -64,7 +64,7 @@ def run(aps_os_data_tar_gz: str, aps_data_path: str, ranking: bool, output_dir: 
     # time-related stats
     df_time = df_aps_authorships.groupby('id_author_oa').year.agg(['min','max']).reset_index().rename(columns={'min':'min_year','max':'max_year'})
     df_time['aps_years_of_activity'] = df_time.apply(lambda row: [row.min_year, row.max_year], axis=1)
-    df_time.loc[:,'aps_career_age'] = df_time.apply(lambda row: row.max_year - row.df_time.min_year, axis=1) # TODO: add plus 1
+    df_time.loc[:,'aps_career_age'] = df_time.apply(lambda row: (row.max_year - row.min_year) + 1, axis=1)
     print(f'\n df_time: {df_time.shape}  \n {df_time.head(5)} \n')
 
     # 4. Final merge
@@ -74,22 +74,36 @@ def run(aps_os_data_tar_gz: str, aps_data_path: str, ranking: bool, output_dir: 
     df_authors = df_authors.merge(df_h_index[['id_author_oa','aps_h_index']], on='id_author_oa', how='left')
     df_authors = df_authors.merge(df_i10_index[['id_author_oa','aps_i10_index']], on='id_author_oa', how='left')
     df_authors = df_authors.merge(df_e_index[['id_author_oa','aps_e_index']], on='id_author_oa', how='left')
+    print(f'\n df_authors (big merge): {df_authors.shape}  \n {df_authors.head(5)} \n')
+
+    # computing normalized citations per paper per year
+    df_authors.loc[:,'aps_citations_per_paper_age'] = df_authors.progress_apply(lambda row: 0 if row.aps_works_count == 0 else (row.aps_cited_by_count/row.aps_works_count)/row.aps_career_age, axis=1)
+    print(f'\n df_authors (normalized citations): {df_authors.shape}  \n {df_authors.head(5)} \n')
 
     # 5. Null values
-    df_authors.fillna({'aps_works_count':0, 'aps_cited_by_count':0, 'aps_h_index':0, 'aps_i10_index':0, 'aps_e_index':0, "aps_career_age": 0}, inplace=True) # TODO: this is momentary, we need to check why there are null values
+    df_authors.fillna({'aps_works_count':0, 'aps_cited_by_count':0, 'aps_h_index':0, 'aps_i10_index':0, 'aps_e_index':0, "aps_career_age": 0, 'aps_citations_per_paper_age':0}, inplace=True) # TODO: this is momentary, we need to check why there are null values
     indexes_noyear = df_authors[df_authors['aps_years_of_activity'].isnull()].index
     df_authors.loc[indexes_noyear, 'aps_years_of_activity'] = df_authors.loc[indexes_noyear, 'aps_years_of_activity'].apply(lambda v: [])
+    print(f'\n df_authors (addressing nulls): {df_authors.shape}  \n {df_authors.head(5)} \n')
+
 
     if not ranking:
-        # Process json data
+        # Process json data - only aps data
         data = [get_object(row) for index, row in tqdm(df_authors.iterrows(), total=len(df_authors), desc="Processing rows")]
 
         # Save json data
         fn = io.path_join(output_dir, constants.AUTHORS_APS_STATS_FN)
         io.save_dicts_to_text_file(dict_list=data, file_path=fn)
+
+        # save csv data (APS stats)
+        tmp = pd.DataFrame.from_dict(data).drop(columns=['id_aps_stat','id_author'])
+        tmp.rename(columns={'openalex_id':'id_author'}, inplace=True)
+        tmp.loc[:,'id_author'] = tmp.loc[:,'id_author'].apply(lambda x: int(x.replace('A','')))
+        fn = io.path_join(intermediate_output_dir, constants.APS_OA_AUTHOR_STATS_FN)
+        io.save_csv(tmp, fn, index=False)
+
     else:
         ## RANKINGS:
-        df_authors.loc[:,'aps_citations_per_paper_age'] = df_authors.progress_apply(lambda row: 0 if row.aps_works_count == 0 else (row.aps_cited_by_count/row.aps_works_count)/(row.aps_career_age+1), axis=1)
 
         # compute rankings
         for mid, (metric, col_name) in enumerate(constants.APS_RANKING_METRICS.items()):
@@ -128,6 +142,7 @@ def get_object(row):
     obj['aps_e_index'] = row.aps_e_index
     obj['aps_years_of_activity'] = row.aps_years_of_activity
     obj['aps_career_age'] = row.aps_career_age
+    obj['aps_citations_per_paper_age'] = row.aps_citations_per_paper_age
 
     return obj
 
@@ -153,6 +168,7 @@ if __name__ == "__main__":
     parser.add_argument("--aps_os_data_tar_gz", type=str, help="final_dataset.tar.gz")
     parser.add_argument("--aps_data_path", type=str, help="Directory where the original aps data files are")
     parser.add_argument("--ranking", action="store_true", help="Flag to indicate if the rankings should be computed")
+    parser.add_argument("--intermediate_output_dir", type=str, help="Directory where the intermediate files will be saved")
     parser.add_argument("--output_dir", type=str, help="Directory where the output files will be saved")
     args = parser.parse_args()
 
@@ -162,4 +178,7 @@ if __name__ == "__main__":
         print(f"{k}: {v}")
     print('=' * 10)
 
-    run(args.aps_os_data_tar_gz, args.aps_data_path, args.ranking, args.output_dir)
+    if not args.ranking and not args.intermediate_output_dir:
+        raise ValueError("Intermediate output directory is required when rankings are not computed")
+    
+    run(args.aps_os_data_tar_gz, args.aps_data_path, args.ranking, args.intermediate_output_dir, args.output_dir)
