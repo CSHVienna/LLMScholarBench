@@ -162,3 +162,8 @@ def validate_path(path):
     # Create directories if they do not exist
     if not os.path.exists(dir_path):
         os.makedirs(dir_path)
+
+
+def save_text(text, fn):
+    with open(fn, "w", encoding="utf-8") as f:
+        f.write(text)
