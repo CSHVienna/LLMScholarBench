@@ -59,22 +59,26 @@
 
     3.1 Validity
 
-        `notebooks/1_basic_stats.ipynb`
+        notebooks/1_basic_stats.ipynb
 
     3.2 Consistency
 
-        `notebooks/2_consistency.ipynb`
+        notebooks/2_consistency.ipynb
 
     3.3 Factuality
 
-        `notebooks/3_factuality.ipynb`
+        notebooks/3_factuality.ipynb
 
     3.4 Demographics
 
-        `notebooks/4_demographics.ipynb`
+        notebooks/4_demographics.ipynb
 
     3.5 Prestige
 
-        `notebooks/5_prestige.ipynb`
+        notebooks/5_prestige.ipynb
+
+    3.6 Similarity
+
+        notebooks/6_similarity.ipynb
 
     

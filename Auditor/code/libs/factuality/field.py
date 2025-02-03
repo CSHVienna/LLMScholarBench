@@ -1,4 +1,5 @@
 import pandas as pd
+from pyparsing import col
 
 from libs import text
 from libs import constants
@@ -80,10 +81,22 @@ class FactualityField(FactualityCheck):
                             'subfield_name':'subfield_name_list'}, inplace=True)
 
 
-        # Check the topics of publications with authorship
-        self.df_valid_responses = self.df_valid_responses.merge(tmp, on=['id_publication_oa','id_author_oa'], how='left')
-        self.df_valid_responses.rename(columns={'id_author_oa':'fact_doi_author'}, inplace=True)
+        # @NOTE: The following hasn't been run yet (2025-02-02)
+
+        # Check the topics of publications
+        self.df_valid_responses = self.df_valid_responses.merge(tmp[['id_publication_oa','subfield_name_list']], on=['id_publication_oa'], how='left')
+        self.df_valid_responses.loc[:,'fact_doi_field'] = self.df_valid_responses.apply(lambda row: evaluate_factuality_field(row) , axis=1)
+        self.df_valid_responses.drop(columns=['subfield_name_list'], inplace=True)
+
+        # Check the topics of authors
+        self.df_valid_responses = self.df_valid_responses.merge(tmp[['id_author_oa','subfield_name_list']], on=['id_author_oa'], how='left')
         self.df_valid_responses.loc[:,'fact_author_field'] = self.df_valid_responses.apply(lambda row: evaluate_factuality_field(row) , axis=1)
+        self.df_valid_responses.drop(columns=['subfield_name_list'], inplace=True)
+
+        # Check the topics of publications and authors
+        self.df_valid_responses = self.df_valid_responses.merge(tmp[['id_publication_oa', 'id_author_oa','subfield_name_list']], on=['id_publication_oa','id_author_oa'], how='left')
+        self.df_valid_responses.rename(columns={'id_author_oa':'fact_author'}, inplace=True)
+        self.df_valid_responses.loc[:,'fact_doi_author_field'] = self.df_valid_responses.apply(lambda row: evaluate_factuality_field(row) , axis=1)
 
         
 def evaluate_factuality_field(row):

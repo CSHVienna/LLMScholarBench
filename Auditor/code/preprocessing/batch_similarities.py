@@ -10,6 +10,7 @@ from libs import io
 from libs import constants
 from libs import text
 from libs.factuality.author import FactualityAuthor
+from libs import helpers
 
 tqdm.pandas() 
 
@@ -17,7 +18,7 @@ def run(aps_os_data_tar_gz: str, valid_responses_dir: str, model: str, task_name
     
     
     # Initialize tqdm progress bar
-    total_steps = 10
+    total_steps = 9
     progress_bar = tqdm(total=total_steps, desc="Loading data")
 
     ### LLM valid answers
@@ -51,8 +52,8 @@ def run(aps_os_data_tar_gz: str, valid_responses_dir: str, model: str, task_name
     ### APS OA data
 
     # coathorship network: coathors per paper (id_publication, id_author, id_institution)
-    # df_authorships = io.read_file_from_tar_gz_as_dataframe(aps_os_data_tar_gz, constants.APS_OA_AUTHORSHIPS_FN)
-    # df_authorships.rename(columns={'id_author':'id_author_oa'}, inplace=True)
+    df_authorships = io.read_file_from_tar_gz_as_dataframe(aps_os_data_tar_gz, constants.APS_OA_AUTHORSHIPS_FN)
+    df_authorships.rename(columns={'id_author':'id_author_oa', 'id_institution':'id_institution_oa'}, inplace=True)
     progress_bar.update(1)
     
     # demographics: gender, ethnicity
@@ -66,17 +67,9 @@ def run(aps_os_data_tar_gz: str, valid_responses_dir: str, model: str, task_name
     progress_bar.update(1)
 
     # institutions: id_institution, cited_by_count, country_code, 2yr_mean_citedness, h_index, i10_index, works_count, city, type
-    # df_institutions = io.read_file_from_tar_gz_as_dataframe(aps_os_data_tar_gz, constants.APS_OA_INSTITUTIONS_FN)
+    df_institutions = io.read_file_from_tar_gz_as_dataframe(aps_os_data_tar_gz, constants.APS_OA_INSTITUTIONS_FN)
+    df_institutions.rename(columns={'id_institution':'id_institution_oa'}, inplace=True)
     progress_bar.update(1)
-
-    # year of affiliation: id_author, id_institution, year
-    # df_author_institution_years = io.read_file_from_tar_gz_as_dataframe(aps_os_data_tar_gz, constants.APS_OA_AUTHORS_INSTITUTION_YEAR_FN)
-    # df_author_institution_years.rename(columns={'id_author':'id_author_oa'}, inplace=True)
-    progress_bar.update(1)
-
-
-    
-    
 
     ### MERGING
 
@@ -95,7 +88,11 @@ def run(aps_os_data_tar_gz: str, valid_responses_dir: str, model: str, task_name
     # Output: for every request, similarity of authors (cosine similarity) and stats (mean, std, min, max, median, 25%, 75%)
 
     # stats (scholarly and demographics)
-    df_request_stats = df_valid_responses_metadata.groupby(['model', 'task_name', 'task_param', 'date', 'time']).progress_apply(process_group).reset_index()
+    cols = ['model', 'task_name', 'task_param', 'date', 'time']
+    df_request_stats = df_valid_responses_metadata.groupby(cols).progress_apply(lambda row: process_group(row, 
+                                                                                                          df_authorships=df_authorships,
+                                                                                                          df_institutions=df_institutions,
+                                                                                                          )).reset_index()
 
     print(df_request_stats.head(2))
     print(df_request_stats.shape)
@@ -106,7 +103,7 @@ def run(aps_os_data_tar_gz: str, valid_responses_dir: str, model: str, task_name
     
 
     
-def process_group(group):
+def process_group(group, df_authorships, df_institutions):
 
     # Remove rows with missing author ids
     clean_group = group.dropna(subset=['id_author_oa'])
@@ -130,19 +127,35 @@ def process_group(group):
         oa_career_age_similarity = None
         institutions_share = None
         coauthors_share = None
+        country_of_affiliation_share = None
     
     else:
         
         # Compute the similarity of the exisitng unique recommended authors
         gender_diversity = similarity.compute_simpson_diversity(clean_group[constants.DEMOGRAPHIC_ATTRIBUTE_GENDER])
         ethnicity_diversity = similarity.compute_simpson_diversity(clean_group[constants.DEMOGRAPHIC_ATTRIBUTE_ETHNICITY])
-        scholarly_similarity = similarity.compute_average_pairwise_cosine_similarity(clean_group[constants.ALL_SCHOLARLY_METRICS_COL])
-        aps_similarity = similarity.compute_average_pairwise_cosine_similarity(clean_group[constants.APS_SCHOLARLY_METRICS_COL])
-        oa_similarity = similarity.compute_average_pairwise_cosine_similarity(clean_group[constants.OA_SCHOLARLY_METRICS_COL])
-        aps_career_age_similarity = similarity.compute_average_cosine_zscore_similarity(clean_group[constants.APS_CAREER_AGE_COL])
-        oa_career_age_similarity = similarity.compute_average_cosine_zscore_similarity(clean_group[constants.OA_CAREER_AGE_COL])
-        institutions_share = None #similarity.compute_average_cosine_similarity(clean_group[constants.CAREER_AGE_COL])
-        coauthors_share = None #similarity.compute_average_cosine_similarity(clean_group[constants.CAREER_AGE_COL])
+
+        scholarly_similarity = similarity.compute_average_pairwise_cosine_similarity(clean_group[constants.ALL_PRESTIGE_METRICS_COL])
+        aps_similarity = similarity.compute_average_pairwise_cosine_similarity(clean_group[constants.APS_PRESTIGE_METRICS_COL])
+        oa_similarity = similarity.compute_average_pairwise_cosine_similarity(clean_group[constants.OA_PRESTIGE_METRICS_COL])
+
+        aps_career_age_similarity = similarity.gini_coefficient(clean_group[constants.APS_CAREER_AGE_COL])
+        oa_career_age_similarity = similarity.gini_coefficient(clean_group[constants.OA_CAREER_AGE_COL])
+        
+        # insitutions and coauthors in common
+
+        ids = clean_group.id_author_oa.unique()
+        df_authorships_filtered = df_authorships.query('id_author_oa in @ids')
+
+        df_institutions_authors = df_authorships_filtered[['id_author_oa','id_institution_oa']].drop_duplicates().groupby('id_author_oa').id_institution_oa.apply(list).reset_index(name='_items').astype(str)
+        institutions_share = similarity.compute_average_jaccard_similarity(df_institutions_authors)
+        
+        df_countries = similarity.get_items_by_author(df_authorships_filtered.groupby('id_author_oa').id_institution_oa.unique(), df_institutions, 'country_code')
+        country_of_affiliation_share = similarity.compute_average_jaccard_similarity(df_countries)
+
+        df_coauthors = similarity.get_items_by_author(df_authorships_filtered.groupby('id_author_oa').id_institution_oa.unique(), df_authorships, 'id_author_oa')
+        coauthors_share = similarity.compute_average_jaccard_similarity(df_coauthors)
+
 
     # Return a DataFrame with one row and multiple columns
     df = pd.DataFrame({
@@ -150,15 +163,21 @@ def process_group(group):
         'n_unique_names_recommendations': [n_unique_names_recommendations],
         'n_unique_author_recommendations': [n_unique_author_recommendations],
         "n_author_hallucinations": [n_author_hallucinations],
+
         "name_similarity": [name_similarity],
         "gender_diversity": [gender_diversity],
         "ethnicity_diversity": [ethnicity_diversity],
+        
+        'aps_scholarly_similarity': [aps_similarity],
+        'oa_scholarly_similarity': [oa_similarity],
         'scholarly_similarity': [scholarly_similarity],
-        'aps_similarity': [aps_similarity],
-        'oa_similarity': [oa_similarity],
+
         'aps_career_age_similarity': [aps_career_age_similarity],
         'oa_career_age_similarity': [oa_career_age_similarity],
+        'career_age_similarity': [np.mean([aps_career_age_similarity,oa_career_age_similarity]) if aps_career_age_similarity is not None and oa_career_age_similarity is not None else None],
+        
         'institutions_share': [institutions_share],
+        'country_of_affiliation_share': [country_of_affiliation_share],
         'coauthors_share': [coauthors_share]
     })
     return df
@@ -183,3 +202,59 @@ if __name__ == "__main__":
     run(args.aps_os_data_tar_gz, args.valid_responses_dir, args.model, args.task_name, args.max_workers, args.output_dir)
     io.printf("Done!")
     
+
+
+
+    ####
+'''
+#1 
+See this paper: maybe measure it too
+Towards Group-aware Search Success
+Haolun Wu
+, 
+Bhaskar Mitra
+, 
+Nick Craswell
+International Conference on the Theory of Information Retrieval | April 2024
+
+Published by ACM
+
+Download BibTex
+Traditional measures of search success often overlook the varying information needs of different demographic groups. 
+To address this gap, we introduce a novel metric, named Group-aware Search Success (GA-SS). GA-SS redefines search success to ensure that
+ all demographic groups achieve satisfaction from search outcomes. We introduce a comprehensive mathematical framework to calculate GA-SS, 
+ incorporating both static and stochastic ranking policies and integrating user browsing models for a more accurate assessment. In addition, 
+ we have proposed Group-aware Most Popular Completion (gMPC) ranking model to account for demographic variances in user intent, aligning more 
+ closely with the diverse needs of all user groups. We empirically validate our metric and approach with two real-world datasets: one focusing 
+ on query auto-completion and the other on movie recommendations, where the results highlight the impact of stochasticity and the complex interplay 
+ among various search success metrics. Our findings advocate for a more inclusive approach in measuring search success, as well as inspiring future 
+ investigations into the quality of service of search.
+
+'''
+
+
+
+'''
+and this one too:
+
+This Prompt is Measuring : Evaluating Bias Evaluation in Language Models
+Seraphina Goldfarb-Tarrant
+, 
+Eddie Ungless
+, 
+Esma Balkir
+, 
+Su Lin Blodgett
+Findings of ACL 2023 | July 2023
+
+Download BibTex
+Bias research in NLP seeks to analyse models for social biases, thus helping NLP practitioners uncover, 
+measure, and mitigate social harms. We analyse the body of work that uses prompts and templates to assess bias in 
+language models. We draw on a measurement modelling framework to create a taxonomy of attributes that capture what a bias
+ test aims to measure and how that measurement is carried out. By applying this taxonomy to 90 bias tests, we illustrate 
+ qualitatively and quantitatively that core aspects of bias test conceptualisations and operationalisations are frequently unstated or ambiguous,
+   carry implicit assumptions, or be mismatched. Our analysis illuminates the scope of possible bias types the field is able to measure, and reveals 
+   types that are as yet under-researched. We offer guidance to enable the community to explore a wider section of the possible bias space, and to better 
+   close the gap between desired outcomes and experimental design, both for bias and for evaluating language models more broadly.
+'''
+    ####

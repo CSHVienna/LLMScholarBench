@@ -7,6 +7,7 @@ import matplotlib.pyplot as plt
 from sklearn.preprocessing import StandardScaler
 from collections import Counter
 from sklearn.metrics.pairwise import cosine_similarity
+from itertools import combinations
 
 def get_components_by_model(df_responses_sample, df_author_population, label_population, metrics_col, include_task_param=False, n_components=2):
 
@@ -90,6 +91,19 @@ def compute_simpson_diversity(vector):
     return simpson_index
 
 
+def gini_coefficient(data):
+    clean_vector = data.dropna()
+
+    if clean_vector.empty or clean_vector.shape[0] <= 1:
+        return None
+    
+    sorted_data = np.sort(clean_vector)
+    n = len(clean_vector)
+    cumulative_sum = np.cumsum(sorted_data) / np.sum(sorted_data)
+    cumulative_sum = np.insert(cumulative_sum, 0, 0)
+    gini = 1 - (2 / n) * np.sum(cumulative_sum[:-1] * (1 / n + cumulative_sum[1:] - cumulative_sum[:-1]))
+    return gini
+
 def compute_average_pairwise_cosine_similarity(array):
     '''
     Compute the similarity of numeric data using the cosine similarity metric.
@@ -107,18 +121,63 @@ def compute_average_pairwise_cosine_similarity(array):
     return np.mean(similarity_matrix)
 
 
-def compute_average_cosine_zscore_similarity(vector):
-    '''
-    Compute the similarity of numeric data using the cosine similarity metric.
-    '''
+# def compute_average_cosine_zscore_similarity(vector):
+#     '''
+#     Compute the similarity of numeric data using the cosine similarity metric.
+#     '''
 
-    clean_vector = vector.dropna()
+#     clean_vector = vector.dropna()
 
-    if clean_vector.empty or clean_vector.shape[0] <= 1:
+#     if clean_vector.empty or clean_vector.shape[0] <= 1:
+#         return None
+    
+#     cosine_sim = cosine_similarity(clean_vector.values.reshape(-1, 1))
+#     average_similarity = cosine_sim.mean()
+#     return average_similarity
+
+
+def jaccard_similarity(list1, list2):
+    set1, set2 = set(list1), set(list2)
+    intersection = len(set1 & set2)
+    union = len(set1 | set2)
+    return intersection / union if union > 0 else 0
+
+
+def compute_average_jaccard_similarity(df_items_per_author):
+    '''
+    Compute the average Jaccard similarity between authors based on their items_per_author.
+    '''
+    
+    if df_items_per_author.empty or df_items_per_author.shape[0] <= 1:
         return None
     
-    cosine_sim = cosine_similarity(clean_vector.values.reshape(-1, 1))
-    average_similarity = cosine_sim.mean()
-    return average_similarity
+    
+    # Compute pairwise Jaccard similarity
+    vals = []
+    for id_i, items_i in df_items_per_author.iterrows():
+        for id_j, items_j in df_items_per_author.iterrows():
+    
+    # TODO: check maybe this is faster
+    # n = df_items_per_author.shape[0]
+    # for i in range(n):
+    #     for j in range(i+1, n):
+    #         id_i, items_i = df_items_per_author.iloc[i]
+    #         id_j, items_j = df_items_per_author.iloc[j]
+
+            if id_i == id_j:
+                continue
+
+            s = jaccard_similarity(set(items_i['_items']), set(items_j['_items']))
+
+            vals.append(s)
+    return np.mean(vals)
 
 
+def get_items_by_author(id_institutions_by_author, df_all, column_item):
+
+    df_items_by_author = pd.DataFrame()
+    for id_author_oa, id_institution_oa in id_institutions_by_author.items():
+        items = df_all.query('id_institution_oa in @id_institution_oa')[column_item].unique()
+        df_items_by_author = pd.concat([df_items_by_author, pd.DataFrame({'id_author_oa': [id_author_oa], '_items': [items]})], ignore_index=True)
+        
+    return df_items_by_author.set_index('id_author_oa')
