@@ -1,7 +1,5 @@
+import numpy as np
 
-from math import e
-
-from regex import E
 from libs import constants
 from libs import io
 
@@ -105,7 +103,7 @@ def _get_factuality_param(df, factual_cols, agg_dict, factuality_types=None, fac
     df_final.columns = [('_'.join(col) if col[1] else col[0]) for col in df_final.columns]
     
     # # removing redundant rows
-    df_final = df_final.reset_index(drop=True).fillna(0)
+    # df_final = df_final.reset_index(drop=True).fillna()
     df_final.rename(columns={'metric':'factuality_type'}, inplace=True)
 
 
@@ -128,7 +126,7 @@ def _get_factuality_param(df, factual_cols, agg_dict, factuality_types=None, fac
     for task_param in params:
         km = f'{task_param}_mean'
         ks = f'{task_param}_std'
-        df_final[task_param] = df_final.apply(lambda row: f"{row[km]:.2f} ± {row[ks]:.2f}", axis=1)
+        df_final[task_param] = df_final.apply(lambda row: '-' if np.isnan(row[km]) else f"{row[km]:.2f} ± {row[ks]:.2f}", axis=1)
         df_final.drop(columns=[ks, km], inplace=True)
 
 

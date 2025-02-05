@@ -9,15 +9,13 @@ class FactualitySeniority(FactualityCheck):
 
     def __init__(self, aps_os_data_tar_gz: str, valid_responses_dir: str|None, model: str, max_workers: int, output_dir: str):
         super().__init__(aps_os_data_tar_gz, valid_responses_dir, model, constants.EXPERIMENT_TASK_SENIORITY, max_workers, output_dir)
-        self.column_doi = 'career_age'
+        self.column_age = 'career_age'
         self.column_task_param = 'task_param'
         self._columns_to_hide = constants.FACTUALITY_AUTHOR_METADATA_TO_HIDE + constants.FACTUALITY_SENIORITY_TO_HIDE
 
     def run_factuality_check(self):
         # Run factuality check
         super().run_factuality_check()
-
-        print(self.df_valid_responses.shape)
 
         # 2. Check career_age
         self.df_valid_responses.loc[:,'seniority_llm'] = self.df_valid_responses.loc[:,'career_age'].apply(lambda x: get_seniority(x))
