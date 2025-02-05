@@ -295,7 +295,7 @@ def plot_parallel_coords(df, hue, hue_order, hue_colors, df_err=None, fn=None, *
     baselines = kwargs.pop('baselines', None)
     
     
-    parallel_coordinates(df, hue, color=[hue_colors[m] for m in hue_order], axvlines=False, ax=ax, lw=2,)
+    parallel_coordinates(df, hue, color=[hue_colors[m] for m in hue_order if m in df.model.unique()], axvlines=False, ax=ax, lw=2,)
     plt.gca().legend_.remove()
 
     # Add error shading

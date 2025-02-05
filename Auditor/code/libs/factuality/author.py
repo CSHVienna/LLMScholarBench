@@ -109,8 +109,6 @@ def get_seniority(val):
 
             val = int(val)
         
-        
-
 
     if type(val) == int:
         if val <= 10:

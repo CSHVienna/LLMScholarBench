@@ -28,15 +28,15 @@ def get_overlap_range_metrics(requested_epoch, start1, end1, start2, end2):
     # 1 llm
     # 2 gt
 
-    # is_requested_epoch
+    # is_requested_epoch (the author is active in the requested epoch) - no llm answer
     is_requested_epoch = requested_epoch >= start2 and requested_epoch <= end2
 
     # Containment
-    r1_in_r2 = start1 >= start2 and end1 <= end2
-    r2_in_r1 = start2 >= start1 and end2 <= end1
+    r1_in_r2 = start1 >= start2 and end1 <= end2 # llm answer is within gt
+    r2_in_r1 = start2 >= start1 and end2 <= end1 # llm answer is otuside gt
 
     # Overlap
-    overlap = start1 <= end2 and start2 <= end1
+    overlap = start1 <= end2 and start2 <= end1 # the two ranges (llm and gt) overlap
 
     # Intersection Length
     intersection_length = max(0, min(end1, end2) - max(start1, start2))
