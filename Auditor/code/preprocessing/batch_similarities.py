@@ -4,6 +4,7 @@ import argparse
 from tqdm import tqdm
 import pandas as pd
 import numpy as np
+from itertools import permutations
 
 from postprocessing import similarity
 from libs import io
@@ -128,7 +129,9 @@ def process_group(group, df_authorships, df_institutions):
         institutions_share = None
         coauthors_share = None
         country_of_affiliation_share = None
-    
+        coauthors_recommended_share = None
+        recommended_author_pairs_are_coauthors = None
+
     else:
         
         # Compute the similarity of the exisitng unique recommended authors
@@ -144,19 +147,28 @@ def process_group(group, df_authorships, df_institutions):
         
         # insitutions and coauthors in common
 
-        ids = clean_group.id_author_oa.unique()
-        df_authorships_filtered = df_authorships.query('id_author_oa in @ids')
+        ids = clean_group.id_author_oa.dropna().unique()
+        df_authorships_filtered = df_authorships.query('id_author_oa in @ids').dropna(subset=['id_institution_oa'])
 
-        df_institutions_authors = df_authorships_filtered[['id_author_oa','id_institution_oa']].drop_duplicates().groupby('id_author_oa').id_institution_oa.apply(list).reset_index(name='_items').astype(str)
+        # shared institutions
+        df_institutions_authors = similarity.get_items_by_author(df_authorships_filtered.groupby('id_author_oa').id_institution_oa.unique(), df_institutions, 'id_institution_oa')
         institutions_share = similarity.compute_average_jaccard_similarity(df_institutions_authors)
         
+        # shared institutions' countries
         df_countries = similarity.get_items_by_author(df_authorships_filtered.groupby('id_author_oa').id_institution_oa.unique(), df_institutions, 'country_code')
         country_of_affiliation_share = similarity.compute_average_jaccard_similarity(df_countries)
 
-        df_coauthors = similarity.get_items_by_author(df_authorships_filtered.groupby('id_author_oa').id_institution_oa.unique(), df_authorships, 'id_author_oa')
+        # shared coauthors
+        df_coauthors = similarity.get_items_by_author(df_authorships_filtered.groupby('id_author_oa').id_institution_oa.unique(), df_authorships, 'id_author_oa', column_item_cast=int)
         coauthors_share = similarity.compute_average_jaccard_similarity(df_coauthors)
 
+        # coauthors among the recommendations
+        df_coauthors_recommended = pd.DataFrame(df_coauthors.apply(lambda row: list(set(row._items).intersection(set(ids)) - set([row.name])), axis=1), columns=['_items'])
+        coauthors_recommended_share = similarity.compute_average_jaccard_similarity(df_coauthors_recommended)
 
+        all_possible_pairs = len(list(permutations(ids, 2)))
+        recommended_author_pairs_are_coauthors = df_coauthors_recommended._items.apply(lambda x: len(x) > 0).sum() / all_possible_pairs
+        
     # Return a DataFrame with one row and multiple columns
     df = pd.DataFrame({
         'n_name_recommendations': [n_name_recommendations],
@@ -178,7 +190,10 @@ def process_group(group, df_authorships, df_institutions):
         
         'institutions_share': [institutions_share],
         'country_of_affiliation_share': [country_of_affiliation_share],
-        'coauthors_share': [coauthors_share]
+        'coauthors_share': [coauthors_share],
+        'coauthors_recommended_share': [coauthors_recommended_share],
+        'recommended_author_pairs_are_coauthors': [recommended_author_pairs_are_coauthors],
+
     })
     return df
 
