@@ -151,33 +151,33 @@ def compute_average_jaccard_similarity(df_items_per_author):
     if df_items_per_author.empty or df_items_per_author.shape[0] <= 1:
         return None
     
-    
-    # Compute pairwise Jaccard similarity
     vals = []
-    for id_i, items_i in df_items_per_author.iterrows():
-        for id_j, items_j in df_items_per_author.iterrows():
+
+    # Compute pairwise Jaccard similarity (only one half - as jaccard and the matrix are symetric)
+    # for id_i, items_i in df_items_per_author.iterrows():
+    #     for id_j, items_j in df_items_per_author.iterrows():
+    #         if id_i != id_j:
+    #             s = jaccard_similarity(set(items_i['_items']), set(items_j['_items']))
+    #             vals.append(s)
     
-    # TODO: check maybe this is faster
-    # n = df_items_per_author.shape[0]
-    # for i in range(n):
-    #     for j in range(i+1, n):
-    #         id_i, items_i = df_items_per_author.iloc[i]
-    #         id_j, items_j = df_items_per_author.iloc[j]
-
-            if id_i == id_j:
-                continue
-
+    n = df_items_per_author.shape[0]
+    for i in range(n):
+        for j in range(i+1, n):
+            items_i = df_items_per_author.iloc[i]
+            items_j = df_items_per_author.iloc[j]
             s = jaccard_similarity(set(items_i['_items']), set(items_j['_items']))
-
             vals.append(s)
+            
     return np.mean(vals)
 
 
-def get_items_by_author(id_institutions_by_author, df_all, column_item):
+def get_items_by_author(id_institutions_by_author, df_all, column_item, column_item_cast=None):
 
     df_items_by_author = pd.DataFrame()
     for id_author_oa, id_institution_oa in id_institutions_by_author.items():
         items = df_all.query('id_institution_oa in @id_institution_oa')[column_item].unique()
+        if column_item_cast:
+            items = items.astype(column_item_cast)
         df_items_by_author = pd.concat([df_items_by_author, pd.DataFrame({'id_author_oa': [id_author_oa], '_items': [items]})], ignore_index=True)
         
     return df_items_by_author.set_index('id_author_oa')
