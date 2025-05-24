@@ -19,8 +19,8 @@ class FactualitySeniority(FactualityCheck):
 
         # 2. Check career_age
         self.df_valid_responses.loc[:,'seniority_llm'] = self.df_valid_responses.loc[:,'career_age'].apply(lambda x: get_seniority(x))
-        self.df_valid_responses.loc[:,'fact_seniority_active'] = self.df_valid_responses.apply(lambda row: row.seniority_active == row.seniority_llm, axis=1)
-        self.df_valid_responses.loc[:,'fact_seniority_now'] = self.df_valid_responses.apply(lambda row: row.seniority_now == row.seniority_llm, axis=1)
+        self.df_valid_responses.loc[:,'fact_seniority_active'] = self.df_valid_responses.apply(lambda row: row.seniority_active == row.seniority_llm, axis=1) # text
+        self.df_valid_responses.loc[:,'fact_seniority_now'] = self.df_valid_responses.apply(lambda row: row.seniority_now == row.seniority_llm, axis=1)       # text
         
         # early_career, senior
         self.df_valid_responses.loc[:,'fact_seniority_active_requested'] = self.df_valid_responses.apply(lambda row: row.seniority_active == row[self.column_task_param], axis=1)

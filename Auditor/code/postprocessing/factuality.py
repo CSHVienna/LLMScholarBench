@@ -3,7 +3,7 @@ import numpy as np
 from libs import constants
 from libs import io
 
-def get_factuality_authors_either_OA_APS(df_authors):
+def get_factuality_authors_either_OA_APS(df_authors, by_task_param=False):
     df_fact_authors = df_authors.drop_duplicates(subset=['model','task_name','task_param','date','time','task_attempt', 'clean_name']).copy()       # we remove duplicated answers in the same request
     df_fact_authors = df_authors[['model','task_name','task_param','date','time','task_attempt','id_author_oa','id_author_aps_list']].copy()        # keeping necesary columns
     df_fact_authors.loc[:,constants.FACTUALITY_AUTHOR_OA] = df_fact_authors['id_author_oa'].notnull()                                               # adding column with boolean value if author is in oa
@@ -13,7 +13,10 @@ def get_factuality_authors_either_OA_APS(df_authors):
     df_fact_authors = df_fact_authors.groupby(['model','task_name', 'task_param','date','time', 'factuality_author'], observed=False).size().reset_index(name='counts').sort_values(by='counts', ascending=False)    # grouping per instance how many authhors are real
     grouped = df_fact_authors.groupby(['model','task_name','task_param','date','time','factuality_author'], observed=False).sum()                                                                                    # summing to compute percentage between real and doesn't exist authors
     grouped['percentage'] = grouped['counts'] / grouped.groupby(level=['model','task_name','task_param','date','time'], observed=False)['counts'].transform('sum')                                                    # computing percentage 
-    df_fact_authors_either = grouped.query("factuality_author == @constants.FACTUALITY_AUTHOR_EXISTS").groupby(['model','task_name'], observed=False)['percentage'].agg(['mean','std']).reset_index()                        # getting mean and std of percentage of real authors per task and model
+    if by_task_param:
+        df_fact_authors_either = grouped.query("factuality_author == @constants.FACTUALITY_AUTHOR_EXISTS").groupby(['model','task_name','task_param'], observed=False)['percentage'].agg(['mean','std']).reset_index()                        # getting mean and std of percentage of real authors per task and model
+    else:
+        df_fact_authors_either = grouped.query("factuality_author == @constants.FACTUALITY_AUTHOR_EXISTS").groupby(['model','task_name'], observed=False)['percentage'].agg(['mean','std']).reset_index()                        # getting mean and std of percentage of real authors per task and model
     return df_fact_authors_either
 
 
@@ -111,6 +114,8 @@ def _get_factuality_param(df, factual_cols, agg_dict, factuality_types=None, fac
     if fact_cols_map is not None:
         df_final['factuality_type'] = df_final['factuality_type'].replace(fact_cols_map)
         df_final['factuality_type'] = io.pd.Categorical(df_final['factuality_type'], categories=factuality_types, ordered=True)
+        
+
     df_final['model'] = io.pd.Categorical(df_final['model'], categories=constants.LLMS, ordered=True)
     df_final = df_final.drop(columns=['task_name']).sort_values(['model','factuality_type']).round(2).reset_index(drop=True)
 
@@ -138,10 +143,11 @@ def _get_factuality_param(df, factual_cols, agg_dict, factuality_types=None, fac
 
 def get_factuality_epoch_param(df):
     df = _get_factuality_param(df, 
-                                agg_dict = {'fact_epoch_requested':'sum', 'fact_epoch_llm_in_gt':'sum', 'fact_epoch_gt_in_llm':'sum', 'fact_epoch_overlap':'sum'},
+                                agg_dict = {'id_author_oa':'count', 'fact_epoch_requested':'sum', 'fact_epoch_llm_in_gt':'sum', 'fact_epoch_gt_in_llm':'sum', 'fact_epoch_overlap':'sum'},
                                 factual_cols = constants.FACTUALITY_EPOCH_METRICS,
                                 factuality_types = constants.FACTUALITY_EPOCH_FACT_CHECKS,
-                                fact_cols_map = {'fact_epoch_requested': constants.FACTUALITY_EPOCH_AS_REQUESTED, 
+                                fact_cols_map = {'id_author_oa':constants.FACTUALITY_FIELD_AUTHOR,
+                                                 'fact_epoch_requested': constants.FACTUALITY_EPOCH_AS_REQUESTED, 
                                                  'fact_epoch_llm_in_gt':constants.FACTUALITY_EPOCH_AS_LLM_IN_GT, 
                                                  'fact_epoch_gt_in_llm':constants.FACTUALITY_EPOCH_AS_GT_IN_LLM, 
                                                  'fact_epoch_overlap':constants.FACTUALITY_EPOCH_AS_OVERLAP
@@ -151,11 +157,13 @@ def get_factuality_epoch_param(df):
 
 
 def get_factuality_seniority_param(df):
+    
     df = _get_factuality_param(df, 
-                                agg_dict = {'fact_seniority_active':'sum', 'fact_seniority_now':'sum', 'fact_seniority_active_requested':'sum', 'fact_seniority_now_requested':'sum'},
+                                agg_dict = {'id_author_oa':'count', 'fact_seniority_active':'sum', 'fact_seniority_now':'sum', 'fact_seniority_active_requested':'sum', 'fact_seniority_now_requested':'sum'},
                                 factual_cols = constants.FACTUALITY_SENIORITY_METRICS,
                                 factuality_types = constants.FACTUALITY_SENIORITY_FACT_CHECKS,
-                                fact_cols_map = {'fact_seniority_active': constants.FACTUALITY_SENIORITY_ACTIVE, 
+                                fact_cols_map = {'id_author_oa':constants.FACTUALITY_FIELD_AUTHOR,
+                                                 'fact_seniority_active': constants.FACTUALITY_SENIORITY_ACTIVE, 
                                                  'fact_seniority_now':constants.FACTUALITY_SENIORITY_NOW, 
                                                  'fact_seniority_active_requested':constants.FACTUALITY_SENIORITY_ACTIVE_REQ, 
                                                  'fact_seniority_now_requested':constants.FACTUALITY_SENIORITY_NOW_REQ})
@@ -352,7 +360,7 @@ def get_factuality_seniority(df_seniority):
     final_fact_col = 'factuality_field'
     final_group = ['model', 'task_name', final_fact_col]
     uniq_cols = ['clean_name','career_age']
-    fact_cols_map = {'fact_seniority_active':constants.FACTUALITY_SENIORITY_ACTIVE, 'fact_seniority_now':constants.FACTUALITY_SENIORITY_NOW, 'fact_seniority_active_requested':constants.FACTUALITY_SENIORITY_ACTIVE_REQ, 'fact_seniority_now_requested':constants.FACTUALITY_SENIORITY_NOW_REQ}
+    fact_cols_map = {'id_author_oa':constants.FACTUALITY_EPOCH_AUTHOR, 'fact_seniority_active':constants.FACTUALITY_SENIORITY_ACTIVE, 'fact_seniority_now':constants.FACTUALITY_SENIORITY_NOW, 'fact_seniority_active_requested':constants.FACTUALITY_SENIORITY_ACTIVE_REQ, 'fact_seniority_now_requested':constants.FACTUALITY_SENIORITY_NOW_REQ}
     fact_cols = list(fact_cols_map.keys())
 
     # new cols
@@ -366,6 +374,7 @@ def get_factuality_seniority(df_seniority):
     # remove duplicated responses
     df_fact_seniority.drop_duplicates(subset=main_cols + uniq_cols, inplace=True)
 
+    df_fact_seniority.loc[:,'id_author_oa'] = df_fact_seniority.id_author_oa.apply(lambda x: io.pd.notnull(x) and x>0).astype(int)
     df_fact_seniority.loc[:,'fact_seniority_active'] = df_fact_seniority.fact_seniority_active.apply(lambda x: io.pd.notnull(x) and x>0).astype(int)
     df_fact_seniority.loc[:,'fact_seniority_now'] = df_fact_seniority.fact_seniority_now.apply(lambda x: io.pd.notnull(x) and x>0).astype(int)
     df_fact_seniority.loc[:,'fact_seniority_active_requested'] = df_fact_seniority.fact_seniority_active_requested.apply(lambda x: io.pd.notnull(x) and x>0).astype(int)
@@ -396,7 +405,8 @@ def get_factuality_epoch(df_epoch):
     final_fact_col = 'factuality_field'
     final_group = ['model', 'task_name', final_fact_col]
     uniq_cols = ['clean_name','years']
-    fact_cols_map = {'fact_epoch_requested':constants.FACTUALITY_EPOCH_AS_REQUESTED, 'fact_epoch_llm_in_gt':constants.FACTUALITY_EPOCH_AS_LLM_IN_GT, 
+    fact_cols_map = {'id_author_oa':constants.FACTUALITY_EPOCH_AUTHOR,
+                     'fact_epoch_requested':constants.FACTUALITY_EPOCH_AS_REQUESTED, 'fact_epoch_llm_in_gt':constants.FACTUALITY_EPOCH_AS_LLM_IN_GT, 
                     'fact_epoch_gt_in_llm':constants.FACTUALITY_EPOCH_AS_GT_IN_LLM, 'fact_epoch_overlap':constants.FACTUALITY_EPOCH_AS_OVERLAP}
     fact_cols = list(fact_cols_map.keys())
 
@@ -411,6 +421,7 @@ def get_factuality_epoch(df_epoch):
     # remove duplicated responses
     df_fact_epoch.drop_duplicates(subset=main_cols + uniq_cols, inplace=True)
 
+    df_fact_epoch.loc[:,'id_author_oa'] = df_fact_epoch.id_author_oa.apply(lambda x: io.pd.notnull(x) and x>0).astype(int)
     df_fact_epoch.loc[:,'fact_epoch_requested'] = df_fact_epoch.fact_epoch_requested.astype(int)
     df_fact_epoch.loc[:,'fact_epoch_llm_in_gt'] = df_fact_epoch.fact_epoch_llm_in_gt.astype(int)
     df_fact_epoch.loc[:,'fact_epoch_gt_in_llm'] = df_fact_epoch.fact_epoch_gt_in_llm.astype(int)

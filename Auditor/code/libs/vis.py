@@ -44,10 +44,18 @@ def _polish_plot(fig, ax, x_col=None, y_col=None, group_col=None, x_order=None, 
     xticks = kwargs.get('xticks', False)
     xticklabels_rename = kwargs.pop('xticklabels_rename', None)
     ylim = kwargs.get('ylim', None)
+    xtickrot = kwargs.get('xtickrot', None)
+    title = kwargs.get('title', None)
+    axhline = kwargs.get('axhline', None)
 
     legend_kwargs = kwargs.get('legend_kwargs', {})
-    # legend_title = legend_kwargs.pop('title', group_col)
     legend = kwargs.get('legend', True)
+
+    if title:
+        fig.suptitle(title, ha='center', va='bottom')
+
+    if axhline:
+        ax.axhline(**axhline)
 
     ytickmax = kwargs.get('ytickval', None)
     if ytickmax:
@@ -59,6 +67,13 @@ def _polish_plot(fig, ax, x_col=None, y_col=None, group_col=None, x_order=None, 
         else:
             yticklabels = [f"{tick:.1f}" if i % 2 == 0 else "" for i, tick in enumerate(yticks)]
         ax.set_yticklabels(yticklabels)  # Show every second tick label
+
+    # Rotate labels
+    if xtickrot:
+        for tick in ax.get_xticklabels():
+            tick.set_rotation(xtickrot)
+            # tick.set_ha('right')
+            # tick.set_rotation(45)
 
     # Add labels and legend
     if x_col:
@@ -130,6 +145,9 @@ def plot_barplot(data, x_col, y_col, group_col=None, x_order=None, group_order=N
     colors = kwargs.get('colors', None)
     err_col = kwargs.get('err_col', None)
     bar_width = kwargs.get('bar_width', 0.5)
+    ax = kwargs.pop('ax', None)
+    fig = kwargs.pop('fig', None)
+    finish = kwargs.pop('finish', True)
 
     # Set x-axis order
     if x_order is not None:
@@ -140,7 +158,8 @@ def plot_barplot(data, x_col, y_col, group_col=None, x_order=None, group_order=N
     if group_col and group_order is not None:
         df[group_col] = pd.Categorical(df[group_col], categories=group_order, ordered=True)
 
-    fig, ax = plt.subplots(1,1,figsize=figsize)
+    if ax is None or fig is None:
+        fig, ax = plt.subplots(1,1,figsize=figsize)
 
     if group_col:
         groups = group_order if group_order is not None else df[group_col].unique()
@@ -300,7 +319,7 @@ def plot_parallel_coords(df, hue, hue_order, hue_colors, df_err=None, fn=None, *
 
     # Add error shading
     if df_err is not None and hue:
-        for group, tmp in df_err.groupby(hue):
+        for group, tmp in df_err.groupby(hue, observed=False):
 
             if tmp.empty:
                 continue
@@ -341,8 +360,8 @@ def plot_components_by_model_including_population(results, colors, col_order, fn
 
     ncols = len(col_order)
     nrows = 1
-    w = 2
-    h = 2
+    w = kwargs.pop('width', 2)
+    h = kwargs.pop('height', 2)
     figsize = (ncols * w, nrows * h)
 
     fig, axes = plt.subplots(nrows, ncols, figsize=figsize, sharex=True, sharey=True)
@@ -404,12 +423,13 @@ def plot_components_by_model_and_param_value_including_population(results, col_o
         annotated_flag[mode] = {task_param: False for task_param in hue_order}
 
     xticks = kwargs.get('xticks', False)
-    title = kwargs.get('title', None)
+    title = kwargs.pop('title', None)
 
     ncols = len(col_order)
     nrows = 1
-    w = 2
-    h = 1.7 if xticks is None else 2.2
+    w = kwargs.pop('width', 2)
+    h = kwargs.pop('height', 1.7 if xticks is None else 2.2)
+    
     figsize = (ncols * w, nrows * h)
     
     fig, axes = plt.subplots(nrows, ncols, figsize=figsize, sharex=True, sharey=True)
@@ -429,7 +449,33 @@ def plot_components_by_model_and_param_value_including_population(results, col_o
             for label, data in combined_data.groupby('label', observed=True): 
                 if label == 'APS':
                     ax.scatter(data['dim1'], data['dim2'], alpha=0.1, color=constants.COMPONENT_POPULATION_COLOR, zorder=-1, rasterized=True) 
-                    
+
+                    # PLOT REFERENCE (TWINS)
+                    if task_name == 'twins':
+
+                        flag = sum([int(c in task_param) for c in ['famous', 'random']])
+                        if flag > 0:
+                            if 'famous' in task_param:
+                                # Réka Albert: 43067
+                                # Albert‐László Barabási: 44475
+                                id = 43067 if 'female' in task_param else 44475
+                                _tmp = data.loc[[id]]
+                            elif 'random' in task_param:
+                                # female: 130493
+                                # male: 55759
+                                id = 130493 if 'female' in task_param else 55759
+                                _tmp = data.loc[[id]]
+
+                            # plot the reference
+                            ax.scatter(_tmp['dim1'], _tmp['dim2'], 
+                                label=task_param, 
+                                color='black',
+                                alpha=1.0,
+                                marker=10 if 'female' in task_param else 11, # up 10, down 11
+                                zorder=10e10,
+                                rasterized=True,
+                                )
+                        
                 else:
                     
                     for i, (task_param, df) in enumerate(data.groupby('task_param', observed=False)):
@@ -440,12 +486,13 @@ def plot_components_by_model_and_param_value_including_population(results, col_o
                         ax.scatter(df['dim1'], df['dim2'], 
                                 label=task_param, 
                                 color=color,
-                                alpha=0.5,
+                                alpha=0.7,
                                 marker=marker,
                                 zorder=1/sample_size[task_param], # the smallest group on top
                                 rasterized=True
                                 )
 
+                                       
                         y = 0.01 + hue_order.index(task_param) * 0.08
                         ax.text(s=f"{df.shape[0]} people", x=0.6, y=y, color=color,fontsize=8, ha='right', va='bottom', transform=ax.transAxes) 
                         annotated_flag[model][task_param] = True

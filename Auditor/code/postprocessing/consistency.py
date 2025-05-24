@@ -24,9 +24,10 @@ def compute_jaccard_similarity(lists_of_names):
         similarity_scores[j, i] = score  # Symmetric matrix
 
     # Average similarity score
-    average_score = np.mean(similarity_scores[np.triu_indices(n, k=1)])
-
-    return similarity_scores, average_score
+    data = similarity_scores[np.triu_indices(n, k=1)] # only the upper triangle because it's symmetric
+    average_score = np.mean(data) 
+    standard_dev = np.std(data)
+    return similarity_scores, average_score, standard_dev
 
 
 def run_consistency_jaccard_similarity(df):
@@ -45,17 +46,20 @@ def run_consistency_jaccard_similarity(df):
         # Group by date and time and collect names
         grouped_names = group.groupby(['date', 'time'], observed=False)['clean_name'].apply(list).tolist()
 
-        sim, avg = compute_jaccard_similarity(grouped_names)
+        sim, avg, std = compute_jaccard_similarity(grouped_names)
 
         # Store the result
-        results[(model, task, param)] = avg
+        results[(model, task, param)] = (avg, std)
 
     # Convert results to a DataFrame or keep as dictionary
-    results_df = pd.DataFrame(results.items(), columns=['model_task_param', 'average_jaccard_similarity'])
+    results_df = pd.DataFrame(results.items(), columns=['model_task_param', 'jaccard_similarity_mean_std'])
 
     # Split the column into three separate columns
     results_df[['model', 'task_name', 'task_param']] = results_df['model_task_param'].apply(pd.Series)
-    results_df.drop(columns=['model_task_param'], inplace=True)
+    results_df[['jaccard_similarity_mean', 'jaccard_similarity_std']] = results_df['jaccard_similarity_mean_std'].apply(pd.Series)
+    
+    # Drop the original column and reorder
+    results_df.drop(columns=['model_task_param','jaccard_similarity_mean_std'], inplace=True)
     cols = results_df.columns.tolist() 
     results_df = results_df[cols[1:] + cols[:1]]
 
@@ -74,5 +78,8 @@ def run_consistency_uniqueness(df):
                                                     ).reset_index()
     results.loc[:, 'duplicates'] = results.apply(lambda row: row.total_names - row.unique_names, axis=1)
     results.loc[:, 'duplicates_pct'] = results.apply(lambda row: row.duplicates / row.total_names, axis=1)
+
+    results.loc[:, 'uniqueness'] = results.apply(lambda row: row.unique_names, axis=1)
+    results.loc[:, 'uniqueness_pct'] = results.apply(lambda row: row.uniqueness / row.total_names, axis=1)
 
     return results

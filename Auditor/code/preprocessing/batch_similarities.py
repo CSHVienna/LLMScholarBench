@@ -166,6 +166,7 @@ def process_group(group, df_authorships, df_institutions):
         df_coauthors_recommended = pd.DataFrame(df_coauthors.apply(lambda row: list(set(row._items).intersection(set(ids)) - set([row.name])), axis=1), columns=['_items'])
         coauthors_recommended_share = similarity.compute_average_jaccard_similarity(df_coauthors_recommended)
 
+        # recommended authors are coauthors
         all_possible_pairs = len(list(permutations(ids, 2)))
         recommended_author_pairs_are_coauthors = df_coauthors_recommended._items.apply(lambda x: len(x) > 0).sum() / all_possible_pairs
         
