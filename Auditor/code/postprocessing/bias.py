@@ -59,7 +59,14 @@ def get_nobel_prize_stats(df_real_authors, df_nobel_prize_winners):
     df_nobel_prize_winners_clean.rename(columns={'category':'nobel_category', 'year':'nobel_year'}, inplace=True)
 
     df_authors_nobel = df_real_authors.merge(df_nobel_prize_winners_clean[['openalex_id','nobel_category','nobel_year']], left_on='id_author_oa', right_on='openalex_id', how='left')
-    df_authors_nobel = df_authors_nobel[['model','task_name','task_param','date','time', 'id_author_oa', 'clean_name', 'nobel_category', 'nobel_year']]
+    
+    newcols = ['model','task_name','task_param','date','time', 'id_author_oa', 'clean_name', 'nobel_category', 'nobel_year']
+    for c in ['model','task_name','task_param','date','time', 'clean_name']:
+        if c not in df_authors_nobel.columns:
+            newcols.pop(newcols.index(c))
+        if c == 'clean_name':
+            newcols.append('name')
+    df_authors_nobel = df_authors_nobel[newcols]
     df_authors_nobel.loc[:,'is_nobel'] = df_authors_nobel.loc[:,'nobel_category'].notnull()
     df_authors_nobel.fillna({'nobel_category':constants.NO_LAUREATE, 'nobel_year':0}, inplace=True)
     df_authors_nobel['nobel_decade'] = (df_authors_nobel['nobel_year'] // 10) * 10

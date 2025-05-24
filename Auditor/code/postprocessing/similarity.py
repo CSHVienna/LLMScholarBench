@@ -22,6 +22,7 @@ def get_components_by_model(df_responses_sample, df_author_population, label_pop
     metric_author_col =  metrics_col + [oa_id]
     needed_cols = metrics_col + additional_cols
     results = {}
+    loadings = {}
 
     metadata_N = df_author_population[metric_author_col].copy()
     metadata_N = metadata_N.fillna({'e_index':0, 'citations_per_paper_age':0}).replace({'e_index':inf, 'citations_per_paper_age':inf}, 0)
@@ -34,7 +35,7 @@ def get_components_by_model(df_responses_sample, df_author_population, label_pop
 
     groupby = 'model' if not include_task_param else ['model', 'task_name', 'task_param']
 
-    for group, df in df_sample_clean.groupby(groupby):
+    for group, df in df_sample_clean.groupby(groupby, observed=False):
         
         model = group if not include_task_param else group[0]
         task_name = None if not include_task_param else group[1]
@@ -70,8 +71,13 @@ def get_components_by_model(df_responses_sample, df_author_population, label_pop
         results[group] = {'reduction':combined_data, 
                           'variance':pca.explained_variance_, 
                           'variance_ratio':pca.explained_variance_ratio_}
+        # Get PC1 loadings
+        loadings[group] = pd.DataFrame( pca.components_.T,  # Transpose to align features with PCs
+                                        index=data.columns,   # Original feature names
+                                        columns=["PC1", "PC2"]  # Principal components
+                                        )
 
-    return results
+    return results, loadings
 
 
 
