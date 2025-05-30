@@ -4,16 +4,7 @@ import json
 from experiments.runner import ExperimentRunner
 from config.loader import load_llm_setup
 from datetime import datetime
-
-def read_text(fn):
-    txt = None
-    try:
-        with open(fn, 'r') as f:
-            txt = f.readline()
-    except Exception as ex:
-        print(ex)
-    print(f'key:{txt}')
-    return txt
+from env_config import get_groq_api_key
 
 def create_experiment_config(model_name):
     config = load_llm_setup(model_name)
@@ -35,9 +26,9 @@ def create_experiment_config(model_name):
     
     return run_dir, config
 
-def run_experiment(model_name, groq_api_fn):
+def run_experiment(model_name):
     run_dir, config = create_experiment_config(model_name)
-    api_key = read_text(groq_api_fn)
+    api_key = get_groq_api_key()  # Get API key from environment
     runner = ExperimentRunner(run_dir, config, api_key)
     runner.run_experiment()
     print(f"Experiment completed. Results saved in {run_dir}")
@@ -46,8 +37,6 @@ if __name__ == "__main__":
     parser = argparse.ArgumentParser(description="Run LLM experiments")
     parser.add_argument("--model", type=str, required=True, choices=["gemma2-9b", "llama3-70b", "llama3-8b", "mixtral-8x7b", "llama-3.1-8b", "llama-3.1-70b"],
                         help="Specify the model to use for the experiment")
-    parser.add_argument("--groqapi", type=str, required=True,
-                                    help="Specify the file where the GROQ API key is located (e.g., keys/groq_api_key.txt")
     args = parser.parse_args()
 
-    run_experiment(args.model, args.groqapi)
+    run_experiment(args.model)

@@ -3,13 +3,19 @@ import requests
 import time
 from tqdm import tqdm
 import random
+from config import OPENALEX_EMAIL
 
 def fetch_author_data(author_id, retries=3, backoff_factor=0.5):
     url = f"https://api.openalex.org/authors/{author_id}"
     
+    # Add email parameter for better performance (if available)
+    params = {}
+    if OPENALEX_EMAIL:
+        params['mailto'] = OPENALEX_EMAIL
+    
     for attempt in range(retries):
         try:
-            response = requests.get(url)
+            response = requests.get(url, params=params)
             if response.status_code == 200:
                 data = response.json()
                 return {
@@ -51,5 +57,5 @@ def process_authors(input_file, output_file, sample_size=None):
 if __name__ == "__main__":
     input_file = 'data/output/unique_author_ids.txt'
     output_file = 'data/output/openalex_authors_data.json'
-    sample_size = 100  # Set to None to process all authors
+    sample_size = 50  # Set to None to process all authors
     process_authors(input_file, output_file, sample_size)

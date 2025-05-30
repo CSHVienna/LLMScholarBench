@@ -24,5 +24,5 @@ def extract_author_ids(input_file, output_file):
 
 if __name__ == "__main__":
     input_file = 'data/output/openalex_dois_data.json'
-    output_file = 'data/output/unique_author_ids_fake.txt'
+    output_file = 'data/output/unique_author_ids.txt'
     extract_author_ids(input_file, output_file)

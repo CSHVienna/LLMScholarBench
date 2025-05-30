@@ -4,13 +4,19 @@ import requests
 import time
 from tqdm import tqdm
 import random
+from config import OPENALEX_EMAIL
 
 def fetch_openalex_data(doi, retries=3):
     url = f"https://api.openalex.org/works?filter=doi:{doi}"
+    
+    # Add email parameter for better performance (if available)
+    params = {}
+    if OPENALEX_EMAIL:
+        params['mailto'] = OPENALEX_EMAIL
 
     for attempt in range(retries):
         try:
-            response = requests.get(url)
+            response = requests.get(url, params=params)
             if response.status_code == 200:
                 data = response.json()
                 if data['results']:
@@ -56,11 +62,11 @@ def process_publications(input_file, output_file, sample_size=None):
             time.sleep(0.1)  # To avoid hitting rate limits
 
 if __name__ == "__main__":
-    sample_size = 100  # Set to None to process all DOIs
+    sample_size = None  # Set to None to process all DOIs
 
     if sample_size: 
         input_file = 'data/input/publications.csv'
-        output_file = 'data/output/openalex_dois_data_sample_{sample_size}.json'
+        output_file = f'data/output/openalex_dois_data_sample_{sample_size}.json'
 
     else: 
         input_file = 'data/input/publications.csv'

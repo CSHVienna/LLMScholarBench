@@ -3,13 +3,19 @@ import requests
 import time
 from tqdm import tqdm
 import random
+from config import OPENALEX_EMAIL
 
 def get_institution_stats(openalex_id, retries=3):
     url = f"https://api.openalex.org/institutions/I{openalex_id}"
     
+    # Add email parameter for better performance (if available)
+    params = {}
+    if OPENALEX_EMAIL:
+        params['mailto'] = OPENALEX_EMAIL
+    
     for attempt in range(retries):
         try:
-            response = requests.get(url)
+            response = requests.get(url, params=params)
             if response.status_code == 200:
                 data = response.json()
                 return {
@@ -44,12 +50,43 @@ def process_institutions(input_file, output_file, sample_size=None):
             outfile.write('\n')
             time.sleep(0.1)  # To avoid hitting rate limits
 
+def fetch_institution_data(institution_id, retries=3, backoff_factor=0.5):
+    url = f"https://api.openalex.org/institutions/{institution_id}"
+    
+    # Add email parameter for better performance (if available)
+    params = {}
+    if OPENALEX_EMAIL:
+        params['mailto'] = OPENALEX_EMAIL
+    
+    for attempt in range(retries):
+        try:
+            response = requests.get(url, params=params)
+            if response.status_code == 200:
+                data = response.json()
+                return {
+                    'id': institution_id,
+                    'display_name': data.get('display_name'),
+                    'works_count': data.get('works_count'),
+                    'cited_by_count': data.get('cited_by_count'),
+                    'summary_stats': data.get('summary_stats', {}),
+                    'country_code': data.get('country_code'),
+                    'city': data.get('geo', {}).get('city'),
+                    'error': None
+                }
+            else:
+                print(f"Error {response.status_code} for institution ID: {institution_id}. Retrying in {2 ** attempt} seconds...")
+                time.sleep(2 ** attempt)
+        except requests.RequestException as e:
+            print(f"Request exception for institution ID: {institution_id}. Retrying in {2 ** attempt} seconds... Exception: {e}")
+            time.sleep(2 ** attempt)
+    return {'id': institution_id, 'error': 'Failed to retrieve after multiple attempts'}
+
 if __name__ == "__main__":
-    sample_size = 100  # Set to None to process all institutions
+    sample_size = 50  # Set to None to process all institutions
 
     if sample_size:
         input_file = 'data/output/unique_institution_ids_fake.txt'
-        output_file = 'data/output/openalex_institutions_data_sample_{sample_size}.json'
+        output_file = f'data/output/openalex_institutions_data_sample_{sample_size}.json'
 
     else:
         input_file = 'data/output/unique_institution_ids_fake.txt'
