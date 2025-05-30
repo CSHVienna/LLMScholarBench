@@ -1,4 +1,3 @@
-
 APS_OA_AUTHORS_FN = 'authors.csv'
 APS_OA_PUBLICATIONS_FN = 'publications.csv'
 APS_OA_AUTHORS_MAPPING_FN = 'authors_mapping.csv'
@@ -124,7 +123,7 @@ APS_RANKING_METRICS = {'publications':'aps_works_count',
 
 
 ### EXPERIMETS ###
-LLMS = ['llama3-8b', 'llama-3.1-8b', 'gemma2-9b', 'mixtral-8x7b', 'llama3-70b', 'llama-3.1-70b']
+LLMS = ['llama3-8b', 'llama-3.1-8b', 'gemma2-9b', 'mixtral-8x7b', 'llama3-70b', 'llama-3.1-70b', 'deepseek-r1-distill-llama-70b']
 
 EXPERIMENT_OUTPUT_VALID = 'valid'
 EXPERIMENT_OUTPUT_VERBOSED = 'verbose'
@@ -152,7 +151,8 @@ LLMS_COLORS = {'llama3-8b':'tab:blue',
                'gemma2-9b':'tab:green', 
                'mixtral-8x7b':'tab:red', 
                'llama3-70b':'tab:purple', 
-               'llama-3.1-70b':'tab:brown'}
+               'llama-3.1-70b':'tab:brown',
+               'deepseek-r1-distill-llama-70b':'tab:pink'}
 
 
 EXPERIMENT_TASK_TOPK = 'top_k'
