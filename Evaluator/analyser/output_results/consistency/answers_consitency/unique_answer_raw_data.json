@@ -549,7 +549,7 @@
       "valid_unique_answers": 11
     }
   },
-  "llama-3.1-70b": {
+  "llama-3.3-70b": {
     "twins_fictitious_male": {
       "expected_attempts": 144,
       "unique_answers": 73,

@@ -203,7 +203,7 @@ if __name__ == "__main__":
     parser = argparse.ArgumentParser()
     parser.add_argument("--aps_os_data_tar_gz", required=True, type=str, help="final_dataset.tar.gz")
     parser.add_argument("--valid_responses_dir", required=True, type=str, help="Directory where the valid responses are stored")
-    parser.add_argument("--model", type=str, required=True, choices=constants.LLMS, help="Model to analyse (i.e., gemma2-9b llama-3.1-8b llama-3.1-70b llama3-8b llama3-70b mixtral-8x7b)")
+    parser.add_argument("--model", type=str, required=True, choices=constants.LLMS, help="Model to analyse (i.e., gemma2-9b llama-3.1-8b llama-3.3-70b llama3-8b llama3-70b mixtral-8x7b)")
     parser.add_argument("--task_name", type=str, choices=constants.EXPERIMENT_TASKS, help="Tasks to analyse (i.e., top_k field epoch seniority twins)")
     parser.add_argument("--max_workers", type=int, default=1, help="How many jobs to run in parallel maximum")
     parser.add_argument("--output_dir", required=True, type=str, help="Directory where the output files will be saved")

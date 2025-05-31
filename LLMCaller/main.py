@@ -35,7 +35,7 @@ def run_experiment(model_name):
 
 if __name__ == "__main__":
     parser = argparse.ArgumentParser(description="Run LLM experiments")
-    parser.add_argument("--model", type=str, required=True, choices=["gemma2-9b", "llama3-70b", "llama3-8b", "mixtral-8x7b", "llama-3.1-8b", "llama-3.1-70b", "deepseek-r1-distill-llama-70b"],
+    parser.add_argument("--model", type=str, required=True, choices=["gemma2-9b", "llama3-70b", "llama3-8b", "qwen-qwq-32b", "llama-3.1-8b", "llama-3.3-70b", "deepseek-r1-distill-llama-70b"],
                         help="Specify the model to use for the experiment")
     args = parser.parse_args()
 

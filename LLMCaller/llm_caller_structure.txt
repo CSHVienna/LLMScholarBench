@@ -21,7 +21,7 @@ LLMScholar/
     ├── experiments/
     │   ├── __pycache__/
     │   ├── config_gemma2-9b
-    │   ├── config_llama-3.1-70b
+    │   ├── config_llama-3.3-70b
     │   ├── config_llama3-8b
     │   ├── config_llama3-70b
     │   ├── config_mixtral-8x7b

@@ -1,4 +1,4 @@
-Use Case,gemma2-9b,mixtral-8x7b,llama3-8b,llama3-70b,llama-3.1-8b,llama-3.1-70b
+Use Case,gemma2-9b,mixtral-8x7b,llama3-8b,llama3-70b,llama-3.1-8b,llama-3.3-70b
 epoch_1950s,1.00 ± 0.00,1.00 ± 0.00,1.00 ± 0.00,0.88 ± 0.22,1.00 ± 0.00,0.56 ± 0.21
 epoch_2000s,-- ± --,1.00 ± 0.00,-- ± --,0.83 ± 0.34,-- ± --,0.38 ± 0.24
 field_CM&MP,-- ± --,1.00 ± 0.00,0.77 ± 0.26,0.55 ± 0.20,-- ± --,0.18 ± 0.19

@@ -12,7 +12,7 @@
 
     Or using parallel to execeute all models' outputs:
 
-        parallel -j 6 python preprocessing/batch_valid_answers.py --experiments_dir ../data/experiments --max_workers 10 --output_dir ../results --model {} ::: gemma2-9b llama-3.1-8b llama-3.1-70b llama3-8b llama3-70b mixtral-8x7b
+        parallel -j 6 python preprocessing/batch_valid_answers.py --experiments_dir ../data/experiments --max_workers 10 --output_dir ../results --model {} ::: gemma2-9b llama-3.1-8b llama-3.3-70b llama3-8b llama3-70b mixtral-8x7b
 
 3. Run factuality checks
 
@@ -24,7 +24,7 @@
 
     Or using parallel to execeute all models' outputs:
 
-        parallel -j 6 python preprocessing/batch_factuality.py --aps_os_data_tar_gz ../data/final_dataset.tar.gz --valid_responses_dir ../results/valid_responses --max_workers 10 --output_dir ../results --model {} ::: gemma2-9b llama-3.1-8b llama-3.1-70b llama3-8b llama3-70b mixtral-8x7b
+        parallel -j 6 python preprocessing/batch_factuality.py --aps_os_data_tar_gz ../data/final_dataset.tar.gz --valid_responses_dir ../results/valid_responses --max_workers 10 --output_dir ../results --model {} ::: gemma2-9b llama-3.1-8b llama-3.3-70b llama3-8b llama3-70b mixtral-8x7b
 
 
     3.2 Run factuality checks for tasks: `field`, `epoch`, `seniority` (order doesn't matter)
@@ -33,7 +33,7 @@
 
     Or using parallel to execeute all models' outputs:
 
-        parallel -j 6 python preprocessing/batch_factuality.py --aps_os_data_tar_gz ../data/final_dataset.tar.gz --valid_responses_dir ../results/valid_responses --max_workers 10 --output_dir ../results --model {1} --task_name {2} ::: gemma2-9b llama-3.1-8b llama-3.1-70b llama3-8b llama3-70b mixtral-8x7b ::: field epoch seniority
+        parallel -j 6 python preprocessing/batch_factuality.py --aps_os_data_tar_gz ../data/final_dataset.tar.gz --valid_responses_dir ../results/valid_responses --max_workers 10 --output_dir ../results --model {1} --task_name {2} ::: gemma2-9b llama-3.1-8b llama-3.3-70b llama3-8b llama3-70b mixtral-8x7b ::: field epoch seniority
 
 
 4. Run metadata 
@@ -52,7 +52,7 @@
     Or using parallel to execeute all models' outputs:
 
         
-        parallel -j 6 python preprocessing/batch_similarities.py --aps_os_data_tar_gz ../data/final_dataset.tar.gz --valid_responses_dir ../results/valid_responses --output_dir ../results --model {1} --task_name {2} ::: gemma2-9b llama-3.1-8b llama-3.1-70b llama3-8b llama3-70b mixtral-8x7b ::: top_k field epoch seniority twins
+        parallel -j 6 python preprocessing/batch_similarities.py --aps_os_data_tar_gz ../data/final_dataset.tar.gz --valid_responses_dir ../results/valid_responses --output_dir ../results --model {1} --task_name {2} ::: gemma2-9b llama-3.1-8b llama-3.3-70b llama3-8b llama3-70b mixtral-8x7b ::: top_k field epoch seniority twins
 
 
 5. Plots
