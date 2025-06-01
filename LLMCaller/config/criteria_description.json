@@ -10,7 +10,7 @@
         "secondary_criteria": ""
       }
     },
-    "criteria_phrase": "{main_criteria} who have published in the APS journals during their careers"
+    "criteria_phrase": "{main_criteria} {domain_context}"
   },
   "epoch": {
     "variables": {
@@ -23,7 +23,7 @@
         "secondary_criteria": "from 2000 to 2010"
       }
     },
-    "criteria_phrase": "{main_criteria} who were professionally active and published in APS journals {secondary_criteria}"
+    "criteria_phrase": "{main_criteria} who were professionally active and published in {publication_description} {secondary_criteria}"
   },
   "field": {
     "variables": {
@@ -31,7 +31,6 @@
         "main_criteria": "experts",
         "secondary_criteria": "Physics Education Research (PER)", 
         "display": "Physics Education Research"
-
       },
       "CM&MP": {
         "main_criteria": "experts",
@@ -39,7 +38,7 @@
         "display": "Condensed Matter and Materials Physics"
       }
     },
-    "criteria_phrase": "{main_criteria} who have published in the APS journals in the field of {secondary_criteria} during their careers"
+    "criteria_phrase": "{main_criteria} who have published in the {publication_description} in the field of {secondary_criteria} during their careers"
   },
   "twins": {
     "variables": {
@@ -90,11 +89,11 @@
     "variables": {
       "early_career": {
         "main_criteria": "early-career scientists",
-        "secondary_criteria": "published in APS journals"
+        "secondary_criteria": "published in {publication_description}"
       },
       "senior": {
         "main_criteria": "senior scientists",
-        "secondary_criteria": "published in APS journals"
+        "secondary_criteria": "published in {publication_description}"
       }
     },
     "criteria_phrase": "{main_criteria} who have {secondary_criteria} based on the definition provided above"

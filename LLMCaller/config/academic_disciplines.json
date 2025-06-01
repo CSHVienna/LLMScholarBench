@@ -1,0 +1,561 @@
+{
+  "humanities": {
+    "category_name": "Humanities",
+    "disciplines": {
+      "human_history": {
+        "name": "Human History",
+        "description": "field of human history",
+        "publication_sources": [
+          "American Historical Review",
+          "Past & Present",
+          "Journal of Modern History",
+          "English Historical Review"
+        ],
+        "major_societies": ["AHA", "RHS", "OAH"],
+        "domain_context": "who have published in prestigious historical journals"
+      },
+      "religion": {
+        "name": "Religion and Religious Studies",
+        "description": "field of religion and religious studies",
+        "publication_sources": [
+          "Journal of Religion",
+          "Religious Studies",
+          "Journal of the American Academy of Religion",
+          "Studies in Religion"
+        ],
+        "major_societies": ["AAR", "SBL", "IAHR"],
+        "domain_context": "who have published in leading religious studies journals"
+      },
+      "literature": {
+        "name": "Literature",
+        "description": "field of literature",
+        "publication_sources": [
+          "PMLA",
+          "Modern Language Review",
+          "Comparative Literature",
+          "Literary Studies"
+        ],
+        "major_societies": ["MLA", "ACLA", "ICLA"],
+        "domain_context": "who have published in top literary studies journals"
+      },
+      "arts": {
+        "name": "Arts",
+        "description": "field of arts",
+        "publication_sources": [
+          "Art Bulletin",
+          "October",
+          "Art History",
+          "Journal of Aesthetics and Art Criticism"
+        ],
+        "major_societies": ["CAA", "CIHA", "ASA"],
+        "domain_context": "who have published in leading arts and art history journals"
+      },
+      "philosophy": {
+        "name": "Philosophy", 
+        "description": "field of philosophy",
+        "publication_sources": [
+          "Journal of Philosophy",
+          "Mind",
+          "Philosophical Review", 
+          "Ethics"
+        ],
+        "major_societies": ["APA", "Aristotelian Society", "SPP"],
+        "domain_context": "who have published in top philosophy journals"
+      },
+      "linguistics": {
+        "name": "Linguistics",
+        "description": "field of linguistics",
+        "publication_sources": [
+          "Language",
+          "Linguistic Inquiry", 
+          "Journal of Linguistics",
+          "Cognition"
+        ],
+        "major_societies": ["LSA", "SLE", "LAGB"],
+        "domain_context": "who have published in top linguistics journals"
+      }
+    }
+  },
+  "social_sciences": {
+    "category_name": "Social Sciences",
+    "disciplines": {
+      "psychology": {
+        "name": "Psychology",
+        "description": "field of psychology",
+        "publication_sources": [
+          "American Psychological Association (APA) journals",
+          "Journal of Experimental Psychology",
+          "Psychological Science",
+          "Nature Human Behaviour"
+        ],
+        "major_societies": ["APA", "APS", "BPS"],
+        "domain_context": "who have published in leading psychology journals"
+      },
+      "sociology": {
+        "name": "Sociology", 
+        "description": "field of sociology",
+        "publication_sources": [
+          "American Sociological Review",
+          "Social Forces", 
+          "Berliner Journal für Soziologie",
+          "KZfSS (Kölner Zeitschrift für Soziologie und Sozialpsychologie)",
+          "ZfSoz (Zeitschrift für Soziologie)"
+        ],
+        "major_societies": ["ASA", "ESA", "DGS"],
+        "domain_context": "who have published in top-tier sociological journals"
+      },
+      "economics": {
+        "name": "Economics",
+        "description": "field of economics", 
+        "publication_sources": [
+          "American Economic Review",
+          "Quarterly Journal of Economics",
+          "Journal of Political Economy",
+          "Review of Economic Studies"
+        ],
+        "major_societies": ["AEA", "RES", "EEA"],
+        "domain_context": "who have published in leading economics journals"
+      },
+      "political_science": {
+        "name": "Political Science",
+        "description": "field of political science",
+        "publication_sources": [
+          "American Political Science Review",
+          "American Journal of Political Science", 
+          "Journal of Politics",
+          "World Politics"
+        ],
+        "major_societies": ["APSA", "IPSA", "EPSA"],
+        "domain_context": "who have published in premier political science journals"
+      },
+      "anthropology": {
+        "name": "Anthropology",
+        "description": "field of anthropology",
+        "publication_sources": [
+          "American Anthropologist",
+          "Current Anthropology",
+          "Annual Review of Anthropology",
+          "Journal of Human Evolution"
+        ],
+        "major_societies": ["AAA", "RAI", "EASA"],
+        "domain_context": "who have published in leading anthropological journals"
+      },
+      "archaeology": {
+        "name": "Archaeology",
+        "description": "field of archaeology",
+        "publication_sources": [
+          "American Antiquity",
+          "Journal of Archaeological Science",
+          "Antiquity",
+          "World Archaeology",
+          "Journal of Field Archaeology"
+        ],
+        "major_societies": ["SAA", "EAA", "WAC"],
+        "domain_context": "who have published in leading archaeological journals"
+      },
+      "geography": {
+        "name": "Geography",
+        "description": "field of geography",
+        "publication_sources": [
+          "Annals of the Association of American Geographers",
+          "Progress in Human Geography",
+          "Economic Geography",
+          "Political Geography"
+        ],
+        "major_societies": ["AAG", "RGS", "IGU"],
+        "domain_context": "who have published in top geography journals"
+      },
+      "area_studies": {
+        "name": "Area Studies",
+        "description": "field of area studies",
+        "publication_sources": [
+          "Journal of Asian Studies",
+          "African Affairs",
+          "Latin American Research Review",
+          "Middle East Journal",
+          "Europe-Asia Studies"
+        ],
+        "major_societies": ["AAS", "ASA", "LASA"],
+        "domain_context": "who have published in leading area studies journals"
+      },
+      "cultural_ethnic_studies": {
+        "name": "Cultural and Ethnic Studies",
+        "description": "field of cultural and ethnic studies",
+        "publication_sources": [
+          "Cultural Studies",
+          "Ethnic and Racial Studies",
+          "Journal of Black Studies",
+          "Amerasia Journal",
+          "Latino Studies"
+        ],
+        "major_societies": ["AAAS", "ASA", "NAES"],
+        "domain_context": "who have published in cultural and ethnic studies journals"
+      },
+      "gender_sexuality_studies": {
+        "name": "Gender and Sexuality Studies",
+        "description": "field of gender and sexuality studies",
+        "publication_sources": [
+          "Signs: Journal of Women in Culture and Society",
+          "Gender & Society",
+          "Journal of Homosexuality",
+          "Women's Studies International Forum",
+          "Sexualities"
+        ],
+        "major_societies": ["NWSA", "ASA", "SSSS"],
+        "domain_context": "who have published in gender and sexuality studies journals"
+      }
+    }
+  },
+  "natural_sciences": {
+    "category_name": "Natural Sciences",
+    "disciplines": {
+      "physics": {
+        "name": "Physics",
+        "description": "field of physics",
+        "publication_sources": [
+          "American Physical Society (APS) journals",
+          "Physical Review Letters",
+          "Nature Physics",
+          "Science"
+        ],
+        "major_societies": ["APS", "IOP", "DPG"],
+        "domain_context": "who have published articles in journals from the American Physical Society (APS)"
+      },
+      "chemistry": {
+        "name": "Chemistry",
+        "description": "field of chemistry", 
+        "publication_sources": [
+          "Journal of the American Chemical Society",
+          "Angewandte Chemie",
+          "Chemical Reviews",
+          "Nature Chemistry"
+        ],
+        "major_societies": ["ACS", "RSC", "GDCh"],
+        "domain_context": "who have published in leading chemistry journals"
+      },
+      "biology": {
+        "name": "Biology",
+        "description": "field of biology",
+        "publication_sources": [
+          "Cell",
+          "Nature",
+          "Science", 
+          "PNAS",
+          "eLife"
+        ],
+        "major_societies": ["AAAS", "Royal Society", "EMBO"],
+        "domain_context": "who have published in top biological research journals"
+      },
+      "earth_sciences": {
+        "name": "Earth Sciences",
+        "description": "field of earth sciences",
+        "publication_sources": [
+          "Nature Geoscience",
+          "Earth and Planetary Science Letters",
+          "Journal of Geophysical Research",
+          "Geology"
+        ],
+        "major_societies": ["AGU", "GSA", "EGU"],
+        "domain_context": "who have published in premier earth science journals"
+      },
+      "space_sciences": {
+        "name": "Space Sciences",
+        "description": "field of space sciences",
+        "publication_sources": [
+          "Astrophysical Journal",
+          "Monthly Notices of the Royal Astronomical Society",
+          "Astronomy & Astrophysics",
+          "Space Science Reviews"
+        ],
+        "major_societies": ["AAS", "RAS", "IAU"],
+        "domain_context": "who have published in leading astrophysics and space science journals"
+      }
+    }
+  },
+  "formal_sciences": {
+    "category_name": "Formal Sciences", 
+    "disciplines": {
+      "computer_science": {
+        "name": "Computer Science",
+        "description": "field of computer science",
+        "publication_sources": [
+          "DBLP indexed conferences and journals",
+          "ACM conferences",
+          "IEEE conferences",
+          "Top-tier CS venues"
+        ],
+        "major_societies": ["ACM", "IEEE", "AAAI"],
+        "domain_context": "who have published in top-tier computer science venues indexed in DBLP"
+      },
+      "mathematics": {
+        "name": "Mathematics",
+        "description": "field of mathematics",
+        "publication_sources": [
+          "Annals of Mathematics",
+          "Journal of the American Mathematical Society",
+          "Inventiones Mathematicae",
+          "Communications in Mathematical Physics"
+        ],
+        "major_societies": ["AMS", "LMS", "DMV"],
+        "domain_context": "who have published in prestigious mathematics journals"
+      },
+      "statistics": {
+        "name": "Statistics",
+        "description": "field of statistics",
+        "publication_sources": [
+          "Annals of Statistics",
+          "Journal of the American Statistical Association",
+          "Biometrika",
+          "Journal of the Royal Statistical Society"
+        ],
+        "major_societies": ["ASA", "RSS", "IMS"],
+        "domain_context": "who have published in leading statistics journals"
+      },
+      "logic": {
+        "name": "Logic",
+        "description": "field of logic",
+        "publication_sources": [
+          "Journal of Symbolic Logic",
+          "Annals of Pure and Applied Logic",
+          "Journal of Logic and Computation",
+          "Logic Journal of IGPL"
+        ],
+        "major_societies": ["ASL", "EACSL", "AiML"],
+        "domain_context": "who have published in top logic and computational logic journals"
+      },
+      "systems_science": {
+        "name": "Systems Science",
+        "description": "field of systems science",
+        "publication_sources": [
+          "Systems Research and Behavioral Science",
+          "International Journal of General Systems",
+          "Systems Engineering",
+          "IEEE Systems Journal"
+        ],
+        "major_societies": ["ISSS", "IEEE", "INCOSE"],
+        "domain_context": "who have published in leading systems science journals"
+      }
+    }
+  },
+  "professions": {
+    "category_name": "Professions",
+    "disciplines": {
+      "medicine": {
+        "name": "Medicine",
+        "description": "field of medicine",
+        "publication_sources": [
+          "New England Journal of Medicine",
+          "The Lancet",
+          "Journal of the American Medical Association",
+          "Nature Medicine"
+        ],
+        "major_societies": ["AMA", "BMA", "AAMC"],
+        "domain_context": "who have published in leading medical journals"
+      },
+      "engineering_technology": {
+        "name": "Engineering and Technology",
+        "description": "field of engineering and technology",
+        "publication_sources": [
+          "Nature Engineering",
+          "IEEE Transactions",
+          "ASME Journals",
+          "Engineering and Technology journals"
+        ],
+        "major_societies": ["IEEE", "ASME", "ASCE"],
+        "domain_context": "who have published in top engineering and technology journals and conferences"
+      },
+      "architecture_design": {
+        "name": "Architecture and Design",
+        "description": "field of architecture and design",
+        "publication_sources": [
+          "Architectural Review",
+          "Journal of Architecture",
+          "Design Studies",
+          "Architectural Science Review"
+        ],
+        "major_societies": ["AIA", "RIBA", "DRS"],
+        "domain_context": "who have published in leading architecture and design journals"
+      },
+      "transportation": {
+        "name": "Transportation",
+        "description": "field of transportation",
+        "publication_sources": [
+          "Transportation Research",
+          "Journal of Transport Geography",
+          "Transportation Science",
+          "Transport Policy"
+        ],
+        "major_societies": ["TRB", "WCTRS", "IEEE"],
+        "domain_context": "who have published in top transportation research journals"
+      },
+      "education": {
+        "name": "Education",
+        "description": "field of education",
+        "publication_sources": [
+          "Review of Educational Research",
+          "Educational Researcher",
+          "American Educational Research Journal",
+          "Journal of Educational Psychology"
+        ],
+        "major_societies": ["AERA", "BERA", "DGfE"],
+        "domain_context": "who have published in premier education research journals"
+      },
+      "law": {
+        "name": "Law",
+        "description": "field of law",
+        "publication_sources": [
+          "Harvard Law Review",
+          "Yale Law Journal",
+          "Stanford Law Review",
+          "Columbia Law Review"
+        ],
+        "major_societies": ["ABA", "Law Society", "DJT"],
+        "domain_context": "who have published in top law reviews and legal journals"
+      },
+      "business": {
+        "name": "Business",
+        "description": "field of business and management",
+        "publication_sources": [
+          "Academy of Management Review",
+          "Strategic Management Journal",
+          "Management Science",
+          "Harvard Business Review"
+        ],
+        "major_societies": ["AOM", "SMS", "INFORMS"],
+        "domain_context": "who have published in leading business and management journals"
+      },
+      "public_administration": {
+        "name": "Public Administration",
+        "description": "field of public administration",
+        "publication_sources": [
+          "Public Administration Review",
+          "Journal of Public Administration Research and Theory",
+          "Public Administration",
+          "Governance"
+        ],
+        "major_societies": ["ASPA", "IIAS", "EGPA"],
+        "domain_context": "who have published in top public administration journals"
+      },
+      "physical_performance_recreation": {
+        "name": "Physical Performance and Recreation",
+        "description": "field of physical performance and recreation",
+        "publication_sources": [
+          "Journal of Sports Sciences",
+          "Medicine & Science in Sports & Exercise",
+          "International Journal of Sport Psychology",
+          "Leisure Studies"
+        ],
+        "major_societies": ["ACSM", "NASPSPA", "WLRA"],
+        "domain_context": "who have published in sports science and recreation journals"
+      },
+      "environmental_studies_forestry": {
+        "name": "Environmental Studies and Forestry",
+        "description": "field of environmental studies and forestry",
+        "publication_sources": [
+          "Environmental Science & Technology",
+          "Forest Ecology and Management",
+          "Journal of Environmental Management",
+          "Environmental Research Letters"
+        ],
+        "major_societies": ["SETAC", "SAF", "IUFRO"],
+        "domain_context": "who have published in environmental science and forestry journals"
+      },
+      "agriculture": {
+        "name": "Agriculture",
+        "description": "field of agriculture",
+        "publication_sources": [
+          "Journal of Agricultural Science",
+          "Agricultural Systems",
+          "Crop Science",
+          "Animal Feed Science and Technology"
+        ],
+        "major_societies": ["ASA", "CSSA", "SSSA"],
+        "domain_context": "who have published in leading agricultural science journals"
+      },
+      "family_consumer_science": {
+        "name": "Family and Consumer Science",
+        "description": "field of family and consumer science",
+        "publication_sources": [
+          "Family Relations",
+          "Journal of Consumer Affairs",
+          "Family and Consumer Sciences Research Journal",
+          "Consumer Studies"
+        ],
+        "major_societies": ["NCFR", "AAFCS", "ACR"],
+        "domain_context": "who have published in family and consumer science journals"
+      },
+      "social_work": {
+        "name": "Social Work",
+        "description": "field of social work",
+        "publication_sources": [
+          "Social Work",
+          "Journal of Social Work Education",
+          "Clinical Social Work Journal",
+          "International Social Work"
+        ],
+        "major_societies": ["NASW", "CSWE", "IFSW"],
+        "domain_context": "who have published in leading social work journals"
+      },
+      "journalism_media_communication": {
+        "name": "Journalism, Media and Communication",
+        "description": "field of journalism, media and communication",
+        "publication_sources": [
+          "Journal of Communication",
+          "Communication Research",
+          "Journalism & Mass Communication Quarterly",
+          "Media, Culture & Society"
+        ],
+        "major_societies": ["ICA", "AEJMC", "IAMCR"],
+        "domain_context": "who have published in top communication and media studies journals"
+      },
+      "library_museum_studies": {
+        "name": "Library and Museum Studies",
+        "description": "field of library and museum studies",
+        "publication_sources": [
+          "Journal of Academic Librarianship",
+          "Library & Information Science Research",
+          "Museum Management and Curatorship",
+          "Curator: The Museum Journal"
+        ],
+        "major_societies": ["ALA", "SLA", "AAM"],
+        "domain_context": "who have published in library and museum studies journals"
+      },
+      "intelligence": {
+        "name": "Intelligence Studies",
+        "description": "field of intelligence studies",
+        "publication_sources": [
+          "Intelligence and National Security",
+          "International Journal of Intelligence and CounterIntelligence",
+          "Studies in Intelligence",
+          "Intelligence Analysis"
+        ],
+        "major_societies": ["AFIO", "IAFIE", "SCIP"],
+        "domain_context": "who have published in intelligence studies journals"
+      },
+      "military_sciences": {
+        "name": "Military Sciences",
+        "description": "field of military sciences",
+        "publication_sources": [
+          "Armed Forces & Society",
+          "Military Review",
+          "Joint Force Quarterly",
+          "Defense Studies"
+        ],
+        "major_societies": ["IUS", "RUSI", "CISS"],
+        "domain_context": "who have published in military science journals"
+      },
+      "divinity": {
+        "name": "Divinity and Theology",
+        "description": "field of divinity and theology",
+        "publication_sources": [
+          "Journal of Biblical Literature",
+          "Theological Studies",
+          "Harvard Theological Review",
+          "Journal of Religion"
+        ],
+        "major_societies": ["SBL", "AAR", "CTS"],
+        "domain_context": "who have published in leading theological and religious studies journals"
+      }
+    }
+  }
+} 

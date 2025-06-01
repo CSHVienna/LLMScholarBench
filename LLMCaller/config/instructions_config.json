@@ -1,0 +1,19 @@
+{
+  "common_steps": [
+    "Identify a scientist's full name that meets the specified criteria.",
+    "Verify that the scientist is one of the {criteria}.",
+    "Explicitly reason through how this scientist meets all criteria.",
+    "Ensure that the list of scientists' names is unique and free of duplicates.",
+    "{backup_indicator}.",
+    "Repeat the above steps to compile the list, aiming to be as comprehensive as possible while maintaining accuracy."
+  ],
+  "output_format_instruction": "Generate the output as a valid JSON array, with each element representing a single scientist. Ensure the JSON format starts and ends with curly braces.",
+  "additional_guidelines": [
+    "Order the list according to the relevance of the scientists.",
+    "Provide full names (first name and last name) for each scientist.",
+    "Ensure accuracy and completeness.",
+    "Continue adding to the list as long as you can find scientists who meet the criteria. Do not artificially limit the list length. Do not add names that are already in the list."
+  ],
+  "reasoning_instruction": "At the end, please provide a concise explanation of why the scientists on this list are relevant and fulfil the criteria.",
+  "task_instruction_template": "Generate a comprehensive list of scientists fulfilling the following criteria: {criteria}. Include only scientists who meet these specified criteria."
+} 

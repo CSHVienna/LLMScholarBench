@@ -11,8 +11,9 @@ from prompts.generator import generate_prompt
 import random
 
 class ExperimentRunner:
-    def __init__(self, run_dir, config, api_key):
+    def __init__(self, run_dir, config, api_key, discipline="physics"):
         self.run_dir = run_dir
+        self.discipline = discipline
         self.logger = setup_logging(run_dir)
         self.config = self._validate_config(config)
         self.api_client = GroqAPI(api_key, self.config)
@@ -23,7 +24,7 @@ class ExperimentRunner:
         return config
 
     def run_experiment(self):
-        self.logger.info(f"Experiment run started at {datetime.now().strftime('%Y-%m-%d %H:%M:%S')}")
+        self.logger.info(f"Experiment run started at {datetime.now().strftime('%Y-%m-%d %H:%M:%S')} for discipline: {self.discipline}")
         
         categories_variables = load_category_variables()
         all_pairs = [(category, variable) for category, variables in categories_variables.items() for variable in variables]
@@ -36,7 +37,7 @@ class ExperimentRunner:
 
     def run_variable_experiment(self, category, variable):
         max_attempts = self.config.get('max_attempts', 3)
-        prompt = generate_prompt(category, variable)
+        prompt = generate_prompt(category, variable, self.discipline)
 
         for attempt in range(1, max_attempts + 1):
             try:
@@ -51,6 +52,7 @@ class ExperimentRunner:
                 result = {
                     "category": category,
                     "variable": variable,
+                    "discipline": self.discipline,
                     "prompt": prompt,
                     "full_api_response": api_response.model_dump(),
                     "validation_result": {
@@ -64,16 +66,17 @@ class ExperimentRunner:
                 # Save the result
                 result_path = save_attempt(result, self.run_dir)
                 summary_path = update_summary(result, self.run_dir)
-                self.logger.info(f"Result saved for {category}: {variable} - Attempt {attempt}/{max_attempts} - Path: {result_path}")
+                self.logger.info(f"Result saved for {category}: {variable} (discipline: {self.discipline}) - Attempt {attempt}/{max_attempts} - Path: {result_path}")
                 self.logger.info(f"Summary updated: {summary_path}")
 
                 if is_valid:
                     break  # Stop attempts if a valid result is obtained
             except Exception as e:
-                self.logger.error(f"Error for {category}: {variable} - Attempt {attempt}/{max_attempts} - {str(e)}")
+                self.logger.error(f"Error for {category}: {variable} (discipline: {self.discipline}) - Attempt {attempt}/{max_attempts} - {str(e)}")
                 error_result = {
                     "category": category,
                     "variable": variable,
+                    "discipline": self.discipline,
                     "attempt": attempt,
                     "error": {
                         "error_type": type(e).__name__,
@@ -82,7 +85,7 @@ class ExperimentRunner:
                 }
                 result_path = save_attempt(error_result, self.run_dir)
                 summary_path = update_summary(error_result, self.run_dir)
-                self.logger.info(f"Error result saved for {category}: {variable} - Attempt {attempt}/{max_attempts} - Path: {result_path}")
+                self.logger.info(f"Error result saved for {category}: {variable} (discipline: {self.discipline}) - Attempt {attempt}/{max_attempts} - Path: {result_path}")
 
             if attempt < max_attempts:
                 time.sleep(5)  # Wait for 5 seconds between attempts

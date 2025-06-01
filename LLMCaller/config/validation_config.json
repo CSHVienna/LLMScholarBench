@@ -1,0 +1,39 @@
+{
+  "validation_rules": {
+    "required_fields": {
+      "top_k": ["Name"],
+      "epoch": ["Name", "Years"],
+      "field": ["Name", "DOI"],
+      "twins": ["Name"],
+      "seniority": ["Name", "Career Age"]
+    },
+    "min_entries": {
+      "top_k_top_5": 3,
+      "top_k_top_100": 10,
+      "default": 1
+    },
+    "max_entries": {
+      "top_k_top_5": 5,
+      "top_k_top_100": 100,
+      "default": 50
+    },
+    "field_formats": {
+      "DOI": "^10\\.[0-9]+\\/.*$",
+      "Years": "^[0-9]{4}-[0-9]{4}$",
+      "Career Age": "^[0-9]+$"
+    },
+    "name_validation": {
+      "min_length": 3,
+      "max_length": 100,
+      "required_parts": ["first_name", "last_name"],
+      "forbidden_prefixes": ["Dr.", "Prof.", "Mr.", "Ms."]
+    }
+  },
+  "error_messages": {
+    "invalid_json": "Response is not valid JSON format",
+    "missing_required_field": "Missing required field: {field}",
+    "invalid_format": "Field {field} has invalid format",
+    "insufficient_entries": "Insufficient number of entries (minimum: {min})",
+    "too_many_entries": "Too many entries (maximum: {max})"
+  }
+} 

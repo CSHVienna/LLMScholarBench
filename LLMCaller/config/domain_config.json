@@ -1,0 +1,367 @@
+{
+  "default_discipline": "physics",
+  "discipline_categories": {
+    "humanities": {
+      "human_history": {
+        "domain_name": "human history",
+        "domain_description": "field of human history",
+        "publication_source": "prestigious historical journals",
+        "publication_description": "top historical journals including American Historical Review and Past & Present",
+        "domain_expertise_title": "expert research assistant responsible for compiling a list of leading historians",
+        "domain_context": "who have published in prestigious historical journals"
+      },
+      "religion": {
+        "domain_name": "religion and religious studies",
+        "domain_description": "field of religion and religious studies",
+        "publication_source": "leading religious studies journals",
+        "publication_description": "top religious studies journals including Journal of Religion and Religious Studies",
+        "domain_expertise_title": "expert research assistant responsible for compiling a list of leading religious studies scholars",
+        "domain_context": "who have published in leading religious studies journals"
+      },
+      "literature": {
+        "domain_name": "literature",
+        "domain_description": "field of literature",
+        "publication_source": "top literary studies journals",
+        "publication_description": "leading literary journals including PMLA and Comparative Literature",
+        "domain_expertise_title": "expert research assistant responsible for compiling a list of leading literary scholars",
+        "domain_context": "who have published in top literary studies journals"
+      },
+      "arts": {
+        "domain_name": "arts",
+        "domain_description": "field of arts",
+        "publication_source": "leading arts and art history journals",
+        "publication_description": "top arts journals including Art Bulletin and Art History",
+        "domain_expertise_title": "expert research assistant responsible for compiling a list of leading arts and art history scholars",
+        "domain_context": "who have published in leading arts and art history journals"
+      },
+      "philosophy": {
+        "domain_name": "philosophy",
+        "domain_description": "field of philosophy",
+        "publication_source": "top philosophy journals",
+        "publication_description": "leading philosophy journals including Journal of Philosophy and Mind",
+        "domain_expertise_title": "expert research assistant responsible for compiling a list of leading philosophers",
+        "domain_context": "who have published in top philosophy journals"
+      },
+      "linguistics": {
+        "domain_name": "linguistics",
+        "domain_description": "field of linguistics",
+        "publication_source": "top linguistics journals",
+        "publication_description": "leading linguistics journals including Language and Linguistic Inquiry",
+        "domain_expertise_title": "expert research assistant responsible for compiling a list of leading linguists",
+        "domain_context": "who have published in top linguistics journals"
+      }
+    },
+    "social_sciences": {
+      "psychology": {
+        "domain_name": "psychology",
+        "domain_description": "field of psychology",
+        "publication_source": "American Psychological Association (APA) journals",
+        "publication_description": "leading psychology journals",
+        "domain_expertise_title": "expert research assistant responsible for compiling a list of leading psychologists",
+        "domain_context": "who have published in leading psychology journals"
+      },
+      "sociology": {
+        "domain_name": "sociology",
+        "domain_description": "field of sociology", 
+        "publication_source": "top-tier sociological journals",
+        "publication_description": "premier sociological publications including ASR, Social Forces, and German sociology journals",
+        "domain_expertise_title": "expert research assistant responsible for compiling a list of leading sociologists",
+        "domain_context": "who have published in top-tier sociological journals"
+      },
+      "economics": {
+        "domain_name": "economics",
+        "domain_description": "field of economics",
+        "publication_source": "leading economics journals",
+        "publication_description": "top economics journals including AER, QJE, and JPE",
+        "domain_expertise_title": "expert research assistant responsible for compiling a list of leading economists",
+        "domain_context": "who have published in leading economics journals"
+      },
+      "political_science": {
+        "domain_name": "political science",
+        "domain_description": "field of political science",
+        "publication_source": "premier political science journals",
+        "publication_description": "top political science journals including APSR and AJPS",
+        "domain_expertise_title": "expert research assistant responsible for compiling a list of leading political scientists",
+        "domain_context": "who have published in premier political science journals"
+      },
+      "anthropology": {
+        "domain_name": "anthropology",
+        "domain_description": "field of anthropology",
+        "publication_source": "leading anthropological journals",
+        "publication_description": "top anthropology journals including American Anthropologist and Current Anthropology",
+        "domain_expertise_title": "expert research assistant responsible for compiling a list of leading anthropologists",
+        "domain_context": "who have published in leading anthropological journals"
+      },
+      "archaeology": {
+        "domain_name": "archaeology",
+        "domain_description": "field of archaeology",
+        "publication_source": "leading archaeological journals",
+        "publication_description": "top archaeology journals including American Antiquity and Journal of Archaeological Science",
+        "domain_expertise_title": "expert research assistant responsible for compiling a list of leading archaeologists",
+        "domain_context": "who have published in leading archaeological journals"
+      },
+      "geography": {
+        "domain_name": "geography",
+        "domain_description": "field of geography",
+        "publication_source": "top geography journals",
+        "publication_description": "leading geography journals including Annals of the AAG and Progress in Human Geography",
+        "domain_expertise_title": "expert research assistant responsible for compiling a list of leading geographers",
+        "domain_context": "who have published in top geography journals"
+      },
+      "area_studies": {
+        "domain_name": "area studies",
+        "domain_description": "field of area studies",
+        "publication_source": "leading area studies journals",
+        "publication_description": "top area studies journals including Journal of Asian Studies and African Affairs",
+        "domain_expertise_title": "expert research assistant responsible for compiling a list of leading area studies scholars",
+        "domain_context": "who have published in leading area studies journals"
+      },
+      "cultural_ethnic_studies": {
+        "domain_name": "cultural and ethnic studies",
+        "domain_description": "field of cultural and ethnic studies",
+        "publication_source": "cultural and ethnic studies journals",
+        "publication_description": "leading cultural and ethnic studies journals including Cultural Studies and Ethnic and Racial Studies",
+        "domain_expertise_title": "expert research assistant responsible for compiling a list of leading cultural and ethnic studies scholars",
+        "domain_context": "who have published in cultural and ethnic studies journals"
+      },
+      "gender_sexuality_studies": {
+        "domain_name": "gender and sexuality studies",
+        "domain_description": "field of gender and sexuality studies",
+        "publication_source": "gender and sexuality studies journals",
+        "publication_description": "top gender and sexuality studies journals including Signs and Gender & Society",
+        "domain_expertise_title": "expert research assistant responsible for compiling a list of leading gender and sexuality studies scholars",
+        "domain_context": "who have published in gender and sexuality studies journals"
+      }
+    },
+    "natural_sciences": {
+      "physics": {
+        "domain_name": "physics",
+        "domain_description": "field of physics",
+        "publication_source": "American Physical Society (APS)",
+        "publication_description": "journals from the American Physical Society (APS)",
+        "domain_expertise_title": "expert research assistant responsible for compiling a list of leading scientists",
+        "domain_context": "who have published articles in journals from the American Physical Society (APS)"
+      },
+      "chemistry": {
+        "domain_name": "chemistry",
+        "domain_description": "field of chemistry",
+        "publication_source": "leading chemistry journals",
+        "publication_description": "top chemistry journals including JACS and Angewandte Chemie",
+        "domain_expertise_title": "expert research assistant responsible for compiling a list of leading chemists",
+        "domain_context": "who have published in leading chemistry journals"
+      },
+      "biology": {
+        "domain_name": "biology", 
+        "domain_description": "field of biology",
+        "publication_source": "top biological research journals",
+        "publication_description": "premier biology journals including Cell, Nature, and Science",
+        "domain_expertise_title": "expert research assistant responsible for compiling a list of leading biologists",
+        "domain_context": "who have published in top biological research journals"
+      },
+      "earth_sciences": {
+        "domain_name": "earth sciences",
+        "domain_description": "field of earth sciences",
+        "publication_source": "premier earth science journals",
+        "publication_description": "leading earth science journals including Nature Geoscience and EPSL",
+        "domain_expertise_title": "expert research assistant responsible for compiling a list of leading earth scientists",
+        "domain_context": "who have published in premier earth science journals"
+      },
+      "space_sciences": {
+        "domain_name": "space sciences",
+        "domain_description": "field of space sciences",
+        "publication_source": "leading astrophysics and space science journals",
+        "publication_description": "top space science journals including Astrophysical Journal and MNRAS",
+        "domain_expertise_title": "expert research assistant responsible for compiling a list of leading space scientists",
+        "domain_context": "who have published in leading astrophysics and space science journals"
+      }
+    },
+    "formal_sciences": {
+      "computer_science": {
+        "domain_name": "computer science",
+        "domain_description": "field of computer science",
+        "publication_source": "DBLP",
+        "publication_description": "top-tier computer science venues indexed in DBLP",
+        "domain_expertise_title": "expert research assistant responsible for compiling a list of leading computer scientists",
+        "domain_context": "who have published in top-tier computer science venues indexed in DBLP"
+      },
+      "mathematics": {
+        "domain_name": "mathematics",
+        "domain_description": "field of mathematics",
+        "publication_source": "prestigious mathematics journals",
+        "publication_description": "top mathematics journals including Annals of Mathematics and JAMS",
+        "domain_expertise_title": "expert research assistant responsible for compiling a list of leading mathematicians",
+        "domain_context": "who have published in prestigious mathematics journals"
+      },
+      "statistics": {
+        "domain_name": "statistics",
+        "domain_description": "field of statistics",
+        "publication_source": "leading statistics journals",
+        "publication_description": "top statistics journals including Annals of Statistics and JASA",
+        "domain_expertise_title": "expert research assistant responsible for compiling a list of leading statisticians", 
+        "domain_context": "who have published in leading statistics journals"
+      },
+      "logic": {
+        "domain_name": "logic",
+        "domain_description": "field of logic",
+        "publication_source": "top logic and computational logic journals",
+        "publication_description": "leading logic journals including Journal of Symbolic Logic and Annals of Pure and Applied Logic",
+        "domain_expertise_title": "expert research assistant responsible for compiling a list of leading logicians",
+        "domain_context": "who have published in top logic and computational logic journals"
+      },
+      "systems_science": {
+        "domain_name": "systems science",
+        "domain_description": "field of systems science",
+        "publication_source": "leading systems science journals",
+        "publication_description": "top systems science journals including Systems Research and IEEE Systems Journal",
+        "domain_expertise_title": "expert research assistant responsible for compiling a list of leading systems scientists",
+        "domain_context": "who have published in leading systems science journals"
+      }
+    },
+    "professions": {
+      "medicine": {
+        "domain_name": "medicine",
+        "domain_description": "field of medicine",
+        "publication_source": "leading medical journals",
+        "publication_description": "top medical journals including NEJM and The Lancet",
+        "domain_expertise_title": "expert research assistant responsible for compiling a list of leading medical researchers",
+        "domain_context": "who have published in leading medical journals"
+      },
+      "engineering_technology": {
+        "domain_name": "engineering and technology",
+        "domain_description": "field of engineering and technology",
+        "publication_source": "top engineering and technology journals and conferences",
+        "publication_description": "leading engineering and technology publications including IEEE Transactions and ASME journals",
+        "domain_expertise_title": "expert research assistant responsible for compiling a list of leading engineers and technologists",
+        "domain_context": "who have published in top engineering and technology journals and conferences"
+      },
+      "architecture_design": {
+        "domain_name": "architecture and design",
+        "domain_description": "field of architecture and design",
+        "publication_source": "leading architecture and design journals",
+        "publication_description": "top architecture and design journals including Architectural Review and Design Studies",
+        "domain_expertise_title": "expert research assistant responsible for compiling a list of leading architects and designers",
+        "domain_context": "who have published in leading architecture and design journals"
+      },
+      "transportation": {
+        "domain_name": "transportation",
+        "domain_description": "field of transportation",
+        "publication_source": "top transportation research journals",
+        "publication_description": "leading transportation journals including Transportation Research and Transportation Science",
+        "domain_expertise_title": "expert research assistant responsible for compiling a list of leading transportation researchers",
+        "domain_context": "who have published in top transportation research journals"
+      },
+      "education": {
+        "domain_name": "education",
+        "domain_description": "field of education",
+        "publication_source": "premier education research journals",
+        "publication_description": "top education journals including Review of Educational Research",
+        "domain_expertise_title": "expert research assistant responsible for compiling a list of leading education researchers",
+        "domain_context": "who have published in premier education research journals"
+      },
+      "law": {
+        "domain_name": "law",
+        "domain_description": "field of law",
+        "publication_source": "top law reviews and legal journals",
+        "publication_description": "premier law reviews including Harvard Law Review and Yale Law Journal",
+        "domain_expertise_title": "expert research assistant responsible for compiling a list of leading legal scholars",
+        "domain_context": "who have published in top law reviews and legal journals"
+      },
+      "business": {
+        "domain_name": "business",
+        "domain_description": "field of business and management",
+        "publication_source": "leading business and management journals",
+        "publication_description": "top business journals including Academy of Management Review and Strategic Management Journal",
+        "domain_expertise_title": "expert research assistant responsible for compiling a list of leading business researchers",
+        "domain_context": "who have published in leading business and management journals"
+      },
+      "public_administration": {
+        "domain_name": "public administration",
+        "domain_description": "field of public administration",
+        "publication_source": "top public administration journals",
+        "publication_description": "leading public administration journals including Public Administration Review",
+        "domain_expertise_title": "expert research assistant responsible for compiling a list of leading public administration scholars",
+        "domain_context": "who have published in top public administration journals"
+      },
+      "physical_performance_recreation": {
+        "domain_name": "physical performance and recreation",
+        "domain_description": "field of physical performance and recreation",
+        "publication_source": "sports science and recreation journals",
+        "publication_description": "top sports science journals including Journal of Sports Sciences and Medicine & Science in Sports & Exercise",
+        "domain_expertise_title": "expert research assistant responsible for compiling a list of leading sports science and recreation researchers",
+        "domain_context": "who have published in sports science and recreation journals"
+      },
+      "environmental_studies_forestry": {
+        "domain_name": "environmental studies and forestry",
+        "domain_description": "field of environmental studies and forestry",
+        "publication_source": "environmental science and forestry journals",
+        "publication_description": "top environmental journals including Environmental Science & Technology and Forest Ecology and Management",
+        "domain_expertise_title": "expert research assistant responsible for compiling a list of leading environmental scientists and foresters",
+        "domain_context": "who have published in environmental science and forestry journals"
+      },
+      "agriculture": {
+        "domain_name": "agriculture",
+        "domain_description": "field of agriculture",
+        "publication_source": "leading agricultural science journals",
+        "publication_description": "top agricultural journals including Journal of Agricultural Science and Agricultural Systems",
+        "domain_expertise_title": "expert research assistant responsible for compiling a list of leading agricultural scientists",
+        "domain_context": "who have published in leading agricultural science journals"
+      },
+      "family_consumer_science": {
+        "domain_name": "family and consumer science",
+        "domain_description": "field of family and consumer science",
+        "publication_source": "family and consumer science journals",
+        "publication_description": "leading family and consumer science journals including Family Relations and Journal of Consumer Affairs",
+        "domain_expertise_title": "expert research assistant responsible for compiling a list of leading family and consumer science researchers",
+        "domain_context": "who have published in family and consumer science journals"
+      },
+      "social_work": {
+        "domain_name": "social work",
+        "domain_description": "field of social work",
+        "publication_source": "leading social work journals",
+        "publication_description": "top social work journals including Social Work and Journal of Social Work Education",
+        "domain_expertise_title": "expert research assistant responsible for compiling a list of leading social work researchers",
+        "domain_context": "who have published in leading social work journals"
+      },
+      "journalism_media_communication": {
+        "domain_name": "journalism, media and communication",
+        "domain_description": "field of journalism, media and communication",
+        "publication_source": "top communication and media studies journals",
+        "publication_description": "leading communication journals including Journal of Communication and Communication Research",
+        "domain_expertise_title": "expert research assistant responsible for compiling a list of leading communication and media researchers",
+        "domain_context": "who have published in top communication and media studies journals"
+      },
+      "library_museum_studies": {
+        "domain_name": "library and museum studies",
+        "domain_description": "field of library and museum studies",
+        "publication_source": "library and museum studies journals",
+        "publication_description": "top library and museum journals including Journal of Academic Librarianship and Museum Management and Curatorship",
+        "domain_expertise_title": "expert research assistant responsible for compiling a list of leading library and museum professionals",
+        "domain_context": "who have published in library and museum studies journals"
+      },
+      "intelligence": {
+        "domain_name": "intelligence studies",
+        "domain_description": "field of intelligence studies",
+        "publication_source": "intelligence studies journals",
+        "publication_description": "leading intelligence journals including Intelligence and National Security",
+        "domain_expertise_title": "expert research assistant responsible for compiling a list of leading intelligence studies scholars",
+        "domain_context": "who have published in intelligence studies journals"
+      },
+      "military_sciences": {
+        "domain_name": "military sciences",
+        "domain_description": "field of military sciences",
+        "publication_source": "military science journals",
+        "publication_description": "top military journals including Armed Forces & Society and Military Review",
+        "domain_expertise_title": "expert research assistant responsible for compiling a list of leading military science researchers",
+        "domain_context": "who have published in military science journals"
+      },
+      "divinity": {
+        "domain_name": "divinity and theology",
+        "domain_description": "field of divinity and theology",
+        "publication_source": "leading theological and religious studies journals",
+        "publication_description": "top theological journals including Journal of Biblical Literature and Theological Studies",
+        "domain_expertise_title": "expert research assistant responsible for compiling a list of leading theologians and religious studies scholars",
+        "domain_context": "who have published in leading theological and religious studies journals"
+      }
+    }
+  }
+} 
