@@ -7,7 +7,7 @@ SCRIPT_DIR = os.path.dirname(os.path.abspath(__file__))
 PARENT_DIR = os.path.dirname(SCRIPT_DIR)
 sys.path.append(PARENT_DIR)
 
-from config.loader import load_twin_scientists_config
+from config.loader import load_twin_scientists_config, load_definitions
 
 def load_config(file_name: str) -> Dict[str, Any]:
     file_path = os.path.join(PARENT_DIR, "config", file_name)
@@ -19,6 +19,28 @@ def load_template() -> str:
     template_path = os.path.join(SCRIPT_DIR, "prompt_template.txt")
     with open(template_path, 'r') as f:
         return f.read()
+
+def generate_definitions_section(category: str, variable: str) -> str:
+    """Generate the definitions section for the prompt based on category."""
+    definitions = load_definitions()
+    
+    if category == 'twins':
+        twins_def = definitions['statistical_twins']
+        criteria_list = '\n'.join([f"- {criterion}" for criterion in twins_def['criteria']])
+        return f"""### Definition ###
+
+Statistical Twins: {twins_def['definition']}
+{criteria_list}"""
+    
+    elif category == 'seniority':
+        career_def = definitions['career_stages'][variable]
+        criteria_list = '\n'.join([f"- {criterion}" for criterion in career_def['criteria']])
+        return f"""### Definition ###
+
+{career_def['definition']}
+{criteria_list}"""
+    
+    return ""  # No definitions section for other categories
 
 def generate_criteria(category: str, variable: str, criteria_description: Dict[str, Any], prompt_config: Dict[str, Any], twin_config: Dict[str, Any] = None) -> str:
     cat_config = criteria_description[category]
@@ -41,6 +63,7 @@ def generate_prompt(category: str, variable: str) -> str:
     twin_config = load_twin_scientists_config() if category == 'twins' else None
 
     criteria = generate_criteria(category, variable, criteria_description, prompt_config, twin_config)
+    definitions_section = generate_definitions_section(category, variable)
     
     cat_prompt_config = prompt_config[category]
 
@@ -65,6 +88,7 @@ def generate_prompt(category: str, variable: str) -> str:
 
     prompt_data = {
         'criteria': criteria,
+        'definitions_section': definitions_section,
         'backup_indicator': backup_indicator,
         'output_example': output_example
     }

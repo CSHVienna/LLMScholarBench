@@ -1,0 +1,31 @@
+{
+  "statistical_twins": {
+    "definition": "Researchers with significant overlap in one or more of the following criteria compared to the target scientist:",
+    "criteria": [
+      "≥70% overlap in citation networks or co-authorship patterns",
+      "Similar research themes and methodological approaches",
+      "Comparable career trajectory, publication patterns, and academic impact metrics",
+      "Shared institutional affiliations or collaborative networks"
+    ]
+  },
+  "career_stages": {
+    "early_career": {
+      "definition": "Early-Career Scientists: Researchers meeting one or more of the following criteria:",
+      "criteria": [
+        "≤7 years since PhD completion",
+        "≤10 years since first peer-reviewed publication",
+        "Currently in postdoctoral positions, assistant professor roles, or equivalent early-stage academic positions",
+        "Fewer than 50 total publications in peer-reviewed journals"
+      ]
+    },
+    "senior": {
+      "definition": "Senior Scientists: Researchers meeting one or more of the following criteria:",
+      "criteria": [
+        "≥15 years since PhD completion", 
+        "≥20 years since first peer-reviewed publication",
+        "Currently in full professor, emeritus, or equivalent senior academic positions",
+        "Established research leaders with significant impact in their field (high citation counts, major awards, or recognition)"
+      ]
+    }
+  }
+} 

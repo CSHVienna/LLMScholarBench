@@ -2,6 +2,8 @@
 
 You are an expert research assistant responsible for compiling a list of leading scientists in the field of physics who have published articles in journals from the American Physical Society (APS). Specifically, your focus is on identifying {criteria}.
 
+{definitions_section}
+
 ### Instruction ###
 
 Generate a comprehensive list of scientists fulfilling the following criteria: {criteria}. Include only scientists who meet these specified criteria.

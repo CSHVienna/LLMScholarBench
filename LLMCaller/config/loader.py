@@ -21,6 +21,15 @@ def load_llm_setup(model_name):
     return all_configs[model_name]
 
 def load_twin_scientists_config():
-    config_dir = os.path.dirname(os.path.abspath(__file__))
-    config_path = os.path.join(config_dir, 'twin_scientists_config.json')
-    return load_config(config_path)
+    """Load the twin scientists configuration file."""
+    script_dir = os.path.dirname(os.path.abspath(__file__))
+    config_path = os.path.join(script_dir, "twin_scientists_config.json")
+    with open(config_path, 'r') as f:
+        return json.load(f)
+
+def load_definitions():
+    """Load the definitions configuration file."""
+    script_dir = os.path.dirname(os.path.abspath(__file__))
+    config_path = os.path.join(script_dir, "definitions.json")
+    with open(config_path, 'r') as f:
+        return json.load(f)

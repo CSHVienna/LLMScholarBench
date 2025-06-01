@@ -84,7 +84,7 @@
 	"secondary_criteria": "{scientist_name}"
       }
     },
-    "criteria_phrase": "scientists who are {main_criteria} {secondary_criteria}"
+    "criteria_phrase": "scientists who are {main_criteria} {secondary_criteria} based on the definition provided above"
   },
   "seniority": {
     "variables": {
@@ -97,6 +97,6 @@
         "secondary_criteria": "published in APS journals"
       }
     },
-    "criteria_phrase": "{main_criteria} who have {secondary_criteria}"
+    "criteria_phrase": "{main_criteria} who have {secondary_criteria} based on the definition provided above"
   }
 }
