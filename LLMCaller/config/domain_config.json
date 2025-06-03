@@ -173,6 +173,46 @@
         "publication_description": "top space science journals including Astrophysical Journal and MNRAS",
         "domain_expertise_title": "expert research assistant responsible for compiling a list of leading space scientists",
         "domain_context": "who have published in leading astrophysics and space science journals"
+      },
+      "biochemistry_genetics_molecular_biology": {
+        "domain_name": "biochemistry, genetics and molecular biology",
+        "domain_description": "field of biochemistry, genetics and molecular biology",
+        "publication_source": "leading biochemistry and molecular biology journals",
+        "publication_description": "top biochemistry journals including Cell, Nature, PNAS, and Journal of Biological Chemistry",
+        "domain_expertise_title": "expert research assistant responsible for compiling a list of leading biochemists and molecular biologists",
+        "domain_context": "who have published in leading biochemistry and molecular biology journals"
+      },
+      "neuroscience": {
+        "domain_name": "neuroscience",
+        "domain_description": "field of neuroscience",
+        "publication_source": "premier neuroscience journals",
+        "publication_description": "top neuroscience journals including Neuron, Nature Neuroscience, and Journal of Neuroscience",
+        "domain_expertise_title": "expert research assistant responsible for compiling a list of leading neuroscientists",
+        "domain_context": "who have published in premier neuroscience journals"
+      },
+      "immunology_microbiology": {
+        "domain_name": "immunology and microbiology",
+        "domain_description": "field of immunology and microbiology",
+        "publication_source": "leading immunology and microbiology journals",
+        "publication_description": "top immunology journals including Nature Immunology, Journal of Immunology, and Nature Microbiology",
+        "domain_expertise_title": "expert research assistant responsible for compiling a list of leading immunologists and microbiologists",
+        "domain_context": "who have published in leading immunology and microbiology journals"
+      },
+      "energy": {
+        "domain_name": "energy",
+        "domain_description": "field of energy science",
+        "publication_source": "leading energy research journals",
+        "publication_description": "top energy journals including Energy & Environmental Science, Nature Energy, and Applied Energy",
+        "domain_expertise_title": "expert research assistant responsible for compiling a list of leading energy researchers",
+        "domain_context": "who have published in leading energy research journals"
+      },
+      "materials_science": {
+        "domain_name": "materials science",
+        "domain_description": "field of materials science",
+        "publication_source": "leading materials science journals",
+        "publication_description": "top materials science journals including Nature Materials, Advanced Materials, and Acta Materialia",
+        "domain_expertise_title": "expert research assistant responsible for compiling a list of leading materials scientists",
+        "domain_context": "who have published in leading materials science journals"
       }
     },
     "formal_sciences": {
@@ -215,6 +255,14 @@
         "publication_description": "top systems science journals including Systems Research and IEEE Systems Journal",
         "domain_expertise_title": "expert research assistant responsible for compiling a list of leading systems scientists",
         "domain_context": "who have published in leading systems science journals"
+      },
+      "decision_sciences": {
+        "domain_name": "decision sciences",
+        "domain_description": "field of decision sciences",
+        "publication_source": "leading decision science journals",
+        "publication_description": "top decision science journals including Decision Sciences, Management Science, and Operations Research",
+        "domain_expertise_title": "expert research assistant responsible for compiling a list of leading decision scientists",
+        "domain_context": "who have published in leading decision science journals"
       }
     },
     "professions": {
@@ -361,6 +409,38 @@
         "publication_description": "top theological journals including Journal of Biblical Literature and Theological Studies",
         "domain_expertise_title": "expert research assistant responsible for compiling a list of leading theologians and religious studies scholars",
         "domain_context": "who have published in leading theological and religious studies journals"
+      },
+      "nursing": {
+        "domain_name": "nursing",
+        "domain_description": "field of nursing",
+        "publication_source": "leading nursing journals",
+        "publication_description": "top nursing journals including Journal of Advanced Nursing and Nursing Research",
+        "domain_expertise_title": "expert research assistant responsible for compiling a list of leading nursing researchers",
+        "domain_context": "who have published in leading nursing journals"
+      },
+      "pharmacology_toxicology_pharmaceutics": {
+        "domain_name": "pharmacology, toxicology and pharmaceutics",
+        "domain_description": "field of pharmacology, toxicology and pharmaceutics",
+        "publication_source": "leading pharmacology and pharmaceutical journals",
+        "publication_description": "top pharmacology journals including Journal of Pharmacology and Experimental Therapeutics and Pharmaceutical Research",
+        "domain_expertise_title": "expert research assistant responsible for compiling a list of leading pharmacologists and pharmaceutical scientists",
+        "domain_context": "who have published in leading pharmacology and pharmaceutical journals"
+      },
+      "dentistry": {
+        "domain_name": "dentistry",
+        "domain_description": "field of dentistry",
+        "publication_source": "leading dental journals",
+        "publication_description": "top dental journals including Journal of Dental Research and Journal of Clinical Periodontology",
+        "domain_expertise_title": "expert research assistant responsible for compiling a list of leading dental researchers",
+        "domain_context": "who have published in leading dental journals"
+      },
+      "veterinary": {
+        "domain_name": "veterinary science",
+        "domain_description": "field of veterinary science",
+        "publication_source": "leading veterinary journals",
+        "publication_description": "top veterinary journals including Veterinary Record and Journal of Veterinary Internal Medicine",
+        "domain_expertise_title": "expert research assistant responsible for compiling a list of leading veterinary researchers",
+        "domain_context": "who have published in leading veterinary journals"
       }
     }
   }
