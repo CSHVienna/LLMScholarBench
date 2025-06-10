@@ -555,6 +555,138 @@
         ],
         "major_societies": ["SBL", "AAR", "CTS"],
         "domain_context": "who have published in leading theological and religious studies journals"
+      },
+      "biochemistry_genetics_molecular_biology": {
+        "name": "Biochemistry, Genetics and Molecular Biology",
+        "description": "field of biochemistry, genetics and molecular biology",
+        "publication_sources": [
+          "Cell",
+          "Nature Neuroscience",
+          "Molecular Cell",
+          "Nucleic Acids Research",
+          "Journal of Biological Chemistry",
+          "Nature Genetics"
+        ],
+        "major_societies": ["ASBMB", "ASHG", "EMBO"],
+        "domain_context": "who have published in top biochemistry, genetics and molecular biology journals"
+      },
+      "decision_sciences": {
+        "name": "Decision Sciences",
+        "description": "field of decision sciences and operations research",
+        "publication_sources": [
+          "Decision Sciences Journal",
+          "Management Science",
+          "Operations Research",
+          "European Journal of Operational Research",
+          "Omega"
+        ],
+        "major_societies": ["DSI", "INFORMS", "EURO"],
+        "domain_context": "who have published in leading decision sciences and operations research journals"
+      },
+      "dentistry": {
+        "name": "Dentistry",
+        "description": "field of dentistry and oral health",
+        "publication_sources": [
+          "Journal of Dental Research",
+          "Journal of the American Dental Association",
+          "International Journal of Oral Science",
+          "Clinical Oral Investigations",
+          "Journal of Clinical Periodontology"
+        ],
+        "major_societies": ["ADA", "IADR", "FDI"],
+        "domain_context": "who have published in leading dental and oral health journals"
+      },
+      "energy": {
+        "name": "Energy",
+        "description": "field of energy research and technology",
+        "publication_sources": [
+          "Nature Energy",
+          "Energy & Environmental Science",
+          "Applied Energy",
+          "Energy Policy",
+          "Renewable Energy"
+        ],
+        "major_societies": ["IAEE", "IEEE Power & Energy Society", "ASME"],
+        "domain_context": "who have published in top energy research and technology journals"
+      },
+      "immunology_microbiology": {
+        "name": "Immunology and Microbiology",
+        "description": "field of immunology and microbiology",
+        "publication_sources": [
+          "Nature Immunology",
+          "Immunity",
+          "Journal of Experimental Medicine",
+          "Nature Microbiology",
+          "Applied and Environmental Microbiology"
+        ],
+        "major_societies": ["AAI", "ASM", "ESID"],
+        "domain_context": "who have published in leading immunology and microbiology journals"
+      },
+      "materials_science": {
+        "name": "Materials Science",
+        "description": "field of materials science and engineering",
+        "publication_sources": [
+          "Nature Materials",
+          "Advanced Materials",
+          "Materials Science and Engineering",
+          "Acta Materialia",
+          "Journal of Materials Chemistry"
+        ],
+        "major_societies": ["MRS", "TMS", "ASM International"],
+        "domain_context": "who have published in top materials science journals"
+      },
+      "neuroscience": {
+        "name": "Neuroscience",
+        "description": "field of neuroscience",
+        "publication_sources": [
+          "Nature Neuroscience",
+          "Neuron",
+          "Journal of Neuroscience",
+          "Brain",
+          "Nature Reviews Neuroscience",
+          "Trends in Neurosciences"
+        ],
+        "major_societies": ["SfN", "IBRO", "FENS"],
+        "domain_context": "who have published in leading neuroscience journals"
+      },
+      "nursing": {
+        "name": "Nursing",
+        "description": "field of nursing and nursing science",
+        "publication_sources": [
+          "International Journal of Nursing Studies",
+          "Journal of Advanced Nursing",
+          "American Nurse Journal",
+          "Nursing Outlook",
+          "Journal of Clinical Nursing"
+        ],
+        "major_societies": ["ANA", "ICN", "ANCC"],
+        "domain_context": "who have published in leading nursing journals"
+      },
+      "pharmacology_toxicology_pharmaceutics": {
+        "name": "Pharmacology, Toxicology and Pharmaceutics",
+        "description": "field of pharmacology, toxicology and pharmaceutical sciences",
+        "publication_sources": [
+          "Nature Reviews Drug Discovery",
+          "Journal of Pharmacology and Experimental Therapeutics",
+          "Toxicological Sciences",
+          "Drug Discovery Today",
+          "Pharmaceutical Research"
+        ],
+        "major_societies": ["ASPET", "SOT", "AAPS"],
+        "domain_context": "who have published in top pharmacology, toxicology and pharmaceutical journals"
+      },
+      "veterinary": {
+        "name": "Veterinary Science",
+        "description": "field of veterinary science and animal health",
+        "publication_sources": [
+          "Journal of Veterinary Internal Medicine",
+          "Veterinary Record",
+          "American Journal of Veterinary Research",
+          "Preventive Veterinary Medicine",
+          "Journal of the American Veterinary Medical Association"
+        ],
+        "major_societies": ["AVMA", "WSAVA", "FVE"],
+        "domain_context": "who have published in leading veterinary science journals"
       }
     }
   }

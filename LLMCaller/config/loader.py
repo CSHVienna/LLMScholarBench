@@ -6,9 +6,19 @@ def load_config(config_path):
         return json.load(f)
 
 def load_category_variables():
-    """Load the category variables configuration file."""
+    """Load category variables configuration file."""
     script_dir = os.path.dirname(os.path.abspath(__file__))
+    
     config_path = os.path.join(script_dir, "category_variables.json")
+    with open(config_path, 'r') as f:
+        categories = json.load(f)
+    
+    return categories
+
+def load_enhanced_criteria_description():
+    """Load the criteria descriptions for all parameter types."""
+    script_dir = os.path.dirname(os.path.abspath(__file__))
+    config_path = os.path.join(script_dir, "criteria_description.json")
     with open(config_path, 'r') as f:
         return json.load(f)
 
@@ -41,51 +51,47 @@ def load_academic_disciplines():
     with open(config_path, 'r') as f:
         return json.load(f)
 
-def load_domain_config(discipline="physics"):
-    """Load domain-specific configuration with support for multiple disciplines."""
-    script_dir = os.path.dirname(os.path.abspath(__file__))
-    config_path = os.path.join(script_dir, "domain_config.json")
-    with open(config_path, 'r') as f:
-        domain_config = json.load(f)
+def load_domain_config(discipline=None):
+    """Load domain-specific configuration from academic_disciplines.json with support for multiple disciplines."""
+    academic_disciplines = load_academic_disciplines()
     
-    # If discipline is not specified, use default
+    # If discipline is not specified, raise an error to enforce explicit specification
     if not discipline:
-        discipline = domain_config.get("default_discipline", "physics")
+        raise ValueError("Discipline must be explicitly specified. Use get_available_disciplines() to see options.")
     
     # Search through all categories for the specified discipline
-    discipline_categories = domain_config.get("discipline_categories", {})
-    
-    for category_name, disciplines in discipline_categories.items():
+    for category_name, category_data in academic_disciplines.items():
+        disciplines = category_data.get("disciplines", {})
         if discipline in disciplines:
-            return disciplines[discipline]
+            discipline_data = disciplines[discipline]
+            # Convert academic_disciplines format to domain_config format for backward compatibility
+            return {
+                "domain_name": discipline_data.get("name", discipline.replace("_", " ").title()),
+                "domain_description": discipline_data.get("description", f"field of {discipline}"),
+                "publication_source": ", ".join(discipline_data.get("publication_sources", ["academic journals"])[:3]) + " and other leading journals",
+                "publication_description": f"prestigious journals such as {', '.join(discipline_data.get('publication_sources', ['academic journals'])[:2])}",
+                "domain_expertise_title": f"expert research assistant responsible for compiling a list of leading {discipline_data.get('name', discipline.replace('_', ' '))} researchers",
+                "domain_context": f"who have published in leading {discipline_data.get('name', discipline.replace('_', ' ')).lower()} journals and are members of professional societies such as {', '.join(discipline_data.get('major_societies', ['relevant professional societies'])[:2])}"
+            }
     
-    # Fallback to physics if discipline not found
-    for category_name, disciplines in discipline_categories.items():
-        if "physics" in disciplines:
-            return disciplines["physics"]
-    
-    # Ultimate fallback
+    # Fallback for unknown disciplines
     return {
-        "domain_name": discipline,
-        "domain_description": f"field of {discipline}",
+        "domain_name": discipline.replace("_", " ").title(),
+        "domain_description": f"field of {discipline.replace('_', ' ')}",
         "publication_source": "academic journals",
-        "publication_description": f"peer-reviewed {discipline} journals",
-        "domain_expertise_title": f"expert research assistant responsible for compiling a list of leading {discipline} researchers",
-        "domain_context": f"who have published in {discipline} journals"
+        "publication_description": f"peer-reviewed {discipline.replace('_', ' ')} journals",
+        "domain_expertise_title": f"expert research assistant responsible for compiling a list of leading {discipline.replace('_', ' ')} researchers",
+        "domain_context": f"who have published in {discipline.replace('_', ' ')} journals"
     }
 
 def get_available_disciplines():
     """Get list of all available disciplines across all categories."""
-    script_dir = os.path.dirname(os.path.abspath(__file__))
-    config_path = os.path.join(script_dir, "domain_config.json")
-    with open(config_path, 'r') as f:
-        domain_config = json.load(f)
+    academic_disciplines = load_academic_disciplines()
     
     disciplines = []
-    discipline_categories = domain_config.get("discipline_categories", {})
-    
-    for category_name, category_disciplines in discipline_categories.items():
-        disciplines.extend(list(category_disciplines.keys()))
+    for category_name, category_data in academic_disciplines.items():
+        disciplines_in_category = category_data.get("disciplines", {})
+        disciplines.extend(list(disciplines_in_category.keys()))
     
     return sorted(disciplines)
 

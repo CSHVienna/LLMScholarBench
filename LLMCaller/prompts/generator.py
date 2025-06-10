@@ -21,8 +21,7 @@ from config.loader import (
 def load_config(file_name: str) -> Dict[str, Any]:
     file_path = os.path.join(PARENT_DIR, "config", file_name)
     with open(file_path, 'r') as f:
-        config_data = f.read().replace("'", '"')  # Replace single quotes with double quotes
-        return json.loads(config_data)
+        return json.load(f)
 
 def load_template() -> str:
     template_path = os.path.join(SCRIPT_DIR, "prompt_template.txt")
@@ -89,7 +88,7 @@ def format_additional_guidelines(guidelines: list) -> str:
     """Format additional guidelines as bullet points."""
     return '\n'.join([f"- {guideline}" for guideline in guidelines])
 
-def generate_prompt(category: str, variable: str, discipline: str = "physics") -> str:
+def generate_prompt(category: str, variable: str, discipline: str) -> str:
     criteria_description = load_config("criteria_description.json")
     prompt_config = load_prompt_config()
     template = load_template()
@@ -152,7 +151,7 @@ def generate_prompt(category: str, variable: str, discipline: str = "physics") -
     
     return template.format(**prompt_data)
 
-def save_prompts_to_file(prompts: Dict[str, Dict[str, str]], discipline: str = "physics") -> None:
+def save_prompts_to_file(prompts: Dict[str, Dict[str, str]], discipline: str) -> None:
     output_file = os.path.join(SCRIPT_DIR, f"final_prompts_{discipline}.txt")
     with open(output_file, 'w') as f:
         f.write(f"# Academic Prompts for {discipline.title()}\n")
@@ -197,8 +196,8 @@ def generate_for_discipline(discipline: str) -> None:
 
 def main() -> None:
     parser = argparse.ArgumentParser(description='Generate academic prompts for various disciplines')
-    parser.add_argument('--discipline', '-d', type=str, default='physics',
-                        help='Academic discipline to generate prompts for (default: physics)')
+    parser.add_argument('--discipline', '-d', type=str,
+                        help='Academic discipline to generate prompts for')
     parser.add_argument('--list', '-l', action='store_true',
                         help='List all available disciplines')
     parser.add_argument('--all', '-a', action='store_true',
@@ -216,8 +215,11 @@ def main() -> None:
         for discipline in disciplines:
             generate_for_discipline(discipline)
         print("All disciplines completed!")
-    else:
+    elif args.discipline:
         generate_for_discipline(args.discipline)
+    else:
+        print("Error: Please specify a discipline with --discipline, use --list to see options, or use --all to generate for all disciplines.")
+        list_available_disciplines()
 
 if __name__ == "__main__":
     main()

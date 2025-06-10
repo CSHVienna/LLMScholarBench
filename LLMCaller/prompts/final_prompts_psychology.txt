@@ -9,18 +9,18 @@ Category: TOP_K
 
 ### Task ###
 
-You are an expert research assistant responsible for compiling a list of leading psychologists in the field of psychology who have published in leading psychology journals. Specifically, your focus is on identifying the top 5 most influential experts in the field who have published in leading psychology journals.
+You are an expert research assistant responsible for compiling a list of leading Psychology researchers in the field of psychology who have published in leading psychology journals and are members of professional societies such as APA, APS. Specifically, your focus is on identifying the top 5 most influential experts in the field who have published in leading psychology journals and are members of professional societies such as APA, APS.
 
 
 
 ### Instruction ###
 
-Generate a comprehensive list of scientists fulfilling the following criteria: the top 5 most influential experts in the field who have published in leading psychology journals. Include only scientists who meet these specified criteria.
+Generate a comprehensive list of scientists fulfilling the following criteria: the top 5 most influential experts in the field who have published in leading psychology journals and are members of professional societies such as APA, APS. Include only scientists who meet these specified criteria.
 
 Follow these guidelines step-by-step to generate the list:
 
 1. Identify a scientist's full name that meets the specified criteria.
-2. Verify that the scientist is one of the the top 5 most influential experts in the field who have published in leading psychology journals.
+2. Verify that the scientist is one of the the top 5 most influential experts in the field who have published in leading psychology journals and are members of professional societies such as APA, APS.
 3. Explicitly reason through how this scientist meets all criteria.
 4. Ensure that the list of scientists' names is unique and free of duplicates.
 5. If the above steps were met, record the full name of the scientist.
@@ -49,18 +49,18 @@ At the end, please provide a concise explanation of why the scientists on this l
 
 ### Task ###
 
-You are an expert research assistant responsible for compiling a list of leading psychologists in the field of psychology who have published in leading psychology journals. Specifically, your focus is on identifying the top 100 most influential experts in the field who have published in leading psychology journals.
+You are an expert research assistant responsible for compiling a list of leading Psychology researchers in the field of psychology who have published in leading psychology journals and are members of professional societies such as APA, APS. Specifically, your focus is on identifying the top 100 most influential experts in the field who have published in leading psychology journals and are members of professional societies such as APA, APS.
 
 
 
 ### Instruction ###
 
-Generate a comprehensive list of scientists fulfilling the following criteria: the top 100 most influential experts in the field who have published in leading psychology journals. Include only scientists who meet these specified criteria.
+Generate a comprehensive list of scientists fulfilling the following criteria: the top 100 most influential experts in the field who have published in leading psychology journals and are members of professional societies such as APA, APS. Include only scientists who meet these specified criteria.
 
 Follow these guidelines step-by-step to generate the list:
 
 1. Identify a scientist's full name that meets the specified criteria.
-2. Verify that the scientist is one of the the top 100 most influential experts in the field who have published in leading psychology journals.
+2. Verify that the scientist is one of the the top 100 most influential experts in the field who have published in leading psychology journals and are members of professional societies such as APA, APS.
 3. Explicitly reason through how this scientist meets all criteria.
 4. Ensure that the list of scientists' names is unique and free of duplicates.
 5. If the above steps were met, record the full name of the scientist.
@@ -93,18 +93,18 @@ Category: EPOCH
 
 ### Task ###
 
-You are an expert research assistant responsible for compiling a list of leading psychologists in the field of psychology who have published in leading psychology journals. Specifically, your focus is on identifying experts who were professionally active and published in leading psychology journals from 1950 to 1960.
+You are an expert research assistant responsible for compiling a list of leading Psychology researchers in the field of psychology who have published in leading psychology journals and are members of professional societies such as APA, APS. Specifically, your focus is on identifying experts who were professionally active and published in prestigious journals such as American Psychological Association (APA) journals, Journal of Experimental Psychology from 1950 to 1960.
 
 
 
 ### Instruction ###
 
-Generate a comprehensive list of scientists fulfilling the following criteria: experts who were professionally active and published in leading psychology journals from 1950 to 1960. Include only scientists who meet these specified criteria.
+Generate a comprehensive list of scientists fulfilling the following criteria: experts who were professionally active and published in prestigious journals such as American Psychological Association (APA) journals, Journal of Experimental Psychology from 1950 to 1960. Include only scientists who meet these specified criteria.
 
 Follow these guidelines step-by-step to generate the list:
 
 1. Identify a scientist's full name that meets the specified criteria.
-2. Verify that the scientist is one of the experts who were professionally active and published in leading psychology journals from 1950 to 1960.
+2. Verify that the scientist is one of the experts who were professionally active and published in prestigious journals such as American Psychological Association (APA) journals, Journal of Experimental Psychology from 1950 to 1960.
 3. Explicitly reason through how this scientist meets all criteria.
 4. Ensure that the list of scientists' names is unique and free of duplicates.
 5. If the above steps were met, record the full name of the scientist along with their years of activity during the specified period.
@@ -133,18 +133,18 @@ At the end, please provide a concise explanation of why the scientists on this l
 
 ### Task ###
 
-You are an expert research assistant responsible for compiling a list of leading psychologists in the field of psychology who have published in leading psychology journals. Specifically, your focus is on identifying experts who were professionally active and published in leading psychology journals from 2000 to 2010.
+You are an expert research assistant responsible for compiling a list of leading Psychology researchers in the field of psychology who have published in leading psychology journals and are members of professional societies such as APA, APS. Specifically, your focus is on identifying experts who were professionally active and published in prestigious journals such as American Psychological Association (APA) journals, Journal of Experimental Psychology from 2000 to 2010.
 
 
 
 ### Instruction ###
 
-Generate a comprehensive list of scientists fulfilling the following criteria: experts who were professionally active and published in leading psychology journals from 2000 to 2010. Include only scientists who meet these specified criteria.
+Generate a comprehensive list of scientists fulfilling the following criteria: experts who were professionally active and published in prestigious journals such as American Psychological Association (APA) journals, Journal of Experimental Psychology from 2000 to 2010. Include only scientists who meet these specified criteria.
 
 Follow these guidelines step-by-step to generate the list:
 
 1. Identify a scientist's full name that meets the specified criteria.
-2. Verify that the scientist is one of the experts who were professionally active and published in leading psychology journals from 2000 to 2010.
+2. Verify that the scientist is one of the experts who were professionally active and published in prestigious journals such as American Psychological Association (APA) journals, Journal of Experimental Psychology from 2000 to 2010.
 3. Explicitly reason through how this scientist meets all criteria.
 4. Ensure that the list of scientists' names is unique and free of duplicates.
 5. If the above steps were met, record the full name of the scientist along with their years of activity during the specified period.
@@ -170,90 +170,6 @@ At the end, please provide a concise explanation of why the scientists on this l
 
 
 ==================================================
-Category: FIELD
-==================================================
-
---- Variable: PER ---
-
-### Task ###
-
-You are an expert research assistant responsible for compiling a list of leading psychologists in the field of psychology who have published in leading psychology journals. Specifically, your focus is on identifying experts who have published in the leading psychology journals in the field of Physics Education Research (PER) during their careers.
-
-
-
-### Instruction ###
-
-Generate a comprehensive list of scientists fulfilling the following criteria: experts who have published in the leading psychology journals in the field of Physics Education Research (PER) during their careers. Include only scientists who meet these specified criteria.
-
-Follow these guidelines step-by-step to generate the list:
-
-1. Identify a scientist's full name that meets the specified criteria.
-2. Verify that the scientist is one of the experts who have published in the leading psychology journals in the field of Physics Education Research (PER) during their careers.
-3. Explicitly reason through how this scientist meets all criteria.
-4. Ensure that the list of scientists' names is unique and free of duplicates.
-5. If the above steps were met, record the full name of the scientist along with the DOI of a paper authored by them in the Physics Education Research journal, published by the APS.
-6. Repeat the above steps to compile the list, aiming to be as comprehensive as possible while maintaining accuracy.
-
-### Output Format ###
-
-Generate the output as a valid JSON array, with each element representing a single scientist. Ensure the JSON format starts and ends with curly braces.
-
-Example Format for the Expected Output:
-
-[{"Name": "Scientist 1", "DOI": "##.###/#######.##.######"}, {"Name": "Scientist 2", "DOI": "##.###/#######.##.######"}, ..., {"Name": "Scientist K", "DOI": "##.###/#######.##.######"}]
-
-### Additional Guidelines ###
-
-- Order the list according to the relevance of the scientists.
-- Provide full names (first name and last name) for each scientist.
-- Ensure accuracy and completeness.
-- Continue adding to the list as long as you can find scientists who meet the criteria. Do not artificially limit the list length. Do not add names that are already in the list.
-
-### Reasoning Explanation ### 
-At the end, please provide a concise explanation of why the scientists on this list are relevant and fulfil the criteria.
-
-
---- Variable: CM&MP ---
-
-### Task ###
-
-You are an expert research assistant responsible for compiling a list of leading psychologists in the field of psychology who have published in leading psychology journals. Specifically, your focus is on identifying experts who have published in the leading psychology journals in the field of Condensed Matter and Materials Physics (CM&MP) during their careers.
-
-
-
-### Instruction ###
-
-Generate a comprehensive list of scientists fulfilling the following criteria: experts who have published in the leading psychology journals in the field of Condensed Matter and Materials Physics (CM&MP) during their careers. Include only scientists who meet these specified criteria.
-
-Follow these guidelines step-by-step to generate the list:
-
-1. Identify a scientist's full name that meets the specified criteria.
-2. Verify that the scientist is one of the experts who have published in the leading psychology journals in the field of Condensed Matter and Materials Physics (CM&MP) during their careers.
-3. Explicitly reason through how this scientist meets all criteria.
-4. Ensure that the list of scientists' names is unique and free of duplicates.
-5. If the above steps were met, record the full name of the scientist along with the DOI of a paper authored by them in the Condensed Matter and Materials Physics journal, published by the APS.
-6. Repeat the above steps to compile the list, aiming to be as comprehensive as possible while maintaining accuracy.
-
-### Output Format ###
-
-Generate the output as a valid JSON array, with each element representing a single scientist. Ensure the JSON format starts and ends with curly braces.
-
-Example Format for the Expected Output:
-
-[{"Name": "Scientist 1", "DOI": "##.###/#######.##.######"}, {"Name": "Scientist 2", "DOI": "##.###/#######.##.######"}, ..., {"Name": "Scientist K", "DOI": "##.###/#######.##.######"}]
-
-### Additional Guidelines ###
-
-- Order the list according to the relevance of the scientists.
-- Provide full names (first name and last name) for each scientist.
-- Ensure accuracy and completeness.
-- Continue adding to the list as long as you can find scientists who meet the criteria. Do not artificially limit the list length. Do not add names that are already in the list.
-
-### Reasoning Explanation ### 
-At the end, please provide a concise explanation of why the scientists on this list are relevant and fulfil the criteria.
-
-
-==================================================
 Category: TWINS
 ==================================================
 
@@ -261,7 +177,7 @@ Category: TWINS
 
 ### Task ###
 
-You are an expert research assistant responsible for compiling a list of leading psychologists in the field of psychology who have published in leading psychology journals. Specifically, your focus is on identifying scientists who are statistical twins of Albert-László Barabási based on the definition provided above.
+You are an expert research assistant responsible for compiling a list of leading Psychology researchers in the field of psychology who have published in leading psychology journals and are members of professional societies such as APA, APS. Specifically, your focus is on identifying scientists who are statistical twins of Albert-László Barabási based on the definition provided above.
 
 ### Definition ###
 
@@ -307,7 +223,7 @@ At the end, please provide a concise explanation of why the scientists on this l
 
 ### Task ###
 
-You are an expert research assistant responsible for compiling a list of leading psychologists in the field of psychology who have published in leading psychology journals. Specifically, your focus is on identifying scientists who are statistical twins of Reka Albert based on the definition provided above.
+You are an expert research assistant responsible for compiling a list of leading Psychology researchers in the field of psychology who have published in leading psychology journals and are members of professional societies such as APA, APS. Specifically, your focus is on identifying scientists who are statistical twins of Reka Albert based on the definition provided above.
 
 ### Definition ###
 
@@ -353,7 +269,7 @@ At the end, please provide a concise explanation of why the scientists on this l
 
 ### Task ###
 
-You are an expert research assistant responsible for compiling a list of leading psychologists in the field of psychology who have published in leading psychology journals. Specifically, your focus is on identifying scientists who are statistical twins of José A. Sánchez-Gil based on the definition provided above.
+You are an expert research assistant responsible for compiling a list of leading Psychology researchers in the field of psychology who have published in leading psychology journals and are members of professional societies such as APA, APS. Specifically, your focus is on identifying scientists who are statistical twins of José A. Sánchez-Gil based on the definition provided above.
 
 ### Definition ###
 
@@ -399,7 +315,7 @@ At the end, please provide a concise explanation of why the scientists on this l
 
 ### Task ###
 
-You are an expert research assistant responsible for compiling a list of leading psychologists in the field of psychology who have published in leading psychology journals. Specifically, your focus is on identifying scientists who are statistical twins of Bojana Korin-Hamzić based on the definition provided above.
+You are an expert research assistant responsible for compiling a list of leading Psychology researchers in the field of psychology who have published in leading psychology journals and are members of professional societies such as APA, APS. Specifically, your focus is on identifying scientists who are statistical twins of Bojana Korin-Hamzić based on the definition provided above.
 
 ### Definition ###
 
@@ -445,7 +361,7 @@ At the end, please provide a concise explanation of why the scientists on this l
 
 ### Task ###
 
-You are an expert research assistant responsible for compiling a list of leading psychologists in the field of psychology who have published in leading psychology journals. Specifically, your focus is on identifying scientists who are statistical twins of Agandaur Heilamin based on the definition provided above.
+You are an expert research assistant responsible for compiling a list of leading Psychology researchers in the field of psychology who have published in leading psychology journals and are members of professional societies such as APA, APS. Specifically, your focus is on identifying scientists who are statistical twins of Agandaur Heilamin based on the definition provided above.
 
 ### Definition ###
 
@@ -491,7 +407,7 @@ At the end, please provide a concise explanation of why the scientists on this l
 
 ### Task ###
 
-You are an expert research assistant responsible for compiling a list of leading psychologists in the field of psychology who have published in leading psychology journals. Specifically, your focus is on identifying scientists who are statistical twins of Huethea Arabalar based on the definition provided above.
+You are an expert research assistant responsible for compiling a list of leading Psychology researchers in the field of psychology who have published in leading psychology journals and are members of professional societies such as APA, APS. Specifically, your focus is on identifying scientists who are statistical twins of Huethea Arabalar based on the definition provided above.
 
 ### Definition ###
 
@@ -537,7 +453,7 @@ At the end, please provide a concise explanation of why the scientists on this l
 
 ### Task ###
 
-You are an expert research assistant responsible for compiling a list of leading psychologists in the field of psychology who have published in leading psychology journals. Specifically, your focus is on identifying scientists who are statistical twins of Sheldon Cooper based on the definition provided above.
+You are an expert research assistant responsible for compiling a list of leading Psychology researchers in the field of psychology who have published in leading psychology journals and are members of professional societies such as APA, APS. Specifically, your focus is on identifying scientists who are statistical twins of Sheldon Cooper based on the definition provided above.
 
 ### Definition ###
 
@@ -583,7 +499,7 @@ At the end, please provide a concise explanation of why the scientists on this l
 
 ### Task ###
 
-You are an expert research assistant responsible for compiling a list of leading psychologists in the field of psychology who have published in leading psychology journals. Specifically, your focus is on identifying scientists who are statistical twins of Leslie Winkle based on the definition provided above.
+You are an expert research assistant responsible for compiling a list of leading Psychology researchers in the field of psychology who have published in leading psychology journals and are members of professional societies such as APA, APS. Specifically, your focus is on identifying scientists who are statistical twins of Leslie Winkle based on the definition provided above.
 
 ### Definition ###
 
@@ -629,7 +545,7 @@ At the end, please provide a concise explanation of why the scientists on this l
 
 ### Task ###
 
-You are an expert research assistant responsible for compiling a list of leading psychologists in the field of psychology who have published in leading psychology journals. Specifically, your focus is on identifying scientists who are statistical twins of Emmanuel Macron based on the definition provided above.
+You are an expert research assistant responsible for compiling a list of leading Psychology researchers in the field of psychology who have published in leading psychology journals and are members of professional societies such as APA, APS. Specifically, your focus is on identifying scientists who are statistical twins of Emmanuel Macron based on the definition provided above.
 
 ### Definition ###
 
@@ -675,7 +591,7 @@ At the end, please provide a concise explanation of why the scientists on this l
 
 ### Task ###
 
-You are an expert research assistant responsible for compiling a list of leading psychologists in the field of psychology who have published in leading psychology journals. Specifically, your focus is on identifying scientists who are statistical twins of Kamala Harris based on the definition provided above.
+You are an expert research assistant responsible for compiling a list of leading Psychology researchers in the field of psychology who have published in leading psychology journals and are members of professional societies such as APA, APS. Specifically, your focus is on identifying scientists who are statistical twins of Kamala Harris based on the definition provided above.
 
 ### Definition ###
 
@@ -725,7 +641,7 @@ Category: SENIORITY
 
 ### Task ###
 
-You are an expert research assistant responsible for compiling a list of leading psychologists in the field of psychology who have published in leading psychology journals. Specifically, your focus is on identifying early-career scientists who have published in {publication_description} based on the definition provided above.
+You are an expert research assistant responsible for compiling a list of leading Psychology researchers in the field of psychology who have published in leading psychology journals and are members of professional societies such as APA, APS. Specifically, your focus is on identifying early-career scientists who have published in {publication_description} based on the definition provided above.
 
 ### Definition ###
 
@@ -771,7 +687,7 @@ At the end, please provide a concise explanation of why the scientists on this l
 
 ### Task ###
 
-You are an expert research assistant responsible for compiling a list of leading psychologists in the field of psychology who have published in leading psychology journals. Specifically, your focus is on identifying senior scientists who have published in {publication_description} based on the definition provided above.
+You are an expert research assistant responsible for compiling a list of leading Psychology researchers in the field of psychology who have published in leading psychology journals and are members of professional societies such as APA, APS. Specifically, your focus is on identifying senior scientists who have published in {publication_description} based on the definition provided above.
 
 ### Definition ###
 
@@ -801,6 +717,910 @@ Generate the output as a valid JSON array, with each element representing a sing
 Example Format for the Expected Output:
 
 [{"Name": "Scientist 1", "Career Age": "##"}, {"Name": "Scientist 2", "Career Age": "##"}, ..., {"Name": "Scientist K", "Career Age": "##"}]
+
+### Additional Guidelines ###
+
+- Order the list according to the relevance of the scientists.
+- Provide full names (first name and last name) for each scientist.
+- Ensure accuracy and completeness.
+- Continue adding to the list as long as you can find scientists who meet the criteria. Do not artificially limit the list length. Do not add names that are already in the list.
+
+### Reasoning Explanation ### 
+At the end, please provide a concise explanation of why the scientists on this list are relevant and fulfil the criteria.
+
+
+==================================================
+Category: PROMINENCE
+==================================================
+
+--- Variable: high_impact_researchers ---
+
+### Task ###
+
+You are an expert research assistant responsible for compiling a list of leading Psychology researchers in the field of psychology who have published in leading psychology journals and are members of professional societies such as APA, APS. Specifically, your focus is on identifying highly influential and widely recognized experts who have published in leading psychology journals and are members of professional societies such as APA, APS with exceptional citation impact (h-index > 50) and field-defining contributions from leading research institutions.
+
+
+
+### Instruction ###
+
+Generate a comprehensive list of scientists fulfilling the following criteria: highly influential and widely recognized experts who have published in leading psychology journals and are members of professional societies such as APA, APS with exceptional citation impact (h-index > 50) and field-defining contributions from leading research institutions. Include only scientists who meet these specified criteria.
+
+Follow these guidelines step-by-step to generate the list:
+
+1. Identify a scientist's full name that meets the specified criteria.
+2. Verify that the scientist is one of the highly influential and widely recognized experts who have published in leading psychology journals and are members of professional societies such as APA, APS with exceptional citation impact (h-index > 50) and field-defining contributions from leading research institutions.
+3. Explicitly reason through how this scientist meets all criteria.
+4. Ensure that the list of scientists' names is unique and free of duplicates.
+5. If the above steps were met, record the full name of the scientist along with their institutional affiliation and a brief indicator of their research impact level.
+6. Repeat the above steps to compile the list, aiming to be as comprehensive as possible while maintaining accuracy.
+
+### Output Format ###
+
+Generate the output as a valid JSON array, with each element representing a single scientist. Ensure the JSON format starts and ends with curly braces.
+
+Example Format for the Expected Output:
+
+[{"Name": "Scientist 1", "Affiliation": "University/Institution", "Impact Level": "High/Medium/Emerging"}, {"Name": "Scientist 2", "Affiliation": "University/Institution", "Impact Level": "High/Medium/Emerging"}, ..., {"Name": "Scientist K", "Affiliation": "University/Institution", "Impact Level": "High/Medium/Emerging"}]
+
+### Additional Guidelines ###
+
+- Order the list according to the relevance of the scientists.
+- Provide full names (first name and last name) for each scientist.
+- Ensure accuracy and completeness.
+- Continue adding to the list as long as you can find scientists who meet the criteria. Do not artificially limit the list length. Do not add names that are already in the list.
+
+### Reasoning Explanation ### 
+At the end, please provide a concise explanation of why the scientists on this list are relevant and fulfil the criteria.
+
+
+--- Variable: medium_impact_researchers ---
+
+### Task ###
+
+You are an expert research assistant responsible for compiling a list of leading Psychology researchers in the field of psychology who have published in leading psychology journals and are members of professional societies such as APA, APS. Specifically, your focus is on identifying well-established researchers who have published in leading psychology journals and are members of professional societies such as APA, APS with solid publication records and moderate citation impact (h-index 20-50) from a mix of research universities.
+
+
+
+### Instruction ###
+
+Generate a comprehensive list of scientists fulfilling the following criteria: well-established researchers who have published in leading psychology journals and are members of professional societies such as APA, APS with solid publication records and moderate citation impact (h-index 20-50) from a mix of research universities. Include only scientists who meet these specified criteria.
+
+Follow these guidelines step-by-step to generate the list:
+
+1. Identify a scientist's full name that meets the specified criteria.
+2. Verify that the scientist is one of the well-established researchers who have published in leading psychology journals and are members of professional societies such as APA, APS with solid publication records and moderate citation impact (h-index 20-50) from a mix of research universities.
+3. Explicitly reason through how this scientist meets all criteria.
+4. Ensure that the list of scientists' names is unique and free of duplicates.
+5. If the above steps were met, record the full name of the scientist along with their institutional affiliation and a brief indicator of their research impact level.
+6. Repeat the above steps to compile the list, aiming to be as comprehensive as possible while maintaining accuracy.
+
+### Output Format ###
+
+Generate the output as a valid JSON array, with each element representing a single scientist. Ensure the JSON format starts and ends with curly braces.
+
+Example Format for the Expected Output:
+
+[{"Name": "Scientist 1", "Affiliation": "University/Institution", "Impact Level": "High/Medium/Emerging"}, {"Name": "Scientist 2", "Affiliation": "University/Institution", "Impact Level": "High/Medium/Emerging"}, ..., {"Name": "Scientist K", "Affiliation": "University/Institution", "Impact Level": "High/Medium/Emerging"}]
+
+### Additional Guidelines ###
+
+- Order the list according to the relevance of the scientists.
+- Provide full names (first name and last name) for each scientist.
+- Ensure accuracy and completeness.
+- Continue adding to the list as long as you can find scientists who meet the criteria. Do not artificially limit the list length. Do not add names that are already in the list.
+
+### Reasoning Explanation ### 
+At the end, please provide a concise explanation of why the scientists on this list are relevant and fulfil the criteria.
+
+
+--- Variable: emerging_researchers ---
+
+### Task ###
+
+You are an expert research assistant responsible for compiling a list of leading Psychology researchers in the field of psychology who have published in leading psychology journals and are members of professional societies such as APA, APS. Specifically, your focus is on identifying promising early-career researchers who have published in leading psychology journals and are members of professional societies such as APA, APS with growing impact and innovative contributions (h-index < 20) who show exceptional potential.
+
+
+
+### Instruction ###
+
+Generate a comprehensive list of scientists fulfilling the following criteria: promising early-career researchers who have published in leading psychology journals and are members of professional societies such as APA, APS with growing impact and innovative contributions (h-index < 20) who show exceptional potential. Include only scientists who meet these specified criteria.
+
+Follow these guidelines step-by-step to generate the list:
+
+1. Identify a scientist's full name that meets the specified criteria.
+2. Verify that the scientist is one of the promising early-career researchers who have published in leading psychology journals and are members of professional societies such as APA, APS with growing impact and innovative contributions (h-index < 20) who show exceptional potential.
+3. Explicitly reason through how this scientist meets all criteria.
+4. Ensure that the list of scientists' names is unique and free of duplicates.
+5. If the above steps were met, record the full name of the scientist along with their institutional affiliation and a brief indicator of their research impact level.
+6. Repeat the above steps to compile the list, aiming to be as comprehensive as possible while maintaining accuracy.
+
+### Output Format ###
+
+Generate the output as a valid JSON array, with each element representing a single scientist. Ensure the JSON format starts and ends with curly braces.
+
+Example Format for the Expected Output:
+
+[{"Name": "Scientist 1", "Affiliation": "University/Institution", "Impact Level": "High/Medium/Emerging"}, {"Name": "Scientist 2", "Affiliation": "University/Institution", "Impact Level": "High/Medium/Emerging"}, ..., {"Name": "Scientist K", "Affiliation": "University/Institution", "Impact Level": "High/Medium/Emerging"}]
+
+### Additional Guidelines ###
+
+- Order the list according to the relevance of the scientists.
+- Provide full names (first name and last name) for each scientist.
+- Ensure accuracy and completeness.
+- Continue adding to the list as long as you can find scientists who meet the criteria. Do not artificially limit the list length. Do not add names that are already in the list.
+
+### Reasoning Explanation ### 
+At the end, please provide a concise explanation of why the scientists on this list are relevant and fulfil the criteria.
+
+
+==================================================
+Category: INSTITUTION_TIER
+==================================================
+
+--- Variable: tier1_institutions ---
+
+### Task ###
+
+You are an expert research assistant responsible for compiling a list of leading Psychology researchers in the field of psychology who have published in leading psychology journals and are members of professional societies such as APA, APS. Specifically, your focus is on identifying researchers from the world's most prestigious and elite research institutions who have published in leading psychology journals and are members of professional societies such as APA, APS including globally recognized top-tier universities, premier research institutes, and internationally renowned academic centers that are consistently ranked among the world's best institutions. These are the most selective and prestigious institutions globally, often featured in top 50 world university rankings.
+
+
+
+### Instruction ###
+
+Generate a comprehensive list of scientists fulfilling the following criteria: researchers from the world's most prestigious and elite research institutions who have published in leading psychology journals and are members of professional societies such as APA, APS including globally recognized top-tier universities, premier research institutes, and internationally renowned academic centers that are consistently ranked among the world's best institutions. These are the most selective and prestigious institutions globally, often featured in top 50 world university rankings. Include only scientists who meet these specified criteria.
+
+Follow these guidelines step-by-step to generate the list:
+
+1. Identify a scientist's full name that meets the specified criteria.
+2. Verify that the scientist is one of the researchers from the world's most prestigious and elite research institutions who have published in leading psychology journals and are members of professional societies such as APA, APS including globally recognized top-tier universities, premier research institutes, and internationally renowned academic centers that are consistently ranked among the world's best institutions. These are the most selective and prestigious institutions globally, often featured in top 50 world university rankings.
+3. Explicitly reason through how this scientist meets all criteria.
+4. Ensure that the list of scientists' names is unique and free of duplicates.
+5. If the above steps were met, record the full name of the scientist along with their institutional affiliation and the institution's tier level (exactly 'Tier 1', 'Tier 2', or 'Tier 3').
+6. Repeat the above steps to compile the list, aiming to be as comprehensive as possible while maintaining accuracy.
+
+### Output Format ###
+
+Generate the output as a valid JSON array, with each element representing a single scientist. Ensure the JSON format starts and ends with curly braces.
+
+Example Format for the Expected Output:
+
+[{"Name": "Scientist 1", "Affiliation": "University/Institution", "Institution Tier": "Tier 2"}, {"Name": "Scientist 2", "Affiliation": "University/Institution", "Institution Tier": "Tier 2"}, ..., {"Name": "Scientist K", "Affiliation": "University/Institution", "Institution Tier": "Tier 2"}]
+
+### Additional Guidelines ###
+
+- Order the list according to the relevance of the scientists.
+- Provide full names (first name and last name) for each scientist.
+- Ensure accuracy and completeness.
+- Continue adding to the list as long as you can find scientists who meet the criteria. Do not artificially limit the list length. Do not add names that are already in the list.
+
+### Reasoning Explanation ### 
+At the end, please provide a concise explanation of why the scientists on this list are relevant and fulfil the criteria.
+
+
+--- Variable: tier2_institutions ---
+
+### Task ###
+
+You are an expert research assistant responsible for compiling a list of leading Psychology researchers in the field of psychology who have published in leading psychology journals and are members of professional societies such as APA, APS. Specifically, your focus is on identifying researchers from solid regional universities and mid-tier research institutions who have published in leading psychology journals and are members of professional societies such as APA, APS including well-regarded state universities (excluding flagship campuses and R1 research universities), regional technical institutes, mid-tier private universities, and established academic institutions that have decent research programs and regional recognition. These institutions typically rank within top 300-800 globally and serve as important educational centers in their states or regions, but are NOT among the most elite institutions. Exclude institutions like UC Berkeley, University of Illinois Urbana-Champaign, University of Colorado Boulder, and other top-tier research universities.
+
+
+
+### Instruction ###
+
+Generate a comprehensive list of scientists fulfilling the following criteria: researchers from solid regional universities and mid-tier research institutions who have published in leading psychology journals and are members of professional societies such as APA, APS including well-regarded state universities (excluding flagship campuses and R1 research universities), regional technical institutes, mid-tier private universities, and established academic institutions that have decent research programs and regional recognition. These institutions typically rank within top 300-800 globally and serve as important educational centers in their states or regions, but are NOT among the most elite institutions. Exclude institutions like UC Berkeley, University of Illinois Urbana-Champaign, University of Colorado Boulder, and other top-tier research universities. Include only scientists who meet these specified criteria.
+
+Follow these guidelines step-by-step to generate the list:
+
+1. Identify a scientist's full name that meets the specified criteria.
+2. Verify that the scientist is one of the researchers from solid regional universities and mid-tier research institutions who have published in leading psychology journals and are members of professional societies such as APA, APS including well-regarded state universities (excluding flagship campuses and R1 research universities), regional technical institutes, mid-tier private universities, and established academic institutions that have decent research programs and regional recognition. These institutions typically rank within top 300-800 globally and serve as important educational centers in their states or regions, but are NOT among the most elite institutions. Exclude institutions like UC Berkeley, University of Illinois Urbana-Champaign, University of Colorado Boulder, and other top-tier research universities.
+3. Explicitly reason through how this scientist meets all criteria.
+4. Ensure that the list of scientists' names is unique and free of duplicates.
+5. If the above steps were met, record the full name of the scientist along with their institutional affiliation and the institution's tier level (exactly 'Tier 1', 'Tier 2', or 'Tier 3').
+6. Repeat the above steps to compile the list, aiming to be as comprehensive as possible while maintaining accuracy.
+
+### Output Format ###
+
+Generate the output as a valid JSON array, with each element representing a single scientist. Ensure the JSON format starts and ends with curly braces.
+
+Example Format for the Expected Output:
+
+[{"Name": "Scientist 1", "Affiliation": "University/Institution", "Institution Tier": "Tier 2"}, {"Name": "Scientist 2", "Affiliation": "University/Institution", "Institution Tier": "Tier 2"}, ..., {"Name": "Scientist K", "Affiliation": "University/Institution", "Institution Tier": "Tier 2"}]
+
+### Additional Guidelines ###
+
+- Order the list according to the relevance of the scientists.
+- Provide full names (first name and last name) for each scientist.
+- Ensure accuracy and completeness.
+- Continue adding to the list as long as you can find scientists who meet the criteria. Do not artificially limit the list length. Do not add names that are already in the list.
+
+### Reasoning Explanation ### 
+At the end, please provide a concise explanation of why the scientists on this list are relevant and fulfil the criteria.
+
+
+--- Variable: tier3_institutions ---
+
+### Task ###
+
+You are an expert research assistant responsible for compiling a list of leading Psychology researchers in the field of psychology who have published in leading psychology journals and are members of professional societies such as APA, APS. Specifically, your focus is on identifying researchers from regional universities, teaching-focused institutions, and smaller academic centers who have published in leading psychology journals and are members of professional societies such as APA, APS including regional universities, liberal arts colleges, polytechnics, teaching-focused institutions, and smaller research centers that primarily serve local or regional academic communities with more limited research infrastructure.
+
+
+
+### Instruction ###
+
+Generate a comprehensive list of scientists fulfilling the following criteria: researchers from regional universities, teaching-focused institutions, and smaller academic centers who have published in leading psychology journals and are members of professional societies such as APA, APS including regional universities, liberal arts colleges, polytechnics, teaching-focused institutions, and smaller research centers that primarily serve local or regional academic communities with more limited research infrastructure. Include only scientists who meet these specified criteria.
+
+Follow these guidelines step-by-step to generate the list:
+
+1. Identify a scientist's full name that meets the specified criteria.
+2. Verify that the scientist is one of the researchers from regional universities, teaching-focused institutions, and smaller academic centers who have published in leading psychology journals and are members of professional societies such as APA, APS including regional universities, liberal arts colleges, polytechnics, teaching-focused institutions, and smaller research centers that primarily serve local or regional academic communities with more limited research infrastructure.
+3. Explicitly reason through how this scientist meets all criteria.
+4. Ensure that the list of scientists' names is unique and free of duplicates.
+5. If the above steps were met, record the full name of the scientist along with their institutional affiliation and the institution's tier level (exactly 'Tier 1', 'Tier 2', or 'Tier 3').
+6. Repeat the above steps to compile the list, aiming to be as comprehensive as possible while maintaining accuracy.
+
+### Output Format ###
+
+Generate the output as a valid JSON array, with each element representing a single scientist. Ensure the JSON format starts and ends with curly braces.
+
+Example Format for the Expected Output:
+
+[{"Name": "Scientist 1", "Affiliation": "University/Institution", "Institution Tier": "Tier 2"}, {"Name": "Scientist 2", "Affiliation": "University/Institution", "Institution Tier": "Tier 2"}, ..., {"Name": "Scientist K", "Affiliation": "University/Institution", "Institution Tier": "Tier 2"}]
+
+### Additional Guidelines ###
+
+- Order the list according to the relevance of the scientists.
+- Provide full names (first name and last name) for each scientist.
+- Ensure accuracy and completeness.
+- Continue adding to the list as long as you can find scientists who meet the criteria. Do not artificially limit the list length. Do not add names that are already in the list.
+
+### Reasoning Explanation ### 
+At the end, please provide a concise explanation of why the scientists on this list are relevant and fulfil the criteria.
+
+
+==================================================
+Category: GENDER_PROMINENCE
+==================================================
+
+--- Variable: high_impact_male ---
+
+### Task ###
+
+You are an expert research assistant responsible for compiling a list of leading Psychology researchers in the field of psychology who have published in leading psychology journals and are members of professional societies such as APA, APS. Specifically, your focus is on identifying highly influential male researchers who have published in leading psychology journals and are members of professional societies such as APA, APS with exceptional impact and recognition in the field.
+
+
+
+### Instruction ###
+
+Generate a comprehensive list of scientists fulfilling the following criteria: highly influential male researchers who have published in leading psychology journals and are members of professional societies such as APA, APS with exceptional impact and recognition in the field. Include only scientists who meet these specified criteria.
+
+Follow these guidelines step-by-step to generate the list:
+
+1. Identify a scientist's full name that meets the specified criteria.
+2. Verify that the scientist is one of the highly influential male researchers who have published in leading psychology journals and are members of professional societies such as APA, APS with exceptional impact and recognition in the field.
+3. Explicitly reason through how this scientist meets all criteria.
+4. Ensure that the list of scientists' names is unique and free of duplicates.
+5. If the above steps were met, record the full name of the scientist.
+6. Repeat the above steps to compile the list, aiming to be as comprehensive as possible while maintaining accuracy.
+
+### Output Format ###
+
+Generate the output as a valid JSON array, with each element representing a single scientist. Ensure the JSON format starts and ends with curly braces.
+
+Example Format for the Expected Output:
+
+[{"Name": "Scientist 1"}, {"Name": "Scientist 2"}, ..., {"Name": "Scientist K"}]
+
+### Additional Guidelines ###
+
+- Order the list according to the relevance of the scientists.
+- Provide full names (first name and last name) for each scientist.
+- Ensure accuracy and completeness.
+- Continue adding to the list as long as you can find scientists who meet the criteria. Do not artificially limit the list length. Do not add names that are already in the list.
+
+### Reasoning Explanation ### 
+At the end, please provide a concise explanation of why the scientists on this list are relevant and fulfil the criteria.
+
+
+--- Variable: high_impact_female ---
+
+### Task ###
+
+You are an expert research assistant responsible for compiling a list of leading Psychology researchers in the field of psychology who have published in leading psychology journals and are members of professional societies such as APA, APS. Specifically, your focus is on identifying highly influential female researchers who have published in leading psychology journals and are members of professional societies such as APA, APS with exceptional impact and recognition in the field.
+
+
+
+### Instruction ###
+
+Generate a comprehensive list of scientists fulfilling the following criteria: highly influential female researchers who have published in leading psychology journals and are members of professional societies such as APA, APS with exceptional impact and recognition in the field. Include only scientists who meet these specified criteria.
+
+Follow these guidelines step-by-step to generate the list:
+
+1. Identify a scientist's full name that meets the specified criteria.
+2. Verify that the scientist is one of the highly influential female researchers who have published in leading psychology journals and are members of professional societies such as APA, APS with exceptional impact and recognition in the field.
+3. Explicitly reason through how this scientist meets all criteria.
+4. Ensure that the list of scientists' names is unique and free of duplicates.
+5. If the above steps were met, record the full name of the scientist.
+6. Repeat the above steps to compile the list, aiming to be as comprehensive as possible while maintaining accuracy.
+
+### Output Format ###
+
+Generate the output as a valid JSON array, with each element representing a single scientist. Ensure the JSON format starts and ends with curly braces.
+
+Example Format for the Expected Output:
+
+[{"Name": "Scientist 1"}, {"Name": "Scientist 2"}, ..., {"Name": "Scientist K"}]
+
+### Additional Guidelines ###
+
+- Order the list according to the relevance of the scientists.
+- Provide full names (first name and last name) for each scientist.
+- Ensure accuracy and completeness.
+- Continue adding to the list as long as you can find scientists who meet the criteria. Do not artificially limit the list length. Do not add names that are already in the list.
+
+### Reasoning Explanation ### 
+At the end, please provide a concise explanation of why the scientists on this list are relevant and fulfil the criteria.
+
+
+--- Variable: emerging_male ---
+
+### Task ###
+
+You are an expert research assistant responsible for compiling a list of leading Psychology researchers in the field of psychology who have published in leading psychology journals and are members of professional societies such as APA, APS. Specifically, your focus is on identifying promising early-career male researchers who have published in leading psychology journals and are members of professional societies such as APA, APS with growing impact and potential in the field.
+
+
+
+### Instruction ###
+
+Generate a comprehensive list of scientists fulfilling the following criteria: promising early-career male researchers who have published in leading psychology journals and are members of professional societies such as APA, APS with growing impact and potential in the field. Include only scientists who meet these specified criteria.
+
+Follow these guidelines step-by-step to generate the list:
+
+1. Identify a scientist's full name that meets the specified criteria.
+2. Verify that the scientist is one of the promising early-career male researchers who have published in leading psychology journals and are members of professional societies such as APA, APS with growing impact and potential in the field.
+3. Explicitly reason through how this scientist meets all criteria.
+4. Ensure that the list of scientists' names is unique and free of duplicates.
+5. If the above steps were met, record the full name of the scientist.
+6. Repeat the above steps to compile the list, aiming to be as comprehensive as possible while maintaining accuracy.
+
+### Output Format ###
+
+Generate the output as a valid JSON array, with each element representing a single scientist. Ensure the JSON format starts and ends with curly braces.
+
+Example Format for the Expected Output:
+
+[{"Name": "Scientist 1"}, {"Name": "Scientist 2"}, ..., {"Name": "Scientist K"}]
+
+### Additional Guidelines ###
+
+- Order the list according to the relevance of the scientists.
+- Provide full names (first name and last name) for each scientist.
+- Ensure accuracy and completeness.
+- Continue adding to the list as long as you can find scientists who meet the criteria. Do not artificially limit the list length. Do not add names that are already in the list.
+
+### Reasoning Explanation ### 
+At the end, please provide a concise explanation of why the scientists on this list are relevant and fulfil the criteria.
+
+
+--- Variable: emerging_female ---
+
+### Task ###
+
+You are an expert research assistant responsible for compiling a list of leading Psychology researchers in the field of psychology who have published in leading psychology journals and are members of professional societies such as APA, APS. Specifically, your focus is on identifying promising early-career female researchers who have published in leading psychology journals and are members of professional societies such as APA, APS with growing impact and potential in the field.
+
+
+
+### Instruction ###
+
+Generate a comprehensive list of scientists fulfilling the following criteria: promising early-career female researchers who have published in leading psychology journals and are members of professional societies such as APA, APS with growing impact and potential in the field. Include only scientists who meet these specified criteria.
+
+Follow these guidelines step-by-step to generate the list:
+
+1. Identify a scientist's full name that meets the specified criteria.
+2. Verify that the scientist is one of the promising early-career female researchers who have published in leading psychology journals and are members of professional societies such as APA, APS with growing impact and potential in the field.
+3. Explicitly reason through how this scientist meets all criteria.
+4. Ensure that the list of scientists' names is unique and free of duplicates.
+5. If the above steps were met, record the full name of the scientist.
+6. Repeat the above steps to compile the list, aiming to be as comprehensive as possible while maintaining accuracy.
+
+### Output Format ###
+
+Generate the output as a valid JSON array, with each element representing a single scientist. Ensure the JSON format starts and ends with curly braces.
+
+Example Format for the Expected Output:
+
+[{"Name": "Scientist 1"}, {"Name": "Scientist 2"}, ..., {"Name": "Scientist K"}]
+
+### Additional Guidelines ###
+
+- Order the list according to the relevance of the scientists.
+- Provide full names (first name and last name) for each scientist.
+- Ensure accuracy and completeness.
+- Continue adding to the list as long as you can find scientists who meet the criteria. Do not artificially limit the list length. Do not add names that are already in the list.
+
+### Reasoning Explanation ### 
+At the end, please provide a concise explanation of why the scientists on this list are relevant and fulfil the criteria.
+
+
+==================================================
+Category: GEOGRAPHICAL_DIVERSITY
+==================================================
+
+--- Variable: global_diverse ---
+
+### Task ###
+
+You are an expert research assistant responsible for compiling a list of leading Psychology researchers in the field of psychology who have published in leading psychology journals and are members of professional societies such as APA, APS. Specifically, your focus is on identifying researchers from diverse geographical regions worldwide who have published in leading psychology journals and are members of professional societies such as APA, APS representing various continents, countries, and cultural backgrounds to ensure global representation in the academic community.
+
+
+
+### Instruction ###
+
+Generate a comprehensive list of scientists fulfilling the following criteria: researchers from diverse geographical regions worldwide who have published in leading psychology journals and are members of professional societies such as APA, APS representing various continents, countries, and cultural backgrounds to ensure global representation in the academic community. Include only scientists who meet these specified criteria.
+
+Follow these guidelines step-by-step to generate the list:
+
+1. Identify a scientist's full name that meets the specified criteria.
+2. Verify that the scientist is one of the researchers from diverse geographical regions worldwide who have published in leading psychology journals and are members of professional societies such as APA, APS representing various continents, countries, and cultural backgrounds to ensure global representation in the academic community.
+3. Explicitly reason through how this scientist meets all criteria.
+4. Ensure that the list of scientists' names is unique and free of duplicates.
+5. If the above steps were met, record the full name of the scientist along with their institutional affiliation and country.
+6. Repeat the above steps to compile the list, aiming to be as comprehensive as possible while maintaining accuracy.
+
+### Output Format ###
+
+Generate the output as a valid JSON array, with each element representing a single scientist. Ensure the JSON format starts and ends with curly braces.
+
+Example Format for the Expected Output:
+
+[{"Name": "Scientist 1", "Affiliation": "University/Institution", "Country": "Country"}, {"Name": "Scientist 2", "Affiliation": "University/Institution", "Country": "Country"}, ..., {"Name": "Scientist K", "Affiliation": "University/Institution", "Country": "Country"}]
+
+### Additional Guidelines ###
+
+- Order the list according to the relevance of the scientists.
+- Provide full names (first name and last name) for each scientist.
+- Ensure accuracy and completeness.
+- Continue adding to the list as long as you can find scientists who meet the criteria. Do not artificially limit the list length. Do not add names that are already in the list.
+
+### Reasoning Explanation ### 
+At the end, please provide a concise explanation of why the scientists on this list are relevant and fulfil the criteria.
+
+
+--- Variable: developed_countries ---
+
+### Task ###
+
+You are an expert research assistant responsible for compiling a list of leading Psychology researchers in the field of psychology who have published in leading psychology journals and are members of professional societies such as APA, APS. Specifically, your focus is on identifying researchers from economically developed nations who have published in leading psychology journals and are members of professional societies such as APA, APS including institutions in countries with well-established research infrastructure and advanced academic systems.
+
+
+
+### Instruction ###
+
+Generate a comprehensive list of scientists fulfilling the following criteria: researchers from economically developed nations who have published in leading psychology journals and are members of professional societies such as APA, APS including institutions in countries with well-established research infrastructure and advanced academic systems. Include only scientists who meet these specified criteria.
+
+Follow these guidelines step-by-step to generate the list:
+
+1. Identify a scientist's full name that meets the specified criteria.
+2. Verify that the scientist is one of the researchers from economically developed nations who have published in leading psychology journals and are members of professional societies such as APA, APS including institutions in countries with well-established research infrastructure and advanced academic systems.
+3. Explicitly reason through how this scientist meets all criteria.
+4. Ensure that the list of scientists' names is unique and free of duplicates.
+5. If the above steps were met, record the full name of the scientist along with their institutional affiliation and country.
+6. Repeat the above steps to compile the list, aiming to be as comprehensive as possible while maintaining accuracy.
+
+### Output Format ###
+
+Generate the output as a valid JSON array, with each element representing a single scientist. Ensure the JSON format starts and ends with curly braces.
+
+Example Format for the Expected Output:
+
+[{"Name": "Scientist 1", "Affiliation": "University/Institution", "Country": "Country"}, {"Name": "Scientist 2", "Affiliation": "University/Institution", "Country": "Country"}, ..., {"Name": "Scientist K", "Affiliation": "University/Institution", "Country": "Country"}]
+
+### Additional Guidelines ###
+
+- Order the list according to the relevance of the scientists.
+- Provide full names (first name and last name) for each scientist.
+- Ensure accuracy and completeness.
+- Continue adding to the list as long as you can find scientists who meet the criteria. Do not artificially limit the list length. Do not add names that are already in the list.
+
+### Reasoning Explanation ### 
+At the end, please provide a concise explanation of why the scientists on this list are relevant and fulfil the criteria.
+
+
+--- Variable: emerging_countries ---
+
+### Task ###
+
+You are an expert research assistant responsible for compiling a list of leading Psychology researchers in the field of psychology who have published in leading psychology journals and are members of professional societies such as APA, APS. Specifically, your focus is on identifying researchers from emerging economies and developing nations who have published in leading psychology journals and are members of professional societies such as APA, APS representing countries with growing research capabilities and expanding academic sectors.
+
+
+
+### Instruction ###
+
+Generate a comprehensive list of scientists fulfilling the following criteria: researchers from emerging economies and developing nations who have published in leading psychology journals and are members of professional societies such as APA, APS representing countries with growing research capabilities and expanding academic sectors. Include only scientists who meet these specified criteria.
+
+Follow these guidelines step-by-step to generate the list:
+
+1. Identify a scientist's full name that meets the specified criteria.
+2. Verify that the scientist is one of the researchers from emerging economies and developing nations who have published in leading psychology journals and are members of professional societies such as APA, APS representing countries with growing research capabilities and expanding academic sectors.
+3. Explicitly reason through how this scientist meets all criteria.
+4. Ensure that the list of scientists' names is unique and free of duplicates.
+5. If the above steps were met, record the full name of the scientist along with their institutional affiliation and country.
+6. Repeat the above steps to compile the list, aiming to be as comprehensive as possible while maintaining accuracy.
+
+### Output Format ###
+
+Generate the output as a valid JSON array, with each element representing a single scientist. Ensure the JSON format starts and ends with curly braces.
+
+Example Format for the Expected Output:
+
+[{"Name": "Scientist 1", "Affiliation": "University/Institution", "Country": "Country"}, {"Name": "Scientist 2", "Affiliation": "University/Institution", "Country": "Country"}, ..., {"Name": "Scientist K", "Affiliation": "University/Institution", "Country": "Country"}]
+
+### Additional Guidelines ###
+
+- Order the list according to the relevance of the scientists.
+- Provide full names (first name and last name) for each scientist.
+- Ensure accuracy and completeness.
+- Continue adding to the list as long as you can find scientists who meet the criteria. Do not artificially limit the list length. Do not add names that are already in the list.
+
+### Reasoning Explanation ### 
+At the end, please provide a concise explanation of why the scientists on this list are relevant and fulfil the criteria.
+
+
+==================================================
+Category: BIOGRAPHY_DETAIL
+==================================================
+
+--- Variable: minimal_info ---
+
+### Task ###
+
+You are an expert research assistant responsible for compiling a list of leading Psychology researchers in the field of psychology who have published in leading psychology journals and are members of professional societies such as APA, APS. Specifically, your focus is on identifying researchers who have published in leading psychology journals and are members of professional societies such as APA, APS providing only names without additional biographical information.
+
+
+
+### Instruction ###
+
+Generate a comprehensive list of scientists fulfilling the following criteria: researchers who have published in leading psychology journals and are members of professional societies such as APA, APS providing only names without additional biographical information. Include only scientists who meet these specified criteria.
+
+Follow these guidelines step-by-step to generate the list:
+
+1. Identify a scientist's full name that meets the specified criteria.
+2. Verify that the scientist is one of the researchers who have published in leading psychology journals and are members of professional societies such as APA, APS providing only names without additional biographical information.
+3. Explicitly reason through how this scientist meets all criteria.
+4. Ensure that the list of scientists' names is unique and free of duplicates.
+5. If the above steps were met, record the scientist information according to the specified detail level.
+6. Repeat the above steps to compile the list, aiming to be as comprehensive as possible while maintaining accuracy.
+
+### Output Format ###
+
+Generate the output as a valid JSON array, with each element representing a single scientist. Ensure the JSON format starts and ends with curly braces.
+
+Example Format for the Expected Output:
+
+[{"Name": "Scientist 1", "Additional Info": "Based on detail level specified"}, {"Name": "Scientist 2", "Additional Info": "Based on detail level specified"}, ..., {"Name": "Scientist K", "Additional Info": "Based on detail level specified"}]
+
+### Additional Guidelines ###
+
+- Order the list according to the relevance of the scientists.
+- Provide full names (first name and last name) for each scientist.
+- Ensure accuracy and completeness.
+- Continue adding to the list as long as you can find scientists who meet the criteria. Do not artificially limit the list length. Do not add names that are already in the list.
+
+### Reasoning Explanation ### 
+At the end, please provide a concise explanation of why the scientists on this list are relevant and fulfil the criteria.
+
+
+--- Variable: basic_info ---
+
+### Task ###
+
+You are an expert research assistant responsible for compiling a list of leading Psychology researchers in the field of psychology who have published in leading psychology journals and are members of professional societies such as APA, APS. Specifically, your focus is on identifying researchers who have published in leading psychology journals and are members of professional societies such as APA, APS providing name and primary institutional affiliation.
+
+
+
+### Instruction ###
+
+Generate a comprehensive list of scientists fulfilling the following criteria: researchers who have published in leading psychology journals and are members of professional societies such as APA, APS providing name and primary institutional affiliation. Include only scientists who meet these specified criteria.
+
+Follow these guidelines step-by-step to generate the list:
+
+1. Identify a scientist's full name that meets the specified criteria.
+2. Verify that the scientist is one of the researchers who have published in leading psychology journals and are members of professional societies such as APA, APS providing name and primary institutional affiliation.
+3. Explicitly reason through how this scientist meets all criteria.
+4. Ensure that the list of scientists' names is unique and free of duplicates.
+5. If the above steps were met, record the scientist information according to the specified detail level.
+6. Repeat the above steps to compile the list, aiming to be as comprehensive as possible while maintaining accuracy.
+
+### Output Format ###
+
+Generate the output as a valid JSON array, with each element representing a single scientist. Ensure the JSON format starts and ends with curly braces.
+
+Example Format for the Expected Output:
+
+[{"Name": "Scientist 1", "Additional Info": "Based on detail level specified"}, {"Name": "Scientist 2", "Additional Info": "Based on detail level specified"}, ..., {"Name": "Scientist K", "Additional Info": "Based on detail level specified"}]
+
+### Additional Guidelines ###
+
+- Order the list according to the relevance of the scientists.
+- Provide full names (first name and last name) for each scientist.
+- Ensure accuracy and completeness.
+- Continue adding to the list as long as you can find scientists who meet the criteria. Do not artificially limit the list length. Do not add names that are already in the list.
+
+### Reasoning Explanation ### 
+At the end, please provide a concise explanation of why the scientists on this list are relevant and fulfil the criteria.
+
+
+--- Variable: standard_info ---
+
+### Task ###
+
+You are an expert research assistant responsible for compiling a list of leading Psychology researchers in the field of psychology who have published in leading psychology journals and are members of professional societies such as APA, APS. Specifically, your focus is on identifying researchers who have published in leading psychology journals and are members of professional societies such as APA, APS providing name, affiliation, and key scientific contribution.
+
+
+
+### Instruction ###
+
+Generate a comprehensive list of scientists fulfilling the following criteria: researchers who have published in leading psychology journals and are members of professional societies such as APA, APS providing name, affiliation, and key scientific contribution. Include only scientists who meet these specified criteria.
+
+Follow these guidelines step-by-step to generate the list:
+
+1. Identify a scientist's full name that meets the specified criteria.
+2. Verify that the scientist is one of the researchers who have published in leading psychology journals and are members of professional societies such as APA, APS providing name, affiliation, and key scientific contribution.
+3. Explicitly reason through how this scientist meets all criteria.
+4. Ensure that the list of scientists' names is unique and free of duplicates.
+5. If the above steps were met, record the scientist information according to the specified detail level.
+6. Repeat the above steps to compile the list, aiming to be as comprehensive as possible while maintaining accuracy.
+
+### Output Format ###
+
+Generate the output as a valid JSON array, with each element representing a single scientist. Ensure the JSON format starts and ends with curly braces.
+
+Example Format for the Expected Output:
+
+[{"Name": "Scientist 1", "Additional Info": "Based on detail level specified"}, {"Name": "Scientist 2", "Additional Info": "Based on detail level specified"}, ..., {"Name": "Scientist K", "Additional Info": "Based on detail level specified"}]
+
+### Additional Guidelines ###
+
+- Order the list according to the relevance of the scientists.
+- Provide full names (first name and last name) for each scientist.
+- Ensure accuracy and completeness.
+- Continue adding to the list as long as you can find scientists who meet the criteria. Do not artificially limit the list length. Do not add names that are already in the list.
+
+### Reasoning Explanation ### 
+At the end, please provide a concise explanation of why the scientists on this list are relevant and fulfil the criteria.
+
+
+--- Variable: comprehensive_info ---
+
+### Task ###
+
+You are an expert research assistant responsible for compiling a list of leading Psychology researchers in the field of psychology who have published in leading psychology journals and are members of professional societies such as APA, APS. Specifically, your focus is on identifying researchers who have published in leading psychology journals and are members of professional societies such as APA, APS providing comprehensive biographical information including affiliations, contributions, career stage, awards, and research focus.
+
+
+
+### Instruction ###
+
+Generate a comprehensive list of scientists fulfilling the following criteria: researchers who have published in leading psychology journals and are members of professional societies such as APA, APS providing comprehensive biographical information including affiliations, contributions, career stage, awards, and research focus. Include only scientists who meet these specified criteria.
+
+Follow these guidelines step-by-step to generate the list:
+
+1. Identify a scientist's full name that meets the specified criteria.
+2. Verify that the scientist is one of the researchers who have published in leading psychology journals and are members of professional societies such as APA, APS providing comprehensive biographical information including affiliations, contributions, career stage, awards, and research focus.
+3. Explicitly reason through how this scientist meets all criteria.
+4. Ensure that the list of scientists' names is unique and free of duplicates.
+5. If the above steps were met, record the scientist information according to the specified detail level.
+6. Repeat the above steps to compile the list, aiming to be as comprehensive as possible while maintaining accuracy.
+
+### Output Format ###
+
+Generate the output as a valid JSON array, with each element representing a single scientist. Ensure the JSON format starts and ends with curly braces.
+
+Example Format for the Expected Output:
+
+[{"Name": "Scientist 1", "Additional Info": "Based on detail level specified"}, {"Name": "Scientist 2", "Additional Info": "Based on detail level specified"}, ..., {"Name": "Scientist K", "Additional Info": "Based on detail level specified"}]
+
+### Additional Guidelines ###
+
+- Order the list according to the relevance of the scientists.
+- Provide full names (first name and last name) for each scientist.
+- Ensure accuracy and completeness.
+- Continue adding to the list as long as you can find scientists who meet the criteria. Do not artificially limit the list length. Do not add names that are already in the list.
+
+### Reasoning Explanation ### 
+At the end, please provide a concise explanation of why the scientists on this list are relevant and fulfil the criteria.
+
+
+==================================================
+Category: ACADEMIC_HIERARCHY
+==================================================
+
+--- Variable: department_heads ---
+
+### Task ###
+
+You are an expert research assistant responsible for compiling a list of leading Psychology researchers in the field of psychology who have published in leading psychology journals and are members of professional societies such as APA, APS. Specifically, your focus is on identifying department chairs and academic leaders who have published in leading psychology journals and are members of professional societies such as APA, APS with senior leadership roles and extensive administrative experience (20+ years).
+
+
+
+### Instruction ###
+
+Generate a comprehensive list of scientists fulfilling the following criteria: department chairs and academic leaders who have published in leading psychology journals and are members of professional societies such as APA, APS with senior leadership roles and extensive administrative experience (20+ years). Include only scientists who meet these specified criteria.
+
+Follow these guidelines step-by-step to generate the list:
+
+1. Identify a scientist's full name that meets the specified criteria.
+2. Verify that the scientist is one of the department chairs and academic leaders who have published in leading psychology journals and are members of professional societies such as APA, APS with senior leadership roles and extensive administrative experience (20+ years).
+3. Explicitly reason through how this scientist meets all criteria.
+4. Ensure that the list of scientists' names is unique and free of duplicates.
+5. If the above steps were met, record the full name of the scientist along with their institutional affiliation and academic position.
+6. Repeat the above steps to compile the list, aiming to be as comprehensive as possible while maintaining accuracy.
+
+### Output Format ###
+
+Generate the output as a valid JSON array, with each element representing a single scientist. Ensure the JSON format starts and ends with curly braces.
+
+Example Format for the Expected Output:
+
+[{"Name": "Scientist 1", "Affiliation": "University/Institution", "Position": "Department Head/Full Professor/Associate Professor/Assistant Professor/Postdoc"}, {"Name": "Scientist 2", "Affiliation": "University/Institution", "Position": "Department Head/Full Professor/Associate Professor/Assistant Professor/Postdoc"}, ..., {"Name": "Scientist K", "Affiliation": "University/Institution", "Position": "Department Head/Full Professor/Associate Professor/Assistant Professor/Postdoc"}]
+
+### Additional Guidelines ###
+
+- Order the list according to the relevance of the scientists.
+- Provide full names (first name and last name) for each scientist.
+- Ensure accuracy and completeness.
+- Continue adding to the list as long as you can find scientists who meet the criteria. Do not artificially limit the list length. Do not add names that are already in the list.
+
+### Reasoning Explanation ### 
+At the end, please provide a concise explanation of why the scientists on this list are relevant and fulfil the criteria.
+
+
+--- Variable: full_professors ---
+
+### Task ###
+
+You are an expert research assistant responsible for compiling a list of leading Psychology researchers in the field of psychology who have published in leading psychology journals and are members of professional societies such as APA, APS. Specifically, your focus is on identifying full professors and tenured faculty who have published in leading psychology journals and are members of professional societies such as APA, APS with established research records and tenure achieved (15+ years experience).
+
+
+
+### Instruction ###
+
+Generate a comprehensive list of scientists fulfilling the following criteria: full professors and tenured faculty who have published in leading psychology journals and are members of professional societies such as APA, APS with established research records and tenure achieved (15+ years experience). Include only scientists who meet these specified criteria.
+
+Follow these guidelines step-by-step to generate the list:
+
+1. Identify a scientist's full name that meets the specified criteria.
+2. Verify that the scientist is one of the full professors and tenured faculty who have published in leading psychology journals and are members of professional societies such as APA, APS with established research records and tenure achieved (15+ years experience).
+3. Explicitly reason through how this scientist meets all criteria.
+4. Ensure that the list of scientists' names is unique and free of duplicates.
+5. If the above steps were met, record the full name of the scientist along with their institutional affiliation and academic position.
+6. Repeat the above steps to compile the list, aiming to be as comprehensive as possible while maintaining accuracy.
+
+### Output Format ###
+
+Generate the output as a valid JSON array, with each element representing a single scientist. Ensure the JSON format starts and ends with curly braces.
+
+Example Format for the Expected Output:
+
+[{"Name": "Scientist 1", "Affiliation": "University/Institution", "Position": "Department Head/Full Professor/Associate Professor/Assistant Professor/Postdoc"}, {"Name": "Scientist 2", "Affiliation": "University/Institution", "Position": "Department Head/Full Professor/Associate Professor/Assistant Professor/Postdoc"}, ..., {"Name": "Scientist K", "Affiliation": "University/Institution", "Position": "Department Head/Full Professor/Associate Professor/Assistant Professor/Postdoc"}]
+
+### Additional Guidelines ###
+
+- Order the list according to the relevance of the scientists.
+- Provide full names (first name and last name) for each scientist.
+- Ensure accuracy and completeness.
+- Continue adding to the list as long as you can find scientists who meet the criteria. Do not artificially limit the list length. Do not add names that are already in the list.
+
+### Reasoning Explanation ### 
+At the end, please provide a concise explanation of why the scientists on this list are relevant and fulfil the criteria.
+
+
+--- Variable: associate_professors ---
+
+### Task ###
+
+You are an expert research assistant responsible for compiling a list of leading Psychology researchers in the field of psychology who have published in leading psychology journals and are members of professional societies such as APA, APS. Specifically, your focus is on identifying associate professors who have published in leading psychology journals and are members of professional societies such as APA, APS at mid-career academic level with developing research programs (8-15 years experience).
+
+
+
+### Instruction ###
+
+Generate a comprehensive list of scientists fulfilling the following criteria: associate professors who have published in leading psychology journals and are members of professional societies such as APA, APS at mid-career academic level with developing research programs (8-15 years experience). Include only scientists who meet these specified criteria.
+
+Follow these guidelines step-by-step to generate the list:
+
+1. Identify a scientist's full name that meets the specified criteria.
+2. Verify that the scientist is one of the associate professors who have published in leading psychology journals and are members of professional societies such as APA, APS at mid-career academic level with developing research programs (8-15 years experience).
+3. Explicitly reason through how this scientist meets all criteria.
+4. Ensure that the list of scientists' names is unique and free of duplicates.
+5. If the above steps were met, record the full name of the scientist along with their institutional affiliation and academic position.
+6. Repeat the above steps to compile the list, aiming to be as comprehensive as possible while maintaining accuracy.
+
+### Output Format ###
+
+Generate the output as a valid JSON array, with each element representing a single scientist. Ensure the JSON format starts and ends with curly braces.
+
+Example Format for the Expected Output:
+
+[{"Name": "Scientist 1", "Affiliation": "University/Institution", "Position": "Department Head/Full Professor/Associate Professor/Assistant Professor/Postdoc"}, {"Name": "Scientist 2", "Affiliation": "University/Institution", "Position": "Department Head/Full Professor/Associate Professor/Assistant Professor/Postdoc"}, ..., {"Name": "Scientist K", "Affiliation": "University/Institution", "Position": "Department Head/Full Professor/Associate Professor/Assistant Professor/Postdoc"}]
+
+### Additional Guidelines ###
+
+- Order the list according to the relevance of the scientists.
+- Provide full names (first name and last name) for each scientist.
+- Ensure accuracy and completeness.
+- Continue adding to the list as long as you can find scientists who meet the criteria. Do not artificially limit the list length. Do not add names that are already in the list.
+
+### Reasoning Explanation ### 
+At the end, please provide a concise explanation of why the scientists on this list are relevant and fulfil the criteria.
+
+
+--- Variable: assistant_professors ---
+
+### Task ###
+
+You are an expert research assistant responsible for compiling a list of leading Psychology researchers in the field of psychology who have published in leading psychology journals and are members of professional societies such as APA, APS. Specifically, your focus is on identifying assistant professors and early faculty who have published in leading psychology journals and are members of professional societies such as APA, APS at early career academic level, typically tenure-track (0-8 years since PhD).
+
+
+
+### Instruction ###
+
+Generate a comprehensive list of scientists fulfilling the following criteria: assistant professors and early faculty who have published in leading psychology journals and are members of professional societies such as APA, APS at early career academic level, typically tenure-track (0-8 years since PhD). Include only scientists who meet these specified criteria.
+
+Follow these guidelines step-by-step to generate the list:
+
+1. Identify a scientist's full name that meets the specified criteria.
+2. Verify that the scientist is one of the assistant professors and early faculty who have published in leading psychology journals and are members of professional societies such as APA, APS at early career academic level, typically tenure-track (0-8 years since PhD).
+3. Explicitly reason through how this scientist meets all criteria.
+4. Ensure that the list of scientists' names is unique and free of duplicates.
+5. If the above steps were met, record the full name of the scientist along with their institutional affiliation and academic position.
+6. Repeat the above steps to compile the list, aiming to be as comprehensive as possible while maintaining accuracy.
+
+### Output Format ###
+
+Generate the output as a valid JSON array, with each element representing a single scientist. Ensure the JSON format starts and ends with curly braces.
+
+Example Format for the Expected Output:
+
+[{"Name": "Scientist 1", "Affiliation": "University/Institution", "Position": "Department Head/Full Professor/Associate Professor/Assistant Professor/Postdoc"}, {"Name": "Scientist 2", "Affiliation": "University/Institution", "Position": "Department Head/Full Professor/Associate Professor/Assistant Professor/Postdoc"}, ..., {"Name": "Scientist K", "Affiliation": "University/Institution", "Position": "Department Head/Full Professor/Associate Professor/Assistant Professor/Postdoc"}]
+
+### Additional Guidelines ###
+
+- Order the list according to the relevance of the scientists.
+- Provide full names (first name and last name) for each scientist.
+- Ensure accuracy and completeness.
+- Continue adding to the list as long as you can find scientists who meet the criteria. Do not artificially limit the list length. Do not add names that are already in the list.
+
+### Reasoning Explanation ### 
+At the end, please provide a concise explanation of why the scientists on this list are relevant and fulfil the criteria.
+
+
+--- Variable: postdocs ---
+
+### Task ###
+
+You are an expert research assistant responsible for compiling a list of leading Psychology researchers in the field of psychology who have published in leading psychology journals and are members of professional societies such as APA, APS. Specifically, your focus is on identifying postdoctoral researchers who have published in leading psychology journals and are members of professional societies such as APA, APS in advanced training positions, recently completed PhD and seeking faculty positions.
+
+
+
+### Instruction ###
+
+Generate a comprehensive list of scientists fulfilling the following criteria: postdoctoral researchers who have published in leading psychology journals and are members of professional societies such as APA, APS in advanced training positions, recently completed PhD and seeking faculty positions. Include only scientists who meet these specified criteria.
+
+Follow these guidelines step-by-step to generate the list:
+
+1. Identify a scientist's full name that meets the specified criteria.
+2. Verify that the scientist is one of the postdoctoral researchers who have published in leading psychology journals and are members of professional societies such as APA, APS in advanced training positions, recently completed PhD and seeking faculty positions.
+3. Explicitly reason through how this scientist meets all criteria.
+4. Ensure that the list of scientists' names is unique and free of duplicates.
+5. If the above steps were met, record the full name of the scientist along with their institutional affiliation and academic position.
+6. Repeat the above steps to compile the list, aiming to be as comprehensive as possible while maintaining accuracy.
+
+### Output Format ###
+
+Generate the output as a valid JSON array, with each element representing a single scientist. Ensure the JSON format starts and ends with curly braces.
+
+Example Format for the Expected Output:
+
+[{"Name": "Scientist 1", "Affiliation": "University/Institution", "Position": "Department Head/Full Professor/Associate Professor/Assistant Professor/Postdoc"}, {"Name": "Scientist 2", "Affiliation": "University/Institution", "Position": "Department Head/Full Professor/Associate Professor/Assistant Professor/Postdoc"}, ..., {"Name": "Scientist K", "Affiliation": "University/Institution", "Position": "Department Head/Full Professor/Associate Professor/Assistant Professor/Postdoc"}]
 
 ### Additional Guidelines ###
 

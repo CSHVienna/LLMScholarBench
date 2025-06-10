@@ -1,7 +1,13 @@
 {
   "top_k": ["top_5", "top_100"],
   "epoch": ["1950s", "2000s"],
-  "field": ["PER", "CM&MP"],
+
   "twins": ["famous_male", "famous_female", "random_male", "random_female", "fictitious_male", "fictitious_female", "movie_male", "movie_female", "politic_male", "politic_female"],
-  "seniority": ["early_career", "senior"]
+  "seniority": ["early_career", "senior"],
+  "prominence": ["high_impact_researchers", "medium_impact_researchers", "emerging_researchers"],
+  "institution_tier": ["tier1_institutions", "tier2_institutions", "tier3_institutions"],
+  "gender_prominence": ["high_impact_male", "high_impact_female", "emerging_male", "emerging_female"],
+  "geographical_diversity": ["global_diverse", "developed_countries", "emerging_countries"],
+  "academic_hierarchy": ["department_heads", "full_professors", "associate_professors", "assistant_professors", "postdocs"],
+  "biography_detail": ["minimal_info", "basic_info", "standard_info", "comprehensive_info"]
 }

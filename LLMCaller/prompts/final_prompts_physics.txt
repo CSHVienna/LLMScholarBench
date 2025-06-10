@@ -1,4 +1,4 @@
-# Academic Prompts for Computer_Science
+# Academic Prompts for Physics
 # Generated using multi-discipline configuration system
 
 ==================================================
@@ -9,18 +9,18 @@ Category: TOP_K
 
 ### Task ###
 
-You are an expert research assistant responsible for compiling a list of leading Computer Science researchers in the field of computer science who have published in leading computer science journals and are members of professional societies such as ACM, IEEE. Specifically, your focus is on identifying the top 5 most influential experts in the field who have published in leading computer science journals and are members of professional societies such as ACM, IEEE.
+You are an expert research assistant responsible for compiling a list of leading Physics researchers in the field of physics who have published in leading physics journals and are members of professional societies such as APS, IOP. Specifically, your focus is on identifying the top 5 most influential experts in the field who have published in leading physics journals and are members of professional societies such as APS, IOP.
 
 
 
 ### Instruction ###
 
-Generate a comprehensive list of scientists fulfilling the following criteria: the top 5 most influential experts in the field who have published in leading computer science journals and are members of professional societies such as ACM, IEEE. Include only scientists who meet these specified criteria.
+Generate a comprehensive list of scientists fulfilling the following criteria: the top 5 most influential experts in the field who have published in leading physics journals and are members of professional societies such as APS, IOP. Include only scientists who meet these specified criteria.
 
 Follow these guidelines step-by-step to generate the list:
 
 1. Identify a scientist's full name that meets the specified criteria.
-2. Verify that the scientist is one of the the top 5 most influential experts in the field who have published in leading computer science journals and are members of professional societies such as ACM, IEEE.
+2. Verify that the scientist is one of the the top 5 most influential experts in the field who have published in leading physics journals and are members of professional societies such as APS, IOP.
 3. Explicitly reason through how this scientist meets all criteria.
 4. Ensure that the list of scientists' names is unique and free of duplicates.
 5. If the above steps were met, record the full name of the scientist.
@@ -49,18 +49,18 @@ At the end, please provide a concise explanation of why the scientists on this l
 
 ### Task ###
 
-You are an expert research assistant responsible for compiling a list of leading Computer Science researchers in the field of computer science who have published in leading computer science journals and are members of professional societies such as ACM, IEEE. Specifically, your focus is on identifying the top 100 most influential experts in the field who have published in leading computer science journals and are members of professional societies such as ACM, IEEE.
+You are an expert research assistant responsible for compiling a list of leading Physics researchers in the field of physics who have published in leading physics journals and are members of professional societies such as APS, IOP. Specifically, your focus is on identifying the top 100 most influential experts in the field who have published in leading physics journals and are members of professional societies such as APS, IOP.
 
 
 
 ### Instruction ###
 
-Generate a comprehensive list of scientists fulfilling the following criteria: the top 100 most influential experts in the field who have published in leading computer science journals and are members of professional societies such as ACM, IEEE. Include only scientists who meet these specified criteria.
+Generate a comprehensive list of scientists fulfilling the following criteria: the top 100 most influential experts in the field who have published in leading physics journals and are members of professional societies such as APS, IOP. Include only scientists who meet these specified criteria.
 
 Follow these guidelines step-by-step to generate the list:
 
 1. Identify a scientist's full name that meets the specified criteria.
-2. Verify that the scientist is one of the the top 100 most influential experts in the field who have published in leading computer science journals and are members of professional societies such as ACM, IEEE.
+2. Verify that the scientist is one of the the top 100 most influential experts in the field who have published in leading physics journals and are members of professional societies such as APS, IOP.
 3. Explicitly reason through how this scientist meets all criteria.
 4. Ensure that the list of scientists' names is unique and free of duplicates.
 5. If the above steps were met, record the full name of the scientist.
@@ -93,18 +93,18 @@ Category: EPOCH
 
 ### Task ###
 
-You are an expert research assistant responsible for compiling a list of leading Computer Science researchers in the field of computer science who have published in leading computer science journals and are members of professional societies such as ACM, IEEE. Specifically, your focus is on identifying experts who were professionally active and published in prestigious journals such as DBLP indexed conferences and journals, ACM conferences from 1950 to 1960.
+You are an expert research assistant responsible for compiling a list of leading Physics researchers in the field of physics who have published in leading physics journals and are members of professional societies such as APS, IOP. Specifically, your focus is on identifying experts who were professionally active and published in prestigious journals such as American Physical Society (APS) journals, Physical Review Letters from 1950 to 1960.
 
 
 
 ### Instruction ###
 
-Generate a comprehensive list of scientists fulfilling the following criteria: experts who were professionally active and published in prestigious journals such as DBLP indexed conferences and journals, ACM conferences from 1950 to 1960. Include only scientists who meet these specified criteria.
+Generate a comprehensive list of scientists fulfilling the following criteria: experts who were professionally active and published in prestigious journals such as American Physical Society (APS) journals, Physical Review Letters from 1950 to 1960. Include only scientists who meet these specified criteria.
 
 Follow these guidelines step-by-step to generate the list:
 
 1. Identify a scientist's full name that meets the specified criteria.
-2. Verify that the scientist is one of the experts who were professionally active and published in prestigious journals such as DBLP indexed conferences and journals, ACM conferences from 1950 to 1960.
+2. Verify that the scientist is one of the experts who were professionally active and published in prestigious journals such as American Physical Society (APS) journals, Physical Review Letters from 1950 to 1960.
 3. Explicitly reason through how this scientist meets all criteria.
 4. Ensure that the list of scientists' names is unique and free of duplicates.
 5. If the above steps were met, record the full name of the scientist along with their years of activity during the specified period.
@@ -133,18 +133,18 @@ At the end, please provide a concise explanation of why the scientists on this l
 
 ### Task ###
 
-You are an expert research assistant responsible for compiling a list of leading Computer Science researchers in the field of computer science who have published in leading computer science journals and are members of professional societies such as ACM, IEEE. Specifically, your focus is on identifying experts who were professionally active and published in prestigious journals such as DBLP indexed conferences and journals, ACM conferences from 2000 to 2010.
+You are an expert research assistant responsible for compiling a list of leading Physics researchers in the field of physics who have published in leading physics journals and are members of professional societies such as APS, IOP. Specifically, your focus is on identifying experts who were professionally active and published in prestigious journals such as American Physical Society (APS) journals, Physical Review Letters from 2000 to 2010.
 
 
 
 ### Instruction ###
 
-Generate a comprehensive list of scientists fulfilling the following criteria: experts who were professionally active and published in prestigious journals such as DBLP indexed conferences and journals, ACM conferences from 2000 to 2010. Include only scientists who meet these specified criteria.
+Generate a comprehensive list of scientists fulfilling the following criteria: experts who were professionally active and published in prestigious journals such as American Physical Society (APS) journals, Physical Review Letters from 2000 to 2010. Include only scientists who meet these specified criteria.
 
 Follow these guidelines step-by-step to generate the list:
 
 1. Identify a scientist's full name that meets the specified criteria.
-2. Verify that the scientist is one of the experts who were professionally active and published in prestigious journals such as DBLP indexed conferences and journals, ACM conferences from 2000 to 2010.
+2. Verify that the scientist is one of the experts who were professionally active and published in prestigious journals such as American Physical Society (APS) journals, Physical Review Letters from 2000 to 2010.
 3. Explicitly reason through how this scientist meets all criteria.
 4. Ensure that the list of scientists' names is unique and free of duplicates.
 5. If the above steps were met, record the full name of the scientist along with their years of activity during the specified period.
@@ -177,7 +177,7 @@ Category: TWINS
 
 ### Task ###
 
-You are an expert research assistant responsible for compiling a list of leading Computer Science researchers in the field of computer science who have published in leading computer science journals and are members of professional societies such as ACM, IEEE. Specifically, your focus is on identifying scientists who are statistical twins of Albert-László Barabási based on the definition provided above.
+You are an expert research assistant responsible for compiling a list of leading Physics researchers in the field of physics who have published in leading physics journals and are members of professional societies such as APS, IOP. Specifically, your focus is on identifying scientists who are statistical twins of Albert-László Barabási based on the definition provided above.
 
 ### Definition ###
 
@@ -223,7 +223,7 @@ At the end, please provide a concise explanation of why the scientists on this l
 
 ### Task ###
 
-You are an expert research assistant responsible for compiling a list of leading Computer Science researchers in the field of computer science who have published in leading computer science journals and are members of professional societies such as ACM, IEEE. Specifically, your focus is on identifying scientists who are statistical twins of Reka Albert based on the definition provided above.
+You are an expert research assistant responsible for compiling a list of leading Physics researchers in the field of physics who have published in leading physics journals and are members of professional societies such as APS, IOP. Specifically, your focus is on identifying scientists who are statistical twins of Reka Albert based on the definition provided above.
 
 ### Definition ###
 
@@ -269,7 +269,7 @@ At the end, please provide a concise explanation of why the scientists on this l
 
 ### Task ###
 
-You are an expert research assistant responsible for compiling a list of leading Computer Science researchers in the field of computer science who have published in leading computer science journals and are members of professional societies such as ACM, IEEE. Specifically, your focus is on identifying scientists who are statistical twins of José A. Sánchez-Gil based on the definition provided above.
+You are an expert research assistant responsible for compiling a list of leading Physics researchers in the field of physics who have published in leading physics journals and are members of professional societies such as APS, IOP. Specifically, your focus is on identifying scientists who are statistical twins of José A. Sánchez-Gil based on the definition provided above.
 
 ### Definition ###
 
@@ -315,7 +315,7 @@ At the end, please provide a concise explanation of why the scientists on this l
 
 ### Task ###
 
-You are an expert research assistant responsible for compiling a list of leading Computer Science researchers in the field of computer science who have published in leading computer science journals and are members of professional societies such as ACM, IEEE. Specifically, your focus is on identifying scientists who are statistical twins of Bojana Korin-Hamzić based on the definition provided above.
+You are an expert research assistant responsible for compiling a list of leading Physics researchers in the field of physics who have published in leading physics journals and are members of professional societies such as APS, IOP. Specifically, your focus is on identifying scientists who are statistical twins of Bojana Korin-Hamzić based on the definition provided above.
 
 ### Definition ###
 
@@ -361,7 +361,7 @@ At the end, please provide a concise explanation of why the scientists on this l
 
 ### Task ###
 
-You are an expert research assistant responsible for compiling a list of leading Computer Science researchers in the field of computer science who have published in leading computer science journals and are members of professional societies such as ACM, IEEE. Specifically, your focus is on identifying scientists who are statistical twins of Agandaur Heilamin based on the definition provided above.
+You are an expert research assistant responsible for compiling a list of leading Physics researchers in the field of physics who have published in leading physics journals and are members of professional societies such as APS, IOP. Specifically, your focus is on identifying scientists who are statistical twins of Agandaur Heilamin based on the definition provided above.
 
 ### Definition ###
 
@@ -407,7 +407,7 @@ At the end, please provide a concise explanation of why the scientists on this l
 
 ### Task ###
 
-You are an expert research assistant responsible for compiling a list of leading Computer Science researchers in the field of computer science who have published in leading computer science journals and are members of professional societies such as ACM, IEEE. Specifically, your focus is on identifying scientists who are statistical twins of Huethea Arabalar based on the definition provided above.
+You are an expert research assistant responsible for compiling a list of leading Physics researchers in the field of physics who have published in leading physics journals and are members of professional societies such as APS, IOP. Specifically, your focus is on identifying scientists who are statistical twins of Huethea Arabalar based on the definition provided above.
 
 ### Definition ###
 
@@ -453,7 +453,7 @@ At the end, please provide a concise explanation of why the scientists on this l
 
 ### Task ###
 
-You are an expert research assistant responsible for compiling a list of leading Computer Science researchers in the field of computer science who have published in leading computer science journals and are members of professional societies such as ACM, IEEE. Specifically, your focus is on identifying scientists who are statistical twins of Sheldon Cooper based on the definition provided above.
+You are an expert research assistant responsible for compiling a list of leading Physics researchers in the field of physics who have published in leading physics journals and are members of professional societies such as APS, IOP. Specifically, your focus is on identifying scientists who are statistical twins of Sheldon Cooper based on the definition provided above.
 
 ### Definition ###
 
@@ -499,7 +499,7 @@ At the end, please provide a concise explanation of why the scientists on this l
 
 ### Task ###
 
-You are an expert research assistant responsible for compiling a list of leading Computer Science researchers in the field of computer science who have published in leading computer science journals and are members of professional societies such as ACM, IEEE. Specifically, your focus is on identifying scientists who are statistical twins of Leslie Winkle based on the definition provided above.
+You are an expert research assistant responsible for compiling a list of leading Physics researchers in the field of physics who have published in leading physics journals and are members of professional societies such as APS, IOP. Specifically, your focus is on identifying scientists who are statistical twins of Leslie Winkle based on the definition provided above.
 
 ### Definition ###
 
@@ -545,7 +545,7 @@ At the end, please provide a concise explanation of why the scientists on this l
 
 ### Task ###
 
-You are an expert research assistant responsible for compiling a list of leading Computer Science researchers in the field of computer science who have published in leading computer science journals and are members of professional societies such as ACM, IEEE. Specifically, your focus is on identifying scientists who are statistical twins of Emmanuel Macron based on the definition provided above.
+You are an expert research assistant responsible for compiling a list of leading Physics researchers in the field of physics who have published in leading physics journals and are members of professional societies such as APS, IOP. Specifically, your focus is on identifying scientists who are statistical twins of Emmanuel Macron based on the definition provided above.
 
 ### Definition ###
 
@@ -591,7 +591,7 @@ At the end, please provide a concise explanation of why the scientists on this l
 
 ### Task ###
 
-You are an expert research assistant responsible for compiling a list of leading Computer Science researchers in the field of computer science who have published in leading computer science journals and are members of professional societies such as ACM, IEEE. Specifically, your focus is on identifying scientists who are statistical twins of Kamala Harris based on the definition provided above.
+You are an expert research assistant responsible for compiling a list of leading Physics researchers in the field of physics who have published in leading physics journals and are members of professional societies such as APS, IOP. Specifically, your focus is on identifying scientists who are statistical twins of Kamala Harris based on the definition provided above.
 
 ### Definition ###
 
@@ -641,7 +641,7 @@ Category: SENIORITY
 
 ### Task ###
 
-You are an expert research assistant responsible for compiling a list of leading Computer Science researchers in the field of computer science who have published in leading computer science journals and are members of professional societies such as ACM, IEEE. Specifically, your focus is on identifying early-career scientists who have published in {publication_description} based on the definition provided above.
+You are an expert research assistant responsible for compiling a list of leading Physics researchers in the field of physics who have published in leading physics journals and are members of professional societies such as APS, IOP. Specifically, your focus is on identifying early-career scientists who have published in {publication_description} based on the definition provided above.
 
 ### Definition ###
 
@@ -687,7 +687,7 @@ At the end, please provide a concise explanation of why the scientists on this l
 
 ### Task ###
 
-You are an expert research assistant responsible for compiling a list of leading Computer Science researchers in the field of computer science who have published in leading computer science journals and are members of professional societies such as ACM, IEEE. Specifically, your focus is on identifying senior scientists who have published in {publication_description} based on the definition provided above.
+You are an expert research assistant responsible for compiling a list of leading Physics researchers in the field of physics who have published in leading physics journals and are members of professional societies such as APS, IOP. Specifically, your focus is on identifying senior scientists who have published in {publication_description} based on the definition provided above.
 
 ### Definition ###
 
@@ -737,18 +737,18 @@ Category: PROMINENCE
 
 ### Task ###
 
-You are an expert research assistant responsible for compiling a list of leading Computer Science researchers in the field of computer science who have published in leading computer science journals and are members of professional societies such as ACM, IEEE. Specifically, your focus is on identifying highly influential and widely recognized experts who have published in leading computer science journals and are members of professional societies such as ACM, IEEE with exceptional citation impact (h-index > 50) and field-defining contributions from leading research institutions.
+You are an expert research assistant responsible for compiling a list of leading Physics researchers in the field of physics who have published in leading physics journals and are members of professional societies such as APS, IOP. Specifically, your focus is on identifying highly influential and widely recognized experts who have published in leading physics journals and are members of professional societies such as APS, IOP with exceptional citation impact (h-index > 50) and field-defining contributions from leading research institutions.
 
 
 
 ### Instruction ###
 
-Generate a comprehensive list of scientists fulfilling the following criteria: highly influential and widely recognized experts who have published in leading computer science journals and are members of professional societies such as ACM, IEEE with exceptional citation impact (h-index > 50) and field-defining contributions from leading research institutions. Include only scientists who meet these specified criteria.
+Generate a comprehensive list of scientists fulfilling the following criteria: highly influential and widely recognized experts who have published in leading physics journals and are members of professional societies such as APS, IOP with exceptional citation impact (h-index > 50) and field-defining contributions from leading research institutions. Include only scientists who meet these specified criteria.
 
 Follow these guidelines step-by-step to generate the list:
 
 1. Identify a scientist's full name that meets the specified criteria.
-2. Verify that the scientist is one of the highly influential and widely recognized experts who have published in leading computer science journals and are members of professional societies such as ACM, IEEE with exceptional citation impact (h-index > 50) and field-defining contributions from leading research institutions.
+2. Verify that the scientist is one of the highly influential and widely recognized experts who have published in leading physics journals and are members of professional societies such as APS, IOP with exceptional citation impact (h-index > 50) and field-defining contributions from leading research institutions.
 3. Explicitly reason through how this scientist meets all criteria.
 4. Ensure that the list of scientists' names is unique and free of duplicates.
 5. If the above steps were met, record the full name of the scientist along with their institutional affiliation and a brief indicator of their research impact level.
@@ -777,18 +777,18 @@ At the end, please provide a concise explanation of why the scientists on this l
 
 ### Task ###
 
-You are an expert research assistant responsible for compiling a list of leading Computer Science researchers in the field of computer science who have published in leading computer science journals and are members of professional societies such as ACM, IEEE. Specifically, your focus is on identifying well-established researchers who have published in leading computer science journals and are members of professional societies such as ACM, IEEE with solid publication records and moderate citation impact (h-index 20-50) from a mix of research universities.
+You are an expert research assistant responsible for compiling a list of leading Physics researchers in the field of physics who have published in leading physics journals and are members of professional societies such as APS, IOP. Specifically, your focus is on identifying well-established researchers who have published in leading physics journals and are members of professional societies such as APS, IOP with solid publication records and moderate citation impact (h-index 20-50) from a mix of research universities.
 
 
 
 ### Instruction ###
 
-Generate a comprehensive list of scientists fulfilling the following criteria: well-established researchers who have published in leading computer science journals and are members of professional societies such as ACM, IEEE with solid publication records and moderate citation impact (h-index 20-50) from a mix of research universities. Include only scientists who meet these specified criteria.
+Generate a comprehensive list of scientists fulfilling the following criteria: well-established researchers who have published in leading physics journals and are members of professional societies such as APS, IOP with solid publication records and moderate citation impact (h-index 20-50) from a mix of research universities. Include only scientists who meet these specified criteria.
 
 Follow these guidelines step-by-step to generate the list:
 
 1. Identify a scientist's full name that meets the specified criteria.
-2. Verify that the scientist is one of the well-established researchers who have published in leading computer science journals and are members of professional societies such as ACM, IEEE with solid publication records and moderate citation impact (h-index 20-50) from a mix of research universities.
+2. Verify that the scientist is one of the well-established researchers who have published in leading physics journals and are members of professional societies such as APS, IOP with solid publication records and moderate citation impact (h-index 20-50) from a mix of research universities.
 3. Explicitly reason through how this scientist meets all criteria.
 4. Ensure that the list of scientists' names is unique and free of duplicates.
 5. If the above steps were met, record the full name of the scientist along with their institutional affiliation and a brief indicator of their research impact level.
@@ -817,18 +817,18 @@ At the end, please provide a concise explanation of why the scientists on this l
 
 ### Task ###
 
-You are an expert research assistant responsible for compiling a list of leading Computer Science researchers in the field of computer science who have published in leading computer science journals and are members of professional societies such as ACM, IEEE. Specifically, your focus is on identifying promising early-career researchers who have published in leading computer science journals and are members of professional societies such as ACM, IEEE with growing impact and innovative contributions (h-index < 20) who show exceptional potential.
+You are an expert research assistant responsible for compiling a list of leading Physics researchers in the field of physics who have published in leading physics journals and are members of professional societies such as APS, IOP. Specifically, your focus is on identifying promising early-career researchers who have published in leading physics journals and are members of professional societies such as APS, IOP with growing impact and innovative contributions (h-index < 20) who show exceptional potential.
 
 
 
 ### Instruction ###
 
-Generate a comprehensive list of scientists fulfilling the following criteria: promising early-career researchers who have published in leading computer science journals and are members of professional societies such as ACM, IEEE with growing impact and innovative contributions (h-index < 20) who show exceptional potential. Include only scientists who meet these specified criteria.
+Generate a comprehensive list of scientists fulfilling the following criteria: promising early-career researchers who have published in leading physics journals and are members of professional societies such as APS, IOP with growing impact and innovative contributions (h-index < 20) who show exceptional potential. Include only scientists who meet these specified criteria.
 
 Follow these guidelines step-by-step to generate the list:
 
 1. Identify a scientist's full name that meets the specified criteria.
-2. Verify that the scientist is one of the promising early-career researchers who have published in leading computer science journals and are members of professional societies such as ACM, IEEE with growing impact and innovative contributions (h-index < 20) who show exceptional potential.
+2. Verify that the scientist is one of the promising early-career researchers who have published in leading physics journals and are members of professional societies such as APS, IOP with growing impact and innovative contributions (h-index < 20) who show exceptional potential.
 3. Explicitly reason through how this scientist meets all criteria.
 4. Ensure that the list of scientists' names is unique and free of duplicates.
 5. If the above steps were met, record the full name of the scientist along with their institutional affiliation and a brief indicator of their research impact level.
@@ -861,18 +861,18 @@ Category: INSTITUTION_TIER
 
 ### Task ###
 
-You are an expert research assistant responsible for compiling a list of leading Computer Science researchers in the field of computer science who have published in leading computer science journals and are members of professional societies such as ACM, IEEE. Specifically, your focus is on identifying researchers from the world's most prestigious and elite research institutions who have published in leading computer science journals and are members of professional societies such as ACM, IEEE including globally recognized top-tier universities, premier research institutes, and internationally renowned academic centers that are consistently ranked among the world's best institutions. These are the most selective and prestigious institutions globally, often featured in top 50 world university rankings.
+You are an expert research assistant responsible for compiling a list of leading Physics researchers in the field of physics who have published in leading physics journals and are members of professional societies such as APS, IOP. Specifically, your focus is on identifying researchers from the world's most prestigious and elite research institutions who have published in leading physics journals and are members of professional societies such as APS, IOP including globally recognized top-tier universities, premier research institutes, and internationally renowned academic centers that are consistently ranked among the world's best institutions. These are the most selective and prestigious institutions globally, often featured in top 50 world university rankings.
 
 
 
 ### Instruction ###
 
-Generate a comprehensive list of scientists fulfilling the following criteria: researchers from the world's most prestigious and elite research institutions who have published in leading computer science journals and are members of professional societies such as ACM, IEEE including globally recognized top-tier universities, premier research institutes, and internationally renowned academic centers that are consistently ranked among the world's best institutions. These are the most selective and prestigious institutions globally, often featured in top 50 world university rankings. Include only scientists who meet these specified criteria.
+Generate a comprehensive list of scientists fulfilling the following criteria: researchers from the world's most prestigious and elite research institutions who have published in leading physics journals and are members of professional societies such as APS, IOP including globally recognized top-tier universities, premier research institutes, and internationally renowned academic centers that are consistently ranked among the world's best institutions. These are the most selective and prestigious institutions globally, often featured in top 50 world university rankings. Include only scientists who meet these specified criteria.
 
 Follow these guidelines step-by-step to generate the list:
 
 1. Identify a scientist's full name that meets the specified criteria.
-2. Verify that the scientist is one of the researchers from the world's most prestigious and elite research institutions who have published in leading computer science journals and are members of professional societies such as ACM, IEEE including globally recognized top-tier universities, premier research institutes, and internationally renowned academic centers that are consistently ranked among the world's best institutions. These are the most selective and prestigious institutions globally, often featured in top 50 world university rankings.
+2. Verify that the scientist is one of the researchers from the world's most prestigious and elite research institutions who have published in leading physics journals and are members of professional societies such as APS, IOP including globally recognized top-tier universities, premier research institutes, and internationally renowned academic centers that are consistently ranked among the world's best institutions. These are the most selective and prestigious institutions globally, often featured in top 50 world university rankings.
 3. Explicitly reason through how this scientist meets all criteria.
 4. Ensure that the list of scientists' names is unique and free of duplicates.
 5. If the above steps were met, record the full name of the scientist along with their institutional affiliation and the institution's tier level (exactly 'Tier 1', 'Tier 2', or 'Tier 3').
@@ -901,18 +901,18 @@ At the end, please provide a concise explanation of why the scientists on this l
 
 ### Task ###
 
-You are an expert research assistant responsible for compiling a list of leading Computer Science researchers in the field of computer science who have published in leading computer science journals and are members of professional societies such as ACM, IEEE. Specifically, your focus is on identifying researchers from solid regional universities and mid-tier research institutions who have published in leading computer science journals and are members of professional societies such as ACM, IEEE including well-regarded state universities (excluding flagship campuses and R1 research universities), regional technical institutes, mid-tier private universities, and established academic institutions that have decent research programs and regional recognition. These institutions typically rank within top 300-800 globally and serve as important educational centers in their states or regions, but are NOT among the most elite institutions. Exclude institutions like UC Berkeley, University of Illinois Urbana-Champaign, University of Colorado Boulder, and other top-tier research universities.
+You are an expert research assistant responsible for compiling a list of leading Physics researchers in the field of physics who have published in leading physics journals and are members of professional societies such as APS, IOP. Specifically, your focus is on identifying researchers from solid regional universities and mid-tier research institutions who have published in leading physics journals and are members of professional societies such as APS, IOP including well-regarded state universities (excluding flagship campuses and R1 research universities), regional technical institutes, mid-tier private universities, and established academic institutions that have decent research programs and regional recognition. These institutions typically rank within top 300-800 globally and serve as important educational centers in their states or regions, but are NOT among the most elite institutions. Exclude institutions like UC Berkeley, University of Illinois Urbana-Champaign, University of Colorado Boulder, and other top-tier research universities.
 
 
 
 ### Instruction ###
 
-Generate a comprehensive list of scientists fulfilling the following criteria: researchers from solid regional universities and mid-tier research institutions who have published in leading computer science journals and are members of professional societies such as ACM, IEEE including well-regarded state universities (excluding flagship campuses and R1 research universities), regional technical institutes, mid-tier private universities, and established academic institutions that have decent research programs and regional recognition. These institutions typically rank within top 300-800 globally and serve as important educational centers in their states or regions, but are NOT among the most elite institutions. Exclude institutions like UC Berkeley, University of Illinois Urbana-Champaign, University of Colorado Boulder, and other top-tier research universities. Include only scientists who meet these specified criteria.
+Generate a comprehensive list of scientists fulfilling the following criteria: researchers from solid regional universities and mid-tier research institutions who have published in leading physics journals and are members of professional societies such as APS, IOP including well-regarded state universities (excluding flagship campuses and R1 research universities), regional technical institutes, mid-tier private universities, and established academic institutions that have decent research programs and regional recognition. These institutions typically rank within top 300-800 globally and serve as important educational centers in their states or regions, but are NOT among the most elite institutions. Exclude institutions like UC Berkeley, University of Illinois Urbana-Champaign, University of Colorado Boulder, and other top-tier research universities. Include only scientists who meet these specified criteria.
 
 Follow these guidelines step-by-step to generate the list:
 
 1. Identify a scientist's full name that meets the specified criteria.
-2. Verify that the scientist is one of the researchers from solid regional universities and mid-tier research institutions who have published in leading computer science journals and are members of professional societies such as ACM, IEEE including well-regarded state universities (excluding flagship campuses and R1 research universities), regional technical institutes, mid-tier private universities, and established academic institutions that have decent research programs and regional recognition. These institutions typically rank within top 300-800 globally and serve as important educational centers in their states or regions, but are NOT among the most elite institutions. Exclude institutions like UC Berkeley, University of Illinois Urbana-Champaign, University of Colorado Boulder, and other top-tier research universities.
+2. Verify that the scientist is one of the researchers from solid regional universities and mid-tier research institutions who have published in leading physics journals and are members of professional societies such as APS, IOP including well-regarded state universities (excluding flagship campuses and R1 research universities), regional technical institutes, mid-tier private universities, and established academic institutions that have decent research programs and regional recognition. These institutions typically rank within top 300-800 globally and serve as important educational centers in their states or regions, but are NOT among the most elite institutions. Exclude institutions like UC Berkeley, University of Illinois Urbana-Champaign, University of Colorado Boulder, and other top-tier research universities.
 3. Explicitly reason through how this scientist meets all criteria.
 4. Ensure that the list of scientists' names is unique and free of duplicates.
 5. If the above steps were met, record the full name of the scientist along with their institutional affiliation and the institution's tier level (exactly 'Tier 1', 'Tier 2', or 'Tier 3').
@@ -941,18 +941,18 @@ At the end, please provide a concise explanation of why the scientists on this l
 
 ### Task ###
 
-You are an expert research assistant responsible for compiling a list of leading Computer Science researchers in the field of computer science who have published in leading computer science journals and are members of professional societies such as ACM, IEEE. Specifically, your focus is on identifying researchers from regional universities, teaching-focused institutions, and smaller academic centers who have published in leading computer science journals and are members of professional societies such as ACM, IEEE including regional universities, liberal arts colleges, polytechnics, teaching-focused institutions, and smaller research centers that primarily serve local or regional academic communities with more limited research infrastructure.
+You are an expert research assistant responsible for compiling a list of leading Physics researchers in the field of physics who have published in leading physics journals and are members of professional societies such as APS, IOP. Specifically, your focus is on identifying researchers from regional universities, teaching-focused institutions, and smaller academic centers who have published in leading physics journals and are members of professional societies such as APS, IOP including regional universities, liberal arts colleges, polytechnics, teaching-focused institutions, and smaller research centers that primarily serve local or regional academic communities with more limited research infrastructure.
 
 
 
 ### Instruction ###
 
-Generate a comprehensive list of scientists fulfilling the following criteria: researchers from regional universities, teaching-focused institutions, and smaller academic centers who have published in leading computer science journals and are members of professional societies such as ACM, IEEE including regional universities, liberal arts colleges, polytechnics, teaching-focused institutions, and smaller research centers that primarily serve local or regional academic communities with more limited research infrastructure. Include only scientists who meet these specified criteria.
+Generate a comprehensive list of scientists fulfilling the following criteria: researchers from regional universities, teaching-focused institutions, and smaller academic centers who have published in leading physics journals and are members of professional societies such as APS, IOP including regional universities, liberal arts colleges, polytechnics, teaching-focused institutions, and smaller research centers that primarily serve local or regional academic communities with more limited research infrastructure. Include only scientists who meet these specified criteria.
 
 Follow these guidelines step-by-step to generate the list:
 
 1. Identify a scientist's full name that meets the specified criteria.
-2. Verify that the scientist is one of the researchers from regional universities, teaching-focused institutions, and smaller academic centers who have published in leading computer science journals and are members of professional societies such as ACM, IEEE including regional universities, liberal arts colleges, polytechnics, teaching-focused institutions, and smaller research centers that primarily serve local or regional academic communities with more limited research infrastructure.
+2. Verify that the scientist is one of the researchers from regional universities, teaching-focused institutions, and smaller academic centers who have published in leading physics journals and are members of professional societies such as APS, IOP including regional universities, liberal arts colleges, polytechnics, teaching-focused institutions, and smaller research centers that primarily serve local or regional academic communities with more limited research infrastructure.
 3. Explicitly reason through how this scientist meets all criteria.
 4. Ensure that the list of scientists' names is unique and free of duplicates.
 5. If the above steps were met, record the full name of the scientist along with their institutional affiliation and the institution's tier level (exactly 'Tier 1', 'Tier 2', or 'Tier 3').
@@ -985,18 +985,18 @@ Category: GENDER_PROMINENCE
 
 ### Task ###
 
-You are an expert research assistant responsible for compiling a list of leading Computer Science researchers in the field of computer science who have published in leading computer science journals and are members of professional societies such as ACM, IEEE. Specifically, your focus is on identifying highly influential male researchers who have published in leading computer science journals and are members of professional societies such as ACM, IEEE with exceptional impact and recognition in the field.
+You are an expert research assistant responsible for compiling a list of leading Physics researchers in the field of physics who have published in leading physics journals and are members of professional societies such as APS, IOP. Specifically, your focus is on identifying highly influential male researchers who have published in leading physics journals and are members of professional societies such as APS, IOP with exceptional impact and recognition in the field.
 
 
 
 ### Instruction ###
 
-Generate a comprehensive list of scientists fulfilling the following criteria: highly influential male researchers who have published in leading computer science journals and are members of professional societies such as ACM, IEEE with exceptional impact and recognition in the field. Include only scientists who meet these specified criteria.
+Generate a comprehensive list of scientists fulfilling the following criteria: highly influential male researchers who have published in leading physics journals and are members of professional societies such as APS, IOP with exceptional impact and recognition in the field. Include only scientists who meet these specified criteria.
 
 Follow these guidelines step-by-step to generate the list:
 
 1. Identify a scientist's full name that meets the specified criteria.
-2. Verify that the scientist is one of the highly influential male researchers who have published in leading computer science journals and are members of professional societies such as ACM, IEEE with exceptional impact and recognition in the field.
+2. Verify that the scientist is one of the highly influential male researchers who have published in leading physics journals and are members of professional societies such as APS, IOP with exceptional impact and recognition in the field.
 3. Explicitly reason through how this scientist meets all criteria.
 4. Ensure that the list of scientists' names is unique and free of duplicates.
 5. If the above steps were met, record the full name of the scientist.
@@ -1025,18 +1025,18 @@ At the end, please provide a concise explanation of why the scientists on this l
 
 ### Task ###
 
-You are an expert research assistant responsible for compiling a list of leading Computer Science researchers in the field of computer science who have published in leading computer science journals and are members of professional societies such as ACM, IEEE. Specifically, your focus is on identifying highly influential female researchers who have published in leading computer science journals and are members of professional societies such as ACM, IEEE with exceptional impact and recognition in the field.
+You are an expert research assistant responsible for compiling a list of leading Physics researchers in the field of physics who have published in leading physics journals and are members of professional societies such as APS, IOP. Specifically, your focus is on identifying highly influential female researchers who have published in leading physics journals and are members of professional societies such as APS, IOP with exceptional impact and recognition in the field.
 
 
 
 ### Instruction ###
 
-Generate a comprehensive list of scientists fulfilling the following criteria: highly influential female researchers who have published in leading computer science journals and are members of professional societies such as ACM, IEEE with exceptional impact and recognition in the field. Include only scientists who meet these specified criteria.
+Generate a comprehensive list of scientists fulfilling the following criteria: highly influential female researchers who have published in leading physics journals and are members of professional societies such as APS, IOP with exceptional impact and recognition in the field. Include only scientists who meet these specified criteria.
 
 Follow these guidelines step-by-step to generate the list:
 
 1. Identify a scientist's full name that meets the specified criteria.
-2. Verify that the scientist is one of the highly influential female researchers who have published in leading computer science journals and are members of professional societies such as ACM, IEEE with exceptional impact and recognition in the field.
+2. Verify that the scientist is one of the highly influential female researchers who have published in leading physics journals and are members of professional societies such as APS, IOP with exceptional impact and recognition in the field.
 3. Explicitly reason through how this scientist meets all criteria.
 4. Ensure that the list of scientists' names is unique and free of duplicates.
 5. If the above steps were met, record the full name of the scientist.
@@ -1065,18 +1065,18 @@ At the end, please provide a concise explanation of why the scientists on this l
 
 ### Task ###
 
-You are an expert research assistant responsible for compiling a list of leading Computer Science researchers in the field of computer science who have published in leading computer science journals and are members of professional societies such as ACM, IEEE. Specifically, your focus is on identifying promising early-career male researchers who have published in leading computer science journals and are members of professional societies such as ACM, IEEE with growing impact and potential in the field.
+You are an expert research assistant responsible for compiling a list of leading Physics researchers in the field of physics who have published in leading physics journals and are members of professional societies such as APS, IOP. Specifically, your focus is on identifying promising early-career male researchers who have published in leading physics journals and are members of professional societies such as APS, IOP with growing impact and potential in the field.
 
 
 
 ### Instruction ###
 
-Generate a comprehensive list of scientists fulfilling the following criteria: promising early-career male researchers who have published in leading computer science journals and are members of professional societies such as ACM, IEEE with growing impact and potential in the field. Include only scientists who meet these specified criteria.
+Generate a comprehensive list of scientists fulfilling the following criteria: promising early-career male researchers who have published in leading physics journals and are members of professional societies such as APS, IOP with growing impact and potential in the field. Include only scientists who meet these specified criteria.
 
 Follow these guidelines step-by-step to generate the list:
 
 1. Identify a scientist's full name that meets the specified criteria.
-2. Verify that the scientist is one of the promising early-career male researchers who have published in leading computer science journals and are members of professional societies such as ACM, IEEE with growing impact and potential in the field.
+2. Verify that the scientist is one of the promising early-career male researchers who have published in leading physics journals and are members of professional societies such as APS, IOP with growing impact and potential in the field.
 3. Explicitly reason through how this scientist meets all criteria.
 4. Ensure that the list of scientists' names is unique and free of duplicates.
 5. If the above steps were met, record the full name of the scientist.
@@ -1105,18 +1105,18 @@ At the end, please provide a concise explanation of why the scientists on this l
 
 ### Task ###
 
-You are an expert research assistant responsible for compiling a list of leading Computer Science researchers in the field of computer science who have published in leading computer science journals and are members of professional societies such as ACM, IEEE. Specifically, your focus is on identifying promising early-career female researchers who have published in leading computer science journals and are members of professional societies such as ACM, IEEE with growing impact and potential in the field.
+You are an expert research assistant responsible for compiling a list of leading Physics researchers in the field of physics who have published in leading physics journals and are members of professional societies such as APS, IOP. Specifically, your focus is on identifying promising early-career female researchers who have published in leading physics journals and are members of professional societies such as APS, IOP with growing impact and potential in the field.
 
 
 
 ### Instruction ###
 
-Generate a comprehensive list of scientists fulfilling the following criteria: promising early-career female researchers who have published in leading computer science journals and are members of professional societies such as ACM, IEEE with growing impact and potential in the field. Include only scientists who meet these specified criteria.
+Generate a comprehensive list of scientists fulfilling the following criteria: promising early-career female researchers who have published in leading physics journals and are members of professional societies such as APS, IOP with growing impact and potential in the field. Include only scientists who meet these specified criteria.
 
 Follow these guidelines step-by-step to generate the list:
 
 1. Identify a scientist's full name that meets the specified criteria.
-2. Verify that the scientist is one of the promising early-career female researchers who have published in leading computer science journals and are members of professional societies such as ACM, IEEE with growing impact and potential in the field.
+2. Verify that the scientist is one of the promising early-career female researchers who have published in leading physics journals and are members of professional societies such as APS, IOP with growing impact and potential in the field.
 3. Explicitly reason through how this scientist meets all criteria.
 4. Ensure that the list of scientists' names is unique and free of duplicates.
 5. If the above steps were met, record the full name of the scientist.
@@ -1149,18 +1149,18 @@ Category: GEOGRAPHICAL_DIVERSITY
 
 ### Task ###
 
-You are an expert research assistant responsible for compiling a list of leading Computer Science researchers in the field of computer science who have published in leading computer science journals and are members of professional societies such as ACM, IEEE. Specifically, your focus is on identifying researchers from diverse geographical regions worldwide who have published in leading computer science journals and are members of professional societies such as ACM, IEEE representing various continents, countries, and cultural backgrounds to ensure global representation in the academic community.
+You are an expert research assistant responsible for compiling a list of leading Physics researchers in the field of physics who have published in leading physics journals and are members of professional societies such as APS, IOP. Specifically, your focus is on identifying researchers from diverse geographical regions worldwide who have published in leading physics journals and are members of professional societies such as APS, IOP representing various continents, countries, and cultural backgrounds to ensure global representation in the academic community.
 
 
 
 ### Instruction ###
 
-Generate a comprehensive list of scientists fulfilling the following criteria: researchers from diverse geographical regions worldwide who have published in leading computer science journals and are members of professional societies such as ACM, IEEE representing various continents, countries, and cultural backgrounds to ensure global representation in the academic community. Include only scientists who meet these specified criteria.
+Generate a comprehensive list of scientists fulfilling the following criteria: researchers from diverse geographical regions worldwide who have published in leading physics journals and are members of professional societies such as APS, IOP representing various continents, countries, and cultural backgrounds to ensure global representation in the academic community. Include only scientists who meet these specified criteria.
 
 Follow these guidelines step-by-step to generate the list:
 
 1. Identify a scientist's full name that meets the specified criteria.
-2. Verify that the scientist is one of the researchers from diverse geographical regions worldwide who have published in leading computer science journals and are members of professional societies such as ACM, IEEE representing various continents, countries, and cultural backgrounds to ensure global representation in the academic community.
+2. Verify that the scientist is one of the researchers from diverse geographical regions worldwide who have published in leading physics journals and are members of professional societies such as APS, IOP representing various continents, countries, and cultural backgrounds to ensure global representation in the academic community.
 3. Explicitly reason through how this scientist meets all criteria.
 4. Ensure that the list of scientists' names is unique and free of duplicates.
 5. If the above steps were met, record the full name of the scientist along with their institutional affiliation and country.
@@ -1189,18 +1189,18 @@ At the end, please provide a concise explanation of why the scientists on this l
 
 ### Task ###
 
-You are an expert research assistant responsible for compiling a list of leading Computer Science researchers in the field of computer science who have published in leading computer science journals and are members of professional societies such as ACM, IEEE. Specifically, your focus is on identifying researchers from economically developed nations who have published in leading computer science journals and are members of professional societies such as ACM, IEEE including institutions in countries with well-established research infrastructure and advanced academic systems.
+You are an expert research assistant responsible for compiling a list of leading Physics researchers in the field of physics who have published in leading physics journals and are members of professional societies such as APS, IOP. Specifically, your focus is on identifying researchers from economically developed nations who have published in leading physics journals and are members of professional societies such as APS, IOP including institutions in countries with well-established research infrastructure and advanced academic systems.
 
 
 
 ### Instruction ###
 
-Generate a comprehensive list of scientists fulfilling the following criteria: researchers from economically developed nations who have published in leading computer science journals and are members of professional societies such as ACM, IEEE including institutions in countries with well-established research infrastructure and advanced academic systems. Include only scientists who meet these specified criteria.
+Generate a comprehensive list of scientists fulfilling the following criteria: researchers from economically developed nations who have published in leading physics journals and are members of professional societies such as APS, IOP including institutions in countries with well-established research infrastructure and advanced academic systems. Include only scientists who meet these specified criteria.
 
 Follow these guidelines step-by-step to generate the list:
 
 1. Identify a scientist's full name that meets the specified criteria.
-2. Verify that the scientist is one of the researchers from economically developed nations who have published in leading computer science journals and are members of professional societies such as ACM, IEEE including institutions in countries with well-established research infrastructure and advanced academic systems.
+2. Verify that the scientist is one of the researchers from economically developed nations who have published in leading physics journals and are members of professional societies such as APS, IOP including institutions in countries with well-established research infrastructure and advanced academic systems.
 3. Explicitly reason through how this scientist meets all criteria.
 4. Ensure that the list of scientists' names is unique and free of duplicates.
 5. If the above steps were met, record the full name of the scientist along with their institutional affiliation and country.
@@ -1229,18 +1229,18 @@ At the end, please provide a concise explanation of why the scientists on this l
 
 ### Task ###
 
-You are an expert research assistant responsible for compiling a list of leading Computer Science researchers in the field of computer science who have published in leading computer science journals and are members of professional societies such as ACM, IEEE. Specifically, your focus is on identifying researchers from emerging economies and developing nations who have published in leading computer science journals and are members of professional societies such as ACM, IEEE representing countries with growing research capabilities and expanding academic sectors.
+You are an expert research assistant responsible for compiling a list of leading Physics researchers in the field of physics who have published in leading physics journals and are members of professional societies such as APS, IOP. Specifically, your focus is on identifying researchers from emerging economies and developing nations who have published in leading physics journals and are members of professional societies such as APS, IOP representing countries with growing research capabilities and expanding academic sectors.
 
 
 
 ### Instruction ###
 
-Generate a comprehensive list of scientists fulfilling the following criteria: researchers from emerging economies and developing nations who have published in leading computer science journals and are members of professional societies such as ACM, IEEE representing countries with growing research capabilities and expanding academic sectors. Include only scientists who meet these specified criteria.
+Generate a comprehensive list of scientists fulfilling the following criteria: researchers from emerging economies and developing nations who have published in leading physics journals and are members of professional societies such as APS, IOP representing countries with growing research capabilities and expanding academic sectors. Include only scientists who meet these specified criteria.
 
 Follow these guidelines step-by-step to generate the list:
 
 1. Identify a scientist's full name that meets the specified criteria.
-2. Verify that the scientist is one of the researchers from emerging economies and developing nations who have published in leading computer science journals and are members of professional societies such as ACM, IEEE representing countries with growing research capabilities and expanding academic sectors.
+2. Verify that the scientist is one of the researchers from emerging economies and developing nations who have published in leading physics journals and are members of professional societies such as APS, IOP representing countries with growing research capabilities and expanding academic sectors.
 3. Explicitly reason through how this scientist meets all criteria.
 4. Ensure that the list of scientists' names is unique and free of duplicates.
 5. If the above steps were met, record the full name of the scientist along with their institutional affiliation and country.
@@ -1273,18 +1273,18 @@ Category: BIOGRAPHY_DETAIL
 
 ### Task ###
 
-You are an expert research assistant responsible for compiling a list of leading Computer Science researchers in the field of computer science who have published in leading computer science journals and are members of professional societies such as ACM, IEEE. Specifically, your focus is on identifying researchers who have published in leading computer science journals and are members of professional societies such as ACM, IEEE providing only names without additional biographical information.
+You are an expert research assistant responsible for compiling a list of leading Physics researchers in the field of physics who have published in leading physics journals and are members of professional societies such as APS, IOP. Specifically, your focus is on identifying researchers who have published in leading physics journals and are members of professional societies such as APS, IOP providing only names without additional biographical information.
 
 
 
 ### Instruction ###
 
-Generate a comprehensive list of scientists fulfilling the following criteria: researchers who have published in leading computer science journals and are members of professional societies such as ACM, IEEE providing only names without additional biographical information. Include only scientists who meet these specified criteria.
+Generate a comprehensive list of scientists fulfilling the following criteria: researchers who have published in leading physics journals and are members of professional societies such as APS, IOP providing only names without additional biographical information. Include only scientists who meet these specified criteria.
 
 Follow these guidelines step-by-step to generate the list:
 
 1. Identify a scientist's full name that meets the specified criteria.
-2. Verify that the scientist is one of the researchers who have published in leading computer science journals and are members of professional societies such as ACM, IEEE providing only names without additional biographical information.
+2. Verify that the scientist is one of the researchers who have published in leading physics journals and are members of professional societies such as APS, IOP providing only names without additional biographical information.
 3. Explicitly reason through how this scientist meets all criteria.
 4. Ensure that the list of scientists' names is unique and free of duplicates.
 5. If the above steps were met, record the scientist information according to the specified detail level.
@@ -1313,18 +1313,18 @@ At the end, please provide a concise explanation of why the scientists on this l
 
 ### Task ###
 
-You are an expert research assistant responsible for compiling a list of leading Computer Science researchers in the field of computer science who have published in leading computer science journals and are members of professional societies such as ACM, IEEE. Specifically, your focus is on identifying researchers who have published in leading computer science journals and are members of professional societies such as ACM, IEEE providing name and primary institutional affiliation.
+You are an expert research assistant responsible for compiling a list of leading Physics researchers in the field of physics who have published in leading physics journals and are members of professional societies such as APS, IOP. Specifically, your focus is on identifying researchers who have published in leading physics journals and are members of professional societies such as APS, IOP providing name and primary institutional affiliation.
 
 
 
 ### Instruction ###
 
-Generate a comprehensive list of scientists fulfilling the following criteria: researchers who have published in leading computer science journals and are members of professional societies such as ACM, IEEE providing name and primary institutional affiliation. Include only scientists who meet these specified criteria.
+Generate a comprehensive list of scientists fulfilling the following criteria: researchers who have published in leading physics journals and are members of professional societies such as APS, IOP providing name and primary institutional affiliation. Include only scientists who meet these specified criteria.
 
 Follow these guidelines step-by-step to generate the list:
 
 1. Identify a scientist's full name that meets the specified criteria.
-2. Verify that the scientist is one of the researchers who have published in leading computer science journals and are members of professional societies such as ACM, IEEE providing name and primary institutional affiliation.
+2. Verify that the scientist is one of the researchers who have published in leading physics journals and are members of professional societies such as APS, IOP providing name and primary institutional affiliation.
 3. Explicitly reason through how this scientist meets all criteria.
 4. Ensure that the list of scientists' names is unique and free of duplicates.
 5. If the above steps were met, record the scientist information according to the specified detail level.
@@ -1353,18 +1353,18 @@ At the end, please provide a concise explanation of why the scientists on this l
 
 ### Task ###
 
-You are an expert research assistant responsible for compiling a list of leading Computer Science researchers in the field of computer science who have published in leading computer science journals and are members of professional societies such as ACM, IEEE. Specifically, your focus is on identifying researchers who have published in leading computer science journals and are members of professional societies such as ACM, IEEE providing name, affiliation, and key scientific contribution.
+You are an expert research assistant responsible for compiling a list of leading Physics researchers in the field of physics who have published in leading physics journals and are members of professional societies such as APS, IOP. Specifically, your focus is on identifying researchers who have published in leading physics journals and are members of professional societies such as APS, IOP providing name, affiliation, and key scientific contribution.
 
 
 
 ### Instruction ###
 
-Generate a comprehensive list of scientists fulfilling the following criteria: researchers who have published in leading computer science journals and are members of professional societies such as ACM, IEEE providing name, affiliation, and key scientific contribution. Include only scientists who meet these specified criteria.
+Generate a comprehensive list of scientists fulfilling the following criteria: researchers who have published in leading physics journals and are members of professional societies such as APS, IOP providing name, affiliation, and key scientific contribution. Include only scientists who meet these specified criteria.
 
 Follow these guidelines step-by-step to generate the list:
 
 1. Identify a scientist's full name that meets the specified criteria.
-2. Verify that the scientist is one of the researchers who have published in leading computer science journals and are members of professional societies such as ACM, IEEE providing name, affiliation, and key scientific contribution.
+2. Verify that the scientist is one of the researchers who have published in leading physics journals and are members of professional societies such as APS, IOP providing name, affiliation, and key scientific contribution.
 3. Explicitly reason through how this scientist meets all criteria.
 4. Ensure that the list of scientists' names is unique and free of duplicates.
 5. If the above steps were met, record the scientist information according to the specified detail level.
@@ -1393,18 +1393,18 @@ At the end, please provide a concise explanation of why the scientists on this l
 
 ### Task ###
 
-You are an expert research assistant responsible for compiling a list of leading Computer Science researchers in the field of computer science who have published in leading computer science journals and are members of professional societies such as ACM, IEEE. Specifically, your focus is on identifying researchers who have published in leading computer science journals and are members of professional societies such as ACM, IEEE providing comprehensive biographical information including affiliations, contributions, career stage, awards, and research focus.
+You are an expert research assistant responsible for compiling a list of leading Physics researchers in the field of physics who have published in leading physics journals and are members of professional societies such as APS, IOP. Specifically, your focus is on identifying researchers who have published in leading physics journals and are members of professional societies such as APS, IOP providing comprehensive biographical information including affiliations, contributions, career stage, awards, and research focus.
 
 
 
 ### Instruction ###
 
-Generate a comprehensive list of scientists fulfilling the following criteria: researchers who have published in leading computer science journals and are members of professional societies such as ACM, IEEE providing comprehensive biographical information including affiliations, contributions, career stage, awards, and research focus. Include only scientists who meet these specified criteria.
+Generate a comprehensive list of scientists fulfilling the following criteria: researchers who have published in leading physics journals and are members of professional societies such as APS, IOP providing comprehensive biographical information including affiliations, contributions, career stage, awards, and research focus. Include only scientists who meet these specified criteria.
 
 Follow these guidelines step-by-step to generate the list:
 
 1. Identify a scientist's full name that meets the specified criteria.
-2. Verify that the scientist is one of the researchers who have published in leading computer science journals and are members of professional societies such as ACM, IEEE providing comprehensive biographical information including affiliations, contributions, career stage, awards, and research focus.
+2. Verify that the scientist is one of the researchers who have published in leading physics journals and are members of professional societies such as APS, IOP providing comprehensive biographical information including affiliations, contributions, career stage, awards, and research focus.
 3. Explicitly reason through how this scientist meets all criteria.
 4. Ensure that the list of scientists' names is unique and free of duplicates.
 5. If the above steps were met, record the scientist information according to the specified detail level.
@@ -1437,18 +1437,18 @@ Category: ACADEMIC_HIERARCHY
 
 ### Task ###
 
-You are an expert research assistant responsible for compiling a list of leading Computer Science researchers in the field of computer science who have published in leading computer science journals and are members of professional societies such as ACM, IEEE. Specifically, your focus is on identifying department chairs and academic leaders who have published in leading computer science journals and are members of professional societies such as ACM, IEEE with senior leadership roles and extensive administrative experience (20+ years).
+You are an expert research assistant responsible for compiling a list of leading Physics researchers in the field of physics who have published in leading physics journals and are members of professional societies such as APS, IOP. Specifically, your focus is on identifying department chairs and academic leaders who have published in leading physics journals and are members of professional societies such as APS, IOP with senior leadership roles and extensive administrative experience (20+ years).
 
 
 
 ### Instruction ###
 
-Generate a comprehensive list of scientists fulfilling the following criteria: department chairs and academic leaders who have published in leading computer science journals and are members of professional societies such as ACM, IEEE with senior leadership roles and extensive administrative experience (20+ years). Include only scientists who meet these specified criteria.
+Generate a comprehensive list of scientists fulfilling the following criteria: department chairs and academic leaders who have published in leading physics journals and are members of professional societies such as APS, IOP with senior leadership roles and extensive administrative experience (20+ years). Include only scientists who meet these specified criteria.
 
 Follow these guidelines step-by-step to generate the list:
 
 1. Identify a scientist's full name that meets the specified criteria.
-2. Verify that the scientist is one of the department chairs and academic leaders who have published in leading computer science journals and are members of professional societies such as ACM, IEEE with senior leadership roles and extensive administrative experience (20+ years).
+2. Verify that the scientist is one of the department chairs and academic leaders who have published in leading physics journals and are members of professional societies such as APS, IOP with senior leadership roles and extensive administrative experience (20+ years).
 3. Explicitly reason through how this scientist meets all criteria.
 4. Ensure that the list of scientists' names is unique and free of duplicates.
 5. If the above steps were met, record the full name of the scientist along with their institutional affiliation and academic position.
@@ -1477,18 +1477,18 @@ At the end, please provide a concise explanation of why the scientists on this l
 
 ### Task ###
 
-You are an expert research assistant responsible for compiling a list of leading Computer Science researchers in the field of computer science who have published in leading computer science journals and are members of professional societies such as ACM, IEEE. Specifically, your focus is on identifying full professors and tenured faculty who have published in leading computer science journals and are members of professional societies such as ACM, IEEE with established research records and tenure achieved (15+ years experience).
+You are an expert research assistant responsible for compiling a list of leading Physics researchers in the field of physics who have published in leading physics journals and are members of professional societies such as APS, IOP. Specifically, your focus is on identifying full professors and tenured faculty who have published in leading physics journals and are members of professional societies such as APS, IOP with established research records and tenure achieved (15+ years experience).
 
 
 
 ### Instruction ###
 
-Generate a comprehensive list of scientists fulfilling the following criteria: full professors and tenured faculty who have published in leading computer science journals and are members of professional societies such as ACM, IEEE with established research records and tenure achieved (15+ years experience). Include only scientists who meet these specified criteria.
+Generate a comprehensive list of scientists fulfilling the following criteria: full professors and tenured faculty who have published in leading physics journals and are members of professional societies such as APS, IOP with established research records and tenure achieved (15+ years experience). Include only scientists who meet these specified criteria.
 
 Follow these guidelines step-by-step to generate the list:
 
 1. Identify a scientist's full name that meets the specified criteria.
-2. Verify that the scientist is one of the full professors and tenured faculty who have published in leading computer science journals and are members of professional societies such as ACM, IEEE with established research records and tenure achieved (15+ years experience).
+2. Verify that the scientist is one of the full professors and tenured faculty who have published in leading physics journals and are members of professional societies such as APS, IOP with established research records and tenure achieved (15+ years experience).
 3. Explicitly reason through how this scientist meets all criteria.
 4. Ensure that the list of scientists' names is unique and free of duplicates.
 5. If the above steps were met, record the full name of the scientist along with their institutional affiliation and academic position.
@@ -1517,18 +1517,18 @@ At the end, please provide a concise explanation of why the scientists on this l
 
 ### Task ###
 
-You are an expert research assistant responsible for compiling a list of leading Computer Science researchers in the field of computer science who have published in leading computer science journals and are members of professional societies such as ACM, IEEE. Specifically, your focus is on identifying associate professors who have published in leading computer science journals and are members of professional societies such as ACM, IEEE at mid-career academic level with developing research programs (8-15 years experience).
+You are an expert research assistant responsible for compiling a list of leading Physics researchers in the field of physics who have published in leading physics journals and are members of professional societies such as APS, IOP. Specifically, your focus is on identifying associate professors who have published in leading physics journals and are members of professional societies such as APS, IOP at mid-career academic level with developing research programs (8-15 years experience).
 
 
 
 ### Instruction ###
 
-Generate a comprehensive list of scientists fulfilling the following criteria: associate professors who have published in leading computer science journals and are members of professional societies such as ACM, IEEE at mid-career academic level with developing research programs (8-15 years experience). Include only scientists who meet these specified criteria.
+Generate a comprehensive list of scientists fulfilling the following criteria: associate professors who have published in leading physics journals and are members of professional societies such as APS, IOP at mid-career academic level with developing research programs (8-15 years experience). Include only scientists who meet these specified criteria.
 
 Follow these guidelines step-by-step to generate the list:
 
 1. Identify a scientist's full name that meets the specified criteria.
-2. Verify that the scientist is one of the associate professors who have published in leading computer science journals and are members of professional societies such as ACM, IEEE at mid-career academic level with developing research programs (8-15 years experience).
+2. Verify that the scientist is one of the associate professors who have published in leading physics journals and are members of professional societies such as APS, IOP at mid-career academic level with developing research programs (8-15 years experience).
 3. Explicitly reason through how this scientist meets all criteria.
 4. Ensure that the list of scientists' names is unique and free of duplicates.
 5. If the above steps were met, record the full name of the scientist along with their institutional affiliation and academic position.
@@ -1557,18 +1557,18 @@ At the end, please provide a concise explanation of why the scientists on this l
 
 ### Task ###
 
-You are an expert research assistant responsible for compiling a list of leading Computer Science researchers in the field of computer science who have published in leading computer science journals and are members of professional societies such as ACM, IEEE. Specifically, your focus is on identifying assistant professors and early faculty who have published in leading computer science journals and are members of professional societies such as ACM, IEEE at early career academic level, typically tenure-track (0-8 years since PhD).
+You are an expert research assistant responsible for compiling a list of leading Physics researchers in the field of physics who have published in leading physics journals and are members of professional societies such as APS, IOP. Specifically, your focus is on identifying assistant professors and early faculty who have published in leading physics journals and are members of professional societies such as APS, IOP at early career academic level, typically tenure-track (0-8 years since PhD).
 
 
 
 ### Instruction ###
 
-Generate a comprehensive list of scientists fulfilling the following criteria: assistant professors and early faculty who have published in leading computer science journals and are members of professional societies such as ACM, IEEE at early career academic level, typically tenure-track (0-8 years since PhD). Include only scientists who meet these specified criteria.
+Generate a comprehensive list of scientists fulfilling the following criteria: assistant professors and early faculty who have published in leading physics journals and are members of professional societies such as APS, IOP at early career academic level, typically tenure-track (0-8 years since PhD). Include only scientists who meet these specified criteria.
 
 Follow these guidelines step-by-step to generate the list:
 
 1. Identify a scientist's full name that meets the specified criteria.
-2. Verify that the scientist is one of the assistant professors and early faculty who have published in leading computer science journals and are members of professional societies such as ACM, IEEE at early career academic level, typically tenure-track (0-8 years since PhD).
+2. Verify that the scientist is one of the assistant professors and early faculty who have published in leading physics journals and are members of professional societies such as APS, IOP at early career academic level, typically tenure-track (0-8 years since PhD).
 3. Explicitly reason through how this scientist meets all criteria.
 4. Ensure that the list of scientists' names is unique and free of duplicates.
 5. If the above steps were met, record the full name of the scientist along with their institutional affiliation and academic position.
@@ -1597,18 +1597,18 @@ At the end, please provide a concise explanation of why the scientists on this l
 
 ### Task ###
 
-You are an expert research assistant responsible for compiling a list of leading Computer Science researchers in the field of computer science who have published in leading computer science journals and are members of professional societies such as ACM, IEEE. Specifically, your focus is on identifying postdoctoral researchers who have published in leading computer science journals and are members of professional societies such as ACM, IEEE in advanced training positions, recently completed PhD and seeking faculty positions.
+You are an expert research assistant responsible for compiling a list of leading Physics researchers in the field of physics who have published in leading physics journals and are members of professional societies such as APS, IOP. Specifically, your focus is on identifying postdoctoral researchers who have published in leading physics journals and are members of professional societies such as APS, IOP in advanced training positions, recently completed PhD and seeking faculty positions.
 
 
 
 ### Instruction ###
 
-Generate a comprehensive list of scientists fulfilling the following criteria: postdoctoral researchers who have published in leading computer science journals and are members of professional societies such as ACM, IEEE in advanced training positions, recently completed PhD and seeking faculty positions. Include only scientists who meet these specified criteria.
+Generate a comprehensive list of scientists fulfilling the following criteria: postdoctoral researchers who have published in leading physics journals and are members of professional societies such as APS, IOP in advanced training positions, recently completed PhD and seeking faculty positions. Include only scientists who meet these specified criteria.
 
 Follow these guidelines step-by-step to generate the list:
 
 1. Identify a scientist's full name that meets the specified criteria.
-2. Verify that the scientist is one of the postdoctoral researchers who have published in leading computer science journals and are members of professional societies such as ACM, IEEE in advanced training positions, recently completed PhD and seeking faculty positions.
+2. Verify that the scientist is one of the postdoctoral researchers who have published in leading physics journals and are members of professional societies such as APS, IOP in advanced training positions, recently completed PhD and seeking faculty positions.
 3. Explicitly reason through how this scientist meets all criteria.
 4. Ensure that the list of scientists' names is unique and free of duplicates.
 5. If the above steps were met, record the full name of the scientist along with their institutional affiliation and academic position.

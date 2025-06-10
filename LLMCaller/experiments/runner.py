@@ -35,20 +35,18 @@ class ExperimentRunner:
 
         self.logger.info(f"Experiment run completed at {datetime.now().strftime('%Y-%m-%d %H:%M:%S')}")
 
+
+
     def run_variable_experiment(self, category, variable):
         max_attempts = self.config.get('max_attempts', 3)
         prompt = generate_prompt(category, variable, self.discipline)
 
         for attempt in range(1, max_attempts + 1):
             try:
-                # Call the API with the prompt
                 api_response = self.api_client.generate_response(prompt)
-                
-                # Validate the response
                 response_content = api_response.choices[0].message.content
                 is_valid, message, extracted_data = self.validator.validate_response(response_content)
 
-                # Prepare the result for saving
                 result = {
                     "category": category,
                     "variable": variable,
@@ -63,14 +61,13 @@ class ExperimentRunner:
                     "attempt": attempt
                 }
 
-                # Save the result
                 result_path = save_attempt(result, self.run_dir)
                 summary_path = update_summary(result, self.run_dir)
                 self.logger.info(f"Result saved for {category}: {variable} (discipline: {self.discipline}) - Attempt {attempt}/{max_attempts} - Path: {result_path}")
                 self.logger.info(f"Summary updated: {summary_path}")
 
                 if is_valid:
-                    break  # Stop attempts if a valid result is obtained
+                    break
             except Exception as e:
                 self.logger.error(f"Error for {category}: {variable} (discipline: {self.discipline}) - Attempt {attempt}/{max_attempts} - {str(e)}")
                 error_result = {
@@ -88,4 +85,19 @@ class ExperimentRunner:
                 self.logger.info(f"Error result saved for {category}: {variable} (discipline: {self.discipline}) - Attempt {attempt}/{max_attempts} - Path: {result_path}")
 
             if attempt < max_attempts:
-                time.sleep(5)  # Wait for 5 seconds between attempts
+                time.sleep(5)
+
+    def run_specific_category(self, category):
+        self.logger.info(f"Running experiments for category: {category}")
+        categories_variables = load_category_variables()
+        
+        if category not in categories_variables:
+            self.logger.error(f"Category '{category}' not found")
+            return
+        
+        for variable in categories_variables[category]:
+            self.run_variable_experiment(category, variable)
+
+    def run_specific_parameter(self, category, variable):
+        self.logger.info(f"Running experiment for parameter: {category}:{variable}")
+        self.run_variable_experiment(category, variable)
