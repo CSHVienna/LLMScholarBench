@@ -99,6 +99,51 @@ def run_experiment(model_name: str, discipline: str = "physics"):
         print(f"Experiment failed: {e}")
         return False
 
+def run_scholar_search(model_name: str, scholar_name: str, affiliation: str = None):
+    """Run scholar search with specified model for a specific scholar."""
+    try:
+        print(f"Searching for scholar: {scholar_name} using model: {model_name}")
+        if affiliation:
+            print(f"Affiliation: {affiliation}")
+
+        # Create experiment configuration and directories
+        run_dir, config = create_experiment_config(model_name)
+        
+        # Get API key
+        api_key = get_groq_api_key()
+        if not api_key:
+            print("Error: GROQ_API_KEY environment variable not set.")
+            return False
+        
+        # Save scholar name and affiliation to runtime config
+        runtime_config = {"scholar_name": scholar_name}
+        if affiliation:
+            runtime_config["affiliation"] = affiliation
+
+        config_dir = os.path.join(PROJECT_ROOT, "config")
+        runtime_config_path = os.path.join(config_dir, "runtime_config.json")
+        
+        with open(runtime_config_path, 'w') as f:
+            json.dump(runtime_config, f, indent=2)
+        
+        # Initialize and run experiment
+        runner = ExperimentRunner(run_dir, config, api_key, discipline="all")
+        
+        # Run the specific category and variable for scholar search
+        category = "scholar_search"
+        variable = "specific_scholar"
+        
+        # Run the specific parameter
+        runner.run_specific_parameter(category, variable)
+        
+        print(f"Scholar search completed successfully for {scholar_name} using {model_name}")
+        return True
+        
+    except Exception as e:
+        logging.error(f"Scholar search failed: {e}")
+        print(f"Scholar search failed: {e}")
+        return False
+
 def main():
     """Main function to parse arguments and run experiments."""
     parser = argparse.ArgumentParser(
@@ -127,6 +172,18 @@ Examples:
         help='Academic discipline for the experiment (default: physics)'
     )
     
+    parser.add_argument(
+        '--scholar', '-s',
+        type=str,
+        help='Name of scholar to search for comprehensive information'
+    )
+    
+    parser.add_argument(
+        '--affiliation', '-a',
+        type=str,
+        help='Affiliation of the scholar to narrow down the search (e.g., university)'
+    )
+
     parser.add_argument(
         '--list-models',
         action='store_true',
@@ -165,8 +222,12 @@ Examples:
     if not args.model:
         parser.error("Model name is required. Use --list-models to see available options.")
     
-    # Run the experiment
-    success = run_experiment(args.model, args.discipline)
+    # Run the experiment or scholar search
+    if args.scholar:
+        success = run_scholar_search(args.model, args.scholar, args.affiliation)
+    else:
+        success = run_experiment(args.model, args.discipline)
+    
     sys.exit(0 if success else 1)
 
 if __name__ == "__main__":

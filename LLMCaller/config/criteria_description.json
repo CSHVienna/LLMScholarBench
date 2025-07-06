@@ -162,10 +162,6 @@
         "main_criteria": "researchers",
         "secondary_criteria": "providing only names without additional biographical information"
       },
-      "basic_info": {
-        "main_criteria": "researchers",
-        "secondary_criteria": "providing name and primary institutional affiliation"
-      },
       "standard_info": {
         "main_criteria": "researchers",
         "secondary_criteria": "providing name, affiliation, and key scientific contribution"
@@ -201,5 +197,14 @@
       }
     },
     "criteria_phrase": "{main_criteria} {domain_context} {secondary_criteria}"
+  },
+  "scholar_search": {
+    "variables": {
+      "specific_scholar": {
+        "main_criteria": "comprehensive information about the scholar",
+        "secondary_criteria": "{scholar_name}"
+      }
+    },
+    "criteria_phrase": "Provide {main_criteria} {secondary_criteria}{affiliation_context} including biography, gender, country, university affiliation, field of expertise, research areas, contributions, publication history, awards, career stage, and collaborators"
   }
 }

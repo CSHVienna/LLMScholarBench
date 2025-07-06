@@ -66,8 +66,23 @@ def generate_criteria(category: str, variable: str, criteria_description: Dict[s
     # Prepare format parameters
     format_params = {
         'main_criteria': main_criteria,
-        'secondary_criteria': secondary_criteria
+        'secondary_criteria': secondary_criteria,
+        'affiliation_context': '' # Default to empty string
     }
+
+    if category == 'scholar_search':
+        # Load affiliation from runtime_config.json if it exists
+        try:
+            config_path = os.path.join(PARENT_DIR, "config", "runtime_config.json")
+            if os.path.exists(config_path):
+                with open(config_path, 'r') as f:
+                    runtime_config = json.load(f)
+                    affiliation = runtime_config.get('affiliation')
+                    if affiliation:
+                        format_params['affiliation_context'] = f" from {affiliation}"
+        except (FileNotFoundError, json.JSONDecodeError) as e:
+            # Handle cases where the file doesn't exist or is empty/corrupt
+            pass
     
     # Add domain-specific parameters if available
     if domain_config:
@@ -93,7 +108,17 @@ def generate_prompt(category: str, variable: str, discipline: str) -> str:
     prompt_config = load_prompt_config()
     template = load_template()
     twin_config = load_twin_scientists_config() if category == 'twins' else None
-    domain_config = load_domain_config(discipline)
+    
+    if discipline == 'all':
+        domain_config = {
+            "domain_expertise_title": "expert research assistant",
+            "domain_description": "any academic field",
+            "domain_context": "",
+            "publication_description": "academic journals"
+        }
+    else:
+        domain_config = load_domain_config(discipline)
+
     instructions_config = load_instructions_config()
 
     criteria = generate_criteria(category, variable, criteria_description, prompt_config, twin_config, domain_config)
@@ -119,6 +144,29 @@ def generate_prompt(category: str, variable: str, discipline: str) -> str:
             output_example = ', '.join([f'{{"Name": "Scientist {i}"}}' for i in range(1, 4)])  # Show first 3 scientists
             output_example += ', ..., ' + f'{{"Name": "Scientist {max_scientists}"}}'
             output_example = f'[{output_example}]'
+
+    # Special handling for scholar_search
+    if category == 'scholar_search':
+        # Check if scholar_name is in config (set in main.py)
+        import os
+        config_path = os.path.join(PARENT_DIR, "config", "runtime_config.json")
+        scholar_name = ""
+        
+        # Try to load the scholar name from runtime config if available
+        try:
+            if os.path.exists(config_path):
+                with open(config_path, 'r') as f:
+                    runtime_config = json.load(f)
+                    scholar_name = runtime_config.get('scholar_name', '')
+        except Exception as e:
+            print(f"Warning: Could not load scholar name from runtime config: {e}")
+        
+        # If no scholar name in runtime config, check environment variable
+        if not scholar_name:
+            scholar_name = os.environ.get('SCHOLAR_NAME', 'Dr. Archit Somani')  # Default to the test scholar if not specified
+        
+        # Replace the placeholder in the criteria
+        criteria = criteria.replace('{scholar_name}', scholar_name)
 
     # Format step instructions
     step_instructions = format_step_instructions(

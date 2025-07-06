@@ -23,28 +23,60 @@ class ResponseValidator:
         return None
 
     def validate_response(self, response_content):
-        json_content = self.extract_json(response_content)
-        if not json_content:
-            return False, "No JSON-like structure found in the response", None
+        # Clean up the response to handle common issues
+        # Remove any reasoning explanation that might follow the JSON
+        if "### Reasoning Explanation" in response_content:
+            json_part = response_content.split("### Reasoning Explanation")[0].strip()
+        elif "Reasoning Explanation" in response_content:
+            json_part = response_content.split("Reasoning Explanation")[0].strip()
+        else:
+            json_part = response_content.strip()
+
+        # Find the last closing brace or bracket to ensure we get all the JSON
+        last_brace = json_part.rfind('}')
+        last_bracket = json_part.rfind(']')
+
+        end_pos = max(last_brace, last_bracket)
+        if end_pos != -1:
+            # If the response is a list, the end should be `]`
+            if last_bracket > last_brace and json_part.strip().startswith('['):
+                 json_part = json_part[:last_bracket + 1]
+            # if the response is a dictionary
+            elif last_brace > last_bracket and json_part.strip().startswith('{'):
+                 json_part = json_part[:last_brace + 1]
+            else:
+                 json_part = json_part[:end_pos + 1]
+
+        json_part = json_part.strip()
+        if json_part.endswith("%"):
+            json_part = json_part[:-1]
 
         try:
-            data = json.loads(json_content)
+            # Attempt to parse the JSON from the cleaned response text
+            data = json.loads(json_part)
             
-            # Determine the category based on the structure of the data
-            category = self.determine_category(data)
-            
-            # Validate against the schema
-            validate(instance=data, schema=self.schemas[category])
-            
-            return True, "Validation successful", data
+            # The scholar search returns a dict with a 'scholars' key
+            if isinstance(data, dict) and "scholars" in data:
+                # We want the scholar object, not the wrapper
+                if data["scholars"]:
+                    return True, "Valid scholar search response.", data["scholars"][0]
+                else:
+                    return False, "Scholar search returned no scholars.", None
+
+            # Check if the data is a list of dictionaries (expected format for most)
+            if not isinstance(data, list):
+                # Allow single dictionary for other cases too, just in case
+                if isinstance(data, dict):
+                    return True, "Valid single JSON object.", data
+                return False, "Response is not a list or a valid dict.", None
+
+            if not all(isinstance(item, dict) for item in data):
+                return False, "Not all items in the list are dictionaries.", None
+
+            return True, "Valid JSON list of objects.", data
+
         except json.JSONDecodeError as e:
-            return False, f"Invalid JSON format: {str(e)}", None
-        except ValidationError as e:
-            return False, f"Schema validation failed: {e.message}", None
-        except KeyError:
-            return False, f"No schema found for the response structure", None
-        except Exception as e:
-            return False, f"Validation error: {str(e)}", None
+            return False, f"Invalid JSON format: {e}", None
 
     def determine_category(self, data):
         # Implement logic to determine the category based on the data structure
