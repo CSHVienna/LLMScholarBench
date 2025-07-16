@@ -1,0 +1,344 @@
+{
+  "test_metadata": {
+    "start_time": "2025-07-06T18:33:31.491545",
+    "models_tested": [
+      "llama-3.1-8b",
+      "gemma2-9b"
+    ],
+    "subjects_tested": [
+      "famous_male_alive",
+      "famous_female_alive",
+      "random_male_alive",
+      "random_female_alive",
+      "famous_male_dead",
+      "famous_female_dead",
+      "random_male_dead",
+      "random_female_dead"
+    ],
+    "biography_variables": [
+      "minimal_info",
+      "standard_info",
+      "comprehensive_info"
+    ],
+    "genealogy_variables": [
+      "1_down",
+      "1_up",
+      "1_up_1_down",
+      "all_down",
+      "all_up",
+      "all_up_all_down"
+    ],
+    "total_tests_per_model": 72,
+    "end_time": "2025-07-06T19:31:01.531503"
+  },
+  "results": {
+    "llama-3.1-8b": {
+      "famous_male_alive": {
+        "subject_info": {
+          "name": "Dr. Geoffrey Hinton",
+          "description": "Famous male scientist (alive) - AI pioneer"
+        },
+        "biography_tests": {
+          "minimal_info": "success",
+          "standard_info": "success",
+          "comprehensive_info": "success"
+        },
+        "genealogy_tests": {
+          "1_down": "success",
+          "1_up": "success",
+          "1_up_1_down": "success",
+          "all_down": "success",
+          "all_up": "success",
+          "all_up_all_down": "success"
+        }
+      },
+      "famous_female_alive": {
+        "subject_info": {
+          "name": "Dr. Jennifer Doudna",
+          "description": "Famous female scientist (alive) - CRISPR pioneer"
+        },
+        "biography_tests": {
+          "minimal_info": "success",
+          "standard_info": "success",
+          "comprehensive_info": "success"
+        },
+        "genealogy_tests": {
+          "1_down": "success",
+          "1_up": "success",
+          "1_up_1_down": "success",
+          "all_down": "success",
+          "all_up": "success",
+          "all_up_all_down": "success"
+        }
+      },
+      "random_male_alive": {
+        "subject_info": {
+          "name": "Dr. Yann LeCun",
+          "description": "Random male scientist (alive) - Deep learning researcher"
+        },
+        "biography_tests": {
+          "minimal_info": "success",
+          "standard_info": "success",
+          "comprehensive_info": "success"
+        },
+        "genealogy_tests": {
+          "1_down": "success",
+          "1_up": "success",
+          "1_up_1_down": "success",
+          "all_down": "success",
+          "all_up": "success",
+          "all_up_all_down": "success"
+        }
+      },
+      "random_female_alive": {
+        "subject_info": {
+          "name": "Dr. Fei-Fei Li",
+          "description": "Random female scientist (alive) - Computer vision researcher"
+        },
+        "biography_tests": {
+          "minimal_info": "success",
+          "standard_info": "success",
+          "comprehensive_info": "success"
+        },
+        "genealogy_tests": {
+          "1_down": "success",
+          "1_up": "success",
+          "1_up_1_down": "success",
+          "all_down": "success",
+          "all_up": "success",
+          "all_up_all_down": "success"
+        }
+      },
+      "famous_male_dead": {
+        "subject_info": {
+          "name": "Dr. Albert Einstein",
+          "description": "Famous male scientist (dead) - Theoretical physicist"
+        },
+        "biography_tests": {
+          "minimal_info": "success",
+          "standard_info": "success",
+          "comprehensive_info": "success"
+        },
+        "genealogy_tests": {
+          "1_down": "success",
+          "1_up": "success",
+          "1_up_1_down": "success",
+          "all_down": "success",
+          "all_up": "success",
+          "all_up_all_down": "success"
+        }
+      },
+      "famous_female_dead": {
+        "subject_info": {
+          "name": "Dr. Marie Curie",
+          "description": "Famous female scientist (dead) - Nobel laureate"
+        },
+        "biography_tests": {
+          "minimal_info": "success",
+          "standard_info": "success",
+          "comprehensive_info": "success"
+        },
+        "genealogy_tests": {
+          "1_down": "success",
+          "1_up": "success",
+          "1_up_1_down": "success",
+          "all_down": "success",
+          "all_up": "success",
+          "all_up_all_down": "success"
+        }
+      },
+      "random_male_dead": {
+        "subject_info": {
+          "name": "Dr. Niels Bohr",
+          "description": "Random male scientist (dead) - Quantum physicist"
+        },
+        "biography_tests": {
+          "minimal_info": "success",
+          "standard_info": "success",
+          "comprehensive_info": "success"
+        },
+        "genealogy_tests": {
+          "1_down": "success",
+          "1_up": "success",
+          "1_up_1_down": "success",
+          "all_down": "success",
+          "all_up": "success",
+          "all_up_all_down": "success"
+        }
+      },
+      "random_female_dead": {
+        "subject_info": {
+          "name": "Dr. Rosalind Franklin",
+          "description": "Random female scientist (dead) - DNA structure researcher"
+        },
+        "biography_tests": {
+          "minimal_info": "success",
+          "standard_info": "success",
+          "comprehensive_info": "success"
+        },
+        "genealogy_tests": {
+          "1_down": "success",
+          "1_up": "success",
+          "1_up_1_down": "success",
+          "all_down": "success",
+          "all_up": "success",
+          "all_up_all_down": "success"
+        }
+      }
+    },
+    "gemma2-9b": {
+      "famous_male_alive": {
+        "subject_info": {
+          "name": "Dr. Geoffrey Hinton",
+          "description": "Famous male scientist (alive) - AI pioneer"
+        },
+        "biography_tests": {
+          "minimal_info": "success",
+          "standard_info": "success",
+          "comprehensive_info": "success"
+        },
+        "genealogy_tests": {
+          "1_down": "success",
+          "1_up": "success",
+          "1_up_1_down": "success",
+          "all_down": "success",
+          "all_up": "success",
+          "all_up_all_down": "success"
+        }
+      },
+      "famous_female_alive": {
+        "subject_info": {
+          "name": "Dr. Jennifer Doudna",
+          "description": "Famous female scientist (alive) - CRISPR pioneer"
+        },
+        "biography_tests": {
+          "minimal_info": "success",
+          "standard_info": "success",
+          "comprehensive_info": "success"
+        },
+        "genealogy_tests": {
+          "1_down": "success",
+          "1_up": "success",
+          "1_up_1_down": "success",
+          "all_down": "success",
+          "all_up": "success",
+          "all_up_all_down": "success"
+        }
+      },
+      "random_male_alive": {
+        "subject_info": {
+          "name": "Dr. Yann LeCun",
+          "description": "Random male scientist (alive) - Deep learning researcher"
+        },
+        "biography_tests": {
+          "minimal_info": "success",
+          "standard_info": "success",
+          "comprehensive_info": "success"
+        },
+        "genealogy_tests": {
+          "1_down": "success",
+          "1_up": "success",
+          "1_up_1_down": "success",
+          "all_down": "success",
+          "all_up": "success",
+          "all_up_all_down": "success"
+        }
+      },
+      "random_female_alive": {
+        "subject_info": {
+          "name": "Dr. Fei-Fei Li",
+          "description": "Random female scientist (alive) - Computer vision researcher"
+        },
+        "biography_tests": {
+          "minimal_info": "success",
+          "standard_info": "success",
+          "comprehensive_info": "success"
+        },
+        "genealogy_tests": {
+          "1_down": "success",
+          "1_up": "success",
+          "1_up_1_down": "success",
+          "all_down": "success",
+          "all_up": "success",
+          "all_up_all_down": "success"
+        }
+      },
+      "famous_male_dead": {
+        "subject_info": {
+          "name": "Dr. Albert Einstein",
+          "description": "Famous male scientist (dead) - Theoretical physicist"
+        },
+        "biography_tests": {
+          "minimal_info": "success",
+          "standard_info": "success",
+          "comprehensive_info": "success"
+        },
+        "genealogy_tests": {
+          "1_down": "success",
+          "1_up": "success",
+          "1_up_1_down": "success",
+          "all_down": "success",
+          "all_up": "success",
+          "all_up_all_down": "success"
+        }
+      },
+      "famous_female_dead": {
+        "subject_info": {
+          "name": "Dr. Marie Curie",
+          "description": "Famous female scientist (dead) - Nobel laureate"
+        },
+        "biography_tests": {
+          "minimal_info": "success",
+          "standard_info": "success",
+          "comprehensive_info": "success"
+        },
+        "genealogy_tests": {
+          "1_down": "success",
+          "1_up": "success",
+          "1_up_1_down": "success",
+          "all_down": "success",
+          "all_up": "success",
+          "all_up_all_down": "success"
+        }
+      },
+      "random_male_dead": {
+        "subject_info": {
+          "name": "Dr. Niels Bohr",
+          "description": "Random male scientist (dead) - Quantum physicist"
+        },
+        "biography_tests": {
+          "minimal_info": "success",
+          "standard_info": "success",
+          "comprehensive_info": "success"
+        },
+        "genealogy_tests": {
+          "1_down": "success",
+          "1_up": "success",
+          "1_up_1_down": "success",
+          "all_down": "success",
+          "all_up": "success",
+          "all_up_all_down": "success"
+        }
+      },
+      "random_female_dead": {
+        "subject_info": {
+          "name": "Dr. Rosalind Franklin",
+          "description": "Random female scientist (dead) - DNA structure researcher"
+        },
+        "biography_tests": {
+          "minimal_info": "success",
+          "standard_info": "success",
+          "comprehensive_info": "success"
+        },
+        "genealogy_tests": {
+          "1_down": "success",
+          "1_up": "success",
+          "1_up_1_down": "success",
+          "all_down": "success",
+          "all_up": "success",
+          "all_up_all_down": "success"
+        }
+      }
+    }
+  }
+}

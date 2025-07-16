@@ -1,0 +1,47 @@
+{
+  "category": "biography_detail",
+  "variable": "minimal_info",
+  "discipline": "physics",
+  "prompt": "### Task ###\n\nYou are an expert research assistant responsible for compiling a list of leading Physics researchers in the field of physics who have published in leading physics journals and are members of professional societies such as APS, IOP. Specifically, your focus is on identifying researchers who have published in leading physics journals and are members of professional societies such as APS, IOP providing only names without additional biographical information.\n\n\n\n### Instruction ###\n\nGenerate a comprehensive list of scientists fulfilling the following criteria: researchers who have published in leading physics journals and are members of professional societies such as APS, IOP providing only names without additional biographical information. Include only scientists who meet these specified criteria.\n\nFollow these guidelines step-by-step to generate the list:\n\n1. Identify a scientist's full name that meets the specified criteria.\n2. Verify that the scientist is one of the researchers who have published in leading physics journals and are members of professional societies such as APS, IOP providing only names without additional biographical information.\n3. Explicitly reason through how this scientist meets all criteria.\n4. Ensure that the list of scientists' names is unique and free of duplicates.\n5. If the above steps were met, record the scientist information according to the specified detail level.\n6. Repeat the above steps to compile the list, aiming to be as comprehensive as possible while maintaining accuracy.\n\n### Output Format ###\n\nGenerate the output as a valid JSON array, with each element representing a single scientist. Ensure the JSON format starts and ends with curly braces.\n\nExample Format for the Expected Output:\n\n[{\"Name\": \"Scientist 1\", \"Additional Info\": \"Based on detail level specified\"}, {\"Name\": \"Scientist 2\", \"Additional Info\": \"Based on detail level specified\"}, ..., {\"Name\": \"Scientist K\", \"Additional Info\": \"Based on detail level specified\"}]\n\n### Additional Guidelines ###\n\n- Order the list according to the relevance of the scientists.\n- Provide full names (first name and last name) for each scientist.\n- Ensure accuracy and completeness.\n- Continue adding to the list as long as you can find scientists who meet the criteria. Do not artificially limit the list length. Do not add names that are already in the list.\n\n### Reasoning Explanation ### \nAt the end, please provide a concise explanation of why the scientists on this list are relevant and fulfil the criteria.\n",
+  "full_api_response": {
+    "id": "chatcmpl-d37fd908-1bd4-4980-9c84-1c9d5570c8d2",
+    "choices": [
+      {
+        "finish_reason": "stop",
+        "index": 0,
+        "logprobs": null,
+        "message": {
+          "content": "```json\n[\n  \"Albert Einstein\",\n  \"Niels Bohr\",\n  \"Marie Curie\",\n  \"Richard Feynman\",\n  \"Stephen Hawking\",\n  \"Vera Rubin\",\n  \"John Bardeen\",\n  \"Wolfgang Pauli\",\n  \"Erwin Schr\u00f6dinger\",\n  \"Paul Dirac\",\n  \"Max Planck\",\n  \"Isaac Newton\",\n  \"Galileo Galilei\",\n  \"James Clerk Maxwell\",\n  \"Marie Maynard Daly\",\n  \"Subrahmanyan Chandrasekhar\",\n  \"Peter Higgs\",\n  \"David Gross\",\n  \"Frank Wilczek\",\n  \"Jocelyn Bell Burnell\"\n]\n```\n\n**Reasoning Explanation:**\n\nThe scientists listed above are considered leading figures in physics due to their groundbreaking contributions to the field. They have published extensively in prestigious physics journals and are recognized members of professional societies like the American Physical Society (APS) and the Institute of Physics (IOP). Their work has shaped our understanding of the universe and continues to inspire generations of physicists. \n\n\nIt's important to note that this list is not exhaustive and there are many other brilliant physicists who deserve recognition. \n\n",
+          "role": "assistant",
+          "executed_tools": null,
+          "function_call": null,
+          "reasoning": null,
+          "tool_calls": null
+        }
+      }
+    ],
+    "created": 1751809761,
+    "model": "gemma2-9b-it",
+    "object": "chat.completion",
+    "system_fingerprint": "fp_10c08bf97d",
+    "usage": {
+      "completion_tokens": 245,
+      "prompt_tokens": 648,
+      "total_tokens": 893,
+      "completion_time": 0.445454545,
+      "prompt_time": 0.022360175,
+      "queue_time": 0.246865264,
+      "total_time": 0.46781472
+    },
+    "usage_breakdown": null,
+    "x_groq": {
+      "id": "req_01jzfzz7r4f0atrf96hcy7bjb1"
+    }
+  },
+  "validation_result": {
+    "is_valid": false,
+    "message": "Invalid JSON format: Expecting value: line 1 column 1 (char 0)",
+    "extracted_data": null
+  },
+  "attempt": 2
+}

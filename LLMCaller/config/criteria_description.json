@@ -206,5 +206,34 @@
       }
     },
     "criteria_phrase": "Provide {main_criteria} {secondary_criteria}{affiliation_context} including biography, gender, country, university affiliation, field of expertise, research areas, contributions, publication history, awards, career stage, and collaborators"
+  },
+  "genealogy": {
+    "variables": {
+      "1_down": {
+        "main_criteria": "immediate academic descendants (students/advisees)",
+        "secondary_criteria": "who completed their PhD or postdoc directly under the supervision of {scholar_name}"
+      },
+      "1_up": {
+        "main_criteria": "immediate academic supervisor (advisor)",
+        "secondary_criteria": "who directly supervised {scholar_name} during their PhD or postdoc"
+      },
+      "1_up_1_down": {
+        "main_criteria": "immediate academic supervisor (advisor) and immediate academic descendants (students/advisees)",
+        "secondary_criteria": "including both who directly supervised {scholar_name} and who were directly supervised by {scholar_name}"
+      },
+      "all_down": {
+        "main_criteria": "complete academic descendant tree",
+        "secondary_criteria": "including all students, students' students, and subsequent generations in the academic lineage descended from {scholar_name}"
+      },
+      "all_up": {
+        "main_criteria": "complete academic ancestral tree",
+        "secondary_criteria": "including advisor, advisor's advisor, and all previous generations in the academic lineage leading to {scholar_name}"
+      },
+      "all_up_all_down": {
+        "main_criteria": "complete academic genealogy tree",
+        "secondary_criteria": "including all ancestors (advisor, advisor's advisor, etc.) and all descendants (students, students' students, etc.) in the academic lineage connected to {scholar_name}"
+      }
+    },
+    "criteria_phrase": "Identify and provide information about {main_criteria} {secondary_criteria} {domain_context}. For each person, include their name, relationship to {scholar_name}, institution, field of study, and approximate years of activity."
   }
 }

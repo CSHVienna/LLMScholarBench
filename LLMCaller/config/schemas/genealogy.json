@@ -1,0 +1,14 @@
+{
+  "type": "array",
+  "items": {
+    "type": "object",
+    "properties": {
+      "Name": {"type": "string"},
+      "Relationship": {"type": "string"},
+      "Institution": {"type": "string"},
+      "Field": {"type": "string"},
+      "Years": {"type": "string"}
+    },
+    "required": ["Name", "Relationship"]
+  }
+} 

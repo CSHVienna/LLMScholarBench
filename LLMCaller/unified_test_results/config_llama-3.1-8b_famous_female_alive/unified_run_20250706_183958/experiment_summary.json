@@ -1,0 +1,190 @@
+{
+  "biography_detail": {
+    "minimal_info": {
+      "attempts": [
+        {
+          "attempt": 1,
+          "timestamp": "20250706_184024",
+          "is_valid": false
+        },
+        {
+          "attempt": 2,
+          "timestamp": "20250706_184041",
+          "is_valid": false
+        },
+        {
+          "attempt": 3,
+          "timestamp": "20250706_184059",
+          "is_valid": false
+        }
+      ],
+      "latest_attempt": 3
+    },
+    "standard_info": {
+      "attempts": [
+        {
+          "attempt": 1,
+          "timestamp": "20250706_184100",
+          "is_valid": false
+        },
+        {
+          "attempt": 2,
+          "timestamp": "20250706_184106",
+          "is_valid": false
+        },
+        {
+          "attempt": 3,
+          "timestamp": "20250706_184112",
+          "is_valid": false
+        }
+      ],
+      "latest_attempt": 3
+    },
+    "comprehensive_info": {
+      "attempts": [
+        {
+          "attempt": 1,
+          "timestamp": "20250706_184114",
+          "is_valid": false
+        },
+        {
+          "attempt": 2,
+          "timestamp": "20250706_184120",
+          "is_valid": false
+        },
+        {
+          "attempt": 3,
+          "timestamp": "20250706_184127",
+          "is_valid": false
+        }
+      ],
+      "latest_attempt": 3
+    }
+  },
+  "genealogy": {
+    "1_down": {
+      "attempts": [
+        {
+          "attempt": 1,
+          "timestamp": "20250706_184143",
+          "is_valid": false
+        },
+        {
+          "attempt": 2,
+          "timestamp": "20250706_184159",
+          "is_valid": false
+        },
+        {
+          "attempt": 3,
+          "timestamp": "20250706_184215",
+          "is_valid": false
+        }
+      ],
+      "latest_attempt": 3
+    },
+    "1_up": {
+      "attempts": [
+        {
+          "attempt": 1,
+          "timestamp": "20250706_184230",
+          "is_valid": false
+        },
+        {
+          "attempt": 2,
+          "timestamp": "20250706_184243",
+          "is_valid": false
+        },
+        {
+          "attempt": 3,
+          "timestamp": "20250706_184255",
+          "is_valid": false
+        }
+      ],
+      "latest_attempt": 3
+    },
+    "1_up_1_down": {
+      "attempts": [
+        {
+          "attempt": 1,
+          "timestamp": "20250706_184319",
+          "is_valid": false
+        },
+        {
+          "attempt": 2,
+          "timestamp": "20250706_184326",
+          "is_valid": false
+        },
+        {
+          "attempt": 3,
+          "timestamp": "20250706_184342",
+          "is_valid": false
+        }
+      ],
+      "latest_attempt": 3
+    },
+    "all_down": {
+      "attempts": [
+        {
+          "attempt": 1,
+          "timestamp": "20250706_184353",
+          "is_valid": false
+        },
+        {
+          "attempt": 2,
+          "timestamp": "20250706_184400",
+          "is_valid": false
+        },
+        {
+          "attempt": 3,
+          "timestamp": "20250706_184406",
+          "is_valid": false
+        }
+      ],
+      "latest_attempt": 3
+    },
+    "all_up": {
+      "attempts": [
+        {
+          "attempt": 1,
+          "timestamp": "20250706_184408",
+          "is_valid": false
+        },
+        {
+          "attempt": 2,
+          "timestamp": "20250706_184425",
+          "is_valid": false
+        },
+        {
+          "attempt": 3,
+          "timestamp": "20250706_184444",
+          "is_valid": false
+        }
+      ],
+      "latest_attempt": 3
+    },
+    "all_up_all_down": {
+      "attempts": [
+        {
+          "attempt": 1,
+          "timestamp": "20250706_184602",
+          "is_valid": false,
+          "error": {
+            "error_type": "APITimeoutError",
+            "message": "Request timed out."
+          }
+        },
+        {
+          "attempt": 2,
+          "timestamp": "20250706_184620",
+          "is_valid": false
+        },
+        {
+          "attempt": 3,
+          "timestamp": "20250706_184637",
+          "is_valid": false
+        }
+      ],
+      "latest_attempt": 3
+    }
+  }
+}

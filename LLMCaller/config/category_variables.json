@@ -10,5 +10,6 @@
   "geographical_diversity": ["global_diverse", "developed_countries", "emerging_countries"],
   "academic_hierarchy": ["department_heads", "full_professors", "associate_professors", "assistant_professors", "postdocs"],
   "biography_detail": ["minimal_info", "standard_info", "comprehensive_info"],
-  "scholar_search": ["specific_scholar"]
+  "scholar_search": ["specific_scholar"],
+  "genealogy": ["1_down", "1_up", "1_up_1_down", "all_down", "all_up", "all_up_all_down"]
 }

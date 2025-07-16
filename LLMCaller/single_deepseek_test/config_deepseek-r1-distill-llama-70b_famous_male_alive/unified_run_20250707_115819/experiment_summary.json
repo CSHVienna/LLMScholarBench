@@ -1,0 +1,96 @@
+{
+  "biography_detail": {
+    "minimal_info": {
+      "attempts": [
+        {
+          "attempt": 1,
+          "timestamp": "20250707_115823",
+          "is_valid": false
+        },
+        {
+          "attempt": 2,
+          "timestamp": "20250707_115840",
+          "is_valid": false
+        },
+        {
+          "attempt": 3,
+          "timestamp": "20250707_115900",
+          "is_valid": false
+        }
+      ],
+      "latest_attempt": 3
+    },
+    "standard_info": {
+      "attempts": [
+        {
+          "attempt": 1,
+          "timestamp": "20250707_115918",
+          "is_valid": false
+        },
+        {
+          "attempt": 2,
+          "timestamp": "20250707_115933",
+          "is_valid": false
+        },
+        {
+          "attempt": 3,
+          "timestamp": "20250707_115948",
+          "is_valid": false
+        }
+      ],
+      "latest_attempt": 3
+    },
+    "comprehensive_info": {
+      "attempts": [
+        {
+          "attempt": 1,
+          "timestamp": "20250707_120004",
+          "is_valid": false
+        },
+        {
+          "attempt": 2,
+          "timestamp": "20250707_120023",
+          "is_valid": false
+        },
+        {
+          "attempt": 3,
+          "timestamp": "20250707_120040",
+          "is_valid": false
+        }
+      ],
+      "latest_attempt": 3
+    }
+  },
+  "genealogy": {
+    "1_down": {
+      "attempts": [
+        {
+          "attempt": 1,
+          "timestamp": "20250707_120101",
+          "is_valid": false
+        },
+        {
+          "attempt": 2,
+          "timestamp": "20250707_120117",
+          "is_valid": false
+        },
+        {
+          "attempt": 3,
+          "timestamp": "20250707_120133",
+          "is_valid": false
+        }
+      ],
+      "latest_attempt": 3
+    },
+    "1_up": {
+      "attempts": [
+        {
+          "attempt": 1,
+          "timestamp": "20250707_120148",
+          "is_valid": false
+        }
+      ],
+      "latest_attempt": 1
+    }
+  }
+}

@@ -1,0 +1,186 @@
+{
+  "biography_detail": {
+    "minimal_info": {
+      "attempts": [
+        {
+          "attempt": 1,
+          "timestamp": "20250706_191521",
+          "is_valid": false
+        },
+        {
+          "attempt": 2,
+          "timestamp": "20250706_191527",
+          "is_valid": false
+        },
+        {
+          "attempt": 3,
+          "timestamp": "20250706_191533",
+          "is_valid": false
+        }
+      ],
+      "latest_attempt": 3
+    },
+    "standard_info": {
+      "attempts": [
+        {
+          "attempt": 1,
+          "timestamp": "20250706_191534",
+          "is_valid": false
+        },
+        {
+          "attempt": 2,
+          "timestamp": "20250706_191540",
+          "is_valid": false
+        },
+        {
+          "attempt": 3,
+          "timestamp": "20250706_191546",
+          "is_valid": false
+        }
+      ],
+      "latest_attempt": 3
+    },
+    "comprehensive_info": {
+      "attempts": [
+        {
+          "attempt": 1,
+          "timestamp": "20250706_191547",
+          "is_valid": false
+        },
+        {
+          "attempt": 2,
+          "timestamp": "20250706_191553",
+          "is_valid": false
+        },
+        {
+          "attempt": 3,
+          "timestamp": "20250706_191600",
+          "is_valid": false
+        }
+      ],
+      "latest_attempt": 3
+    }
+  },
+  "genealogy": {
+    "1_down": {
+      "attempts": [
+        {
+          "attempt": 1,
+          "timestamp": "20250706_191600",
+          "is_valid": false
+        },
+        {
+          "attempt": 2,
+          "timestamp": "20250706_191606",
+          "is_valid": false
+        },
+        {
+          "attempt": 3,
+          "timestamp": "20250706_191612",
+          "is_valid": false
+        }
+      ],
+      "latest_attempt": 3
+    },
+    "1_up": {
+      "attempts": [
+        {
+          "attempt": 1,
+          "timestamp": "20250706_191612",
+          "is_valid": false
+        },
+        {
+          "attempt": 2,
+          "timestamp": "20250706_191618",
+          "is_valid": false
+        },
+        {
+          "attempt": 3,
+          "timestamp": "20250706_191624",
+          "is_valid": false
+        }
+      ],
+      "latest_attempt": 3
+    },
+    "1_up_1_down": {
+      "attempts": [
+        {
+          "attempt": 1,
+          "timestamp": "20250706_191625",
+          "is_valid": false
+        },
+        {
+          "attempt": 2,
+          "timestamp": "20250706_191631",
+          "is_valid": false
+        },
+        {
+          "attempt": 3,
+          "timestamp": "20250706_191637",
+          "is_valid": false
+        }
+      ],
+      "latest_attempt": 3
+    },
+    "all_down": {
+      "attempts": [
+        {
+          "attempt": 1,
+          "timestamp": "20250706_191638",
+          "is_valid": false
+        },
+        {
+          "attempt": 2,
+          "timestamp": "20250706_191644",
+          "is_valid": false
+        },
+        {
+          "attempt": 3,
+          "timestamp": "20250706_191650",
+          "is_valid": false
+        }
+      ],
+      "latest_attempt": 3
+    },
+    "all_up": {
+      "attempts": [
+        {
+          "attempt": 1,
+          "timestamp": "20250706_191651",
+          "is_valid": false
+        },
+        {
+          "attempt": 2,
+          "timestamp": "20250706_191657",
+          "is_valid": false
+        },
+        {
+          "attempt": 3,
+          "timestamp": "20250706_191703",
+          "is_valid": false
+        }
+      ],
+      "latest_attempt": 3
+    },
+    "all_up_all_down": {
+      "attempts": [
+        {
+          "attempt": 1,
+          "timestamp": "20250706_191704",
+          "is_valid": false
+        },
+        {
+          "attempt": 2,
+          "timestamp": "20250706_191710",
+          "is_valid": false
+        },
+        {
+          "attempt": 3,
+          "timestamp": "20250706_191716",
+          "is_valid": false
+        }
+      ],
+      "latest_attempt": 3
+    }
+  }
+}

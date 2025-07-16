@@ -1,0 +1,85 @@
+2025-07-07 11:58:19,583 - INFO - 🎯 Starting Unified Genealogy and Biography Test Suite
+2025-07-07 11:58:19,583 - INFO - 📊 Testing 1 models across 8 subjects
+2025-07-07 11:58:19,583 - INFO - 🧬 3 biography + 6 genealogy tests per subject
+2025-07-07 11:58:19,583 - INFO - 
+============================================================
+2025-07-07 11:58:19,583 - INFO - 🤖 TESTING MODEL: deepseek-r1-distill-llama-70b
+2025-07-07 11:58:19,583 - INFO - ============================================================
+2025-07-07 11:58:19,583 - INFO - 🚀 Starting tests for model: deepseek-r1-distill-llama-70b
+2025-07-07 11:58:19,583 - INFO - 🧪 Testing subject: Dr. Geoffrey Hinton (famous_male_alive)
+2025-07-07 11:58:19,584 - INFO - ✅ Configuration loaded for model: deepseek-r1-distill-llama-70b
+2025-07-07 11:58:19,615 - INFO - Running biography test: minimal_info for Dr. Geoffrey Hinton
+2025-07-07 11:58:19,616 - INFO - Running experiment for parameter: biography_detail:minimal_info
+2025-07-07 11:58:23,938 - INFO - HTTP Request: POST https://api.groq.com/openai/v1/chat/completions "HTTP/1.1 200 OK"
+2025-07-07 11:58:23,958 - INFO - Result saved for biography_detail: minimal_info (discipline: physics) - Attempt 1/3 - Path: single_deepseek_test/config_deepseek-r1-distill-llama-70b_famous_male_alive/unified_run_20250707_115819/biography_detail_minimal_info/attempt1_20250707_115823.json
+2025-07-07 11:58:23,958 - INFO - Summary updated: single_deepseek_test/config_deepseek-r1-distill-llama-70b_famous_male_alive/unified_run_20250707_115819/experiment_summary.json
+2025-07-07 11:58:40,842 - INFO - HTTP Request: POST https://api.groq.com/openai/v1/chat/completions "HTTP/1.1 200 OK"
+2025-07-07 11:58:40,848 - INFO - Result saved for biography_detail: minimal_info (discipline: physics) - Attempt 2/3 - Path: single_deepseek_test/config_deepseek-r1-distill-llama-70b_famous_male_alive/unified_run_20250707_115819/biography_detail_minimal_info/attempt2_20250707_115840.json
+2025-07-07 11:58:40,849 - INFO - Summary updated: single_deepseek_test/config_deepseek-r1-distill-llama-70b_famous_male_alive/unified_run_20250707_115819/experiment_summary.json
+2025-07-07 11:59:00,968 - INFO - HTTP Request: POST https://api.groq.com/openai/v1/chat/completions "HTTP/1.1 200 OK"
+2025-07-07 11:59:00,976 - INFO - Result saved for biography_detail: minimal_info (discipline: physics) - Attempt 3/3 - Path: single_deepseek_test/config_deepseek-r1-distill-llama-70b_famous_male_alive/unified_run_20250707_115819/biography_detail_minimal_info/attempt3_20250707_115900.json
+2025-07-07 11:59:00,977 - INFO - Summary updated: single_deepseek_test/config_deepseek-r1-distill-llama-70b_famous_male_alive/unified_run_20250707_115819/experiment_summary.json
+2025-07-07 11:59:00,977 - INFO - ✅ Biography minimal_info completed for Dr. Geoffrey Hinton
+2025-07-07 11:59:00,977 - INFO - Running biography test: standard_info for Dr. Geoffrey Hinton
+2025-07-07 11:59:00,979 - INFO - Running experiment for parameter: biography_detail:standard_info
+2025-07-07 11:59:01,017 - INFO - HTTP Request: POST https://api.groq.com/openai/v1/chat/completions "HTTP/1.1 429 Too Many Requests"
+2025-07-07 11:59:01,017 - INFO - Retrying request to /openai/v1/chat/completions in 14.000000 seconds
+2025-07-07 11:59:18,477 - INFO - HTTP Request: POST https://api.groq.com/openai/v1/chat/completions "HTTP/1.1 200 OK"
+2025-07-07 11:59:18,483 - INFO - Result saved for biography_detail: standard_info (discipline: physics) - Attempt 1/3 - Path: single_deepseek_test/config_deepseek-r1-distill-llama-70b_famous_male_alive/unified_run_20250707_115819/biography_detail_standard_info/attempt1_20250707_115918.json
+2025-07-07 11:59:18,484 - INFO - Summary updated: single_deepseek_test/config_deepseek-r1-distill-llama-70b_famous_male_alive/unified_run_20250707_115819/experiment_summary.json
+2025-07-07 11:59:23,551 - INFO - HTTP Request: POST https://api.groq.com/openai/v1/chat/completions "HTTP/1.1 429 Too Many Requests"
+2025-07-07 11:59:23,552 - INFO - Retrying request to /openai/v1/chat/completions in 7.000000 seconds
+2025-07-07 11:59:33,836 - INFO - HTTP Request: POST https://api.groq.com/openai/v1/chat/completions "HTTP/1.1 200 OK"
+2025-07-07 11:59:33,842 - INFO - Result saved for biography_detail: standard_info (discipline: physics) - Attempt 2/3 - Path: single_deepseek_test/config_deepseek-r1-distill-llama-70b_famous_male_alive/unified_run_20250707_115819/biography_detail_standard_info/attempt2_20250707_115933.json
+2025-07-07 11:59:33,842 - INFO - Summary updated: single_deepseek_test/config_deepseek-r1-distill-llama-70b_famous_male_alive/unified_run_20250707_115819/experiment_summary.json
+2025-07-07 11:59:38,944 - INFO - HTTP Request: POST https://api.groq.com/openai/v1/chat/completions "HTTP/1.1 429 Too Many Requests"
+2025-07-07 11:59:38,945 - INFO - Retrying request to /openai/v1/chat/completions in 6.000000 seconds
+2025-07-07 11:59:48,275 - INFO - HTTP Request: POST https://api.groq.com/openai/v1/chat/completions "HTTP/1.1 200 OK"
+2025-07-07 11:59:48,278 - INFO - Result saved for biography_detail: standard_info (discipline: physics) - Attempt 3/3 - Path: single_deepseek_test/config_deepseek-r1-distill-llama-70b_famous_male_alive/unified_run_20250707_115819/biography_detail_standard_info/attempt3_20250707_115948.json
+2025-07-07 11:59:48,278 - INFO - Summary updated: single_deepseek_test/config_deepseek-r1-distill-llama-70b_famous_male_alive/unified_run_20250707_115819/experiment_summary.json
+2025-07-07 11:59:48,278 - INFO - ✅ Biography standard_info completed for Dr. Geoffrey Hinton
+2025-07-07 11:59:48,278 - INFO - Running biography test: comprehensive_info for Dr. Geoffrey Hinton
+2025-07-07 11:59:48,279 - INFO - Running experiment for parameter: biography_detail:comprehensive_info
+2025-07-07 11:59:48,323 - INFO - HTTP Request: POST https://api.groq.com/openai/v1/chat/completions "HTTP/1.1 429 Too Many Requests"
+2025-07-07 11:59:48,323 - INFO - Retrying request to /openai/v1/chat/completions in 12.000000 seconds
+2025-07-07 12:00:04,967 - INFO - HTTP Request: POST https://api.groq.com/openai/v1/chat/completions "HTTP/1.1 200 OK"
+2025-07-07 12:00:04,973 - INFO - Result saved for biography_detail: comprehensive_info (discipline: physics) - Attempt 1/3 - Path: single_deepseek_test/config_deepseek-r1-distill-llama-70b_famous_male_alive/unified_run_20250707_115819/biography_detail_comprehensive_info/attempt1_20250707_120004.json
+2025-07-07 12:00:04,973 - INFO - Summary updated: single_deepseek_test/config_deepseek-r1-distill-llama-70b_famous_male_alive/unified_run_20250707_115819/experiment_summary.json
+2025-07-07 12:00:10,074 - INFO - HTTP Request: POST https://api.groq.com/openai/v1/chat/completions "HTTP/1.1 429 Too Many Requests"
+2025-07-07 12:00:10,075 - INFO - Retrying request to /openai/v1/chat/completions in 9.000000 seconds
+2025-07-07 12:00:23,254 - INFO - HTTP Request: POST https://api.groq.com/openai/v1/chat/completions "HTTP/1.1 200 OK"
+2025-07-07 12:00:23,263 - INFO - Result saved for biography_detail: comprehensive_info (discipline: physics) - Attempt 2/3 - Path: single_deepseek_test/config_deepseek-r1-distill-llama-70b_famous_male_alive/unified_run_20250707_115819/biography_detail_comprehensive_info/attempt2_20250707_120023.json
+2025-07-07 12:00:23,265 - INFO - Summary updated: single_deepseek_test/config_deepseek-r1-distill-llama-70b_famous_male_alive/unified_run_20250707_115819/experiment_summary.json
+2025-07-07 12:00:28,336 - INFO - HTTP Request: POST https://api.groq.com/openai/v1/chat/completions "HTTP/1.1 429 Too Many Requests"
+2025-07-07 12:00:28,339 - INFO - Retrying request to /openai/v1/chat/completions in 8.000000 seconds
+2025-07-07 12:00:40,957 - INFO - HTTP Request: POST https://api.groq.com/openai/v1/chat/completions "HTTP/1.1 200 OK"
+2025-07-07 12:00:40,968 - INFO - Result saved for biography_detail: comprehensive_info (discipline: physics) - Attempt 3/3 - Path: single_deepseek_test/config_deepseek-r1-distill-llama-70b_famous_male_alive/unified_run_20250707_115819/biography_detail_comprehensive_info/attempt3_20250707_120040.json
+2025-07-07 12:00:40,969 - INFO - Summary updated: single_deepseek_test/config_deepseek-r1-distill-llama-70b_famous_male_alive/unified_run_20250707_115819/experiment_summary.json
+2025-07-07 12:00:40,969 - INFO - ✅ Biography comprehensive_info completed for Dr. Geoffrey Hinton
+2025-07-07 12:00:40,969 - INFO - Running genealogy test: 1_down for Dr. Geoffrey Hinton
+2025-07-07 12:00:40,972 - INFO - Running experiment for parameter: genealogy:1_down
+2025-07-07 12:00:41,003 - INFO - HTTP Request: POST https://api.groq.com/openai/v1/chat/completions "HTTP/1.1 429 Too Many Requests"
+2025-07-07 12:00:41,004 - INFO - Retrying request to /openai/v1/chat/completions in 16.000000 seconds
+2025-07-07 12:01:01,186 - INFO - HTTP Request: POST https://api.groq.com/openai/v1/chat/completions "HTTP/1.1 200 OK"
+2025-07-07 12:01:01,191 - INFO - Result saved for genealogy: 1_down (discipline: physics) - Attempt 1/3 - Path: single_deepseek_test/config_deepseek-r1-distill-llama-70b_famous_male_alive/unified_run_20250707_115819/genealogy_1_down/attempt1_20250707_120101.json
+2025-07-07 12:01:01,191 - INFO - Summary updated: single_deepseek_test/config_deepseek-r1-distill-llama-70b_famous_male_alive/unified_run_20250707_115819/experiment_summary.json
+2025-07-07 12:01:06,262 - INFO - HTTP Request: POST https://api.groq.com/openai/v1/chat/completions "HTTP/1.1 429 Too Many Requests"
+2025-07-07 12:01:06,263 - INFO - Retrying request to /openai/v1/chat/completions in 8.000000 seconds
+2025-07-07 12:01:17,158 - INFO - HTTP Request: POST https://api.groq.com/openai/v1/chat/completions "HTTP/1.1 200 OK"
+2025-07-07 12:01:17,176 - INFO - Result saved for genealogy: 1_down (discipline: physics) - Attempt 2/3 - Path: single_deepseek_test/config_deepseek-r1-distill-llama-70b_famous_male_alive/unified_run_20250707_115819/genealogy_1_down/attempt2_20250707_120117.json
+2025-07-07 12:01:17,177 - INFO - Summary updated: single_deepseek_test/config_deepseek-r1-distill-llama-70b_famous_male_alive/unified_run_20250707_115819/experiment_summary.json
+2025-07-07 12:01:22,261 - INFO - HTTP Request: POST https://api.groq.com/openai/v1/chat/completions "HTTP/1.1 429 Too Many Requests"
+2025-07-07 12:01:22,262 - INFO - Retrying request to /openai/v1/chat/completions in 8.000000 seconds
+2025-07-07 12:01:33,883 - INFO - HTTP Request: POST https://api.groq.com/openai/v1/chat/completions "HTTP/1.1 200 OK"
+2025-07-07 12:01:33,887 - INFO - Result saved for genealogy: 1_down (discipline: physics) - Attempt 3/3 - Path: single_deepseek_test/config_deepseek-r1-distill-llama-70b_famous_male_alive/unified_run_20250707_115819/genealogy_1_down/attempt3_20250707_120133.json
+2025-07-07 12:01:33,888 - INFO - Summary updated: single_deepseek_test/config_deepseek-r1-distill-llama-70b_famous_male_alive/unified_run_20250707_115819/experiment_summary.json
+2025-07-07 12:01:33,888 - INFO - ✅ Genealogy 1_down completed for Dr. Geoffrey Hinton
+2025-07-07 12:01:33,888 - INFO - Running genealogy test: 1_up for Dr. Geoffrey Hinton
+2025-07-07 12:01:33,891 - INFO - Running experiment for parameter: genealogy:1_up
+2025-07-07 12:01:33,921 - INFO - HTTP Request: POST https://api.groq.com/openai/v1/chat/completions "HTTP/1.1 429 Too Many Requests"
+2025-07-07 12:01:33,921 - INFO - Retrying request to /openai/v1/chat/completions in 12.000000 seconds
+2025-07-07 12:01:48,083 - INFO - HTTP Request: POST https://api.groq.com/openai/v1/chat/completions "HTTP/1.1 200 OK"
+2025-07-07 12:01:48,089 - INFO - Result saved for genealogy: 1_up (discipline: physics) - Attempt 1/3 - Path: single_deepseek_test/config_deepseek-r1-distill-llama-70b_famous_male_alive/unified_run_20250707_115819/genealogy_1_up/attempt1_20250707_120148.json
+2025-07-07 12:01:48,089 - INFO - Summary updated: single_deepseek_test/config_deepseek-r1-distill-llama-70b_famous_male_alive/unified_run_20250707_115819/experiment_summary.json
+2025-07-07 12:01:53,165 - INFO - HTTP Request: POST https://api.groq.com/openai/v1/chat/completions "HTTP/1.1 429 Too Many Requests"
+2025-07-07 12:01:53,166 - INFO - Retrying request to /openai/v1/chat/completions in 5.000000 seconds

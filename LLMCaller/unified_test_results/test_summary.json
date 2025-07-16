@@ -1,0 +1,18 @@
+{
+  "total_models": 2,
+  "total_subjects": 8,
+  "model_performance": {
+    "llama-3.1-8b": {
+      "status": "completed",
+      "total_tests": 72,
+      "successful_tests": 72,
+      "success_rate": 100.0
+    },
+    "gemma2-9b": {
+      "status": "completed",
+      "total_tests": 72,
+      "successful_tests": 72,
+      "success_rate": 100.0
+    }
+  }
+}

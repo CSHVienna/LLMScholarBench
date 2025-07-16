@@ -17,6 +17,12 @@ class ResponseValidator:
         return schemas
 
     def extract_json(self, response_content):
+        # First, try to extract JSON from markdown code blocks
+        markdown_match = re.search(r'```(?:json)?\s*(\[.*?\]|\{.*?\})\s*```', response_content, re.DOTALL)
+        if markdown_match:
+            return markdown_match.group(1)
+        
+        # Fallback to original extraction method
         json_match = re.search(r'\[.*\]|\{.*\}', response_content, re.DOTALL)
         if json_match:
             return json_match.group()
@@ -82,7 +88,9 @@ class ResponseValidator:
         # Implement logic to determine the category based on the data structure
         # This is a placeholder implementation and should be adjusted based on your specific needs
         if isinstance(data, list):
-            if all('Name' in item for item in data):
+            if all('Name' in item and 'Relationship' in item for item in data):
+                return 'genealogy'
+            elif all('Name' in item for item in data):
                 return 'top_k'
         elif isinstance(data, dict):
             if 'twin1' in data and 'twin2' in data:

@@ -84,6 +84,12 @@ def generate_criteria(category: str, variable: str, criteria_description: Dict[s
             # Handle cases where the file doesn't exist or is empty/corrupt
             pass
     
+    # Handle genealogy scholar_name placeholder
+    if category == 'genealogy':
+        # Get scholar name from environment variable or default
+        scholar_name = os.environ.get('SCHOLAR_NAME', 'Dr. Albert Einstein')
+        format_params['scholar_name'] = scholar_name
+    
     # Add domain-specific parameters if available
     if domain_config:
         format_params['domain_context'] = domain_config.get('domain_context', '')
@@ -164,6 +170,29 @@ def generate_prompt(category: str, variable: str, discipline: str) -> str:
         # If no scholar name in runtime config, check environment variable
         if not scholar_name:
             scholar_name = os.environ.get('SCHOLAR_NAME', 'Dr. Archit Somani')  # Default to the test scholar if not specified
+        
+        # Replace the placeholder in the criteria
+        criteria = criteria.replace('{scholar_name}', scholar_name)
+    
+    # Special handling for genealogy
+    if category == 'genealogy':
+        # Check if scholar_name is in config (set in main.py)
+        import os
+        config_path = os.path.join(PARENT_DIR, "config", "runtime_config.json")
+        scholar_name = ""
+        
+        # Try to load the scholar name from runtime config if available
+        try:
+            if os.path.exists(config_path):
+                with open(config_path, 'r') as f:
+                    runtime_config = json.load(f)
+                    scholar_name = runtime_config.get('scholar_name', '')
+        except Exception as e:
+            print(f"Warning: Could not load scholar name from runtime config: {e}")
+        
+        # If no scholar name in runtime config, check environment variable
+        if not scholar_name:
+            scholar_name = os.environ.get('SCHOLAR_NAME', 'Dr. Albert Einstein')  # Default to Einstein for genealogy testing
         
         # Replace the placeholder in the criteria
         criteria = criteria.replace('{scholar_name}', scholar_name)

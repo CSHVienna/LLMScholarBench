@@ -144,6 +144,47 @@ def run_scholar_search(model_name: str, scholar_name: str, affiliation: str = No
         print(f"Scholar search failed: {e}")
         return False
 
+def run_genealogy_search(model_name: str, scholar_name: str, discipline: str = "physics"):
+    """Run genealogy/family tree search with specified model."""
+    try:
+        print(f"Starting genealogy search for: {scholar_name}")
+        print(f"Discipline: {discipline}")
+        
+        # Create experiment configuration and directories
+        run_dir, config = create_experiment_config(model_name)
+        
+        # Get API key
+        api_key = get_groq_api_key()
+        if not api_key:
+            print("Error: GROQ_API_KEY environment variable not set.")
+            return False
+        
+        # Create runtime config for genealogy search
+        runtime_config = {
+            'scholar_name': scholar_name
+        }
+        
+        # Save runtime config
+        config_path = os.path.join(PROJECT_ROOT, "config", "runtime_config.json")
+        os.makedirs(os.path.dirname(config_path), exist_ok=True)
+        with open(config_path, 'w') as f:
+            json.dump(runtime_config, f, indent=2)
+        
+        # Set environment variable for backward compatibility
+        os.environ['SCHOLAR_NAME'] = scholar_name
+        
+        # Initialize and run experiment
+        runner = ExperimentRunner(run_dir, config, api_key, discipline)
+        runner.run_specific_category("genealogy")
+        
+        print(f"Genealogy search completed successfully for {scholar_name}")
+        return True
+        
+    except Exception as e:
+        logging.error(f"Genealogy search failed: {e}")
+        print(f"Genealogy search failed: {e}")
+        return False
+
 def main():
     """Main function to parse arguments and run experiments."""
     parser = argparse.ArgumentParser(
@@ -154,6 +195,8 @@ Examples:
   python main.py --model deepseek-r1-distill-llama-70b                    # Run physics (default)
   python main.py --model gemma2-9b --discipline psychology               # Run psychology
   python main.py --model llama-3.3-70b --discipline computer_science     # Run computer science
+  python main.py --model llama-3.3-70b --scholar "Dr. Albert Einstein"   # Search for scholar info
+  python main.py --model llama-3.3-70b --genealogy "Dr. Albert Einstein" # Search genealogy tree
   python main.py --list-models                                          # List available models
   python main.py --list-disciplines                                     # List available disciplines
         """
@@ -182,6 +225,12 @@ Examples:
         '--affiliation', '-a',
         type=str,
         help='Affiliation of the scholar to narrow down the search (e.g., university)'
+    )
+    
+    parser.add_argument(
+        '--genealogy', '-g',
+        type=str,
+        help='Name of scholar to search for genealogy/family tree information'
     )
 
     parser.add_argument(
@@ -222,9 +271,11 @@ Examples:
     if not args.model:
         parser.error("Model name is required. Use --list-models to see available options.")
     
-    # Run the experiment or scholar search
+    # Run the experiment, scholar search, or genealogy search
     if args.scholar:
         success = run_scholar_search(args.model, args.scholar, args.affiliation)
+    elif args.genealogy:
+        success = run_genealogy_search(args.model, args.genealogy, args.discipline)
     else:
         success = run_experiment(args.model, args.discipline)
     

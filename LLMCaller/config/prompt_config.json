@@ -46,6 +46,10 @@
   "scholar_search": {
     "backup_indicator": "If the above steps were met, provide comprehensive information about the scholar",
     "output_example": "{\"name\": \"Scholar Name\", \"biography\": \"Brief biographical information\", \"gender\": \"Gender\", \"country_of_origin\": \"Country\", \"current_country\": \"Country\", \"affiliation\": \"University/Institution\", \"field\": \"Field\", \"research_areas\": [\"Area 1\", \"Area 2\"], \"contributions\": [\"Contribution 1\", \"Contribution 2\"], \"publications\": {\"count\": \"Number\", \"major_journals\": [\"Journal 1\", \"Journal 2\"], \"h_index\": \"Number\"}, \"awards\": [\"Award 1\", \"Award 2\"], \"career_stage\": \"Career Stage\", \"collaborators\": [\"Collaborator 1\", \"Collaborator 2\"], \"additional_info\": \"Additional information\"}"
+  },
+  "genealogy": {
+    "backup_indicator": "If the above steps were met, record the academic genealogy information including names, relationships, institutions, fields, and years",
+    "output_example": "[{\"Name\": \"Scholar Name\", \"Relationship\": \"Advisor/Student/Advisor's Advisor/Student's Student\", \"Institution\": \"University/Institution\", \"Field\": \"Field\", \"Years\": \"YYYY-YYYY\"}, {\"Name\": \"Scholar Name 2\", \"Relationship\": \"Advisor/Student/Advisor's Advisor/Student's Student\", \"Institution\": \"University/Institution\", \"Field\": \"Field\", \"Years\": \"YYYY-YYYY\"}]"
   }
 }
 

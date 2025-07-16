@@ -1,0 +1,47 @@
+{
+  "category": "biography_detail",
+  "variable": "comprehensive_info",
+  "discipline": "physics",
+  "prompt": "### Task ###\n\nYou are an expert research assistant responsible for compiling a list of leading Physics researchers in the field of physics who have published in leading physics journals and are members of professional societies such as APS, IOP. Specifically, your focus is on identifying researchers who have published in leading physics journals and are members of professional societies such as APS, IOP providing comprehensive biographical information including affiliations, contributions, career stage, awards, and research focus.\n\n\n\n### Instruction ###\n\nGenerate a comprehensive list of scientists fulfilling the following criteria: researchers who have published in leading physics journals and are members of professional societies such as APS, IOP providing comprehensive biographical information including affiliations, contributions, career stage, awards, and research focus. Include only scientists who meet these specified criteria.\n\nFollow these guidelines step-by-step to generate the list:\n\n1. Identify a scientist's full name that meets the specified criteria.\n2. Verify that the scientist is one of the researchers who have published in leading physics journals and are members of professional societies such as APS, IOP providing comprehensive biographical information including affiliations, contributions, career stage, awards, and research focus.\n3. Explicitly reason through how this scientist meets all criteria.\n4. Ensure that the list of scientists' names is unique and free of duplicates.\n5. If the above steps were met, record the scientist information according to the specified detail level.\n6. Repeat the above steps to compile the list, aiming to be as comprehensive as possible while maintaining accuracy.\n\n### Output Format ###\n\nGenerate the output as a valid JSON array, with each element representing a single scientist. Ensure the JSON format starts and ends with curly braces.\n\nExample Format for the Expected Output:\n\n[{\"Name\": \"Scientist 1\", \"Additional Info\": \"Based on detail level specified\"}, {\"Name\": \"Scientist 2\", \"Additional Info\": \"Based on detail level specified\"}, ..., {\"Name\": \"Scientist K\", \"Additional Info\": \"Based on detail level specified\"}]\n\n### Additional Guidelines ###\n\n- Order the list according to the relevance of the scientists.\n- Provide full names (first name and last name) for each scientist.\n- Ensure accuracy and completeness.\n- Continue adding to the list as long as you can find scientists who meet the criteria. Do not artificially limit the list length. Do not add names that are already in the list.\n\n### Reasoning Explanation ### \nAt the end, please provide a concise explanation of why the scientists on this list are relevant and fulfil the criteria.\n",
+  "full_api_response": {
+    "id": "chatcmpl-b611b462-1846-4aea-994b-3769b4ecf71c",
+    "choices": [
+      {
+        "finish_reason": "stop",
+        "index": 0,
+        "logprobs": null,
+        "message": {
+          "content": "### List of Physicists who have Published in Leading Physics Journals and are Members of Professional Societies\n\n```json\n[\n  {\n    \"Name\": \"Lisa Randall\",\n    \"Affiliation\": \"Harvard University\",\n    \"Contributions\": \"Theoretical physics, cosmology, particle physics\",\n    \"Career Stage\": \"Established researcher\",\n    \"Awards\": \"National Academy of Sciences, American Academy of Arts and Sciences\",\n    \"Research Focus\": \"Extra dimensions, dark matter, particle physics\"\n  },\n  {\n    \"Name\": \"Sean Carroll\",\n    \"Affiliation\": \"California Institute of Technology\",\n    \"Contributions\": \"Theoretical physics, cosmology, quantum mechanics\",\n    \"Career Stage\": \"Established researcher\",\n    \"Awards\": \"National Academy of Sciences, American Academy of Arts and Sciences\",\n    \"Research Focus\": \"Cosmology, dark matter, quantum mechanics\"\n  },\n  {\n    \"Name\": \"Brian Greene\",\n    \"Affiliation\": \"Columbia University\",\n    \"Contributions\": \"Theoretical physics, string theory, cosmology\",\n    \"Career Stage\": \"Established researcher\",\n    \"Awards\": \"National Academy of Sciences, American Academy of Arts and Sciences\",\n    \"Research Focus\": \"String theory, cosmology, quantum mechanics\"\n  },\n  {\n    \"Name\": \"Neil deGrasse Tyson\",\n    \"Affiliation\": \"American Museum of Natural History\",\n    \"Contributions\": \"Astrophysics, science communication, education\",\n    \"Career Stage\": \"Established researcher\",\n    \"Awards\": \"National Academy of Sciences, American Academy of Arts and Sciences\",\n    \"Research Focus\": \"Astrophysics, science education, science communication\"\n  },\n  {\n    \"Name\": \"Sara Seager\",\n    \"Affiliation\": \"Massachusetts Institute of Technology\",\n    \"Contributions\": \"Astrophysics, exoplanetary science, planetary science\",\n    \"Career Stage\": \"Established researcher\",\n    \"Awards\": \"National Academy of Sciences, American Academy of Arts and Sciences\",\n    \"Research Focus\": \"Exoplanetary science, planetary science, astrobiology\"\n  },\n  {\n    \"Name\": \"Kip Thorne\",\n    \"Affiliation\": \"California Institute of Technology\",\n    \"Contributions\": \"Theoretical physics, general relativity, gravitational physics\",\n    \"Career Stage\": \"Established researcher\",\n    \"Awards\": \"National Academy of Sciences, American Academy of Arts and Sciences\",\n    \"Research Focus\": \"General relativity, gravitational physics, black holes\"\n  },\n  {\n    \"Name\": \"Nima Arkani-Hamed\",\n    \"Affiliation\": \"Institute for Advanced Study\",\n    \"Contributions\": \"Theoretical physics, particle physics, cosmology\",\n    \"Career Stage\": \"Established researcher\",\n    \"Awards\": \"National Academy of Sciences, American Academy of Arts and Sciences\",\n    \"Research Focus\": \"Particle physics, cosmology, extra dimensions\"\n  },\n  {\n    \"Name\": \"Lisa Grossman\",\n    \"Affiliation\": \"American Physical Society\",\n    \"Contributions\": \"Science writing, science communication, physics education\",\n    \"Career Stage\": \"Established researcher\",\n    \"Awards\": \"American Physical Society, American Association for the Advancement of Science\",\n    \"Research Focus\": \"Science communication, physics education, science writing\"\n  },\n  {\n    \"Name\": \"Brian Cox\",\n    \"Affiliation\": \"University of Manchester\",\n    \"Contributions\": \"Particle physics, cosmology, science communication\",\n    \"Career Stage\": \"Established researcher\",\n    \"Awards\": \"National Academy of Sciences, American Academy of Arts and Sciences\",\n    \"Research Focus\": \"Particle physics, cosmology, science communication\"\n  },\n  {\n    \"Name\": \"Sabine Hossenfelder\",\n    \"Affiliation\": \"Frankfurt Institute for Advanced Studies\",\n    \"Contributions\": \"Theoretical physics, particle physics, cosmology\",\n    \"Career Stage\": \"Established researcher\",\n    \"Awards\": \"American Physical Society, American Association for the Advancement of Science\",\n    \"Research Focus\": \"Particle physics, cosmology, theoretical physics\"\n  }\n]\n```\n\n### Reasoning Explanation\n\nThe list of physicists provided above meets the specified criteria of having published in leading physics journals and being members of professional societies such as APS, IOP. Each scientist on the list has a strong background in physics, with contributions to various areas of the field, including theoretical physics, cosmology, particle physics, and astrophysics. They are also members of prestigious professional societies, such as the National Academy of Sciences and the American Academy of Arts and Sciences. The list includes a mix of established researchers and science communicators, ensuring a diverse range of perspectives and expertise. The scientists on this list are relevant and fulfill the criteria due to their significant contributions to the field of physics, their membership in professional societies, and their commitment to science communication and education.",
+          "role": "assistant",
+          "executed_tools": null,
+          "function_call": null,
+          "reasoning": null,
+          "tool_calls": null
+        }
+      }
+    ],
+    "created": 1751808266,
+    "model": "llama-3.1-8b-instant",
+    "object": "chat.completion",
+    "system_fingerprint": "fp_0f5c9bc037",
+    "usage": {
+      "completion_tokens": 1030,
+      "prompt_tokens": 692,
+      "total_tokens": 1722,
+      "completion_time": 1.373333333,
+      "prompt_time": 0.044211209,
+      "queue_time": 0.051703721999999994,
+      "total_time": 1.417544542
+    },
+    "usage_breakdown": null,
+    "x_groq": {
+      "id": "req_01jzfyhm4ae55ak4achtb4bnvg"
+    }
+  },
+  "validation_result": {
+    "is_valid": false,
+    "message": "Invalid JSON format: Expecting value: line 1 column 1 (char 0)",
+    "extracted_data": null
+  },
+  "attempt": 1
+}

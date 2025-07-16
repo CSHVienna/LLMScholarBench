@@ -1,0 +1,10 @@
+{
+  "category": "genealogy",
+  "variable": "all_up_all_down",
+  "discipline": "physics",
+  "attempt": 1,
+  "error": {
+    "error_type": "APITimeoutError",
+    "message": "Request timed out."
+  }
+}

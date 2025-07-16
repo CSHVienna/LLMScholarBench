@@ -1,0 +1,10 @@
+{
+  "category": "genealogy",
+  "variable": "all_up",
+  "discipline": "physics",
+  "attempt": 1,
+  "error": {
+    "error_type": "RateLimitError",
+    "message": "Error code: 429 - {'error': {'message': 'Rate limit reached for model `llama-3.1-8b-instant` in organization `org_01j8w990ske7xt0s5pyr6gj3q2` service tier `on_demand` on tokens per day (TPD): Limit 500000, Used 500680, Requested 1066. Please try again in 5m1.8326s. Need more tokens? Upgrade to Dev Tier today at https://console.groq.com/settings/billing', 'type': 'tokens', 'code': 'rate_limit_exceeded'}}"
+  }
+}
