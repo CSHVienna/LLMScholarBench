@@ -166,3 +166,20 @@ def get_stastistics_per_task_param(df_data: io.pd.DataFrame, attribute: str, met
     result.rename(columns={attribute: 'attribute_label'}, inplace=True)
 
     return result
+
+def get_representation_parity(df_mean_t, df_baselines):
+
+    # Convert baseline to a dictionary for easy lookup
+    baseline_dict = dict(zip(df_baselines.reset_index()[df_baselines.index.name], df_baselines.reset_index()['percentage']))
+
+    # Now divide each value in df_llm by the corresponding APS value
+    df_representation_ratio = df_mean_t.copy()
+
+    for g in df_baselines.index:
+        df_representation_ratio[g] = df_mean_t[g] / baseline_dict[g]
+
+    new_baseline = df_baselines[['percentage']].copy()
+    new_baseline.loc[:,'percentage'] = 1.
+    new_baseline['percentage']
+
+    return df_representation_ratio, new_baseline
