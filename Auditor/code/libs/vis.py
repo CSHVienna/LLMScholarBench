@@ -657,13 +657,13 @@ def plot_task_param_comparison_bars(df_result, metric, all_labels, model, color_
         if (task_param1, label) in pivoted.columns:
             axes[0].barh(
                 task_names,
-                pivoted[(task_param1, label)].apply(lambda x: -x),  # Invert to stack from top to bottom
+                pivoted[(task_param1, label)].apply(lambda x: x),  # Invert to stack from top to bottom (remove - sign if x-axis LR)
                 # label=gender,
                 left=bottom,  # Add previous stacks
                 alpha=0.7,
                 color=color_map_attribute[label]
             )
-            bottom += pivoted[(task_param1, label)].apply(lambda x: -x)  # Invert to stack from top to bottom
+            bottom += pivoted[(task_param1, label)].apply(lambda x: x)  # Invert to stack from top to bottom (remove - sign if x-axis LR)
     axes[0].invert_yaxis()
     axes[0].spines['top'].set_visible(False)
     axes[0].spines['right'].set_visible(False)
@@ -697,7 +697,7 @@ def plot_task_param_comparison_bars(df_result, metric, all_labels, model, color_
             axes[2].barh(
                 task_names,
                 pivoted[(task_param2, label)],
-                label=label.replace('Unisex','Non-binary').replace(constants.ETHNICITY_BLACK,'Black').replace(constants.ETHNICITY_LATINO,'Latino'),
+                label=label.replace('Unisex','Neutral').replace(constants.ETHNICITY_BLACK,'Black').replace(constants.ETHNICITY_LATINO,'Latino'),
                 left=bottom,  # Add previous stacks
                 alpha=0.7,
                 color=color_map_attribute[label]
@@ -718,7 +718,8 @@ def plot_task_param_comparison_bars(df_result, metric, all_labels, model, color_
         max_x = max(axes[0].get_xlim()[0]*-1, axes[2].get_xlim()[1])
     else:
         max_x = 1
-    axes[0].set_xlim(-max_x,0)
+    # axes[0].set_xlim(-max_x,0)   # comment if x-axis L-R
+    axes[0].set_xlim(0, max_x) # uncomment if x-axis L-R
     axes[2].set_xlim(0, max_x)
      
 
@@ -734,7 +735,7 @@ def plot_task_param_comparison_bars(df_result, metric, all_labels, model, color_
             ax2 = ax.twinx()
             ax2.set_yticks(range(task_names.shape[0]))
             ax2.set_yticklabels(y_ticks, color='grey')
-            ax2.invert_yaxis()
+            # ax2.invert_yaxis() # comment if x-axis L-R
             ax2.spines['top'].set_visible(False)
             ax2.spines['right'].set_visible(False)
             ax2.spines['left'].set_visible(False)
@@ -891,7 +892,10 @@ def plot_gt_demographics(df_gt_stats, attribute, fn=None, **kwargs):
     df_f = bias.get_data_by_attribute_and_metric(df_gt_stats, attribute, 'fractions')
 
     fig, axes = plt.subplots(1, 2, figsize=figsize, sharey=True, sharex=False)
-    colors = constants.GENDER_COLOR_DICT.values() if attribute == constants.DEMOGRAPHIC_ATTRIBUTE_GENDER else constants.ETHNICITY_COLOR_DICT.values()
+
+    category_order = constants.GENDER_LIST if attribute == constants.DEMOGRAPHIC_ATTRIBUTE_GENDER else constants.ETHNICITY_LIST
+    category_dict = constants.GENDER_COLOR_DICT if attribute == constants.DEMOGRAPHIC_ATTRIBUTE_GENDER else constants.ETHNICITY_COLOR_DICT
+    colors = [category_dict[c] for c in category_order]
     
     # counts
     ax = axes[0]
@@ -904,7 +908,7 @@ def plot_gt_demographics(df_gt_stats, attribute, fn=None, **kwargs):
         custom_labels = {
             "Female": "Female",
             "Male": "Male",
-            "Unisex": "Non-binary",
+            "Unisex": "Neutral", #"Non-binary",
             "Unknown": "Unknown",
         }
     else:
