@@ -308,3 +308,7 @@ ALL_SCHOLARLY_METRICS_COL = APS_SCHOLARLY_METRICS_COL + OA_SCHOLARLY_METRICS_COL
 
 METADATA_DIR = 'metadata'
 SIMILARITIES_DIR = 'similarities'
+
+import numpy as np
+NONE = ['', None, 'None', 'nan', 'NaN', np.nan, 'null', 'Null', 'NULL', 'N/A', 'n/a', 'N/a', 'n/A']
+INF = [np.inf, -np.inf]
