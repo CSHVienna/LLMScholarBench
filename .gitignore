@@ -3,7 +3,7 @@ experiments/
 experiments_validation_results/
 organised_data/
 *.DS_Store
+.DS_Store
 data
 results
 _backups_
-Auditor/notebooks/dev/
