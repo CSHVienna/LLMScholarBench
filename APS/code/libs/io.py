@@ -104,6 +104,25 @@ def read_compressed_json(file_path):
         printf(f"Error reading compressed JSON file: {e}")
         return None
     
+def read_list_of_dicts(file_path):
+
+    """
+    Read a list of dictionaries from a text file, where each line is a JSON object.
+
+    Parameters:
+        file_path (str): Path to the text file.
+
+    Returns:
+        list: A list of dictionaries read from the file.
+    """
+    try:
+        with open(file_path, 'r') as file:
+            data = [json.loads(line) for line in file]
+            return data
+    except Exception as e:
+        printf(f"Error reading list of dicts from {file_path}: {e}")
+        return None
+
 def read_json_file(file_path):
     """
     Read a JSON file and return its content.
