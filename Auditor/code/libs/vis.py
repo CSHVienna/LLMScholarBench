@@ -764,6 +764,139 @@ def plot_task_param_comparison_bars(df_result, metric, all_labels, model, color_
 
 
 
+
+def plot_model_comparison_bars(df_result, metric, all_labels, task_name, color_map_attribute, twins_pair=None, female_baselines=None, fn=None, **kwargs):
+    
+    # Step 1: Group and Aggregate Counts
+    if task_name == constants.EXPERIMENT_TASK_TWINS:
+        if twins_pair is None:
+            raise ValueError("The twins task requires a twins_pair: famous, random, tv, ficticious, politic")
+        if twins_pair not in constants.TASK_TWINS_GROUP_ORDER:
+            raise ValueError(f"Twins_pair must be: {constants.TASK_TWINS_GROUP_ORDER}")
+        
+        grouped = df_result.query(f"task_name=='{task_name}_{twins_pair}'").groupby(["model", "task_param", "attribute_label"]).sum().reset_index()
+    else: 
+        grouped = df_result.query("task_name==@task_name").groupby(["model", "task_param", "attribute_label"]).sum().reset_index()
+        
+    # Step 2: Prepare Data for Plotting
+    # Pivot data to organize counts by task_name and task_param/gender
+    pivoted = grouped.pivot_table(
+        index="model",
+        columns=["ax", "attribute_label"],
+        values=metric,
+        fill_value=0,
+    )
+
+    # Define the unique task_names and task_params
+    row_names = df_result.model.unique()
+    task_params = [0,1]
+
+    # sort index
+    pivoted = pivoted.reindex(row_names)
+
+    #################################################
+    # Plot setup
+    fig, axes = plt.subplots(1, 3, figsize=(6.5, 3.5), gridspec_kw={'width_ratios': [0.4, 0.2, 0.4]})
+
+    #################################################
+
+    #################################################
+    # Left plot: First task_param
+    #################################################
+    task_param1 = task_params[0]
+    bottom = np.zeros(len(row_names))  # Initialize stacking
+    for label in all_labels:
+        if (task_param1, label) in pivoted.columns:
+            axes[0].barh(
+                row_names,
+                pivoted[(task_param1, label)].apply(lambda x: x),  # Invert to stack from top to bottom (remove - sign if x-axis LR)
+                # label=gender,
+                left=bottom,  # Add previous stacks
+                alpha=0.7,
+                color=color_map_attribute[label]
+            )
+            bottom += pivoted[(task_param1, label)].apply(lambda x: x)  # Invert to stack from top to bottom (remove - sign if x-axis LR)
+    axes[0].invert_yaxis()
+    axes[0].spines['top'].set_visible(False)
+    axes[0].spines['right'].set_visible(False)
+    axes[0].spines['left'].set_visible(False)
+
+
+    #################################################
+    # Middle subplot: Names (models)
+    #################################################
+    axes[1].set_yticks([])
+    axes[1].tick_params(axis='x', which='both', bottom=False, top=False, labelbottom=False)
+    axes[1].spines['top'].set_visible(False)
+    axes[1].spines['right'].set_visible(False)
+    axes[1].spines['left'].set_visible(False)
+    axes[1].spines['bottom'].set_visible(False)
+    axes[1].invert_yaxis()  # Match the left subplot
+    axes[1].set_xlim(-1, 1)
+
+    # Models
+    y = 0.158
+    for i, name in enumerate(row_names):
+        axes[1].text(s=name, x=0, y=0.105 + (i*y), ha='center', va='center', color='black')
+
+    #################################################
+    # Right plot: Second task_param
+    #################################################
+    task_param2 = task_params[1]
+    bottom = np.zeros(len(row_names))  # Reset stacking for the second subplot
+    for label in all_labels:
+        if (task_param2, label) in pivoted.columns:
+            axes[2].barh(
+                row_names,
+                pivoted[(task_param2, label)],
+                label=label.replace('Unisex','Neutral').replace(constants.ETHNICITY_BLACK,'Black').replace(constants.ETHNICITY_LATINO,'Latino'),
+                left=bottom,  # Add previous stacks
+                alpha=0.7,
+                color=color_map_attribute[label]
+            )
+            bottom += pivoted[(task_param2, label)]
+    axes[2].invert_yaxis()
+    axes[2].set_yticks([])
+    axes[2].spines['top'].set_visible(False)
+    axes[2].spines['right'].set_visible(False)
+    axes[2].spines['left'].set_visible(False)
+
+    #################################################
+    # Minority Baselines
+    #################################################
+    if female_baselines:
+        _label = 'Female' if 'Female' in all_labels else 'Black'
+        if task_name in female_baselines:
+            fb = female_baselines[task_name]
+            for axid in [0,1]:
+                axes[axid * 2].axvline(fb.iloc[axid], color=color_map_attribute[_label], ls='--', lw=1)
+
+    # Task params
+    df_task_params = grouped[['ax','task_param']].drop_duplicates()
+    for id, row in df_task_params.iterrows():
+        ax = axes[row.ax * 2]
+        ax.text(s=row.task_param, x=0.5, y=1.03, transform=ax.transAxes, ha='center', va='center')
+
+    # Adjust subplot appearance
+    xlabel = "Fraction" if metric=='percentage' else "Unique counts"
+    axes[0].set_xlabel(xlabel)
+    axes[2].set_xlabel(xlabel)
+    axes[0].set_yticks([])
+    axes[2].set_yticks([])
+    axes[0].set_xlim(0, 1)
+    axes[2].set_xlim(0, 1)
+
+    bbox = (0.02, 0.95, 0.5, 0.5) if constants.GENDER_FEMALE in all_labels else [0.0, 0.93, 0.5, 0.5]
+    ncols = 4
+    fig.legend(loc="lower left", ncols=ncols, bbox_to_anchor=bbox)
+
+    # Overall layout
+    plt.subplots_adjust(wspace=0.05)  # Reduce horizontal space between subplots
+    _finish_plot(fig, fn)
+
+
+
+
 def plot_task_param_comparison_line(df_result, col_val, col_err, model, fn=None, **kwargs):
     
 

@@ -22,15 +22,19 @@ class FactualityEpoch(FactualityCheck):
         
     def _process_row(self, row):
         llm1, lmm2 = row[self.column_epoch].split("-")
-        return get_overlap_range_metrics(int(row[self.column_task_param].replace('s','')), int(llm1), int(lmm2), row['year_first_publication'], row['year_last_publication'])
+        return get_overlap_range_metrics(int(row[self.column_task_param].replace('s','')), 
+                                         int(llm1), int(lmm2), 
+                                         row['year_first_publication'], row['year_last_publication'])
 
 def get_overlap_range_metrics(requested_epoch, start1, end1, start2, end2):
-    # 1 llm
-    # 2 gt
+    # 1 llm: start1, end1: start and end year according to LLM response
+    # 2 gt : start2, end2: start and end year according to APS GT.
 
     # is_requested_epoch (the author is active in the requested epoch) - no llm answer
-    is_requested_epoch = requested_epoch >= start2 and requested_epoch <= end2
-
+    # is_requested_epoch = requested_epoch >= start2 and requested_epoch <= end2 # OLD
+    # If either year is NaN, return False; otherwise check overlap
+    is_requested_epoch = pd.notna(start2) and pd.notna(end2) and ~(end2 < requested_epoch or start2 > requested_epoch + 10)
+    
     # Containment
     r1_in_r2 = start1 >= start2 and end1 <= end2 # llm answer is within gt
     r2_in_r1 = start2 >= start1 and end2 <= end1 # llm answer is otuside gt

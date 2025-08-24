@@ -50,6 +50,9 @@ class FactualityAuthor(FactualityCheck):
         self.df_valid_responses = self.df_valid_responses.merge(df_authorship_publications, on='id_author_oa', how='left')
 
     def _get_factual_mapping(self, df_unique_names, threshold=5):
+
+        #@TODO: double check why Oppenheimer is not picked up as within the APS
+        
         super()._get_factual_mapping(df_unique_names, threshold)
 
         # Load author metadata
