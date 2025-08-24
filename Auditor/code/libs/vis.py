@@ -765,7 +765,7 @@ def plot_task_param_comparison_bars(df_result, metric, all_labels, model, color_
 
 
 
-def plot_model_comparison_bars(df_result, metric, all_labels, task_name, color_map_attribute, twins_pair=None, female_baselines=None, fn=None, **kwargs):
+def plot_model_comparison_bars(df_result, metric, all_labels, task_name, color_map_attribute, twins_pair=None, minority_baselines=None, fn=None, **kwargs):
     
     # Step 1: Group and Aggregate Counts
     if task_name == constants.EXPERIMENT_TASK_TWINS:
@@ -796,7 +796,7 @@ def plot_model_comparison_bars(df_result, metric, all_labels, task_name, color_m
 
     #################################################
     # Plot setup
-    fig, axes = plt.subplots(1, 3, figsize=(6.5, 3.5), gridspec_kw={'width_ratios': [0.4, 0.2, 0.4]})
+    fig, axes = plt.subplots(1, 3, figsize=(7.5, 4.), gridspec_kw={'width_ratios': [0.4, 0.2, 0.4]})
 
     #################################################
 
@@ -864,10 +864,10 @@ def plot_model_comparison_bars(df_result, metric, all_labels, task_name, color_m
     #################################################
     # Minority Baselines
     #################################################
-    if female_baselines:
-        _label = 'Female' if 'Female' in all_labels else 'Black'
-        if task_name in female_baselines:
-            fb = female_baselines[task_name]
+    if minority_baselines:
+        _label = constants.GENDER_FEMALE if constants.GENDER_FEMALE in all_labels else constants.ETHNICITY_BLACK
+        if task_name in minority_baselines:
+            fb = minority_baselines[task_name]
             for axid in [0,1]:
                 axes[axid * 2].axvline(fb.iloc[axid], color=color_map_attribute[_label], ls='--', lw=1)
 
@@ -875,7 +875,7 @@ def plot_model_comparison_bars(df_result, metric, all_labels, task_name, color_m
     df_task_params = grouped[['ax','task_param']].drop_duplicates()
     for id, row in df_task_params.iterrows():
         ax = axes[row.ax * 2]
-        ax.text(s=row.task_param, x=0.5, y=1.03, transform=ax.transAxes, ha='center', va='center')
+        ax.text(s=row.task_param, x=0.5, y=1.05, transform=ax.transAxes, ha='center', va='top')
 
     # Adjust subplot appearance
     xlabel = "Fraction" if metric=='percentage' else "Unique counts"
@@ -886,8 +886,8 @@ def plot_model_comparison_bars(df_result, metric, all_labels, task_name, color_m
     axes[0].set_xlim(0, 1)
     axes[2].set_xlim(0, 1)
 
-    bbox = (0.02, 0.95, 0.5, 0.5) if constants.GENDER_FEMALE in all_labels else [0.0, 0.93, 0.5, 0.5]
-    ncols = 4
+    bbox = (0.08, 0.95, 0.5, 0.5) if constants.GENDER_FEMALE in all_labels else [0.0, 0.93, 0.5, 0.5]
+    ncols = 4 if constants.GENDER_FEMALE in all_labels else 5
     fig.legend(loc="lower left", ncols=ncols, bbox_to_anchor=bbox)
 
     # Overall layout
