@@ -75,6 +75,7 @@ def process_model_factuality(config_data):
     factuality_author_correct_seniority_avg, factuality_author_correct_seniority_std = compute_ratio_statistics([1] * len(overall_ratio_author_correct_seniority_list), overall_ratio_author_correct_seniority_list)
 
     # Career age error (mean ± std)
+    overall_career_age_error_list = [e for e in overall_career_age_error_list if pd.notna(e) and e is not None]
     if overall_career_age_error_list:
         career_age_error_avg = np.mean(overall_career_age_error_list)
         career_age_error_std = np.std(overall_career_age_error_list)
@@ -91,8 +92,8 @@ def process_model_factuality(config_data):
             career_age_error)
 
 # Function to create the summary table
-def create_factuality_summary(data):
-    models = ['llama3-8b', 'gemma2-9b', 'mixtral-8x7b', 'llama3-70b']
+def create_factuality_summary(data, models):
+    #models = ['llama3-8b', 'gemma2-9b', 'mixtral-8x7b', 'llama3-70b']
     factuality_summary = {
         'Factuality OA': [],
         'Factuality APS': [],
@@ -149,8 +150,15 @@ def save_factuality_summary(df, folder_name):
 
 # Main logic to create and save the factuality summary
 if __name__ == "__main__":
+
+    # Load model names from the config file
+    config_file = os.path.join('../model_config.json')
+    with open(config_file, 'r') as f:
+        config_data = json.load(f)
+        models = config_data["models"]
+
     # Create the factuality summary table
-    factuality_summary_df = create_factuality_summary(data)
+    factuality_summary_df = create_factuality_summary(data, models)
     base_output_folder = 'output_results/factuality'
     output_folder = os.path.join(base_output_folder, 'factuality_summary_table')
     os.makedirs(output_folder, exist_ok=True)

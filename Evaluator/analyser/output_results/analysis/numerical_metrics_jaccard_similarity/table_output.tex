@@ -1,0 +1,30 @@
+\begin{table*}[h]
+\centering
+\caption{Analysis Results}
+\label{tbl:analysis_results}
+\begin{tabular}{lR{2.4cm}R{2.4cm}R{2.4cm}R{2.4cm}R{2.4cm}R{2.4cm}R{2.4cm}}
+\toprule
+Metric & Avg ± Std config\_llama3-8b & Bootstrapped Similarity config\_llama3-8b & p-value config\_llama3-8b & Avg ± Std config\_gemma2-9b & Bootstrapped Similarity config\_gemma2-9b & p-value config\_gemma2-9b & Avg ± Std config\_mixtral-8x7b & Bootstrapped Similarity config\_mixtral-8x7b & p-value config\_mixtral-8x7b & Avg ± Std config\_llama3-70b & Bootstrapped Similarity config\_llama3-70b & p-value config\_llama3-70b \\
+\midrule
+epoch\_1950s & 0.6048 ± 0.39 & 0.5059 ± 0.01 & 0.0000 & 0.6597 ± 0.23 & 0.5272 ± 0.01 & 0.0000 & 0.7711 ± 0.20 & 0.5990 ± 0.01 & 0.0000 & 0.6218 ± 0.22 & 0.5414 ± 0.01 & 0.0000 \\
+epoch\_2000s & No Data & No Data & No Data & No Data & No Data & No Data & 0.5125 ± 0.14 & 0.3866 ± 0.01 & 0.0000 & 0.6778 ± 0.21 & 0.5855 ± 0.01 & 0.0000 \\
+field\_CM\&MP & 0.6379 ± 0.33 & 0.5169 ± 0.01 & 0.0000 & No Data & No Data & No Data & 0.7077 ± 0.22 & 0.5906 ± 0.01 & 0.0000 & 0.6837 ± 0.23 & 0.5650 ± 0.01 & 0.0000 \\
+field\_PER & 0.4471 ± 0.33 & 0.2815 ± 0.01 & 0.0000 & 0.0000 ± 0.00 & 0.0000 ± 0.00 & 1.0000 & 0.7026 ± 0.23 & 0.5986 ± 0.01 & 0.0000 & 0.6153 ± 0.28 & 0.5633 ± 0.01 & 0.0000 \\
+seniority\_early\_career & No Data & No Data & No Data & No Data & No Data & No Data & No Data & No Data & No Data & 0.4973 ± 0.33 & 0.5433 ± 0.01 & 1.0000 \\
+seniority\_senior & 0.5012 ± 0.38 & 0.4451 ± 0.01 & 0.0000 & No Data & No Data & No Data & 0.6668 ± 0.26 & 0.5443 ± 0.01 & 0.0000 & 0.7006 ± 0.23 & 0.5887 ± 0.01 & 0.0000 \\
+top\_k\_top\_100 & No Data & No Data & No Data & No Data & No Data & No Data & 0.8018 ± 0.17 & 0.6745 ± 0.00 & 0.0000 & 0.7820 ± 0.18 & 0.7425 ± 0.00 & 0.0000 \\
+top\_k\_top\_5 & 0.4901 ± 0.24 & 0.3871 ± 0.01 & 0.0000 & No Data & No Data & No Data & 0.0000 ± 0.00 & 0.0000 ± 0.00 & 1.0000 & 0.4643 ± 0.32 & 0.4425 ± 0.01 & 0.0010 \\
+twins\_famous\_female & 0.2965 ± 0.27 & 0.2843 ± 0.01 & 0.0960 & No Data & No Data & No Data & 0.6984 ± 0.20 & 0.5270 ± 0.01 & 0.0000 & 0.5034 ± 0.33 & 0.3995 ± 0.01 & 0.0000 \\
+twins\_famous\_male & 0.5011 ± 0.23 & 0.4287 ± 0.01 & 0.0000 & No Data & No Data & No Data & No Data & No Data & No Data & 0.6096 ± 0.20 & 0.4795 ± 0.01 & 0.0000 \\
+twins\_fictitious\_female & 0.7259 ± 0.20 & 0.6187 ± 0.01 & 0.0000 & No Data & No Data & No Data & 0.7602 ± 0.18 & 0.7105 ± 0.00 & 0.0000 & 0.4870 ± 0.28 & 0.4396 ± 0.01 & 0.0000 \\
+twins\_fictitious\_male & 0.6995 ± 0.22 & 0.5537 ± 0.03 & 0.0000 & No Data & No Data & No Data & No Data & No Data & No Data & 0.6527 ± 0.20 & 0.5076 ± 0.01 & 0.0000 \\
+twins\_movie\_female & No Data & No Data & No Data & No Data & No Data & No Data & 0.8046 ± 0.16 & 0.7212 ± 0.00 & 0.0000 & 0.6858 ± 0.20 & 0.5284 ± 0.01 & 0.0000 \\
+twins\_movie\_male & 0.7628 ± 0.15 & 0.5584 ± 0.01 & 0.0000 & No Data & No Data & No Data & 0.7591 ± 0.23 & 0.6257 ± 0.01 & 0.0000 & 0.7023 ± 0.16 & 0.5068 ± 0.01 & 0.0000 \\
+twins\_politic\_female & 0.4094 ± 0.36 & 0.2842 ± 0.01 & 0.0000 & No Data & No Data & No Data & 0.6635 ± 0.27 & 0.5586 ± 0.01 & 0.0000 & 0.2714 ± 0.37 & 0.2924 ± 0.01 & 0.9820 \\
+twins\_politic\_male & No Data & No Data & No Data & No Data & No Data & No Data & 0.6516 ± 0.27 & 0.5709 ± 0.01 & 0.0000 & 0.0000 ± 0.00 & 0.0000 ± 0.00 & 1.0000 \\
+twins\_random\_female & No Data & No Data & No Data & No Data & No Data & No Data & No Data & No Data & No Data & 0.1239 ± 0.27 & 0.0948 ± 0.01 & 0.0000 \\
+twins\_random\_male & No Data & No Data & No Data & No Data & No Data & No Data & 0.0000 ± 0.00 & 0.0000 ± 0.00 & 1.0000 & 0.5401 ± 0.39 & 0.3882 ± 0.01 & 0.0000 \\
+Overall & 0.6792 ± 0.26 & 0.4422 ± 0.12 & 0.0000 & 0.6370 ± 0.25 & 0.2636 ± 0.26 & 0.0000 & 0.7774 ± 0.18 & 0.5077 ± 0.22 & 0.0000 & 0.7673 ± 0.20 & 0.4561 ± 0.17 & 0.0000 \\
+\bottomrule
+\end{tabular}
+\end{table*}

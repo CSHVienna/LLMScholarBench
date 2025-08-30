@@ -46,15 +46,16 @@ def create_seniority_table(config_data):
             row = {'Seniority Use Case': use_case}
             
             # Apply mask based on count_names > 0
-            mask = [name != 0 for name in metrics['count_names']]
+            mask = [name not in [0, None] and pd.notna(name) for name in metrics['count_names']]
             
             # Clean the lists using the mask
             cleaned_names = [name for name, m in zip(metrics['count_names'], mask) if m]
             cleaned_correct_author_seniority = [cas for cas, m in zip(metrics['count_correct_author_seniority'], mask) if m]
             
+            
             # Check if 'mean_career_age_error' key exists before accessing it
             if 'mean_career_age_error' in metrics:
-                cleaned_career_age_error = [error for error, m in zip(metrics['mean_career_age_error'], mask) if m]
+                cleaned_career_age_error = [error for error, m in zip(metrics['mean_career_age_error'], mask) if m and pd.notna(error) and error is not None]
             else:
                 # If the key is missing, return an empty list or handle as necessary
                 cleaned_career_age_error = []
@@ -144,6 +145,7 @@ if __name__ == "__main__":
     os.makedirs(full_table_folder, exist_ok=True)
     os.makedirs(avg_table_folder, exist_ok=True)
     os.makedirs(other_metrics_table_folder, exist_ok=True)
+
 
     # Process each configuration in the data and create the respective tables
     for config_name, config_data in data.items():

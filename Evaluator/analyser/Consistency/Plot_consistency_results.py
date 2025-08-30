@@ -6,9 +6,11 @@ from matplotlib import rcParams
 from collections import defaultdict
 
 # Configuration
-CONFIGURATIONS = ["llama3-8b", "gemma2-9b", "mixtral-8x7b", "llama3-70b"]
+#CONFIGURATIONS = ["llama3-8b", "gemma2-9b", "mixtral-8x7b", "llama3-70b"]
 BASE_PATH = "./experiments"  
 OUTPUT_PATH = "./output_results/consistency/answers_consitency"
+
+
 
 def count_unique_answers(config):
     config_path = os.path.join(BASE_PATH, f"config_{config}")
@@ -97,11 +99,11 @@ def count_unique_answers(config):
         }
     return result
 
-def create_unique_answer_summary(all_answer_data):
+def create_unique_answer_summary(all_answer_data, models):
     # Define the new column order
     metrics = ['Total Requests', 'Unique Answers', 'Valid Unique Answers']
 
-    for config in CONFIGURATIONS:
+    for config in models:
         config_data = all_answer_data.get(config, {})
         if not config_data:
             print(f"No data available for configuration: {config}")
@@ -186,14 +188,14 @@ def create_unique_answer_summary(all_answer_data):
         # Print the DataFrame for each config
         print(df)
 
-def create_transposed_summary(all_answer_data):
+def create_transposed_summary(all_answer_data, models):
     # Define the metrics
     metrics = ['Total Requests', 'Unique Answers', 'Valid Unique Answers']
 
     # Create a DataFrame to hold the transposed summary for all configurations
-    summary_df = pd.DataFrame(index=metrics, columns=CONFIGURATIONS)
+    summary_df = pd.DataFrame(index=metrics, columns=models)
 
-    for config in CONFIGURATIONS:
+    for config in models:
         config_data = all_answer_data.get(config, {})
         if not config_data:
             print(f"No data available for configuration: {config}")
@@ -254,8 +256,14 @@ def main():
 
     all_answer_data = {}
     
+    # Load model names from the config file
+    config_file = os.path.join('../model_config.json')
+    with open(config_file, 'r') as f:
+        config_data = json.load(f)
+        models = config_data["models"]
+        
     # Generate data for each configuration
-    for config in CONFIGURATIONS:
+    for config in models:
         print(f"Analyzing unique answers for configuration: {config}")
         config_unique_answers = count_unique_answers(config)
         if not config_unique_answers:
@@ -263,11 +271,11 @@ def main():
         all_answer_data[config] = config_unique_answers
 
     # Create the individual tables for each configuration
-    create_unique_answer_summary(all_answer_data)
+    create_unique_answer_summary(all_answer_data, models)
 
     # Create and save the transposed summary table for all configurations
     print("Generating transposed summary table...")
-    create_transposed_summary(all_answer_data)
+    create_transposed_summary(all_answer_data, models)
 
     # Save raw data
     with open(os.path.join(OUTPUT_PATH, 'unique_answer_raw_data.json'), 'w') as f:
