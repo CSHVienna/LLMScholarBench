@@ -1,0 +1,20 @@
+Use Case,Total Requests,Unique Answers,Valid Unique Answers
+epoch_1950s,206,90,30
+epoch_2000s,165,82,52
+field_CM&MP,167,88,50
+field_PER,93,73,73
+seniority_early_career,170,83,44
+seniority_senior,127,75,60
+top_k_top_100,104,82,71
+top_k_top_5,176,82,42
+twins_famous_female,124,73,61
+twins_famous_male,192,93,44
+twins_fictitious_female,171,85,45
+twins_fictitious_male,144,73,43
+twins_movie_female,159,85,57
+twins_movie_male,125,78,60
+twins_politic_female,185,79,39
+twins_politic_male,125,82,61
+twins_random_female,189,89,43
+twins_random_male,123,86,64
+Average ± Std,152.50 ± 32.75,82.11 ± 6.05,52.17 ± 11.77

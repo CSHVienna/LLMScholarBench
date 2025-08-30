@@ -111,9 +111,9 @@ def compute_jaccard_for_runs(all_author_sets):
     std_jaccard = np.std(jaccard_values)
     return f"{avg_jaccard:.2f}", f"{std_jaccard:.2f}", jaccard_values
 
-def create_summary_tables(results, output_folder):
+def create_summary_tables(results, output_folder, model_order):
     # Define the models in the required order
-    model_order = ["llama3-8b", "gemma2-9b", "mixtral-8x7b", "llama3-70b"]
+    # model_order = ["llama3-8b", "gemma2-9b", "mixtral-8x7b", "llama3-70b"] ## TODO: load config file
 
     # Clean config names (remove 'config_' prefix)
     cleaned_configs = [config.replace('config_', '') for config in results.keys()]
@@ -247,8 +247,14 @@ def main():
     print("Processing data for consistency metrics...")
     results = process_data(input_dir)
 
+     # Load model names from the config file
+    config_file = os.path.join('../model_config.json')
+    with open(config_file, 'r') as f:
+        config_data = json.load(f)
+        models = config_data["models"]
+
     print("Creating summary tables...")
-    create_summary_tables(results, output_folder)
+    create_summary_tables(results, output_folder, models)
 
     print(f"Results saved in {output_folder}")
 

@@ -7,8 +7,13 @@ def load_author_demographics(file_path):
         return {json.loads(line)['openalex_id']: json.loads(line) for line in f}
 
 def update_enhanced_authors(file_path, author_demographics):
-    with open(file_path, 'r') as f:
-        data = json.load(f)
+
+    try:
+        with open(file_path, 'r') as f:
+            data = json.load(f)
+    except Exception as e:
+        print(f"\nError loading {file_path}: {e}\n")
+        return
     
     if 'enhanced_authors' in data and isinstance(data['enhanced_authors'], list):
         for author_info in data['enhanced_authors']:
