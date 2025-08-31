@@ -804,22 +804,35 @@ def plot_model_comparison_bars(df_result, metric, all_labels, task_name, color_m
     # Left plot: First task_param
     #################################################
     task_param1 = task_params[0]
-    bottom = np.zeros(len(row_names))  # Initialize stacking
+    bottom = np.zeros(len(row_names)) # Initialize stacking
+    bottom_gt = 0
+    ax = axes[0]
     for label in all_labels:
         if (task_param1, label) in pivoted.columns:
-            axes[0].barh(
+            ax.barh(
                 row_names,
                 pivoted[(task_param1, label)].apply(lambda x: x),  # Invert to stack from top to bottom (remove - sign if x-axis LR)
-                # label=gender,
                 left=bottom,  # Add previous stacks
                 alpha=0.7,
                 color=color_map_attribute[label]
             )
             bottom += pivoted[(task_param1, label)].apply(lambda x: x)  # Invert to stack from top to bottom (remove - sign if x-axis LR)
-    axes[0].invert_yaxis()
-    axes[0].spines['top'].set_visible(False)
-    axes[0].spines['right'].set_visible(False)
-    axes[0].spines['left'].set_visible(False)
+        
+        # Ground-truth
+        if minority_baselines is not None and task_name in minority_baselines:
+            yy = minority_baselines[task_name].iloc[task_param1][label]
+            ax.barh(
+                ['Ground-truth'],
+                yy,
+                left=bottom_gt,  # Add previous stacks
+                alpha=1.0,
+                color=color_map_attribute[label]
+            )
+            bottom_gt += yy
+    ax.invert_yaxis()
+    ax.spines['top'].set_visible(False)
+    ax.spines['right'].set_visible(False)
+    ax.spines['left'].set_visible(False)
 
 
     #################################################
@@ -835,18 +848,23 @@ def plot_model_comparison_bars(df_result, metric, all_labels, task_name, color_m
     axes[1].set_xlim(-1, 1)
 
     # Models
-    y = 0.158
+    y = 0.158 if minority_baselines is None or task_name not in minority_baselines.keys() else 0.135 
     for i, name in enumerate(row_names):
         axes[1].text(s=name, x=0, y=0.105 + (i*y), ha='center', va='center', color='black')
+    if minority_baselines is not None and task_name in minority_baselines.keys():
+        axes[1].text(s='ground-truth', x=0, y=0.105 + ((i+1)*y), ha='center', va='center', color='black', weight='bold')
+
 
     #################################################
     # Right plot: Second task_param
     #################################################
     task_param2 = task_params[1]
-    bottom = np.zeros(len(row_names))  # Reset stacking for the second subplot
+    bottom = np.zeros(len(row_names)) # Reset stacking for the second subplot
+    bottom_gt = 0
+    ax = axes[2]
     for label in all_labels:
         if (task_param2, label) in pivoted.columns:
-            axes[2].barh(
+            ax.barh(
                 row_names,
                 pivoted[(task_param2, label)],
                 label=label.replace('Unisex','Neutral').replace(constants.ETHNICITY_BLACK,'Black').replace(constants.ETHNICITY_LATINO,'Latino'),
@@ -855,19 +873,31 @@ def plot_model_comparison_bars(df_result, metric, all_labels, task_name, color_m
                 color=color_map_attribute[label]
             )
             bottom += pivoted[(task_param2, label)]
-    axes[2].invert_yaxis()
-    axes[2].set_yticks([])
-    axes[2].spines['top'].set_visible(False)
-    axes[2].spines['right'].set_visible(False)
-    axes[2].spines['left'].set_visible(False)
+        # Ground-truth
+        if minority_baselines is not None and task_name in minority_baselines:
+            yy = minority_baselines[task_name].iloc[task_param2][label]
+            ax.barh(
+                ['Ground-truth'],
+                yy,
+                left=bottom_gt,  # Add previous stacks
+                alpha=1.0,
+                color=color_map_attribute[label]
+            )
+            bottom_gt += yy
+    ax.invert_yaxis()
+    ax.set_yticks([])
+    ax.spines['top'].set_visible(False)
+    ax.spines['right'].set_visible(False)
+    ax.spines['left'].set_visible(False)
 
     #################################################
     # Minority Baselines
     #################################################
-    if minority_baselines:
-        _label = constants.GENDER_FEMALE if constants.GENDER_FEMALE in all_labels else constants.ETHNICITY_BLACK
+    ### When minority_baselines is a pd.Series per task (only the minority group)
+    if minority_baselines is not None:
+        _label = constants.GENDER_LIST[0] if constants.GENDER_FEMALE in all_labels else constants.ETHNICITY_LIST[0]
         if task_name in minority_baselines:
-            fb = minority_baselines[task_name]
+            fb = minority_baselines[task_name][_label]
             for axid in [0,1]:
                 axes[axid * 2].axvline(fb.iloc[axid], color=color_map_attribute[_label], ls='--', lw=1)
 
