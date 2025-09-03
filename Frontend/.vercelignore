@@ -1,0 +1,11 @@
+# Ignore backend files and deployment configs
+../Backend/
+../DEPLOYMENT.md
+../DEPLOYMENT_CHECKLIST.md
+../README.md
+../.gitignore
+../Backend/render.yaml
+../Backend/runtime.txt
+../Backend/requirements.txt
+../Backend/*.py
+../Backend/*.xlsx

@@ -1,0 +1,12 @@
+services:
+  - type: web
+    name: llm-research-backend
+    env: python
+    plan: free
+    buildCommand: pip install -r requirements.txt
+    startCommand: gunicorn --bind 0.0.0.0:$PORT genealogy_service:app
+    envVars:
+      - key: FLASK_ENV
+        value: production
+      - key: CORS_ORIGINS
+        value: "*"
