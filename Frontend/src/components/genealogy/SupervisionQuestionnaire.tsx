@@ -1,237 +1,133 @@
-import React, { useState, useEffect } from 'react';
-import { Person, SupervisionRelationship } from '../../types/genealogy';
-import { CheckCircle, Users } from 'lucide-react';
-import API_ENDPOINTS from '../../config/api';
+import React, { useState } from 'react';
+import { Person } from '../../types/genealogy';
+import { Users } from 'lucide-react';
+
+interface AssessmentData {
+  id: string;
+  person_name: string;
+  supervisors: string;
+  supervisees: string;
+  supervisors_source_url: string;
+  supervisees_source_url: string;
+  timestamp: string;
+  notes?: string;
+}
 
 interface SupervisionQuestionnaireProps {
-  people: Person[];
   selectedProfessor?: Person;
-  onAddRelationship: (relationship: SupervisionRelationship) => void;
-  existingRelationships: SupervisionRelationship[];
   onClearSelection?: () => void;
+  onSaveAssessment?: (data: AssessmentData) => void;
+  existingData?: AssessmentData;
+  isLastScientist?: boolean;
+  onNext?: () => void;
 }
 
 export const SupervisionQuestionnaire: React.FC<SupervisionQuestionnaireProps> = ({
-  people,
   selectedProfessor,
-  onAddRelationship,
-  existingRelationships,
   onClearSelection,
+  onSaveAssessment,
+  existingData,
+  isLastScientist = false,
+  onNext,
 }) => {
-  const [currentQuestionIndex, setCurrentQuestionIndex] = useState(0);
-  const [questionPairs, setQuestionPairs] = useState<Array<[Person, Person]>>([]);
-  const [isLoading, setIsLoading] = useState(false);
+  const [supervisors, setSupervisors] = useState('');
+  const [supervisees, setSupervisees] = useState('');
+  const [supervisorsSourceUrl, setSupervisorsSourceUrl] = useState('');
+  const [superviseesSourceUrl, setSuperviseesSourceUrl] = useState('');
+  const [saveStatus, setSaveStatus] = useState<'idle' | 'saving' | 'success' | 'error'>('idle');
 
-
-
-  // Generate questions when a professor is selected
-  useEffect(() => {
-    if (!selectedProfessor) {
-      setQuestionPairs([]);
-      return;
+  // Load existing data when component mounts or existingData changes
+  React.useEffect(() => {
+    if (existingData) {
+      setSupervisors(existingData.supervisors);
+      setSupervisees(existingData.supervisees);
+      setSupervisorsSourceUrl(existingData.supervisors_source_url);
+      setSuperviseesSourceUrl(existingData.supervisees_source_url);
+    } else {
+      // Reset form when no existing data
+      setSupervisors('');
+      setSupervisees('');
+      setSupervisorsSourceUrl('');
+      setSuperviseesSourceUrl('');
     }
+  }, [existingData, selectedProfessor]);
 
-    setIsLoading(true);
-    
-    // Fetch lineage-specific questions for the selected scientist
-    const fetchLineageQuestions = async () => {
-      try {
-        const response = await fetch(API_ENDPOINTS.questions(selectedProfessor.name));
-        if (response.ok) {
-          const data = await response.json();
-          if (data.success && data.questions) {
-            // Convert API response to question pairs format
-            const pairs: Array<[Person, Person]> = data.questions.map((q: any) => {
-              // Create a mock person object for the other person
-              const otherPerson: Person = {
-                id: Math.floor(Math.random() * 10000), // Temporary ID
-                name: q.other_person,
-                position: `${q.institution || 'Unknown Institution'} | ${q.year || 'Unknown Year'}`,
-                level: q.relationship_type === 'supervises' ? 1 : -1,
-                x: 0,
-                y: 0
-              };
-              
-              return [selectedProfessor, otherPerson];
-            });
-            
-            setQuestionPairs(pairs);
-            setCurrentQuestionIndex(0);
-            setIsLoading(false);
-            return;
-          }
-        }
-      } catch (error) {
-        console.error('Failed to fetch lineage questions:', error);
-      }
-      
-      // Fallback to original behavior if API fails
-      const pairs: Array<[Person, Person]> = [];
-      people.forEach(person => {
-        if (person.id !== selectedProfessor.id) {
-          const relationshipExists = existingRelationships.some(rel => 
-            (rel.supervisorId === selectedProfessor.id && rel.subordinateId === person.id) ||
-            (rel.supervisorId === person.id && rel.subordinateId === selectedProfessor.id)
-          );
-          
-          if (!relationshipExists) {
-            pairs.push([selectedProfessor, person]);
-          }
-        }
-      });
-      
-      setQuestionPairs(pairs);
-      setCurrentQuestionIndex(0);
-      setIsLoading(false);
-    };
-    
-            fetchLineageQuestions();
-  }, [selectedProfessor]);
 
-  const currentPair = questionPairs[currentQuestionIndex];
+
   
 
 
-  const handleAnswer = (answer: 'A_supervises_B' | 'B_supervises_A' | 'no_relationship') => {
-    if (!currentPair) {
+  const handleSubmitAnswers = () => {
+    if (!selectedProfessor || !onSaveAssessment) {
       return;
     }
 
-    // Convert answer to readable format
-    const userAnswerText = answer === 'A_supervises_B' 
-      ? `${currentPair[0].name} supervises ${currentPair[1].name}`
-      : answer === 'B_supervises_A'
-      ? `${currentPair[1].name} supervises ${currentPair[0].name}`
-      : 'No supervision relationship exists';
+    setSaveStatus('saving');
 
-    // Save relationship for local state (if not "no relationship")
-    if (answer !== 'no_relationship') {
-      const relationship: SupervisionRelationship = {
-        id: crypto.randomUUID(),
-        supervisorId: answer === 'A_supervises_B' ? currentPair[0].id : currentPair[1].id,
-        subordinateId: answer === 'A_supervises_B' ? currentPair[1].id : currentPair[0].id,
-        confidence: 'high',
-        timestamp: new Date().toISOString(),
-      };
-      
-      onAddRelationship(relationship);
-    }
-
-    // Save assessment to backend in background (non-blocking)
-    const assessmentData = {
-      id: crypto.randomUUID(),
-      person_a: currentPair[0].name,
-      person_b: currentPair[1].name,
-      question: `What is the supervision relationship between ${currentPair[0].name} and ${currentPair[1].name}?`,
-      user_answer: userAnswerText,
-      timestamp: new Date().toISOString(),
-      notes: `Assessment for ${selectedProfessor?.name || 'Unknown'}'s genealogy`
+    // Prepare the assessment data with the new format
+    const assessmentData: AssessmentData = {
+      id: existingData?.id || crypto.randomUUID(),
+      person_name: selectedProfessor.name,
+      supervisors: supervisors.trim(),
+      supervisees: supervisees.trim(),
+      supervisors_source_url: supervisorsSourceUrl.trim(),
+      supervisees_source_url: superviseesSourceUrl.trim(),
+      timestamp: existingData?.timestamp || new Date().toISOString(),
+      notes: `Assessment for ${selectedProfessor.name}'s genealogy`
     };
 
-    // Save to backend asynchronously (don't block UI)
-    fetch(API_ENDPOINTS.genealogyAssessments, {
-      method: 'POST',
-      headers: {
-        'Content-Type': 'application/json',
-      },
-      body: JSON.stringify(assessmentData),
-    })
-    .then(response => {
-      if (response.ok) {
-        console.log('Assessment saved successfully');
+    // Save to parent component (local storage)
+    try {
+      onSaveAssessment(assessmentData);
+      setSaveStatus('success');
+      
+      // If not the last scientist, automatically go to next after a brief delay
+      if (!isLastScientist && onNext) {
+        setTimeout(() => {
+          setSaveStatus('idle');
+          onNext();
+        }, 800);
       } else {
-        console.error('Failed to save assessment:', response.status);
+        // Reset status after a delay for last scientist
+        setTimeout(() => {
+          setSaveStatus('idle');
+        }, 1500);
       }
-    })
-    .catch(error => {
+    } catch (error) {
       console.error('Error saving assessment:', error);
-    });
-
-    // Move to next question immediately
-    if (currentQuestionIndex < questionPairs.length - 1) {
-      setCurrentQuestionIndex(prev => {
-        const newIndex = prev + 1;
-        console.log(`Moving from question ${prev + 1} to question ${newIndex + 1}`);
-        return newIndex;
-      });
-    } else {
-      // Assessment complete
-      console.log('Assessment completed - all questions answered');
-      alert('Assessment completed! All answers have been saved to Excel.');
+      setSaveStatus('error');
+      
+      // Reset status after delay
+      setTimeout(() => {
+        setSaveStatus('idle');
+      }, 3000);
     }
   };
 
-  // Return null if no professor is selected (search is now in parent component)
+  // Return null if no professor is selected
   if (!selectedProfessor) {
     return null;
   }
 
-  // Show loading state when generating questions
-  if (isLoading) {
-    return (
-      <div className="bg-white/80 backdrop-blur-lg rounded-2xl shadow-xl border border-white/20 p-6 sm:p-8">
-        <div className="flex flex-col sm:flex-row items-center justify-center py-8 sm:py-12 gap-4">
-          <div className="animate-spin rounded-full h-8 w-8 sm:h-10 sm:w-10 border-b-3 border-emerald-500"></div>
-          <span className="text-slate-700 text-base sm:text-lg font-medium text-center">Generating questions for {selectedProfessor.name}...</span>
-        </div>
-      </div>
-    );
-  }
-
-  // Show completion state
-  if (!currentPair || questionPairs.length === 0) {
-    return (
-      <div className="bg-gradient-to-br from-emerald-50/90 to-blue-50/90 backdrop-blur-lg rounded-2xl shadow-xl border border-white/30 p-6 sm:p-8 lg:p-10">
-        <div className="text-center py-6 sm:py-8">
-          <div className="bg-white/60 backdrop-blur-sm rounded-full w-20 h-20 sm:w-24 sm:h-24 flex items-center justify-center mx-auto mb-4 sm:mb-6">
-            <CheckCircle className="w-12 h-12 sm:w-14 sm:h-14 text-emerald-600" />
-          </div>
-          <h3 className="text-xl sm:text-2xl font-bold text-slate-800 mb-3">Assessment Complete!</h3>
-          <p className="text-slate-700 text-base sm:text-lg mb-6">All supervision relationships for <span className="font-semibold text-emerald-700">{selectedProfessor.name}</span> have been assessed.</p>
-          <button
-            onClick={onClearSelection}
-            className="bg-gradient-to-r from-emerald-500 to-emerald-600 hover:from-emerald-600 hover:to-emerald-700 text-white px-6 sm:px-8 py-3 sm:py-4 rounded-2xl text-base sm:text-lg font-semibold shadow-lg hover:shadow-xl transition-all duration-300 transform hover:scale-105 w-full sm:w-auto"
-          >
-            Select Another Scientist
-          </button>
-        </div>
-      </div>
-    );
-  }
-
-  // Show assessment questions
+  // Show assessment form
   return (
     <div className="bg-white/80 backdrop-blur-lg rounded-2xl shadow-xl border border-white/20 p-6 sm:p-8">
       <div className="mb-6 sm:mb-8">
         <div className="flex flex-col lg:flex-row lg:items-center lg:justify-between mb-4 sm:mb-6">
           <div className="mb-4 lg:mb-0">
             <h3 className="text-xl sm:text-2xl font-bold text-slate-800 mb-2">
-              Assessment Questions
+              Genealogy Assessment
             </h3>
             <p className="text-base sm:text-lg text-slate-700">
-              Assessing relationships for: <span className="font-bold text-emerald-700 bg-emerald-100/50 px-2 sm:px-3 py-1 rounded-full">{selectedProfessor.name}</span>
+              Assessing supervision relationships for: <span className="font-bold text-emerald-700 bg-emerald-100/50 px-2 sm:px-3 py-1 rounded-full">{selectedProfessor.name}</span>
             </p>
           </div>
-          <div className="text-left lg:text-right">
-            <div className="bg-white/60 backdrop-blur-sm rounded-2xl px-3 sm:px-4 py-2 sm:py-3 mb-2">
-              <span className="text-base sm:text-lg font-semibold text-slate-700">
-                Question {currentQuestionIndex + 1} of {questionPairs.length}
-              </span>
-            </div>
-            <button
-              onClick={onClearSelection}
-              className="text-sm text-emerald-600 hover:text-emerald-800 font-medium hover:underline transition-all duration-200"
-            >
-              Change Selection
-            </button>
-          </div>
-        </div>
-        
-        <div className="w-full bg-slate-200/50 rounded-full h-3 backdrop-blur-sm">
-          <div 
-            className="bg-gradient-to-r from-emerald-500 to-emerald-600 h-3 rounded-full transition-all duration-500 shadow-sm"
-            style={{ width: `${((currentQuestionIndex + 1) / questionPairs.length) * 100}%` }}
-          ></div>
+          <button
+            onClick={onClearSelection}
+            className="text-sm text-emerald-600 hover:text-emerald-800 font-medium hover:underline transition-all duration-200"
+          >
+            Exit Assessment
+          </button>
         </div>
       </div>
 
@@ -241,73 +137,162 @@ export const SupervisionQuestionnaire: React.FC<SupervisionQuestionnaireProps> =
             <Users className="w-8 h-8 sm:w-10 sm:h-10 text-slate-700" />
           </div>
           <h4 className="text-xl sm:text-2xl font-bold text-slate-800 text-center">
-            What is the supervision relationship between these individuals?
+            Academic Supervision Information for {selectedProfessor.name}
           </h4>
         </div>
 
-        <div className="grid gap-6 lg:grid-cols-2 lg:gap-8 mb-8 sm:mb-10">
-          <div className="text-center">
-            <div className="bg-gradient-to-br from-blue-100/80 to-blue-200/60 backdrop-blur-sm rounded-2xl p-6 sm:p-8 border border-blue-200/50 shadow-lg hover:shadow-xl transition-all duration-300">
-              <div className="bg-white/70 backdrop-blur-sm rounded-full px-4 sm:px-6 py-2 mb-4 inline-block">
-                <h5 className="font-bold text-blue-800 text-lg sm:text-xl">Person A</h5>
+        <div className="space-y-6">
+          {/* Supervisors Question */}
+          <div>
+            <label className="block text-lg sm:text-xl font-bold text-slate-800 mb-3">
+              Supervisors
+            </label>
+            <p className="text-sm text-slate-600 mb-3 italic">
+              Write only names without titles (no Dr., Prof., etc.)
+            </p>
+            <div className="space-y-3">
+              <textarea
+                value={supervisors}
+                onChange={(e) => setSupervisors(e.target.value)}
+                className="w-full p-4 sm:p-5 bg-white/90 backdrop-blur-sm border border-white/60 rounded-2xl focus:ring-4 focus:ring-emerald-500/20 focus:border-emerald-500 text-base sm:text-lg resize-none shadow-lg hover:shadow-xl transition-all duration-500 ring-1 ring-slate-900/5"
+                rows={3}
+                placeholder="Enter names of supervisors (e.g., John Smith, Jane Doe)"
+              />
+              <div className="flex gap-3">
+                <button
+                  type="button"
+                  onClick={() => setSupervisors("I don't know")}
+                  className="px-4 py-2 bg-white hover:bg-gray-50 text-gray-700 hover:text-gray-900 rounded-lg border border-gray-300 hover:border-gray-400 transition-all duration-200 text-sm font-medium shadow-sm hover:shadow-md"
+                >
+                  I don't know
+                </button>
+                <button
+                  type="button"
+                  onClick={() => setSupervisors("None exist")}
+                  className="px-4 py-2 bg-white hover:bg-gray-50 text-gray-700 hover:text-gray-900 rounded-lg border border-gray-300 hover:border-gray-400 transition-all duration-200 text-sm font-medium shadow-sm hover:shadow-md"
+                >
+                  None exist
+                </button>
               </div>
-              <p className="text-blue-900 font-bold text-xl sm:text-2xl">{currentPair[0].name}</p>
+            </div>
+            
+            {/* Source URL for Supervisors */}
+            <div className="mt-4">
+              <label className="block text-sm font-bold text-slate-700 mb-2">
+                Source URL for Supervisors (Optional)
+              </label>
+              <input
+                type="url"
+                value={supervisorsSourceUrl}
+                onChange={(e) => setSupervisorsSourceUrl(e.target.value)}
+                className="w-full p-3 bg-white/80 border border-white/60 rounded-xl focus:ring-2 focus:ring-blue-500/20 focus:border-blue-500 text-sm shadow-md hover:shadow-lg transition-all duration-300 ring-1 ring-slate-900/5"
+                placeholder="https://source-for-supervisors-info.com"
+              />
             </div>
           </div>
-          
-          <div className="text-center">
-            <div className="bg-gradient-to-br from-emerald-100/80 to-emerald-200/60 backdrop-blur-sm rounded-2xl p-6 sm:p-8 border border-emerald-200/50 shadow-lg hover:shadow-xl transition-all duration-300">
-              <div className="bg-white/70 backdrop-blur-sm rounded-full px-4 sm:px-6 py-2 mb-4 inline-block">
-                <h5 className="font-bold text-emerald-800 text-lg sm:text-xl">Person B</h5>
+
+          {/* Supervisees Question */}
+          <div>
+            <label className="block text-lg sm:text-xl font-bold text-slate-800 mb-3">
+              Supervised
+            </label>
+            <p className="text-sm text-slate-600 mb-3 italic">
+              Write only names without titles (no Dr., Prof., etc.)
+            </p>
+            <div className="space-y-3">
+              <textarea
+                value={supervisees}
+                onChange={(e) => setSupervisees(e.target.value)}
+                className="w-full p-4 sm:p-5 bg-white/90 backdrop-blur-sm border border-white/60 rounded-2xl focus:ring-4 focus:ring-emerald-500/20 focus:border-emerald-500 text-base sm:text-lg resize-none shadow-lg hover:shadow-xl transition-all duration-500 ring-1 ring-slate-900/5"
+                rows={3}
+                placeholder="Enter names of people supervised (e.g., Alice Brown, Bob Wilson)"
+              />
+              <div className="flex gap-3">
+                <button
+                  type="button"
+                  onClick={() => setSupervisees("I don't know")}
+                  className="px-4 py-2 bg-white hover:bg-gray-50 text-gray-700 hover:text-gray-900 rounded-lg border border-gray-300 hover:border-gray-400 transition-all duration-200 text-sm font-medium shadow-sm hover:shadow-md"
+                >
+                  I don't know
+                </button>
+                <button
+                  type="button"
+                  onClick={() => setSupervisees("None exist")}
+                  className="px-4 py-2 bg-white hover:bg-gray-50 text-gray-700 hover:text-gray-900 rounded-lg border border-gray-300 hover:border-gray-400 transition-all duration-200 text-sm font-medium shadow-sm hover:shadow-md"
+                >
+                  None exist
+                </button>
               </div>
-              <p className="text-emerald-900 font-bold text-xl sm:text-2xl">{currentPair[1].name}</p>
+            </div>
+            
+            {/* Source URL for Supervisees */}
+            <div className="mt-4">
+              <label className="block text-sm font-bold text-slate-700 mb-2">
+                Source URL for Supervised (Optional)
+              </label>
+              <input
+                type="url"
+                value={superviseesSourceUrl}
+                onChange={(e) => setSuperviseesSourceUrl(e.target.value)}
+                className="w-full p-3 bg-white/80 border border-white/60 rounded-xl focus:ring-2 focus:ring-blue-500/20 focus:border-blue-500 text-sm shadow-md hover:shadow-lg transition-all duration-300 ring-1 ring-slate-900/5"
+                placeholder="https://source-for-supervised-info.com"
+              />
             </div>
           </div>
+
+          {/* Save Status Indicator */}
+          {saveStatus !== 'idle' && (
+            <div className={`p-4 rounded-2xl text-center font-semibold text-lg transition-all duration-500 ${
+              saveStatus === 'saving' ? 'bg-blue-100 text-blue-800' :
+              saveStatus === 'success' ? 'bg-emerald-100 text-emerald-800' :
+              'bg-red-100 text-red-800'
+            }`}>
+              {saveStatus === 'saving' && (
+                <div className="flex items-center justify-center gap-3">
+                  <div className="animate-spin rounded-full h-5 w-5 border-b-2 border-blue-600"></div>
+                  Saving assessment...
+                </div>
+              )}
+              {saveStatus === 'success' && (
+                <div className="flex items-center justify-center gap-3">
+                  <div className="w-5 h-5 bg-emerald-600 rounded-full flex items-center justify-center">
+                    <span className="text-white text-xs">✓</span>
+                  </div>
+                  {isLastScientist ? 'Assessment saved!' : 'Saved! Moving to next scientist...'}
+                </div>
+              )}
+              {saveStatus === 'error' && (
+                <div className="flex flex-col items-center justify-center gap-3">
+                  <div className="flex items-center gap-3">
+                    <div className="w-5 h-5 bg-red-600 rounded-full flex items-center justify-center">
+                      <span className="text-white text-xs">✕</span>
+                    </div>
+                    Failed to save assessment data. Please try again.
+                  </div>
+                </div>
+              )}
+            </div>
+          )}
+
+          {/* Submit Button */}
+          <button
+            onClick={handleSubmitAnswers}
+            disabled={(!supervisors.trim() && !supervisees.trim()) || saveStatus === 'saving'}
+            className={`w-full py-5 sm:py-6 px-6 sm:px-8 rounded-2xl transition-all duration-300 text-lg sm:text-xl font-semibold shadow-lg hover:shadow-xl transform hover:scale-[1.02] border ${
+              saveStatus === 'saving' 
+                ? 'bg-blue-500 text-white border-blue-400/30 cursor-not-allowed'
+                : saveStatus === 'success'
+                ? 'bg-emerald-500 text-white border-emerald-400/30'
+                : (!supervisors.trim() && !supervisees.trim())
+                ? 'bg-slate-300 text-slate-500 border-slate-200/30 cursor-not-allowed'
+                : 'bg-gradient-to-r from-emerald-500 to-emerald-600 hover:from-emerald-600 hover:to-emerald-700 text-white border-emerald-400/30'
+            }`}
+          >
+            {saveStatus === 'saving' ? 'Saving...' : 
+             isLastScientist ? (existingData ? 'Update Assessment' : 'Save Assessment') : 
+             'Next'}
+          </button>
         </div>
-
-        <div className="space-y-4 sm:space-y-5">
-          <button
-            onClick={() => handleAnswer('A_supervises_B')}
-            className="w-full bg-gradient-to-r from-emerald-500 to-emerald-600 hover:from-emerald-600 hover:to-emerald-700 text-white py-5 sm:py-6 px-6 sm:px-8 rounded-2xl transition-all duration-300 text-left text-lg sm:text-xl font-semibold shadow-lg hover:shadow-xl transform hover:scale-[1.02] border border-emerald-400/30 touch-manipulation"
-          >
-            <div className="flex items-center justify-between">
-              <span className="flex-1 pr-4">
-                <span className="font-bold text-emerald-100">{currentPair[0].name}</span> supervises <span className="font-bold text-emerald-100">{currentPair[1].name}</span>
-              </span>
-              <div className="bg-white/20 rounded-full p-2">
-                <span className="text-xl sm:text-2xl">→</span>
-              </div>
-            </div>
-          </button>
-          
-          <button
-            onClick={() => handleAnswer('B_supervises_A')}
-            className="w-full bg-gradient-to-r from-blue-500 to-blue-600 hover:from-blue-600 hover:to-blue-700 text-white py-5 sm:py-6 px-6 sm:px-8 rounded-2xl transition-all duration-300 text-left text-lg sm:text-xl font-semibold shadow-lg hover:shadow-xl transform hover:scale-[1.02] border border-blue-400/30 touch-manipulation"
-          >
-            <div className="flex items-center justify-between">
-              <span className="flex-1 pr-4">
-                <span className="font-bold text-blue-100">{currentPair[1].name}</span> supervises <span className="font-bold text-blue-100">{currentPair[0].name}</span>
-              </span>
-              <div className="bg-white/20 rounded-full p-2">
-                <span className="text-xl sm:text-2xl">→</span>
-              </div>
-            </div>
-          </button>
-          
-          <button
-            onClick={() => handleAnswer('no_relationship')}
-            className="w-full bg-gradient-to-r from-slate-500 to-slate-600 hover:from-slate-600 hover:to-slate-700 text-white py-5 sm:py-6 px-6 sm:px-8 rounded-2xl transition-all duration-300 text-lg sm:text-xl font-semibold shadow-lg hover:shadow-xl transform hover:scale-[1.02] border border-slate-400/30 touch-manipulation"
-          >
-            <div className="flex items-center justify-between">
-              <span className="flex-1 pr-4">No supervision relationship exists</span>
-              <div className="bg-white/20 rounded-full p-2">
-                <span className="text-xl sm:text-2xl">✕</span>
-              </div>
-            </div>
-          </button>
-        </div>
-
-
       </div>
     </div>
   );

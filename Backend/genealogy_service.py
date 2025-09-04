@@ -1,6 +1,26 @@
 #!/usr/bin/env python3
 """
 Genealogy Service - Backend API for reading Excel data and serving genealogy information
+
+MODEL ANONYMIZATION MAPPING (For Internal Reference Only):
+========================================================
+Frontend displays anonymized model names to reduce bias in assessments.
+The mapping is as follows:
+- Bio 1 = deepseek models
+- Bio 2 = gpt/davinci models  
+- Bio 3 = qwen models
+- Bio 4 = gemma models
+- Bio 5 = claude models
+- Bio 6 = gemini/bard models
+- Bio 7 = llama models
+- Bio 8 = mistral/mixtral models
+- Bio 9 = cohere models
+- Bio 10 = palm models
+- Bio 11 = yi models
+- Bio 12+ = other models (numbered based on first letter)
+
+This mapping ensures consistent anonymization across sessions while
+maintaining internal tracking capabilities for data analysis.
 """
 
 import pandas as pd
@@ -13,7 +33,7 @@ from dataclasses import dataclass, asdict
 import logging
 from datetime import datetime
 
-# Configure logging
+# Configure loggingj
 logging.basicConfig(level=logging.INFO)
 logger = logging.getLogger(__name__)
 
@@ -67,12 +87,11 @@ class ModelRating:
 class GenealogyAssessment:
     """Data class representing a genealogy supervision relationship assessment"""
     id: str
-    person_a: str
-    person_b: str
-    question: str
-    user_answer: str  # Ground truth from user
-    llm_answer: str   # Predicted answer from LLM (future feature)
-    is_correct: Optional[bool]  # Whether LLM matched user answer
+    person_name: str  # The scientist being assessed
+    supervisors: str  # Names of supervisors (comma-separated or descriptive text)
+    supervisees: str  # Names of supervisees (comma-separated or descriptive text)
+    supervisors_source_url: Optional[str]  # URL source for supervisors information
+    supervisees_source_url: Optional[str]  # URL source for supervisees information
     timestamp: str
     notes: Optional[str] = None
 
@@ -487,15 +506,14 @@ class GenealogyService:
     def save_genealogy_assessment(self, assessment_data: Dict[str, Any]) -> bool:
         """Save a genealogy supervision assessment and append to Excel file"""
         try:
-            # Create assessment object
+            # Create assessment object with new format
             assessment = GenealogyAssessment(
                 id=assessment_data['id'],
-                person_a=assessment_data['person_a'],
-                person_b=assessment_data['person_b'],
-                question=assessment_data['question'],
-                user_answer=assessment_data['user_answer'],
-                llm_answer=assessment_data.get('llm_answer', 'Not yet generated'),  # Future LLM integration
-                is_correct=assessment_data.get('is_correct', None),
+                person_name=assessment_data['person_name'],
+                supervisors=assessment_data['supervisors'],
+                supervisees=assessment_data['supervisees'],
+                supervisors_source_url=assessment_data.get('supervisors_source_url'),
+                supervisees_source_url=assessment_data.get('supervisees_source_url'),
                 timestamp=assessment_data['timestamp'],
                 notes=assessment_data.get('notes')
             )
@@ -506,7 +524,7 @@ class GenealogyService:
             # Save to Excel file
             self._save_genealogy_assessments_to_excel()
             
-            logger.info(f"Successfully saved genealogy assessment for {assessment.person_a} and {assessment.person_b}")
+            logger.info(f"Successfully saved genealogy assessment for {assessment.person_name}")
             return True
             
         except Exception as e:
@@ -521,12 +539,11 @@ class GenealogyService:
             for assessment in self.genealogy_assessments:
                 assessments_data.append({
                     'ID': assessment.id,
-                    'Person A': assessment.person_a,
-                    'Person B': assessment.person_b,
-                    'Question': assessment.question,
-                    'User Answer (Ground Truth)': assessment.user_answer,
-                    'LLM Answer': assessment.llm_answer,
-                    'Is LLM Correct': self._format_correctness(assessment.is_correct),
+                    'Person Name': assessment.person_name,
+                    'Supervisors': assessment.supervisors,
+                    'Supervisees': assessment.supervisees,
+                    'Supervisors Source URL': assessment.supervisors_source_url or '',
+                    'Supervisees Source URL': assessment.supervisees_source_url or '',
                     'Timestamp': assessment.timestamp,
                     'Notes': assessment.notes or ''
                 })
@@ -539,11 +556,6 @@ class GenealogyService:
         except Exception as e:
             logger.error(f"Error saving genealogy assessments to Excel: {str(e)}")
 
-    def _format_correctness(self, is_correct: Optional[bool]) -> str:
-        """Convert correctness boolean to human-readable string"""
-        if is_correct is None:
-            return 'Not evaluated'
-        return 'Correct' if is_correct else 'Incorrect'
 
     def get_all_genealogy_assessments(self) -> List[Dict[str, Any]]:
         """Get all saved genealogy assessments"""

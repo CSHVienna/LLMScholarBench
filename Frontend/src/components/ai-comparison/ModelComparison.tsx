@@ -1,8 +1,19 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useRef } from 'react';
 import { AIModel, ModelRating, RatingCategory, Scientist, ModelBiographyMap } from '../../types/ai-comparison';
 import { RatingScale } from './RatingScale';
-import { Search, GraduationCap } from 'lucide-react';
+import { GraduationCap, ChevronRight, Play, Save } from 'lucide-react';
 import API_ENDPOINTS from '../../config/api';
+
+type AssessmentPhase = 'minimal' | 'comprehensive';
+
+interface AssessmentData {
+  id: string;
+  scientist_name: string;
+  phase: AssessmentPhase;
+  model_ratings: Record<string, RatingCategory[]>;
+  model_notes: Record<string, string>;
+  timestamp: string;
+}
 
 interface ModelComparisonProps {
   onAddRating: (rating: ModelRating) => void;
@@ -10,38 +21,50 @@ interface ModelComparisonProps {
 
 export const ModelComparison: React.FC<ModelComparisonProps> = ({ onAddRating }) => {
   const [scientists, setScientists] = useState<Scientist[]>([]);
-  const [selectedScientist, setSelectedScientist] = useState<Scientist | null>(null);
-  const [biographyData, setBiographyData] = useState<ModelBiographyMap | null>(null);
   const [availableModels, setAvailableModels] = useState<string[]>([]);
-  const [selectedModel, setSelectedModel] = useState<string>('');
-  const [searchQuery, setSearchQuery] = useState('');
-  const [filteredScientists, setFilteredScientists] = useState<Scientist[]>([]);
-  const [biographyType, setBiographyType] = useState<'minimal' | 'comprehensive'>('minimal');
+  
+  // Assessment flow state
+  const [assessmentStarted, setAssessmentStarted] = useState(false);
+  const [currentPhase, setCurrentPhase] = useState<AssessmentPhase>('minimal');
+  const [assessmentData, setAssessmentData] = useState<Record<string, AssessmentData>>({});
+  const [isSavingAll, setIsSavingAll] = useState(false);
+  const [saveAllStatus, setSaveAllStatus] = useState<'idle' | 'saving' | 'success' | 'error'>('idle');
+  
+  // Current assessment state
+  const [ratings, setRatings] = useState<Record<string, RatingCategory[]>>({});
+  const [notes, setNotes] = useState<Record<string, string>>({});
+  
+  const scientistSelectionRef = useRef<HTMLDivElement>(null);
 
-  // Simple model anonymization with initials for unbiased research
+  // Model anonymization mapping for unbiased assessment
+  // INTERNAL MAPPING REFERENCE (DO NOT SHOW TO USERS):
+  // Bio 1 = deepseek models, Bio 2 = gpt/davinci models, Bio 3 = qwen models
+  // Bio 4 = gemma models, Bio 5 = claude models, Bio 6 = gemini/bard models
+  // Bio 7 = llama models, Bio 8 = mistral/mixtral models, Bio 9 = cohere models
+  // Bio 10 = palm models, Bio 11 = yi models, Bio 12+ = other models
   const getAnonymizedModelName = (modelName: string): string => {
-    // Create a simple mapping based on model keywords
-    const getInitial = (name: string): string => {
+    // Create a consistent numerical mapping based on model keywords
+    const getModelNumber = (name: string): number => {
       const lowerName = name.toLowerCase();
       
-      // Check for specific model patterns and assign consistent initials
-      if (lowerName.includes('deepseek')) return 'D';
-      if (lowerName.includes('gpt') || lowerName.includes('davinci')) return 'G';
-      if (lowerName.includes('qwen')) return 'Q';
-      if (lowerName.includes('gemma')) return 'M';
-      if (lowerName.includes('claude')) return 'C';
-      if (lowerName.includes('gemini') || lowerName.includes('bard')) return 'E';
-      if (lowerName.includes('llama')) return 'L';
-      if (lowerName.includes('mistral') || lowerName.includes('mixtral')) return 'X';
-      if (lowerName.includes('cohere')) return 'H';
-      if (lowerName.includes('palm')) return 'P';
-      if (lowerName.includes('yi-')) return 'Y';
+      // Assign consistent numbers for model families
+      if (lowerName.includes('deepseek')) return 1;
+      if (lowerName.includes('gpt') || lowerName.includes('davinci')) return 2;
+      if (lowerName.includes('qwen')) return 3;
+      if (lowerName.includes('gemma')) return 4;
+      if (lowerName.includes('claude')) return 5;
+      if (lowerName.includes('gemini') || lowerName.includes('bard')) return 6;
+      if (lowerName.includes('llama')) return 7;
+      if (lowerName.includes('mistral') || lowerName.includes('mixtral')) return 8;
+      if (lowerName.includes('cohere')) return 9;
+      if (lowerName.includes('palm')) return 10;
+      if (lowerName.includes('yi-')) return 11;
       
-      // For unknown models, use first letter of the name
-      return name.charAt(0).toUpperCase();
+      // For unknown models, generate a consistent number based on first letter
+      return 12 + name.charCodeAt(0) % 10;
     };
     
-    return `Bio-${getInitial(modelName)}`;
+    return `Bio ${getModelNumber(modelName)}`;
   };
 
   // Get display name for dropdown 
@@ -85,127 +108,192 @@ export const ModelComparison: React.FC<ModelComparisonProps> = ({ onAddRating })
     loadData();
   }, []);
 
-  // Filter scientists based on search query
-  useEffect(() => {
-    if (searchQuery.trim() === '') {
-      setFilteredScientists([]);
-    } else {
-      const filtered = scientists.filter(scientist =>
-        scientist.name.toLowerCase().includes(searchQuery.toLowerCase()) ||
-        scientist.type.toLowerCase().includes(searchQuery.toLowerCase())
-      );
-      setFilteredScientists(filtered);
-    }
-  }, [searchQuery, scientists]);
 
-  // Load biography when scientist is selected
+  // Load all scientist biographies when assessment starts
+  const [allBiographyData, setAllBiographyData] = useState<Record<string, ModelBiographyMap>>({});
+  
   useEffect(() => {
-    const loadBiography = async () => {
-      if (!selectedScientist) {
-        setBiographyData(null);
+    const loadAllBiographies = async () => {
+      if (!assessmentStarted) {
+        setAllBiographyData({});
         return;
       }
       
-      try {
-        const response = await fetch(API_ENDPOINTS.biography(selectedScientist.name));
-        if (response.ok) {
-          const data = await response.json();
-          if (data.success && data.biography) {
-            setBiographyData(data.biography); // This now contains all models for the scientist
+      const biographiesData: Record<string, ModelBiographyMap> = {};
+      
+      for (const scientist of scientists) {
+        try {
+          const response = await fetch(API_ENDPOINTS.biography(scientist.name));
+          if (response.ok) {
+            const data = await response.json();
+            if (data.success && data.biography) {
+              biographiesData[scientist.name] = data.biography;
+            }
           }
+        } catch (error) {
+          console.error(`Failed to load biography for ${scientist.name}:`, error);
         }
-      } catch (error) {
-        console.error('Failed to load biography:', error);
       }
+      
+      setAllBiographyData(biographiesData);
     };
     
-    loadBiography();
-  }, [selectedScientist]);
+    loadAllBiographies();
+  }, [assessmentStarted, scientists]);
 
-  const getCurrentBiography = () => {
-    if (!biographyData || !selectedModel || !biographyData[selectedModel]) return '';
-    const modelData = biographyData[selectedModel];
-    return biographyType === 'minimal' ? modelData.minimal_biography : modelData.comprehensive_biography;
-  };
-
-  const getPromptForModel = () => {
-    if (!selectedScientist || !biographyData || !selectedModel) return '';
-    const biography = getCurrentBiography();
-    return `${selectedScientist.name} — ${biography}`;
-  };
-  const [ratings, setRatings] = useState<Record<string, RatingCategory[]>>({});
-  const [notes, setNotes] = useState<Record<string, string>>({});
-
+  // Assessment flow helper variables (removed unused variables for cleaner code)
 
 
   const ratingCategories: Array<RatingCategory['category']> = ['affiliation', 'research', 'gender'];
 
-  const handleRatingChange = (modelKey: string, category: RatingCategory['category'], score: number) => {
+  const handleRatingChange = (scientistName: string, modelKey: string, category: RatingCategory['category'], score: number) => {
+    const fullKey = `${scientistName}_${modelKey}`;
     setRatings(prev => ({
       ...prev,
-      [modelKey]: (prev[modelKey] || []).filter(r => r.category !== category).concat({ category, score })
+      [fullKey]: (prev[fullKey] || []).filter(r => r.category !== category).concat({ category, score })
     }));
   };
 
-  const handleNotesChange = (modelKey: string, note: string) => {
-    setNotes(prev => ({ ...prev, [modelKey]: note }));
+  const handleNotesChange = (scientistName: string, modelKey: string, note: string) => {
+    const fullKey = `${scientistName}_${modelKey}`;
+    setNotes(prev => ({ ...prev, [fullKey]: note }));
   };
 
-  const saveRating = async (modelKey: string) => {
-    const modelRatings = ratings[modelKey] || [];
-    if (modelRatings.length === 3 && selectedScientist && biographyData) { // Now 3 categories: affiliation, research, gender
-      const rating: ModelRating = {
-        id: crypto.randomUUID(),
-        model: modelKey as AIModel,
-        technique: 'zero-shot',
-        prompt: getPromptForModel(),
-        response: `Response for ${modelKey}`,
-        ratings: modelRatings,
-        timestamp: new Date().toISOString(),
-        notes: notes[modelKey] || undefined,
-      };
+  // Assessment flow functions
+  const startAssessment = () => {
+    setAssessmentStarted(true);
+    setCurrentPhase('minimal');
+    setTimeout(() => {
+      scientistSelectionRef.current?.scrollIntoView({ 
+        behavior: 'smooth',
+        block: 'start'
+      });
+    }, 100);
+  };
 
-      try {
-        // Save to backend
-        const response = await fetch(API_ENDPOINTS.ratings, {
-          method: 'POST',
-          headers: {
-            'Content-Type': 'application/json',
-          },
-          body: JSON.stringify({
-            ...rating,
-            scientist_name: selectedScientist.name
-          }),
-        });
+  const switchToComprehensivePhase = () => {
+    setCurrentPhase('comprehensive');
+    // Clear ratings and notes for comprehensive phase
+    setRatings({});
+    setNotes({});
+    setTimeout(() => {
+      scientistSelectionRef.current?.scrollIntoView({ 
+        behavior: 'smooth',
+        block: 'start'
+      });
+    }, 100);
+  };
 
-        if (response.ok) {
-          const result = await response.json();
-          if (result.success) {
-            console.log('Rating saved successfully to backend:', result);
-            
-            // Also save to local state
-            onAddRating(rating);
-            
-            // Reset for this model
-            setRatings(prev => ({ ...prev, [modelKey]: [] }));
-            setNotes(prev => ({ ...prev, [modelKey]: '' }));
-            
-            // Show success message
-            alert('Rating saved successfully!');
-          } else {
-            console.error('Failed to save rating:', result.error);
-            alert('Failed to save rating: ' + result.error);
-          }
-        } else {
-          console.error('HTTP error when saving rating:', response.status);
-          alert('Failed to save rating: Server error');
+  const saveCurrentPhaseAssessments = () => {
+    const newAssessmentData = { ...assessmentData };
+    
+    scientists.forEach(scientist => {
+      const scientistRatings: Record<string, RatingCategory[]> = {};
+      const scientistNotes: Record<string, string> = {};
+      
+      // Collect ratings and notes for this scientist
+      availableModels.forEach(model => {
+        const modelKey = model.toLowerCase().replace(/[^a-z0-9]/g, '_');
+        const fullKey = `${scientist.name}_${modelKey}`;
+        
+        if (ratings[fullKey] && ratings[fullKey].length === 3) {
+          scientistRatings[modelKey] = ratings[fullKey];
+          scientistNotes[modelKey] = notes[fullKey] || '';
         }
-      } catch (error) {
-        console.error('Error saving rating to backend:', error);
-        alert('Failed to save rating: Network error');
+      });
+      
+      // Only create assessment if scientist has ratings
+      if (Object.keys(scientistRatings).length > 0) {
+        const assessmentKey = `${scientist.name}_${currentPhase}`;
+        newAssessmentData[assessmentKey] = {
+          id: crypto.randomUUID(),
+          scientist_name: scientist.name,
+          phase: currentPhase,
+          model_ratings: scientistRatings,
+          model_notes: scientistNotes,
+          timestamp: new Date().toISOString()
+        };
       }
+    });
+    
+    setAssessmentData(newAssessmentData);
+  };
+
+  const saveAllAssessments = async () => {
+    setIsSavingAll(true);
+    setSaveAllStatus('saving');
+    
+    try {
+      const assessmentsToSave = Object.values(assessmentData);
+      let successCount = 0;
+      
+      for (const assessment of assessmentsToSave) {
+        // Convert to individual model ratings for backend
+        for (const [modelKey, modelRatings] of Object.entries(assessment.model_ratings)) {
+          if (modelRatings.length === 3) {
+            const rating: ModelRating = {
+              id: crypto.randomUUID(),
+              model: modelKey as AIModel,
+              technique: 'zero-shot',
+              prompt: `${assessment.scientist_name} ${assessment.phase} biography assessment`,
+              response: `Response for ${modelKey}`,
+              ratings: modelRatings,
+              timestamp: assessment.timestamp,
+              notes: assessment.model_notes[modelKey] || undefined,
+            };
+
+            const response = await fetch(API_ENDPOINTS.ratings, {
+              method: 'POST',
+              headers: {
+                'Content-Type': 'application/json',
+              },
+              body: JSON.stringify({
+                scientist: assessment.scientist_name,
+                model: modelKey,
+                ratings: modelRatings,
+                notes: assessment.model_notes[modelKey],
+                phase: assessment.phase
+              }),
+            });
+
+            if (response.ok) {
+              successCount++;
+              onAddRating(rating);
+            }
+          }
+        }
+      }
+      
+      setSaveAllStatus('success');
+      setTimeout(() => {
+        setAssessmentStarted(false);
+        setCurrentPhase('minimal');
+        setAssessmentData({});
+        setSaveAllStatus('idle');
+      }, 3000);
+    } catch (error) {
+      console.error('Error saving all assessments:', error);
+      setSaveAllStatus('error');
+      setTimeout(() => setSaveAllStatus('idle'), 5000);
+    } finally {
+      setIsSavingAll(false);
     }
   };
+
+  const canProceedToNextPhase = () => {
+    // Check if at least one scientist has all models rated (3 categories each)
+    return scientists.some(scientist => {
+      return availableModels.every(model => {
+        const modelKey = model.toLowerCase().replace(/[^a-z0-9]/g, '_');
+        const fullKey = `${scientist.name}_${modelKey}`;
+        return (ratings[fullKey]?.length || 0) === 3;
+      });
+    });
+  };
+
+  // Removed canSaveAll function as it's no longer needed
+
+  // Individual saveRating function removed - now using batch save at the end of assessment
 
   return (
     <div className="space-y-10">
@@ -217,7 +305,7 @@ export const ModelComparison: React.FC<ModelComparisonProps> = ({ onAddRating })
           </h3>
           <div className="w-12 sm:w-14 lg:w-16 h-1 bg-gradient-to-r from-blue-400 to-blue-600 rounded-full mb-3 sm:mb-4"></div>
           <p className="text-lg sm:text-xl lg:text-xl text-slate-700 font-medium leading-relaxed mb-4 sm:mb-6">
-            Evaluate how different AI models describe research scientists and their biographies
+            Evaluate AI model biographies
           </p>
           <div className="flex flex-col sm:flex-row items-start sm:items-center gap-4 sm:gap-6">
             <div className="bg-gradient-to-br from-white/80 to-blue-50/60 backdrop-blur-sm rounded-2xl px-4 sm:px-6 py-3 sm:py-4 border border-blue-200/40 shadow-lg">
@@ -231,202 +319,290 @@ export const ModelComparison: React.FC<ModelComparisonProps> = ({ onAddRating })
           </div>
         </div>
 
-        {/* Search Box */}
-        <div className="relative mb-8 sm:mb-10">
-          <div className="absolute inset-y-0 left-0 pl-4 sm:pl-6 lg:pl-8 flex items-center pointer-events-none">
-            <Search className="h-5 w-5 sm:h-6 sm:w-6 lg:h-7 lg:w-7 text-slate-400" />
+        {/* Instructions Section */}
+        <div className="bg-gradient-to-br from-blue-50/80 to-emerald-50/40 backdrop-blur-xl rounded-2xl border border-blue-200/40 p-6 sm:p-8 shadow-xl ring-1 ring-slate-900/5 mb-8">
+          <div className="flex items-center gap-4 mb-4">
+            <div className="bg-gradient-to-br from-blue-500 to-blue-600 rounded-2xl p-3 shadow-lg">
+              <div className="w-6 h-6 text-white font-bold text-center">?</div>
+            </div>
+            <h4 className="text-xl sm:text-2xl font-bold text-slate-900">Instructions</h4>
           </div>
-          <input
-            type="text"
-            placeholder="Search scientists..."
-            value={searchQuery}
-            onChange={(e) => setSearchQuery(e.target.value)}
-            className="w-full pl-12 sm:pl-16 lg:pl-20 pr-4 sm:pr-6 lg:pr-8 py-4 sm:py-5 lg:py-6 bg-white/80 backdrop-blur-xl border border-white/60 rounded-2xl focus:ring-4 focus:ring-blue-500/20 focus:border-blue-500 text-lg sm:text-xl font-medium placeholder-slate-400 shadow-xl hover:shadow-2xl transition-all duration-500 ring-1 ring-slate-900/5"
-          />
+          <div className="text-slate-700 text-base sm:text-lg leading-relaxed">
+            <p className="mb-3">
+              <strong>Important:</strong> Evaluate AI model biographies for accuracy in affiliation, research focus, and gender identification.
+            </p>
+            <p className="mb-3">
+              <strong>Rating Options:</strong>
+            </p>
+            <ul className="list-disc list-inside ml-4 space-y-1 mb-3">
+              <li><strong>Correct:</strong> Information is accurate and complete</li>
+              <li><strong>Partially Correct:</strong> Information is mostly accurate but missing some details</li>
+              <li><strong>Incorrect:</strong> Information is wrong or misleading</li>
+              <li><strong>Not Applicable:</strong> Category doesn't apply to this person</li>
+              <li><strong>I Don't Know:</strong> You don't know if the information is correct</li>
+            </ul>
+            <p className="mb-3">
+              <strong>Research Guidelines:</strong> If you need to verify information, you can use verified sources like <strong>Wikipedia</strong> to search for university websites, publications, and academic records.
+            </p>
+            <p className="text-sm text-slate-600 italic">
+              Remember to provide source URLs when available to support your assessments.
+            </p>
+          </div>
         </div>
 
-        {/* Search Results */}
-        {searchQuery && (
-          <div className="mb-8">
-            {filteredScientists.length > 0 ? (
-              <div className="bg-white/80 backdrop-blur-xl rounded-2xl border border-white/60 max-h-60 sm:max-h-72 overflow-y-auto shadow-xl ring-1 ring-slate-900/5">
-                {filteredScientists.map((scientist) => (
-                  <button
-                    key={scientist.name}
-                    onClick={() => {
-                      setSelectedScientist(scientist);
-                      setSearchQuery('');
-                    }}
-                    className="w-full p-4 sm:p-6 text-left hover:bg-white/95 transition-all duration-500 border-b border-white/40 last:border-b-0 group hover:shadow-lg"
-                  >
-                    <div className="flex items-center justify-between">
-                      <div>
-                        <p className="font-bold text-lg sm:text-xl text-slate-900 group-hover:text-blue-600 transition-colors">
-                          {scientist.name}
-                        </p>
-                      </div>
-                      <div className="bg-gradient-to-br from-blue-100 to-blue-200/60 backdrop-blur-sm rounded-2xl p-2 sm:p-3 opacity-0 group-hover:opacity-100 transition-all duration-500">
-                        <GraduationCap className="w-5 h-5 sm:w-6 sm:h-6 text-blue-600" />
-                      </div>
+        {!assessmentStarted ? (
+          <div className="text-center space-y-6 sm:space-y-8">
+            <div className="bg-gradient-to-br from-white/60 to-blue-50/40 backdrop-blur-sm rounded-3xl border border-blue-200/40 p-8 sm:p-12 shadow-xl">
+              <div className="flex flex-col items-center gap-6">
+                <div className="bg-gradient-to-br from-blue-100 to-blue-200/60 backdrop-blur-sm rounded-3xl p-6 shadow-lg">
+                  <GraduationCap className="w-16 h-16 sm:w-20 sm:h-20 text-blue-600" />
+                </div>
+                <div className="text-center">
+                  <h3 className="text-2xl sm:text-3xl font-bold text-slate-900 mb-4">
+                    Biography Assessment ({scientists.length} Scientists)
+                  </h3>
+                  <p className="text-lg sm:text-xl text-slate-700 mb-6 max-w-3xl">
+                    Complete a comprehensive two-phase assessment of AI-generated biographies:
+                  </p>
+                  <div className="grid md:grid-cols-2 gap-6 mb-8 max-w-4xl">
+                    <div className="bg-white/80 rounded-2xl p-6 border border-blue-200/40 shadow-lg">
+                      <h4 className="text-xl font-bold text-blue-700 mb-3">Part 1: Minimal Biographies</h4>
+                      <p className="text-slate-600">Assess shorter, essential biographical information for all scientists</p>
                     </div>
-                  </button>
-                ))}
+                    <div className="bg-white/80 rounded-2xl p-6 border border-emerald-200/40 shadow-lg">
+                      <h4 className="text-xl font-bold text-emerald-700 mb-3">Part 2: Comprehensive Biographies</h4>
+                      <p className="text-slate-600">Evaluate detailed, comprehensive biographical content for all scientists</p>
+                    </div>
+                  </div>
+                  {scientists.length > 0 ? (
+                    <button
+                      onClick={startAssessment}
+                      className="inline-flex items-center gap-3 bg-gradient-to-r from-blue-500 to-blue-600 hover:from-blue-600 hover:to-blue-700 text-white px-8 py-4 rounded-2xl text-lg sm:text-xl font-bold shadow-lg hover:shadow-xl transition-all duration-300 transform hover:scale-[1.02]"
+                    >
+                      <Play className="w-6 h-6" />
+                      Start Assessment
+                    </button>
+                  ) : (
+                    <div className="text-center py-8">
+                      <p className="text-slate-600 text-lg font-medium">No scientists available. Loading...</p>
+                    </div>
+                  )}
+                </div>
               </div>
-            ) : (
-              <div className="p-6 sm:p-8 text-slate-600 text-lg sm:text-xl font-medium text-center bg-gradient-to-br from-white/60 to-slate-50/40 backdrop-blur-sm rounded-2xl border border-white/50 shadow-lg">
-                No scientists found matching "{searchQuery}"
+            </div>
+          </div>
+        ) : (
+          // Phase Controls
+          <div className="space-y-6">
+            {/* Phase Header and Controls */}
+            <div className="bg-white/80 backdrop-blur-sm rounded-2xl p-6 border border-white/60 shadow-lg">
+              <div className="flex items-center justify-between mb-4">
+                <h4 className="text-xl font-bold text-slate-800">
+                  {currentPhase === 'minimal' ? 'Part 1: Minimal Biographies' : 'Part 2: Comprehensive Biographies'}
+                </h4>
+                <div className="flex items-center gap-4">
+                  {/* Buttons moved to bottom after all scientists */}
+                </div>
+              </div>
+              <div className="text-sm text-slate-600">
+                {currentPhase === 'minimal' 
+                  ? 'Rate the minimal biographies for all scientists below. Complete at least one scientist to proceed to comprehensive phase.'
+                  : 'Rate the comprehensive biographies for all scientists below. Complete your assessments and save when finished.'
+                }
+              </div>
+            </div>
+
+            {/* Save All Status */}
+            {saveAllStatus !== 'idle' && (
+              <div className={`p-4 rounded-2xl text-center font-semibold text-lg transition-all duration-500 ${
+                saveAllStatus === 'saving' ? 'bg-blue-100 text-blue-800' :
+                saveAllStatus === 'success' ? 'bg-emerald-100 text-emerald-800' :
+                'bg-red-100 text-red-800'
+              }`}>
+                {saveAllStatus === 'saving' && (
+                  <div className="flex items-center justify-center gap-3">
+                    <div className="animate-spin rounded-full h-5 w-5 border-b-2 border-blue-600"></div>
+                    Saving all assessments...
+                  </div>
+                )}
+                {saveAllStatus === 'success' && (
+                  <div className="flex items-center justify-center gap-3">
+                    <div className="w-5 h-5 bg-emerald-600 rounded-full flex items-center justify-center">
+                      <span className="text-white text-xs">✓</span>
+                    </div>
+                    All assessments saved successfully! Resetting...
+                  </div>
+                )}
+                {saveAllStatus === 'error' && (
+                  <div className="flex items-center justify-center gap-3">
+                    <div className="w-5 h-5 bg-red-600 rounded-full flex items-center justify-center">
+                      <span className="text-white text-xs">✕</span>
+                    </div>
+                    Failed to save some assessments. Please try again.
+                  </div>
+                )}
               </div>
             )}
           </div>
         )}
 
-        {/* Selected Scientist Display */}
-        {selectedScientist && biographyData && (
-          <div className="bg-gradient-to-br from-blue-50/80 to-emerald-50/40 backdrop-blur-xl rounded-2xl border border-blue-200/40 p-6 sm:p-8 shadow-xl ring-1 ring-slate-900/5">
-            <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4 sm:gap-6 mb-6 sm:mb-8">
-              <div className="flex items-center">
-                <div className="bg-gradient-to-br from-blue-500 to-blue-600 rounded-2xl p-3 sm:p-4 mr-4 sm:mr-6 shadow-lg">
-                  <GraduationCap className="w-6 h-6 sm:w-8 sm:h-8 text-white" />
-                </div>
-                <div>
-                  <h4 className="text-xl sm:text-2xl font-bold text-slate-900 mb-1">{selectedScientist.name}</h4>
-                  <p className="text-base sm:text-lg text-slate-600 font-medium">Selected Scientist</p>
-                </div>
-              </div>
+        {/* All Scientists Assessment Display */}
+        {assessmentStarted && (
+          <div ref={scientistSelectionRef} className="space-y-8">
+            {/* Exit Button */}
+            <div className="flex justify-end">
               <button
-                onClick={() => {
-                  setSelectedScientist(null);
-                  setBiographyData({});
-                  setSelectedModel('');
-                }}
-                className="bg-white/90 hover:bg-white text-slate-700 hover:text-slate-900 px-6 sm:px-8 py-3 rounded-2xl border border-slate-200/60 font-bold text-base sm:text-lg shadow-lg hover:shadow-xl transition-all duration-500 transform hover:scale-[1.02] ring-1 ring-slate-900/5 w-full sm:w-auto"
+                onClick={() => setAssessmentStarted(false)}
+                className="bg-white/90 hover:bg-white text-slate-700 hover:text-slate-900 px-6 py-3 rounded-2xl border border-slate-200/60 font-bold text-base shadow-lg hover:shadow-xl transition-all duration-500 transform hover:scale-[1.02] ring-1 ring-slate-900/5"
               >
-                Change Selection
+                Exit Assessment
               </button>
             </div>
 
-            {/* Model Selection Dropdown */}
-            <div className="mb-6 sm:mb-8">
-              <label className="text-lg sm:text-xl font-bold text-slate-800 mb-3 sm:mb-4 block">Choose AI Model:</label>
-              <select
-                value={selectedModel}
-                onChange={(e) => setSelectedModel(e.target.value)}
-                className="w-full p-4 sm:p-5 bg-white/90 backdrop-blur-sm border border-white/60 rounded-2xl focus:ring-4 focus:ring-blue-500/20 focus:border-blue-500 text-lg sm:text-xl font-medium shadow-lg hover:shadow-xl transition-all duration-500 ring-1 ring-slate-900/5"
-              >
-                <option value="">Select a model...</option>
-                {availableModels.map((model) => (
-                  <option key={model} value={model}>{getDisplayModelName(model)}</option>
-                ))}
-              </select>
-            </div>
+            {/* All Scientists Biographies */}
+            {scientists.map((scientist) => {
+              const scientistBiographyData = allBiographyData[scientist.name];
+              if (!scientistBiographyData) return null;
 
-            {/* Biography Type Toggle */}
-            <div className="flex flex-col sm:flex-row sm:items-center gap-4 sm:gap-6 mb-6 sm:mb-8">
-              <label className="text-lg sm:text-xl font-bold text-slate-800">Biography Type:</label>
-              <div className="flex bg-white/90 backdrop-blur-sm rounded-2xl p-2 border border-white/60 shadow-lg ring-1 ring-slate-900/5 w-full sm:w-auto">
-                <button
-                  onClick={() => setBiographyType('minimal')}
-                  className={`flex-1 sm:flex-none px-4 sm:px-6 lg:px-8 py-3 rounded-xl font-bold transition-all duration-500 text-base sm:text-lg ${
-                    biographyType === 'minimal'
-                      ? 'bg-gradient-to-r from-blue-500 to-blue-600 text-white shadow-lg transform scale-[1.02]'
-                      : 'text-slate-600 hover:text-slate-800 hover:bg-white/80'
-                  }`}
-                >
-                  Minimal
-                </button>
-                <button
-                  onClick={() => setBiographyType('comprehensive')}
-                  className={`flex-1 sm:flex-none px-4 sm:px-6 lg:px-8 py-3 rounded-xl font-bold transition-all duration-500 text-base sm:text-lg ${
-                    biographyType === 'comprehensive'
-                      ? 'bg-gradient-to-r from-blue-500 to-blue-600 text-white shadow-lg transform scale-[1.02]'
-                      : 'text-slate-600 hover:text-slate-800 hover:bg-white/80'
-                  }`}
-                >
-                  Comprehensive
-                </button>
-              </div>
-            </div>
+              return (
+                <div key={scientist.name} className="bg-gradient-to-br from-blue-50/80 to-emerald-50/40 backdrop-blur-xl rounded-3xl border border-blue-200/40 p-8 sm:p-12 shadow-xl ring-1 ring-slate-900/5">
+                  {/* Scientist Header */}
+                  <div className="flex items-center mb-10">
+                    <div className="bg-gradient-to-br from-blue-500 to-blue-600 rounded-3xl p-6 mr-8 shadow-lg">
+                      <GraduationCap className="w-10 h-10 text-white" />
+                    </div>
+                    <div>
+                      <h3 className="text-3xl sm:text-4xl font-bold text-slate-900 mb-2">{scientist.name}</h3>
+                      <p className="text-xl text-slate-600 font-medium">
+                        {currentPhase === 'minimal' ? 'Minimal Biography Assessment' : 'Comprehensive Biography Assessment'}
+                      </p>
+                    </div>
+                  </div>
 
-            {/* Biography Display */}
-            {selectedModel && biographyData[selectedModel] && (
-              <div className="bg-white/90 backdrop-blur-xl rounded-2xl border border-white/60 p-6 sm:p-8 shadow-xl ring-1 ring-slate-900/5">
-                <h5 className="text-xl sm:text-2xl font-bold text-slate-800 mb-4 sm:mb-6">
-                  {getDisplayModelName(selectedModel)} - {biographyType} Biography
-                </h5>
-                <div className="prose prose-slate max-w-none">
-                  <p className="text-slate-700 leading-relaxed whitespace-pre-wrap text-base sm:text-lg">
-                    {getCurrentBiography()}
-                  </p>
+                  {/* All Models for this Scientist */}
+                  <div className="grid gap-10">
+                    {availableModels.map((model) => {
+                      const modelData = scientistBiographyData[model];
+                      if (!modelData) return null;
+                      const modelKey = model.toLowerCase().replace(/[^a-z0-9]/g, '_');
+                      const fullKey = `${scientist.name}_${modelKey}`;
+
+                      return (
+                        <div key={model} className="bg-white/90 backdrop-blur-xl rounded-2xl border border-white/60 p-8 shadow-lg">
+                          <h5 className="text-xl sm:text-2xl font-bold text-slate-900 mb-8 text-center">
+                            {getDisplayModelName(model)}
+                          </h5>
+                          
+                          <div className="space-y-8">
+                            {/* Biography Content */}
+                            <div className="bg-gradient-to-br from-slate-50/80 to-blue-50/40 backdrop-blur-sm rounded-2xl border border-slate-200/40 p-8 shadow-sm">
+                              <h6 className="text-lg font-bold text-slate-800 mb-6 flex items-center gap-2">
+                                <div className={`w-3 h-3 rounded-full ${currentPhase === 'minimal' ? 'bg-blue-500' : 'bg-emerald-500'}`}></div>
+                                {currentPhase === 'minimal' ? 'Minimal Biography' : 'Comprehensive Biography'}
+                              </h6>
+                              <div className="prose prose-slate max-w-none">
+                                <p className="text-slate-700 leading-relaxed whitespace-pre-wrap text-base">
+                                  {currentPhase === 'minimal' ? modelData.minimal_biography : modelData.comprehensive_biography}
+                                </p>
+                              </div>
+                            </div>
+
+                            {/* Rating Section */}
+                            <div className="bg-gradient-to-br from-emerald-50/60 to-blue-50/40 backdrop-blur-sm rounded-2xl border border-emerald-200/40 p-8 shadow-sm">
+                              <div className="flex items-center justify-between mb-6">
+                                <h6 className="text-lg font-bold text-slate-900">
+                                  Rating Categories
+                                </h6>
+                                <div className="text-sm text-slate-600 bg-white/80 px-4 py-2 rounded-lg border">
+                                  {(ratings[fullKey]?.length || 0)}/3
+                                </div>
+                              </div>
+
+                              <div className="space-y-6">
+                                {ratingCategories.map((category) => (
+                                  <RatingScale
+                                    key={`${scientist.name}-${model}-${category}`}
+                                    category={category}
+                                    value={ratings[fullKey]?.find(r => r.category === category)?.score || 0}
+                                    onChange={(score) => handleRatingChange(scientist.name, modelKey, category, score)}
+                                  />
+                                ))}
+                              </div>
+
+                              <div className="mt-8">
+                                <label className="block text-base font-bold text-slate-800 mb-3">Notes</label>
+                                <textarea
+                                  value={notes[fullKey] || ''}
+                                  onChange={(e) => handleNotesChange(scientist.name, modelKey, e.target.value)}
+                                  className="w-full p-4 bg-white/80 border border-slate-200 rounded-xl focus:ring-2 focus:ring-emerald-500 focus:border-emerald-500 resize-none transition-all duration-200 text-base"
+                                  rows={4}
+                                  placeholder={`Notes about ${getDisplayModelName(model)}'s accuracy...`}
+                                />
+                              </div>
+                            </div>
+                          </div>
+                        </div>
+                      );
+                    })}
+                  </div>
                 </div>
+              );
+            })}
+
+            {/* Phase Transition and Submit Buttons - Moved to Bottom */}
+            <div className="flex justify-center mt-12 mb-8">
+              <div className="bg-white/80 backdrop-blur-sm rounded-2xl p-8 border border-white/60 shadow-lg">
+                {currentPhase === 'minimal' && (
+                  <div className="text-center space-y-4">
+                    <p className="text-lg font-medium text-slate-700 mb-6">
+                      Ready to proceed to comprehensive biographies?
+                    </p>
+                    <button
+                      onClick={() => {
+                        saveCurrentPhaseAssessments();
+                        switchToComprehensivePhase();
+                      }}
+                      disabled={!canProceedToNextPhase()}
+                      className={`flex items-center justify-center gap-3 px-8 py-4 rounded-2xl font-bold text-lg transition-all duration-200 ${
+                        !canProceedToNextPhase()
+                          ? 'bg-slate-300 text-slate-500 cursor-not-allowed'
+                          : 'bg-gradient-to-r from-blue-500 to-blue-600 hover:from-blue-600 hover:to-blue-700 text-white shadow-lg hover:shadow-xl transform hover:scale-105'
+                      }`}
+                    >
+                      <ChevronRight className="w-6 h-6" />
+                      Start Comprehensive Phase
+                    </button>
+                  </div>
+                )}
+                
+                {currentPhase === 'comprehensive' && (
+                  <div className="text-center space-y-4">
+                    <p className="text-lg font-medium text-slate-700 mb-6">
+                      Complete your assessment by submitting all ratings
+                    </p>
+                    <button
+                      onClick={() => {
+                        saveCurrentPhaseAssessments();
+                        saveAllAssessments();
+                      }}
+                      disabled={isSavingAll || !canProceedToNextPhase()}
+                      className={`flex items-center justify-center gap-3 px-8 py-4 rounded-2xl font-bold text-lg transition-all duration-200 ${
+                        isSavingAll || !canProceedToNextPhase()
+                          ? 'bg-slate-300 text-slate-500 cursor-not-allowed'
+                          : 'bg-gradient-to-r from-emerald-500 to-emerald-600 hover:from-emerald-600 hover:to-emerald-700 text-white shadow-lg hover:shadow-xl transform hover:scale-105'
+                      }`}
+                    >
+                      <Save className="w-6 h-6" />
+                      {isSavingAll ? 'Saving Assessment...' : 'Submit Assessment'}
+                    </button>
+                  </div>
+                )}
               </div>
-            )}
+            </div>
           </div>
         )}
       </div>
 
-      {/* Rating Section - Only show for selected model */}
-      {selectedScientist && biographyData && selectedModel && biographyData[selectedModel] && (
-        <div className="bg-gradient-to-br from-white/90 to-emerald-50/30 backdrop-blur-xl rounded-2xl sm:rounded-3xl border border-white/40 shadow-2xl p-6 sm:p-8 lg:p-12 ring-1 ring-slate-900/5">
-          <div className="flex flex-col lg:flex-row lg:items-center lg:justify-between gap-6 lg:gap-8 mb-8 lg:mb-10">
-            <div>
-              <h4 className="text-2xl sm:text-3xl lg:text-4xl font-bold text-slate-900 mb-3 sm:mb-4 tracking-tight">Rate This Model</h4>
-              <div className="w-12 sm:w-14 lg:w-16 h-1 bg-gradient-to-r from-emerald-400 to-emerald-600 rounded-full mb-3 sm:mb-4"></div>
-              <p className="text-slate-700 text-base sm:text-lg lg:text-xl font-medium leading-relaxed">
-                Rate <span className="font-bold text-blue-600">{getDisplayModelName(selectedModel)}</span>'s accuracy about <span className="font-bold text-blue-600">{selectedScientist.name}</span>'s affiliation, research, and gender
-              </p>
-            </div>
-            <button
-              onClick={() => {
-                const modelKey = selectedModel.toLowerCase().replace(/[^a-z0-9]/g, '_');
-                saveRating(modelKey);
-              }}
-              disabled={(() => {
-                const modelKey = selectedModel.toLowerCase().replace(/[^a-z0-9]/g, '_');
-                return (ratings[modelKey]?.length || 0) !== 3;
-              })()}
-              className="bg-gradient-to-r from-emerald-600 to-emerald-700 hover:from-emerald-700 hover:to-emerald-800 disabled:from-slate-300 disabled:to-slate-400 disabled:cursor-not-allowed text-white px-6 sm:px-8 lg:px-10 py-3 sm:py-4 rounded-2xl text-lg sm:text-xl font-bold shadow-xl hover:shadow-2xl transition-all duration-500 transform hover:scale-[1.02] ring-1 ring-emerald-600/20 hover:ring-emerald-600/40 w-full lg:w-auto"
-            >
-              Save Rating
-            </button>
-          </div>
-
-          <div className="grid gap-6 lg:grid-cols-2 lg:gap-8">
-            <div className="space-y-4 sm:space-y-6">
-              <h5 className="text-lg sm:text-xl font-semibold text-slate-800 mb-3 sm:mb-4">Rating Categories</h5>
-              <div className="space-y-4 sm:space-y-6">
-                {ratingCategories.map((category) => {
-                  const modelKey = selectedModel.toLowerCase().replace(/[^a-z0-9]/g, '_');
-                  return (
-                    <RatingScale
-                      key={category}
-                      category={category}
-                      value={ratings[modelKey]?.find(r => r.category === category)?.score || 0}
-                      onChange={(score) => handleRatingChange(modelKey, category, score)}
-                    />
-                  );
-                })}
-              </div>
-            </div>
-
-            <div>
-              <label className="block text-lg sm:text-xl font-semibold text-slate-800 mb-3 sm:mb-4">Additional Notes</label>
-              <textarea
-                value={(() => {
-                  const modelKey = selectedModel.toLowerCase().replace(/[^a-z0-9]/g, '_');
-                  return notes[modelKey] || '';
-                })()}
-                onChange={(e) => {
-                  const modelKey = selectedModel.toLowerCase().replace(/[^a-z0-9]/g, '_');
-                  handleNotesChange(modelKey, e.target.value);
-                }}
-                className="w-full p-4 sm:p-6 bg-slate-50 border border-slate-200 rounded-xl focus:ring-2 focus:ring-blue-500 focus:border-blue-500 resize-none transition-all duration-200 text-sm sm:text-base"
-                rows={6}
-                placeholder={`Share your thoughts about ${getDisplayModelName(selectedModel)}'s accuracy for ${selectedScientist.name}...`}
-              />
-            </div>
-          </div>
-        </div>
-      )}
     </div>
   );
 };

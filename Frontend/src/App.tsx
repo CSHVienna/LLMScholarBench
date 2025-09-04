@@ -103,18 +103,13 @@ function App() {
                   ? 'text-lg sm:text-xl lg:text-2xl mb-1 sm:mb-2' 
                   : 'text-2xl sm:text-3xl lg:text-5xl mb-3 sm:mb-4 lg:mb-5'
               }`}>
-                {isScrolled ? 'LLM RESEARCH PLATFORM' : 'LLM RESPONSE GENERATION & RATING'}
+                {isScrolled ? 'Genealogy and biography assessment' : 'Genealogy and biography assessment'}
               </h1>
               <div className={`bg-gradient-to-r from-slate-400 to-slate-600 rounded-full mx-auto transition-all duration-300 ease-out ${
                 isScrolled 
                   ? 'w-12 h-0.5 mb-1 sm:mb-2' 
                   : 'w-16 sm:w-20 lg:w-24 h-1 mb-3 sm:mb-4 lg:mb-5'
               }`}></div>
-              {!isScrolled && (
-                <p className="text-slate-600 text-base sm:text-lg lg:text-xl max-w-3xl mx-auto leading-relaxed font-medium px-4 transition-all duration-300 ease-out">
-                  Genealogy assessment and biography research & rating
-                </p>
-              )}
             </div>
           </div>
         </header>

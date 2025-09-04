@@ -14,14 +14,12 @@ export const TabNavigation: React.FC<TabNavigationProps> = ({
   const tabs = [
     {
       id: 'genealogy' as TabType,
-      label: 'Genealogy Assessment',
-      description: 'Family research and supervision evaluation',
+      label: 'Academic Genealogy Assessment',
       icon: Users,
     },
     {
       id: 'ai-comparison' as TabType,
       label: 'Biography Assessment',
-      description: 'AI model performance on research profiles',
       icon: Brain,
     },
   ];
@@ -60,7 +58,7 @@ export const TabNavigation: React.FC<TabNavigationProps> = ({
                   <div className={`text-xs sm:text-sm lg:text-sm mt-1 sm:mt-1.5 transition-colors duration-500 ${
                     isActive ? 'text-slate-300' : 'text-slate-500 group-hover:text-slate-600'
                   }`}>
-                    {tab.description}
+                    {tab.id === 'genealogy' ? 'Supervision relationships' : 'AI model biographies'}
                   </div>
                 </div>
               </div>
