@@ -140,11 +140,18 @@ class OpenRouterAPI:
         self._wait_for_rate_limit()
         
         try:
+            # Prepare extra headers
+            extra_headers = {
+                "HTTP-Referer": "https://github.com/your-username/LLMScholar-Audits",
+                "X-Title": "LLMScholar Audits"
+            }
+            
+            # Add provider preference if specified
+            if 'provider' in self.config and self.config['provider']:
+                extra_headers["X-OpenRouter-Provider"] = self.config['provider']
+            
             chat_completion = self.client.chat.completions.create(
-                extra_headers={
-                    "HTTP-Referer": "https://github.com/your-username/LLMScholar-Audits",
-                    "X-Title": "LLMScholar Audits"
-                },
+                extra_headers=extra_headers,
                 messages=[
                     {"role": "system", "content": self.config['system_message']},
                     {"role": "user", "content": prompt}
