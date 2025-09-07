@@ -1,7 +1,9 @@
 import argparse
 import os
 import json
+import asyncio
 from experiments.runner import ExperimentRunner
+from experiments.runner_smart import SmartExperimentRunner, MultiModelSmartRunner
 from config.loader import load_llm_setup, get_available_models
 from datetime import datetime
 
@@ -29,9 +31,14 @@ def create_experiment_config(model_name, output_dir=None):
     
     return run_dir, config
 
-def run_experiment(model_name, output_dir=None, category=None, variable=None):
+def run_experiment(model_name, output_dir=None, category=None, variable=None, use_smart_queue=False):
     run_dir, config = create_experiment_config(model_name, output_dir)
-    runner = ExperimentRunner(run_dir, config)
+    
+    if use_smart_queue:
+        runner = SmartExperimentRunner(run_dir, config)
+    else:
+        runner = ExperimentRunner(run_dir, config)
+    
     if category and variable:
         runner.run_single_experiment(category, variable)
     else:
@@ -51,6 +58,12 @@ def run_all_models(output_dir=None, category=None, variable=None):
             import time
             time.sleep(2)
 
+def run_all_models_smart(output_dir=None, category=None, variable=None):
+    """Run all models using the smart queue system for optimal efficiency"""
+    models = get_available_models()
+    runner = MultiModelSmartRunner(output_dir)
+    asyncio.run(runner.run_all_models_smart(models, category, variable))
+
 if __name__ == "__main__":
     available_models = get_available_models()
     parser = argparse.ArgumentParser(description="Run LLM experiments")
@@ -59,6 +72,10 @@ if __name__ == "__main__":
                         help="Specify the model to use for the experiment")
     parser.add_argument("--all-models", action="store_true", 
                         help="Run experiments for all models sequentially")
+    parser.add_argument("--all-models-smart", action="store_true",
+                        help="Run experiments for all models using smart queue (RECOMMENDED for efficiency)")
+    parser.add_argument("--smart", action="store_true",
+                        help="Use smart queue system for single model (better retry handling)")
     parser.add_argument("--output-dir", type=str, 
                         help="Override output directory (default from config)")
     parser.add_argument("--category", type=str,
@@ -70,14 +87,19 @@ if __name__ == "__main__":
     args = parser.parse_args()
     
     # Validation
-    if not args.model and not args.all_models:
-        parser.error("Either --model or --all-models is required")
-    if args.model and args.all_models:
-        parser.error("Cannot specify both --model and --all-models")
+    model_options = [args.model, args.all_models, args.all_models_smart]
+    if sum(bool(x) for x in model_options) != 1:
+        parser.error("Exactly one of --model, --all-models, or --all-models-smart is required")
     if args.variable and not args.category:
         parser.error("--variable requires --category")
     
-    if args.all_models:
+    if args.all_models_smart:
+        print("🚀 Using smart queue system for optimal cross-model batching!")
+        run_all_models_smart(args.output_dir, args.category, args.variable)
+    elif args.all_models:
+        print("📝 Using legacy sequential processing (consider --all-models-smart for better efficiency)")
         run_all_models(args.output_dir, args.category, args.variable)
     else:
-        run_experiment(args.model, args.output_dir, args.category, args.variable)
+        if args.smart:
+            print("🧠 Using smart queue system for better retry handling!")
+        run_experiment(args.model, args.output_dir, args.category, args.variable, args.smart)
