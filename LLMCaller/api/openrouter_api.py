@@ -165,7 +165,6 @@ class OpenRouterAPI:
                 ],
                 model=self.config['model'],
                 temperature=self.config['temperature'],
-                max_tokens=self.config['max_tokens'],
                 stop=self.config['stop'],
                 stream=self.config['stream']
             )
@@ -197,7 +196,6 @@ def test_api_keys():
         config = {
             'model': 'deepseek/deepseek-chat-v3.1:free',
             'temperature': 0,
-            'max_tokens': 100,
             'stop': None,
             'stream': False,
             'system_message': 'You are a helpful assistant.'
