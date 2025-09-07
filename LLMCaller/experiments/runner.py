@@ -14,14 +14,15 @@ from utils.batching import BatchProcessor
 import random
 
 class ExperimentRunner:
-    def __init__(self, run_dir, config):
+    def __init__(self, run_dir, config, batch_size=15):
         self.run_dir = run_dir
         self.logger = setup_logging(run_dir)
         self.config = self._validate_config(config)
         self.api_client = OpenRouterAPI(self.config)
         self.validator = ResponseValidator()
         self.usage_tracker = DailyUsageTracker()
-        self.batch_processor = BatchProcessor(rate_limit=16, logger=self.logger)
+        self.batch_size = batch_size
+        self.batch_processor = BatchProcessor(rate_limit=batch_size, logger=self.logger)
 
     def _validate_config(self, config):
         validate_llm_setup(config)
