@@ -186,7 +186,10 @@ class SmartQueue:
     
     async def process_all(self) -> Dict[str, Any]:
         """
-        Process all tasks in the queue using smart batching
+        Process all tasks in the queue using time-based batching with early retry handling.
+        
+        Key improvement: Send batches every 60s regardless of completion time.
+        Handle early failures and add retries to next available batch.
         
         Returns:
             Dictionary with processing results and statistics
@@ -194,70 +197,80 @@ class SmartQueue:
         if self.stats['start_time'] is None:
             self.stats['start_time'] = time.time()
         
-        self._log("🚀 Starting smart queue processing")
+        self._log("🚀 Starting time-based smart queue processing")
         self._log(f"   Rate limit: {self.rate_limit} calls/minute")
+        self._log("   Strategy: Send batch every 60s, handle retries dynamically")
         
         all_results = []
         batch_number = 0
+        active_batch_futures = {}  # Track running batches
         
-        while self.has_work():
-            batch_number += 1
-            batch = self._get_next_batch()
-            
-            if not batch:
-                self._log("⚠️  No tasks available despite has_work() returning True", 'warning')
-                break
+        while self.has_work() or active_batch_futures:
+            # Send new batch if we have work
+            if self.has_work():
+                batch_number += 1
+                batch = self._get_next_batch()
                 
-            batch_start = time.time()
-            queue_status = self.get_queue_status()
-            
-            self._log(f"📦 Batch {batch_number}: Processing {len(batch)} tasks")
-            self._log(f"   Queue status: {queue_status}")
-            self._log(f"   Tasks: {[f'{t.model_name}:{t.category}:{t.variable}' for t in batch]}")
-            
-            # Track wasted slots
-            if len(batch) < self.rate_limit:
-                wasted = self.rate_limit - len(batch)
-                self.stats['wasted_slots'] += wasted
-                self._log(f"⚠️  Only {len(batch)}/{self.rate_limit} slots used ({wasted} wasted)")
-            
-            # Execute batch concurrently
-            try:
-                batch_results = await asyncio.gather(
-                    *[task.executor((task.category, task.variable)) for task in batch],
-                    return_exceptions=True
-                )
-                
-                # Process results
-                for task, result in zip(batch, batch_results):
-                    is_exception = isinstance(result, Exception)
-                    self._handle_task_result(task, result, is_exception)
-                    all_results.append({
-                        'task': task,
-                        'result': result,
-                        'is_exception': is_exception
-                    })
-                
-            except Exception as e:
-                self._log(f"❌ Batch {batch_number} failed: {e}", 'error')
-                # Mark all tasks in batch as failed
-                for task in batch:
-                    self._handle_task_result(task, e, True)
-            
-            self.stats['batches_processed'] += 1
-            self.stats['total_api_calls'] += len(batch)
-            
-            batch_elapsed = time.time() - batch_start
-            self._log(f"✅ Batch {batch_number} completed in {batch_elapsed:.1f}s")
-            
-            # Smart timing: wait remainder of minute if needed
-            if self.has_work():  # Don't wait after last batch
-                if batch_elapsed < 60:
-                    wait_time = 60 - batch_elapsed
-                    self._log(f"⏱️  Waiting {wait_time:.1f}s before next batch...")
-                    await asyncio.sleep(wait_time)
+                if batch:
+                    batch_start_time = time.time()
+                    queue_status = self.get_queue_status()
+                    
+                    self._log(f"🚀 Batch {batch_number}: Launching {len(batch)} tasks")
+                    self._log(f"   Queue status: {queue_status}")
+                    self._log(f"   Tasks: {[f'{t.model_name}:{t.category}:{t.variable}' for t in batch]}")
+                    
+                    # Track wasted slots
+                    if len(batch) < self.rate_limit:
+                        wasted = self.rate_limit - len(batch)
+                        self.stats['wasted_slots'] += wasted
+                        self._log(f"⚠️  Only {len(batch)}/{self.rate_limit} slots used ({wasted} wasted)")
+                    
+                    # Launch batch asynchronously (don't wait for completion)
+                    batch_future = asyncio.create_task(self._execute_batch_with_retry_handling(
+                        batch, batch_number, batch_start_time
+                    ))
+                    active_batch_futures[batch_number] = {
+                        'future': batch_future,
+                        'batch': batch,
+                        'start_time': batch_start_time
+                    }
+                    
+                    self.stats['batches_processed'] += 1
+                    self.stats['total_api_calls'] += len(batch)
+                    
+                    # Wait exactly 60 seconds before next batch (key optimization!)
+                    if self.has_work():  # Only wait if more work is pending
+                        self._log("⏱️  Waiting 60s before next batch (regardless of completion)...")
+                        await asyncio.sleep(60)
                 else:
-                    self._log(f"⚡ Batch took ≥60s, proceeding immediately")
+                    self._log("⚠️  No tasks available despite has_work() returning True", 'warning')
+                    break
+            
+            # Check for completed batches and handle their results
+            completed_batches = []
+            for batch_id, batch_info in active_batch_futures.items():
+                if batch_info['future'].done():
+                    completed_batches.append(batch_id)
+            
+            # Process completed batches
+            for batch_id in completed_batches:
+                batch_info = active_batch_futures[batch_id]
+                try:
+                    batch_results = await batch_info['future']
+                    all_results.extend(batch_results)
+                    
+                    elapsed = time.time() - batch_info['start_time']
+                    self._log(f"✅ Batch {batch_id} completed in {elapsed:.1f}s")
+                    
+                except Exception as e:
+                    self._log(f"❌ Batch {batch_id} failed: {e}", 'error')
+                
+                del active_batch_futures[batch_id]
+            
+            # If no work left but batches still running, wait a bit
+            if not self.has_work() and active_batch_futures:
+                self._log(f"⏳ Waiting for {len(active_batch_futures)} active batches to complete...")
+                await asyncio.sleep(5)  # Check every 5 seconds
         
         self.stats['end_time'] = time.time()
         total_time = self.stats['end_time'] - self.stats['start_time']
@@ -285,6 +298,61 @@ class SmartQueue:
             'results': all_results,
             'stats': final_stats
         }
+    
+    async def _execute_batch_with_retry_handling(self, batch: List[QueueTask], batch_number: int, start_time: float) -> List[Dict]:
+        """
+        Execute a batch asynchronously and handle retries dynamically.
+        
+        Key feature: Failed tasks are added back to retry queue immediately,
+        making them available for the next batch.
+        """
+        batch_results = []
+        
+        try:
+            # Execute all tasks in batch concurrently
+            task_results = await asyncio.gather(
+                *[task.executor((task.category, task.variable)) for task in batch],
+                return_exceptions=True
+            )
+            
+            # Process each result and handle retries immediately
+            for task, result in zip(batch, task_results):
+                is_exception = isinstance(result, Exception)
+                
+                # Handle result and potentially add to retry queue
+                self._handle_task_result(task, result, is_exception)
+                
+                batch_results.append({
+                    'task': task,
+                    'result': result,
+                    'is_exception': is_exception
+                })
+                
+                # Log individual task completion for early feedback
+                if is_exception:
+                    retry_count = self.failed_tasks.get(task.experiment_id, 0)
+                    if retry_count < 3:  # Will be retried
+                        self._log(f"❌➡️ Task failed, added to retry queue: {task.experiment_id}")
+                    else:  # Permanently failed
+                        self._log(f"❌💀 Task permanently failed: {task.experiment_id}")
+                else:
+                    self._log(f"✅ Task completed: {task.experiment_id}")
+            
+            return batch_results
+            
+        except Exception as batch_error:
+            # Entire batch failed - mark all tasks as failed
+            self._log(f"❌ Entire batch {batch_number} failed: {batch_error}", 'error')
+            
+            for task in batch:
+                self._handle_task_result(task, batch_error, True)
+                batch_results.append({
+                    'task': task,
+                    'result': batch_error,
+                    'is_exception': True
+                })
+            
+            return batch_results
 
 # Convenience functions for easy integration
 
