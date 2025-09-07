@@ -7,14 +7,15 @@ from openai import AsyncOpenAI
 from dotenv import load_dotenv
 
 class OpenRouterAPI:
+    # Class-level rate limiting shared across all instances
+    _global_minute_calls = []
+    _global_rate_limit_lock = asyncio.Lock()
     def __init__(self, config, usage_tracker_path='usage_tracker.json'):
         load_dotenv()
         self.config = config
         self.usage_tracker_path = usage_tracker_path
         self.api_key = self._load_api_key()
         self.client = self._create_client()
-        self.minute_calls = []
-        self._rate_limit_lock = asyncio.Lock()
         
     def _load_api_key(self) -> str:
         """Load single API key from environment variables"""
@@ -31,31 +32,31 @@ class OpenRouterAPI:
         )
     
     async def _wait_for_rate_limit(self):
-        """Wait if we've hit the 16 calls per minute limit for free models"""
-        async with self._rate_limit_lock:
+        """Wait if we've hit the rate limit using global shared rate limiting"""
+        async with OpenRouterAPI._global_rate_limit_lock:
             now = time.time()
-            # Remove calls older than 1 minute
-            self.minute_calls = [call_time for call_time in self.minute_calls if now - call_time < 60]
+            # Remove calls older than 1 minute from global tracker
+            OpenRouterAPI._global_minute_calls = [call_time for call_time in OpenRouterAPI._global_minute_calls if now - call_time < 60]
             
-            # Use 16 calls per minute limit for free models (with small buffer)
-            max_calls_per_minute = 15  # Conservative limit to avoid hitting 16
+            # Use conservative limit well below the 20 calls per minute shown in headers
+            max_calls_per_minute = 12  # Very conservative limit to avoid any rate limiting issues
             
-            if len(self.minute_calls) >= max_calls_per_minute:
-                wait_time = 60 - (now - self.minute_calls[0]) + 1
-                print(f"Rate limit reached ({max_calls_per_minute}/min). Waiting {wait_time:.1f} seconds...")
+            if len(OpenRouterAPI._global_minute_calls) >= max_calls_per_minute:
+                wait_time = 60 - (now - OpenRouterAPI._global_minute_calls[0]) + 1
+                print(f"Global rate limit reached ({max_calls_per_minute}/min). Waiting {wait_time:.1f} seconds...")
                 await asyncio.sleep(wait_time)
                 # Clear old calls after waiting
                 now = time.time()
-                self.minute_calls = [call_time for call_time in self.minute_calls if now - call_time < 60]
+                OpenRouterAPI._global_minute_calls = [call_time for call_time in OpenRouterAPI._global_minute_calls if now - call_time < 60]
     
     def get_usage_summary(self) -> dict:
-        """Get a simple usage summary"""
+        """Get a simple usage summary using global rate tracking"""
         return {
             'calls_in_current_minute': len([
-                call_time for call_time in self.minute_calls 
+                call_time for call_time in OpenRouterAPI._global_minute_calls 
                 if time.time() - call_time < 60
             ]),
-            'rate_limit': '15 calls per minute'
+            'rate_limit': '12 calls per minute (global)'
         }
 
     async def generate_response(self, prompt):
@@ -86,9 +87,9 @@ class OpenRouterAPI:
                 stream=self.config['stream']
             )
             
-            # Update rate limit tracking
-            async with self._rate_limit_lock:
-                self.minute_calls.append(time.time())
+            # Update global rate limit tracking
+            async with OpenRouterAPI._global_rate_limit_lock:
+                OpenRouterAPI._global_minute_calls.append(time.time())
             
             return chat_completion
             
