@@ -158,10 +158,16 @@ class ExperimentRunner:
                 error_result = {
                     "category": category,
                     "variable": variable,
+                    "prompt": prompt,
                     "attempt": attempt,
                     "error": {
                         "error_type": type(e).__name__,
                         "message": str(e)
+                    },
+                    "validation_result": {
+                        "is_valid": False,
+                        "message": "Error occurred during API call",
+                        "extracted_data": None
                     }
                 }
                 result_path = save_attempt(error_result, self.run_dir)
