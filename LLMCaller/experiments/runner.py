@@ -123,6 +123,7 @@ class ExperimentRunner:
         prompt = generate_prompt(category, variable)
 
         for attempt in range(1, max_attempts + 1):
+            api_response = None
             try:
                 # Call the API with the prompt
                 api_response = await self.api_client.generate_response(prompt)
@@ -131,7 +132,7 @@ class ExperimentRunner:
                 response_content = api_response.choices[0].message.content
                 is_valid, message, extracted_data = self.validator.validate_response(response_content, category)
 
-                # Prepare the result for saving
+                # Prepare the result for saving (always include full API response)
                 result = {
                     "category": category,
                     "variable": variable,
@@ -145,7 +146,7 @@ class ExperimentRunner:
                     "attempt": attempt
                 }
 
-                # Save the result
+                # ALWAYS save the result first (with full API response) regardless of validation
                 result_path = save_attempt(result, self.run_dir)
                 summary_path = update_summary(result, self.run_dir)
                 self.logger.info(f"Result saved for {category}: {variable} - Attempt {attempt}/{max_attempts} - Path: {result_path}")
@@ -153,6 +154,10 @@ class ExperimentRunner:
 
                 if is_valid:
                     break  # Stop attempts if a valid result is obtained
+                else:
+                    # Validation failed - but we already saved the full response above
+                    self.logger.info(f"❌ Invalid (will retry): {category}:{variable} - Attempt {attempt}/{max_attempts} - {message}")
+                    # Don't throw exception here - let the retry loop handle it naturally
             except Exception as e:
                 self.logger.error(f"Error for {category}: {variable} - Attempt {attempt}/{max_attempts} - {str(e)}")
                 error_result = {
@@ -166,10 +171,23 @@ class ExperimentRunner:
                     },
                     "validation_result": {
                         "is_valid": False,
-                        "message": "Error occurred during API call",
+                        "message": "Error occurred during processing",
                         "extracted_data": None
                     }
                 }
+                
+                # Include full API response if available (key fix)
+                if api_response is not None:
+                    error_result["full_api_response"] = api_response.model_dump()
+                    # Preserve validation details if it was a validation error
+                    if "validation" in str(e).lower():
+                        try:
+                            response_content = api_response.choices[0].message.content
+                            _, val_message, _ = self.validator.validate_response(response_content, category)
+                            error_result["validation_result"]["message"] = val_message
+                        except:
+                            pass  # Keep default error message
+                
                 result_path = save_attempt(error_result, self.run_dir)
                 summary_path = update_summary(error_result, self.run_dir)
                 self.logger.info(f"Error result saved for {category}: {variable} - Attempt {attempt}/{max_attempts} - Path: {result_path}")
