@@ -5,17 +5,17 @@ from config.validator import validate_llm_setup
 from logs.setup import setup_logging
 from storage.saver import save_attempt
 from storage.summarizer import update_summary
-from api.groq_api import GroqAPI
+from api.openrouter_api import OpenRouterAPI
 from validation.validator import ResponseValidator
 from prompts.generator import generate_prompt
 import random
 
 class ExperimentRunner:
-    def __init__(self, run_dir, config, api_key):
+    def __init__(self, run_dir, config):
         self.run_dir = run_dir
         self.logger = setup_logging(run_dir)
         self.config = self._validate_config(config)
-        self.api_client = GroqAPI(api_key, self.config)
+        self.api_client = OpenRouterAPI(self.config)
         self.validator = ResponseValidator()
 
     def _validate_config(self, config):
@@ -32,6 +32,11 @@ class ExperimentRunner:
         for category, variable in all_pairs:
             self.run_variable_experiment(category, variable)
 
+        # Print usage summary at the end
+        usage_summary = self.api_client.get_usage_summary()
+        self.logger.info(f"Usage Summary: {usage_summary}")
+        print(f"\nUsage Summary: {usage_summary}")
+        
         self.logger.info(f"Experiment run completed at {datetime.now().strftime('%Y-%m-%d %H:%M:%S')}")
 
     def run_variable_experiment(self, category, variable):
