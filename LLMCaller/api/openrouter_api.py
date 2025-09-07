@@ -1,10 +1,8 @@
 import os
-import json
-import hashlib
 import time
 import asyncio
-from datetime import datetime, date
-from typing import List, Optional
+from datetime import datetime
+from typing import Optional
 from openai import AsyncOpenAI
 from dotenv import load_dotenv
 
@@ -13,136 +11,55 @@ class OpenRouterAPI:
         load_dotenv()
         self.config = config
         self.usage_tracker_path = usage_tracker_path
-        self.api_keys = self._load_api_keys()
-        self.current_key_index = 0
-        self.usage_data = self._load_usage_data()
+        self.api_key = self._load_api_key()
         self.client = self._create_client()
         self.minute_calls = []
         self._rate_limit_lock = asyncio.Lock()
-        self._usage_lock = asyncio.Lock()
         
-    def _load_api_keys(self) -> List[str]:
-        """Load API keys from environment variables"""
-        keys = []
-        i = 1
-        while True:
-            key = os.getenv(f'OPENROUTER_API_KEY_{i}')
-            if key:
-                keys.append(key)
-                i += 1
-            else:
-                break
-        
-        if not keys:
-            # Fallback to single key
-            key = os.getenv('OPENROUTER_API_KEY')
-            if key:
-                keys.append(key)
-        
-        if not keys:
-            raise ValueError("No OpenRouter API keys found in environment variables. Please set OPENROUTER_API_KEY_1, OPENROUTER_API_KEY_2, etc. in your .env file")
-        
-        return keys
+    def _load_api_key(self) -> str:
+        """Load single API key from environment variables"""
+        key = os.getenv('OPENROUTER_API_KEY')
+        if not key:
+            raise ValueError("No OpenRouter API key found. Please set OPENROUTER_API_KEY in your .env file")
+        return key
     
     def _create_client(self):
         """Create AsyncOpenAI client configured for OpenRouter"""
         return AsyncOpenAI(
             base_url="https://openrouter.ai/api/v1",
-            api_key=self.api_keys[self.current_key_index]
+            api_key=self.api_key
         )
     
-    def _load_usage_data(self) -> dict:
-        """Load usage tracking data"""
-        if os.path.exists(self.usage_tracker_path):
-            with open(self.usage_tracker_path, 'r') as f:
-                return json.load(f)
-        return {}
-    
-    async def _save_usage_data(self):
-        """Save usage tracking data"""
-        async with self._usage_lock:
-            with open(self.usage_tracker_path, 'w') as f:
-                json.dump(self.usage_data, f, indent=2, default=str)
-    
-    def _get_key_hash(self, key: str) -> str:
-        """Get a hash of the API key for tracking (privacy)"""
-        return hashlib.sha256(key.encode()).hexdigest()[:10]
-    
-    async def _update_usage(self, key: str):
-        """Update usage count for a key"""
-        key_hash = self._get_key_hash(key)
-        today = date.today().isoformat()
-        
-        async with self._usage_lock:
-            if key_hash not in self.usage_data:
-                self.usage_data[key_hash] = {}
-            
-            if today not in self.usage_data[key_hash]:
-                self.usage_data[key_hash][today] = {'count': 0, 'active': True}
-            
-            self.usage_data[key_hash][today]['count'] += 1
-        
-        await self._save_usage_data()
-    
     async def _wait_for_rate_limit(self):
-        """Wait if we've hit the 20 calls per minute limit"""
+        """Wait if we've hit the 16 calls per minute limit for free models"""
         async with self._rate_limit_lock:
             now = time.time()
             # Remove calls older than 1 minute
             self.minute_calls = [call_time for call_time in self.minute_calls if now - call_time < 60]
             
-            if len(self.minute_calls) >= 20:
+            # Use 16 calls per minute limit for free models (with small buffer)
+            max_calls_per_minute = 15  # Conservative limit to avoid hitting 16
+            
+            if len(self.minute_calls) >= max_calls_per_minute:
                 wait_time = 60 - (now - self.minute_calls[0]) + 1
-                print(f"Rate limit reached (20/min). Waiting {wait_time:.1f} seconds...")
+                print(f"Rate limit reached ({max_calls_per_minute}/min). Waiting {wait_time:.1f} seconds...")
                 await asyncio.sleep(wait_time)
-                self.minute_calls = []
-    
-    def _should_rotate_key(self) -> bool:
-        """Check if current key has reached daily limit"""
-        current_key = self.api_keys[self.current_key_index]
-        key_hash = self._get_key_hash(current_key)
-        today = date.today().isoformat()
-        
-        if key_hash in self.usage_data and today in self.usage_data[key_hash]:
-            return self.usage_data[key_hash][today]['count'] >= 1000
-        return False
-    
-    def _rotate_to_next_key(self) -> bool:
-        """Rotate to next available key under daily limit"""
-        original_index = self.current_key_index
-        
-        for _ in range(len(self.api_keys)):
-            self.current_key_index = (self.current_key_index + 1) % len(self.api_keys)
-            if not self._should_rotate_key():
-                self.client = self._create_client()
-                print(f"Rotated to API key {self.current_key_index + 1}")
-                return True
-        
-        self.current_key_index = original_index
-        return False
+                # Clear old calls after waiting
+                now = time.time()
+                self.minute_calls = [call_time for call_time in self.minute_calls if now - call_time < 60]
     
     def get_usage_summary(self) -> dict:
-        """Get a summary of usage across all keys"""
-        summary = {
-            'total_keys': len(self.api_keys),
-            'current_key': self.current_key_index + 1,
-            'daily_usage': {}
+        """Get a simple usage summary"""
+        return {
+            'calls_in_current_minute': len([
+                call_time for call_time in self.minute_calls 
+                if time.time() - call_time < 60
+            ]),
+            'rate_limit': '15 calls per minute'
         }
-        
-        today = date.today().isoformat()
-        for key_hash, usage_data in self.usage_data.items():
-            if today in usage_data:
-                summary['daily_usage'][f'key_{key_hash}'] = usage_data[today]['count']
-        
-        return summary
 
     async def generate_response(self, prompt):
-        """Generate response using OpenRouter API with automatic key rotation"""
-        # Check daily limit
-        if self._should_rotate_key():
-            if not self._rotate_to_next_key():
-                raise Exception("All API keys have reached daily limit (1000 calls)")
-        
+        """Generate response using OpenRouter API with rate limiting"""
         # Check per-minute rate limit
         await self._wait_for_rate_limit()
         
@@ -169,25 +86,18 @@ class OpenRouterAPI:
                 stream=self.config['stream']
             )
             
-            # Update usage tracking and rate limit tracking
-            current_key = self.api_keys[self.current_key_index]
-            await self._update_usage(current_key)
-            
+            # Update rate limit tracking
             async with self._rate_limit_lock:
                 self.minute_calls.append(time.time())
             
             return chat_completion
             
         except Exception as e:
-            print(f"Error with API key {self.current_key_index + 1}: {e}")
-            # Try to rotate to next key
-            if self._rotate_to_next_key():
-                return await self.generate_response(prompt)  # Retry with new key
-            else:
-                raise e
+            print(f"Error with OpenRouter API: {e}")
+            raise e
 
-def test_api_keys():
-    """Test function to verify OpenRouter API keys work"""
+def test_api_key():
+    """Test function to verify OpenRouter API key works"""
     import requests
     import json
     
@@ -202,32 +112,30 @@ def test_api_keys():
         }
         
         client = OpenRouterAPI(config)
-        print(f"✅ Successfully loaded {len(client.api_keys)} API key(s)")
+        print(f"✅ Successfully loaded API key")
         
-        # Test each API key
-        for i, key in enumerate(client.api_keys):
-            print(f"\n🔑 Testing API key {i+1}...")
-            
-            response = requests.get(
-                url="https://openrouter.ai/api/v1/key",
-                headers={
-                    "Authorization": f"Bearer {key}"
-                }
-            )
-            
-            if response.status_code == 200:
-                key_info = response.json()
-                print(f"✅ Key {i+1} is valid")
-                print(f"   Usage: ${key_info.get('usage', 0)}")
-                print(f"   Limit: ${key_info.get('limit', 0)}")
-                print(f"   Is Free Tier: {key_info.get('is_free_tier', False)}")
-            else:
-                print(f"❌ Key {i+1} failed: {response.status_code} - {response.text}")
+        # Test the API key
+        response = requests.get(
+            url="https://openrouter.ai/api/v1/key",
+            headers={
+                "Authorization": f"Bearer {client.api_key}"
+            }
+        )
+        
+        if response.status_code == 200:
+            key_info = response.json()
+            print(f"✅ API key is valid")
+            print(f"   Usage: ${key_info.get('usage', 0)}")
+            print(f"   Limit: ${key_info.get('limit', 0)}")
+            print(f"   Is Free Tier: {key_info.get('is_free_tier', False)}")
+        else:
+            print(f"❌ API key validation failed: {response.status_code} - {response.text}")
         
         # Test a simple chat completion
         print(f"\n🧪 Testing chat completion...")
         try:
-            response = client.generate_response("Say 'Hello, world!' in exactly those words.")
+            import asyncio
+            response = asyncio.run(client.generate_response("Say 'Hello, world!' in exactly those words."))
             print(f"✅ Chat completion successful!")
             print(f"   Response: {response.choices[0].message.content[:50]}...")
         except Exception as e:
@@ -242,4 +150,4 @@ def test_api_keys():
         print(f"❌ Test failed: {e}")
 
 if __name__ == "__main__":
-    test_api_keys()
+    test_api_key()
