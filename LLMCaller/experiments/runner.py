@@ -1,4 +1,5 @@
 import time
+import asyncio
 from datetime import datetime
 from config.loader import load_category_variables
 from config.validator import validate_llm_setup
@@ -23,14 +24,29 @@ class ExperimentRunner:
         return config
 
     def run_experiment(self):
+        """Run experiment synchronously - wrapper for async implementation"""
+        asyncio.run(self._run_experiment_async())
+    
+    async def _run_experiment_async(self):
         self.logger.info(f"Experiment run started at {datetime.now().strftime('%Y-%m-%d %H:%M:%S')}")
         
         categories_variables = load_category_variables()
         all_pairs = [(category, variable) for category, variables in categories_variables.items() for variable in variables]
         random.shuffle(all_pairs)
 
-        for category, variable in all_pairs:
-            self.run_variable_experiment(category, variable)
+        # Process experiments in batches of 20 (rate limit)
+        batch_size = 20
+        for i in range(0, len(all_pairs), batch_size):
+            batch = all_pairs[i:i + batch_size]
+            print(f"Processing batch {i//batch_size + 1}/{(len(all_pairs) + batch_size - 1)//batch_size} ({len(batch)} experiments)")
+            
+            # Run batch concurrently
+            tasks = [self.run_variable_experiment_async(category, variable) for category, variable in batch]
+            await asyncio.gather(*tasks, return_exceptions=True)
+            
+            # Small delay between batches to be safe
+            if i + batch_size < len(all_pairs):
+                await asyncio.sleep(1)
 
         # Print usage summary at the end
         usage_summary = self.api_client.get_usage_summary()
@@ -41,8 +57,12 @@ class ExperimentRunner:
 
     def run_single_experiment(self, category, variable):
         """Run experiment for a single category-variable pair"""
+        asyncio.run(self._run_single_experiment_async(category, variable))
+    
+    async def _run_single_experiment_async(self, category, variable):
+        """Run experiment for a single category-variable pair"""
         self.logger.info(f"Single experiment started for {category}: {variable} at {datetime.now().strftime('%Y-%m-%d %H:%M:%S')}")
-        self.run_variable_experiment(category, variable)
+        await self.run_variable_experiment_async(category, variable)
         
         # Print usage summary
         usage_summary = self.api_client.get_usage_summary()
@@ -52,13 +72,18 @@ class ExperimentRunner:
         self.logger.info(f"Single experiment completed for {category}: {variable} at {datetime.now().strftime('%Y-%m-%d %H:%M:%S')}")
 
     def run_variable_experiment(self, category, variable):
+        """Synchronous wrapper for backward compatibility"""
+        asyncio.run(self.run_variable_experiment_async(category, variable))
+
+    async def run_variable_experiment_async(self, category, variable):
+        """Run variable experiment asynchronously"""
         max_attempts = self.config.get('max_attempts', 3)
         prompt = generate_prompt(category, variable)
 
         for attempt in range(1, max_attempts + 1):
             try:
                 # Call the API with the prompt
-                api_response = self.api_client.generate_response(prompt)
+                api_response = await self.api_client.generate_response(prompt)
                 
                 # Validate the response
                 response_content = api_response.choices[0].message.content
@@ -102,4 +127,4 @@ class ExperimentRunner:
                 self.logger.info(f"Error result saved for {category}: {variable} - Attempt {attempt}/{max_attempts} - Path: {result_path}")
 
             if attempt < max_attempts:
-                time.sleep(5)  # Wait for 5 seconds between attempts
+                await asyncio.sleep(5)  # Wait for 5 seconds between attempts
