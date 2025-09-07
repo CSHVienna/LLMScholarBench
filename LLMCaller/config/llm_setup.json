@@ -6,7 +6,6 @@
     "model": "deepseek/deepseek-chat-v3.1:free",
     "max_attempts": 3,
     "temperature": 0,
-    "max_tokens": 163800,
     "stop": null,
     "stream": false,
     "system_message_ref": "physics_research_assistant"
@@ -15,7 +14,6 @@
     "model": "deepseek/deepseek-r1:free",
     "max_attempts": 3,
     "temperature": 0,
-    "max_tokens": 8192,
     "stop": null,
     "stream": false,
     "system_message_ref": "physics_research_assistant"
@@ -24,7 +22,6 @@
     "model": "qwen/qwen3-235b-a22b:free",
     "max_attempts": 3,
     "temperature": 0,
-    "max_tokens": 8192,
     "stop": null,
     "stream": false,
     "system_message_ref": "physics_research_assistant"
@@ -33,7 +30,6 @@
     "model": "google/gemini-2.0-flash-exp:free",
     "max_attempts": 3,
     "temperature": 0,
-    "max_tokens": 8192,
     "stop": null,
     "stream": false,
     "system_message_ref": "physics_research_assistant"
@@ -42,7 +38,6 @@
     "model": "meta-llama/llama-3.3-70b-instruct:free",
     "max_attempts": 3,
     "temperature": 0,
-    "max_tokens": 8192,
     "stop": null,
     "stream": false,
     "system_message_ref": "physics_research_assistant"
@@ -51,7 +46,6 @@
     "model": "meta-llama/llama-3.1-405b-instruct:free",
     "max_attempts": 3,
     "temperature": 0,
-    "max_tokens": 8192,
     "stop": null,
     "stream": false,
     "system_message_ref": "physics_research_assistant"
@@ -60,7 +54,6 @@
     "model": "mistralai/mistral-small-3.2-24b-instruct:free",
     "max_attempts": 3,
     "temperature": 0,
-    "max_tokens": 8192,
     "stop": null,
     "stream": false,
     "system_message_ref": "physics_research_assistant"
@@ -69,7 +62,6 @@
     "model": "openai/gpt-oss-20b:free",
     "max_attempts": 3,
     "temperature": 0,
-    "max_tokens": 8192,
     "stop": null,
     "stream": false,
     "system_message_ref": "physics_research_assistant"
@@ -78,7 +70,6 @@
     "model": "google/gemma-3-27b-it:free",
     "max_attempts": 3,
     "temperature": 0,
-    "max_tokens": 8192,
     "stop": null,
     "stream": false,
     "system_message_ref": "physics_research_assistant"
@@ -87,7 +78,6 @@
     "model": "meta-llama/llama-3.3-8b-instruct:free",
     "max_attempts": 3,
     "temperature": 0,
-    "max_tokens": 4000,
     "stop": null,
     "stream": false,
     "system_message_ref": "physics_research_assistant"
@@ -96,7 +86,6 @@
     "model": "qwen/qwen3-8b:free",
     "max_attempts": 3,
     "temperature": 0,
-    "max_tokens": 41000,
     "stop": null,
     "stream": false,
     "system_message_ref": "physics_research_assistant"
