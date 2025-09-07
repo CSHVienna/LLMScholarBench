@@ -9,6 +9,8 @@ from storage.summarizer import update_summary
 from api.openrouter_api import OpenRouterAPI
 from validation.validator import ResponseValidator
 from prompts.generator import generate_prompt
+from usage.tracker import DailyUsageTracker
+from utils.batching import BatchProcessor
 import random
 
 class ExperimentRunner:
@@ -18,6 +20,8 @@ class ExperimentRunner:
         self.config = self._validate_config(config)
         self.api_client = OpenRouterAPI(self.config)
         self.validator = ResponseValidator()
+        self.usage_tracker = DailyUsageTracker()
+        self.batch_processor = BatchProcessor(rate_limit=16, logger=self.logger)
 
     def _validate_config(self, config):
         validate_llm_setup(config)
@@ -30,30 +34,68 @@ class ExperimentRunner:
     async def _run_experiment_async(self):
         self.logger.info(f"Experiment run started at {datetime.now().strftime('%Y-%m-%d %H:%M:%S')}")
         
+        # Load all experiments
         categories_variables = load_category_variables()
         all_pairs = [(category, variable) for category, variables in categories_variables.items() for variable in variables]
         random.shuffle(all_pairs)
-
-        # Process experiments sequentially to respect rate limits
-        # Each API call needs to respect the 15 calls/minute limit
-        for i, (category, variable) in enumerate(all_pairs):
-            print(f"Processing experiment {i+1}/{len(all_pairs)}: {category} - {variable}")
-            
-            try:
-                await self.run_variable_experiment_async(category, variable)
-                # Add a small delay between experiments to be safe with rate limiting
-                if i < len(all_pairs) - 1:  # Don't sleep after the last experiment
-                    await asyncio.sleep(0.5)  # Half second between experiments
-            except Exception as e:
-                self.logger.error(f"Failed to run experiment {category}:{variable} - {str(e)}")
-                continue
-
-        # Print usage summary at the end
+        
+        total_experiments = len(all_pairs)
+        self.logger.info(f"Total experiments to run: {total_experiments}")
+        
+        # Pre-flight safety check
+        can_run, usage_info = self.usage_tracker.can_run_experiments(total_experiments)
+        if not can_run:
+            error_msg = f"Cannot run {total_experiments} experiments - would exceed daily limit!"
+            error_msg += f"\nCurrent usage: {usage_info['current_usage']}/{usage_info['daily_limit']}"
+            error_msg += f"\nRemaining: {usage_info['remaining']}"
+            self.logger.error(error_msg)
+            raise Exception(error_msg)
+        
+        self.logger.info(f"Pre-flight check passed: {usage_info['current_usage']} + {total_experiments} = {usage_info['total_after']}/{usage_info['daily_limit']}")
+        
+        # Process experiments using optimal batching
+        results = await self.batch_processor.process_batches(
+            all_pairs, 
+            self._run_single_experiment_wrapper
+        )
+        
+        # Record the run in usage tracker
+        batch_stats = self.batch_processor.get_stats()
+        await self.usage_tracker.record_run(
+            calls_made=batch_stats['successful_experiments'],
+            models_count=1,  # Single model per run
+            experiments_count=total_experiments,
+            metadata={
+                'batch_size': 15,
+                'total_batches': batch_stats['total_batches'],
+                'success_rate': f"{batch_stats['successful_experiments']}/{total_experiments}",
+                'total_time_minutes': round(batch_stats['total_time'] / 60, 2)
+            }
+        )
+        
+        # Print final summary
         usage_summary = self.api_client.get_usage_summary()
-        self.logger.info(f"Usage Summary: {usage_summary}")
-        print(f"\nUsage Summary: {usage_summary}")
+        self.logger.info(f"API Usage Summary: {usage_summary}")
+        self.logger.info(f"Batch Processing Stats: {batch_stats}")
+        
+        print(f"\n🎉 Experiment run completed!")
+        print(f"   Total experiments: {total_experiments}")
+        print(f"   Successful: {batch_stats['successful_experiments']}")
+        print(f"   Failed: {batch_stats['failed_experiments']}")
+        print(f"   Total time: {batch_stats['total_time']/60:.1f} minutes")
+        print(f"   API calls tracked: {usage_summary}")
         
         self.logger.info(f"Experiment run completed at {datetime.now().strftime('%Y-%m-%d %H:%M:%S')}")
+
+    async def _run_single_experiment_wrapper(self, experiment_pair):
+        """Wrapper for batch processor - runs a single experiment"""
+        category, variable = experiment_pair
+        try:
+            await self.run_variable_experiment_async(category, variable)
+            return f"Success: {category}:{variable}"
+        except Exception as e:
+            self.logger.error(f"Experiment failed {category}:{variable} - {str(e)}")
+            raise e
 
     def run_single_experiment(self, category, variable):
         """Run experiment for a single category-variable pair"""

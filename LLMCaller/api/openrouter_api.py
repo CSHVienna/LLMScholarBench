@@ -9,7 +9,14 @@ from dotenv import load_dotenv
 class OpenRouterAPI:
     # Class-level rate limiting shared across all instances
     _global_minute_calls = []
-    _global_rate_limit_lock = asyncio.Lock()
+    _global_rate_limit_lock = None
+    
+    @classmethod
+    def _get_lock(cls):
+        """Get or create the global rate limit lock"""
+        if cls._global_rate_limit_lock is None:
+            cls._global_rate_limit_lock = asyncio.Lock()
+        return cls._global_rate_limit_lock
     def __init__(self, config, usage_tracker_path='usage_tracker.json'):
         load_dotenv()
         self.config = config
@@ -33,13 +40,13 @@ class OpenRouterAPI:
     
     async def _wait_for_rate_limit(self):
         """Wait if we've hit the rate limit using global shared rate limiting"""
-        async with OpenRouterAPI._global_rate_limit_lock:
+        async with self._get_lock():
             now = time.time()
             # Remove calls older than 1 minute from global tracker
             OpenRouterAPI._global_minute_calls = [call_time for call_time in OpenRouterAPI._global_minute_calls if now - call_time < 60]
             
-            # Use conservative limit well below the 20 calls per minute shown in headers
-            max_calls_per_minute = 12  # Very conservative limit to avoid any rate limiting issues
+            # Use rate limit with small buffer (16 - 1 = 15)
+            max_calls_per_minute = 15  # Conservative limit under 16/minute for free models
             
             if len(OpenRouterAPI._global_minute_calls) >= max_calls_per_minute:
                 wait_time = 60 - (now - OpenRouterAPI._global_minute_calls[0]) + 1
@@ -56,7 +63,7 @@ class OpenRouterAPI:
                 call_time for call_time in OpenRouterAPI._global_minute_calls 
                 if time.time() - call_time < 60
             ]),
-            'rate_limit': '12 calls per minute (global)'
+            'rate_limit': '15 calls per minute (global)'
         }
 
     async def generate_response(self, prompt):
@@ -88,7 +95,7 @@ class OpenRouterAPI:
             )
             
             # Update global rate limit tracking
-            async with OpenRouterAPI._global_rate_limit_lock:
+            async with self._get_lock():
                 OpenRouterAPI._global_minute_calls.append(time.time())
             
             return chat_completion
