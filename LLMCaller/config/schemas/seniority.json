@@ -4,7 +4,7 @@
     "type": "object",
     "properties": {
       "Name": {"type": "string"},
-      "Career Age": {"type": "integer"}
+      "Career Age": {"type": "string"}
     },
     "required": ["Name", "Career Age"]
   }
