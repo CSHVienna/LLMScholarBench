@@ -87,7 +87,7 @@ class ExperimentRunner:
                 
                 # Validate the response
                 response_content = api_response.choices[0].message.content
-                is_valid, message, extracted_data = self.validator.validate_response(response_content)
+                is_valid, message, extracted_data = self.validator.validate_response(response_content, category)
 
                 # Prepare the result for saving
                 result = {
