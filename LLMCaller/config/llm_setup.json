@@ -1,4 +1,7 @@
 {
+  "global": {
+    "output_dir": "experiments"
+  },
   "deepseek-chat-v3.1": {
     "model": "deepseek/deepseek-chat-v3.1:free",
     "max_attempts": 3,
