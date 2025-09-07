@@ -31,13 +31,13 @@ def create_experiment_config(model_name, output_dir=None):
     
     return run_dir, config
 
-def run_experiment(model_name, output_dir=None, category=None, variable=None, use_smart_queue=False):
+def run_experiment(model_name, output_dir=None, category=None, variable=None, use_smart_queue=False, batch_size=15):
     run_dir, config = create_experiment_config(model_name, output_dir)
     
     if use_smart_queue:
-        runner = SmartExperimentRunner(run_dir, config)
+        runner = SmartExperimentRunner(run_dir, config, batch_size=batch_size)
     else:
-        runner = ExperimentRunner(run_dir, config)
+        runner = ExperimentRunner(run_dir, config, batch_size=batch_size)
     
     if category and variable:
         runner.run_single_experiment(category, variable)
@@ -45,12 +45,12 @@ def run_experiment(model_name, output_dir=None, category=None, variable=None, us
         runner.run_experiment()
     print(f"Experiment completed. Results saved in {run_dir}")
 
-def run_all_models(output_dir=None, category=None, variable=None):
+def run_all_models(output_dir=None, category=None, variable=None, batch_size=15):
     models = get_available_models()
     
     for i, model in enumerate(models):
         print(f"\n=== Running experiment for {model} ({i+1}/{len(models)}) ===")
-        run_experiment(model, output_dir, category, variable)
+        run_experiment(model, output_dir, category, variable, False, batch_size)
         
         # Add delay between models to ensure rate limiting works properly
         if i < len(models) - 1:  # Don't sleep after the last model
@@ -58,10 +58,10 @@ def run_all_models(output_dir=None, category=None, variable=None):
             import time
             time.sleep(2)
 
-def run_all_models_smart(output_dir=None, category=None, variable=None):
+def run_all_models_smart(output_dir=None, category=None, variable=None, batch_size=15):
     """Run all models using the smart queue system for optimal efficiency"""
     models = get_available_models()
-    runner = MultiModelSmartRunner(output_dir)
+    runner = MultiModelSmartRunner(output_dir, batch_size=batch_size)
     asyncio.run(runner.run_all_models_smart(models, category, variable))
 
 if __name__ == "__main__":
@@ -83,6 +83,8 @@ if __name__ == "__main__":
                         help="Run single category experiment")
     parser.add_argument("--variable", type=str,
                         help="Run single variable experiment (requires --category)")
+    parser.add_argument("--batch-size", type=int, default=15,
+                        help="Set batch size for API calls (default: 15)")
     
     args = parser.parse_args()
     
@@ -95,11 +97,14 @@ if __name__ == "__main__":
     
     if args.all_models_smart:
         print("🚀 Using smart queue system for optimal cross-model batching!")
-        run_all_models_smart(args.output_dir, args.category, args.variable)
+        print(f"   Batch size: {args.batch_size}")
+        run_all_models_smart(args.output_dir, args.category, args.variable, args.batch_size)
     elif args.all_models:
         print("📝 Using legacy sequential processing (consider --all-models-smart for better efficiency)")
-        run_all_models(args.output_dir, args.category, args.variable)
+        print(f"   Batch size: {args.batch_size}")
+        run_all_models(args.output_dir, args.category, args.variable, args.batch_size)
     else:
         if args.smart:
             print("🧠 Using smart queue system for better retry handling!")
-        run_experiment(args.model, args.output_dir, args.category, args.variable, args.smart)
+            print(f"   Batch size: {args.batch_size}")
+        run_experiment(args.model, args.output_dir, args.category, args.variable, args.smart, args.batch_size)
