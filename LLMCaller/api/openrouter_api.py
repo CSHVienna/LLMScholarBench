@@ -1,6 +1,7 @@
 import os
 import json
 import hashlib
+import time
 from datetime import datetime, date
 from typing import List, Optional
 from openai import OpenAI
@@ -15,6 +16,7 @@ class OpenRouterAPI:
         self.current_key_index = 0
         self.usage_data = self._load_usage_data()
         self.client = self._create_client()
+        self.minute_calls = []
         
     def _load_api_keys(self) -> List[str]:
         """Load API keys from environment variables"""
@@ -76,6 +78,18 @@ class OpenRouterAPI:
         self.usage_data[key_hash][today]['count'] += 1
         self._save_usage_data()
     
+    def _wait_for_rate_limit(self):
+        """Wait if we've hit the 20 calls per minute limit"""
+        now = time.time()
+        # Remove calls older than 1 minute
+        self.minute_calls = [call_time for call_time in self.minute_calls if now - call_time < 60]
+        
+        if len(self.minute_calls) >= 20:
+            wait_time = 60 - (now - self.minute_calls[0]) + 1
+            print(f"Rate limit reached (20/min). Waiting {wait_time:.1f} seconds...")
+            time.sleep(wait_time)
+            self.minute_calls = []
+    
     def _should_rotate_key(self) -> bool:
         """Check if current key has reached daily limit"""
         current_key = self.api_keys[self.current_key_index]
@@ -117,10 +131,13 @@ class OpenRouterAPI:
 
     def generate_response(self, prompt):
         """Generate response using OpenRouter API with automatic key rotation"""
-        # Check if we need to rotate keys
+        # Check daily limit
         if self._should_rotate_key():
             if not self._rotate_to_next_key():
                 raise Exception("All API keys have reached daily limit (1000 calls)")
+        
+        # Check per-minute rate limit
+        self._wait_for_rate_limit()
         
         try:
             chat_completion = self.client.chat.completions.create(
@@ -143,6 +160,7 @@ class OpenRouterAPI:
             # Update usage tracking
             current_key = self.api_keys[self.current_key_index]
             self._update_usage(current_key)
+            self.minute_calls.append(time.time())
             
             return chat_completion
             
