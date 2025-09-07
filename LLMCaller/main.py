@@ -5,16 +5,6 @@ from experiments.runner import ExperimentRunner
 from config.loader import load_llm_setup
 from datetime import datetime
 
-def read_text(fn):
-    txt = None
-    try:
-        with open(fn, 'r') as f:
-            txt = f.readline()
-    except Exception as ex:
-        print(ex)
-    print(f'key:{txt}')
-    return txt
-
 def create_experiment_config(model_name):
     config = load_llm_setup(model_name)
     
@@ -35,19 +25,17 @@ def create_experiment_config(model_name):
     
     return run_dir, config
 
-def run_experiment(model_name, groq_api_fn):
+def run_experiment(model_name):
     run_dir, config = create_experiment_config(model_name)
-    api_key = read_text(groq_api_fn)
-    runner = ExperimentRunner(run_dir, config, api_key)
+    runner = ExperimentRunner(run_dir, config)
     runner.run_experiment()
     print(f"Experiment completed. Results saved in {run_dir}")
 
 if __name__ == "__main__":
     parser = argparse.ArgumentParser(description="Run LLM experiments")
-    parser.add_argument("--model", type=str, required=True, choices=["gemma2-9b", "llama3-70b", "llama3-8b", "mixtral-8x7b", "llama-3.1-8b", "llama-3.1-70b"],
+    parser.add_argument("--model", type=str, required=True, 
+                        choices=["deepseek-chat-v3.1", "deepseek-r1", "qwen3-235b", "gemini-2.0-flash", "llama-3.3-70b", "llama-3.1-405b", "mistral-small-3.2", "gpt-oss-20b", "gemma-3-27b", "llama-3.3-8b", "qwen3-8b"],
                         help="Specify the model to use for the experiment")
-    parser.add_argument("--groqapi", type=str, required=True,
-                                    help="Specify the file where the GROQ API key is located (e.g., keys/groq_api_key.txt")
     args = parser.parse_args()
 
-    run_experiment(args.model, args.groqapi)
+    run_experiment(args.model)

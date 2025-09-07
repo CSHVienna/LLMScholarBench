@@ -1,6 +1,6 @@
 {
-  "gemma2-9b": {
-    "model": "gemma2-9b-it",
+  "deepseek-chat-v3.1": {
+    "model": "deepseek/deepseek-chat-v3.1:free",
     "max_attempts": 3,
     "temperature": 0,
     "max_tokens": 8192,
@@ -9,8 +9,8 @@
     "stream": false,
     "system_message": "You are a highly knowledgeable and detail-oriented research assistant designed to compile and organize information efficiently and accurately. Your primary task is to identify and compile a list of physicists who have published articles in the American Physical Society (APS). Your responses must adhere to the following guidelines:\n1. Identify Relevant Physicists: Focus on physicists who meet the criteria and have published in APS journals.\n2. Verify Information: Ensure the information is accurate.\n3. Format Consistently: Provide the output in a consistent JSON array format.\n4. Avoid Duplicates: Ensure no duplicates are included in the list.\n5. Ensure Completeness: Include all relevant physicists who meet the criteria.\n6. Be Deterministic: Strive for consistent outputs given the same input."
   },
-  "llama3-70b": {
-    "model": "llama3-70b-8192",
+  "deepseek-r1": {
+    "model": "deepseek/deepseek-r1:free",
     "max_attempts": 3,
     "temperature": 0,
     "max_tokens": 8192,
@@ -19,8 +19,8 @@
     "stream": false,
     "system_message": "You are a highly knowledgeable and detail-oriented research assistant designed to compile and organize information efficiently and accurately. Your primary task is to identify and compile a list of physicists who have published articles in the American Physical Society (APS). Your responses must adhere to the following guidelines:\n1. Identify Relevant Physicists: Focus on physicists who meet the criteria and have published in APS journals.\n2. Verify Information: Ensure the information is accurate.\n3. Format Consistently: Provide the output in a consistent JSON array format.\n4. Avoid Duplicates: Ensure no duplicates are included in the list.\n5. Ensure Completeness: Include all relevant physicists who meet the criteria.\n6. Be Deterministic: Strive for consistent outputs given the same input."
   },
-  "llama3-8b": {
-    "model": "llama3-8b-8192",
+  "qwen3-235b": {
+    "model": "qwen/qwen3-235b-a22b:free",
     "max_attempts": 3,
     "temperature": 0,
     "max_tokens": 8192,
@@ -29,35 +29,84 @@
     "stream": false,
     "system_message": "You are a highly knowledgeable and detail-oriented research assistant designed to compile and organize information efficiently and accurately. Your primary task is to identify and compile a list of physicists who have published articles in the American Physical Society (APS). Your responses must adhere to the following guidelines:\n1. Identify Relevant Physicists: Focus on physicists who meet the criteria and have published in APS journals.\n2. Verify Information: Ensure the information is accurate.\n3. Format Consistently: Provide the output in a consistent JSON array format.\n4. Avoid Duplicates: Ensure no duplicates are included in the list.\n5. Ensure Completeness: Include all relevant physicists who meet the criteria.\n6. Be Deterministic: Strive for consistent outputs given the same input."
   },
-  "mixtral-8x7b": {
-    "model": "mixtral-8x7b-32768",
+  "gemini-2.0-flash": {
+    "model": "google/gemini-2.0-flash-exp:free",
     "max_attempts": 3,
     "temperature": 0,
-    "max_tokens": 32768,
+    "max_tokens": 8192,
     "top_p": 0.1,
     "stop": null,
     "stream": false,
     "system_message": "You are a highly knowledgeable and detail-oriented research assistant designed to compile and organize information efficiently and accurately. Your primary task is to identify and compile a list of physicists who have published articles in the American Physical Society (APS). Your responses must adhere to the following guidelines:\n1. Identify Relevant Physicists: Focus on physicists who meet the criteria and have published in APS journals.\n2. Verify Information: Ensure the information is accurate.\n3. Format Consistently: Provide the output in a consistent JSON array format.\n4. Avoid Duplicates: Ensure no duplicates are included in the list.\n5. Ensure Completeness: Include all relevant physicists who meet the criteria.\n6. Be Deterministic: Strive for consistent outputs given the same input."
   },
-
-"llama-3.1-70b": {
-  "model": "llama-3.1-70b-versatile",
-  "max_attempts": 3,
-  "temperature": 0,
-  "max_tokens": 7999,
-  "top_p": 0.1,
-  "stop": null,
-  "stream": false,
-  "system_message": "You are a highly knowledgeable and detail-oriented research assistant designed to compile and organize information efficiently and accurately. Your primary task is to identify and compile a list of physicists who have published articles in the American Physical Society (APS). Your responses must adhere to the following guidelines:\n1. Identify Relevant Physicists: Focus on physicists who meet the criteria and have published in APS journals.\n2. Verify Information: Ensure the information is accurate.\n3. Format Consistently: Provide the output in a consistent JSON array format.\n4. Avoid Duplicates: Ensure no duplicates are included in the list.\n5. Ensure Completeness: Include all relevant physicists who meet the criteria.\n6. Be Deterministic: Strive for consistent outputs given the same input."
-},
-"llama-3.1-8b": {
-  "model": "llama-3.1-8b-instant",
-  "max_attempts": 3,
-  "temperature": 0,
-  "max_tokens": 7999,
-  "top_p": 0.1,
-  "stop": null,
-  "stream": false,
-  "system_message": "You are a highly knowledgeable and detail-oriented research assistant designed to compile and organize information efficiently and accurately. Your primary task is to identify and compile a list of physicists who have published articles in the American Physical Society (APS). Your responses must adhere to the following guidelines:\n1. Identify Relevant Physicists: Focus on physicists who meet the criteria and have published in APS journals.\n2. Verify Information: Ensure the information is accurate.\n3. Format Consistently: Provide the output in a consistent JSON array format.\n4. Avoid Duplicates: Ensure no duplicates are included in the list.\n5. Ensure Completeness: Include all relevant physicists who meet the criteria.\n6. Be Deterministic: Strive for consistent outputs given the same input."
-}
+  "llama-3.3-70b": {
+    "model": "meta-llama/llama-3.3-70b-instruct:free",
+    "max_attempts": 3,
+    "temperature": 0,
+    "max_tokens": 8192,
+    "top_p": 0.1,
+    "stop": null,
+    "stream": false,
+    "system_message": "You are a highly knowledgeable and detail-oriented research assistant designed to compile and organize information efficiently and accurately. Your primary task is to identify and compile a list of physicists who have published articles in the American Physical Society (APS). Your responses must adhere to the following guidelines:\n1. Identify Relevant Physicists: Focus on physicists who meet the criteria and have published in APS journals.\n2. Verify Information: Ensure the information is accurate.\n3. Format Consistently: Provide the output in a consistent JSON array format.\n4. Avoid Duplicates: Ensure no duplicates are included in the list.\n5. Ensure Completeness: Include all relevant physicists who meet the criteria.\n6. Be Deterministic: Strive for consistent outputs given the same input."
+  },
+  "llama-3.1-405b": {
+    "model": "meta-llama/llama-3.1-405b-instruct:free",
+    "max_attempts": 3,
+    "temperature": 0,
+    "max_tokens": 8192,
+    "top_p": 0.1,
+    "stop": null,
+    "stream": false,
+    "system_message": "You are a highly knowledgeable and detail-oriented research assistant designed to compile and organize information efficiently and accurately. Your primary task is to identify and compile a list of physicists who have published articles in the American Physical Society (APS). Your responses must adhere to the following guidelines:\n1. Identify Relevant Physicists: Focus on physicists who meet the criteria and have published in APS journals.\n2. Verify Information: Ensure the information is accurate.\n3. Format Consistently: Provide the output in a consistent JSON array format.\n4. Avoid Duplicates: Ensure no duplicates are included in the list.\n5. Ensure Completeness: Include all relevant physicists who meet the criteria.\n6. Be Deterministic: Strive for consistent outputs given the same input."
+  },
+  "mistral-small-3.2": {
+    "model": "mistralai/mistral-small-3.2-24b-instruct:free",
+    "max_attempts": 3,
+    "temperature": 0,
+    "max_tokens": 8192,
+    "top_p": 0.1,
+    "stop": null,
+    "stream": false,
+    "system_message": "You are a highly knowledgeable and detail-oriented research assistant designed to compile and organize information efficiently and accurately. Your primary task is to identify and compile a list of physicists who have published articles in the American Physical Society (APS). Your responses must adhere to the following guidelines:\n1. Identify Relevant Physicists: Focus on physicists who meet the criteria and have published in APS journals.\n2. Verify Information: Ensure the information is accurate.\n3. Format Consistently: Provide the output in a consistent JSON array format.\n4. Avoid Duplicates: Ensure no duplicates are included in the list.\n5. Ensure Completeness: Include all relevant physicists who meet the criteria.\n6. Be Deterministic: Strive for consistent outputs given the same input."
+  },
+  "gpt-oss-20b": {
+    "model": "openai/gpt-oss-20b:free",
+    "max_attempts": 3,
+    "temperature": 0,
+    "max_tokens": 8192,
+    "top_p": 0.1,
+    "stop": null,
+    "stream": false,
+    "system_message": "You are a highly knowledgeable and detail-oriented research assistant designed to compile and organize information efficiently and accurately. Your primary task is to identify and compile a list of physicists who have published articles in the American Physical Society (APS). Your responses must adhere to the following guidelines:\n1. Identify Relevant Physicists: Focus on physicists who meet the criteria and have published in APS journals.\n2. Verify Information: Ensure the information is accurate.\n3. Format Consistently: Provide the output in a consistent JSON array format.\n4. Avoid Duplicates: Ensure no duplicates are included in the list.\n5. Ensure Completeness: Include all relevant physicists who meet the criteria.\n6. Be Deterministic: Strive for consistent outputs given the same input."
+  },
+  "gemma-3-27b": {
+    "model": "google/gemma-3-27b-it:free",
+    "max_attempts": 3,
+    "temperature": 0,
+    "max_tokens": 8192,
+    "top_p": 0.1,
+    "stop": null,
+    "stream": false,
+    "system_message": "You are a highly knowledgeable and detail-oriented research assistant designed to compile and organize information efficiently and accurately. Your primary task is to identify and compile a list of physicists who have published articles in the American Physical Society (APS). Your responses must adhere to the following guidelines:\n1. Identify Relevant Physicists: Focus on physicists who meet the criteria and have published in APS journals.\n2. Verify Information: Ensure the information is accurate.\n3. Format Consistently: Provide the output in a consistent JSON array format.\n4. Avoid Duplicates: Ensure no duplicates are included in the list.\n5. Ensure Completeness: Include all relevant physicists who meet the criteria.\n6. Be Deterministic: Strive for consistent outputs given the same input."
+  },
+  "llama-3.3-8b": {
+    "model": "meta-llama/llama-3.3-8b-instruct:free",
+    "max_attempts": 3,
+    "temperature": 0,
+    "max_tokens": 4000,
+    "top_p": 0.1,
+    "stop": null,
+    "stream": false,
+    "system_message": "You are a highly knowledgeable and detail-oriented research assistant designed to compile and organize information efficiently and accurately. Your primary task is to identify and compile a list of physicists who have published articles in the American Physical Society (APS). Your responses must adhere to the following guidelines:\n1. Identify Relevant Physicists: Focus on physicists who meet the criteria and have published in APS journals.\n2. Verify Information: Ensure the information is accurate.\n3. Format Consistently: Provide the output in a consistent JSON array format.\n4. Avoid Duplicates: Ensure no duplicates are included in the list.\n5. Ensure Completeness: Include all relevant physicists who meet the criteria.\n6. Be Deterministic: Strive for consistent outputs given the same input."
+  },
+  "qwen3-8b": {
+    "model": "qwen/qwen3-8b:free",
+    "max_attempts": 3,
+    "temperature": 0,
+    "max_tokens": 4000,
+    "top_p": 0.1,
+    "stop": null,
+    "stream": false,
+    "system_message": "You are a highly knowledgeable and detail-oriented research assistant designed to compile and organize information efficiently and accurately. Your primary task is to identify and compile a list of physicists who have published articles in the American Physical Society (APS). Your responses must adhere to the following guidelines:\n1. Identify Relevant Physicists: Focus on physicists who meet the criteria and have published in APS journals.\n2. Verify Information: Ensure the information is accurate.\n3. Format Consistently: Provide the output in a consistent JSON array format.\n4. Avoid Duplicates: Ensure no duplicates are included in the list.\n5. Ensure Completeness: Include all relevant physicists who meet the criteria.\n6. Be Deterministic: Strive for consistent outputs given the same input."
+  }
 }
