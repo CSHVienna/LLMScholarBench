@@ -9,3 +9,4 @@ _backups_
 Auditor/notebooks/dev/
 LLMCaller/_dev/.keys
 CLAUDE.md
+LLMCaller/experiments
