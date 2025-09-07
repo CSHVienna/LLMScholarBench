@@ -16,7 +16,6 @@ class GroqAPI:
             model=self.config['model'],
             temperature=self.config['temperature'],
             max_tokens=self.config['max_tokens'],
-            top_p=self.config['top_p'],
             stop=self.config['stop'],
             stream=self.config['stream']
         )
