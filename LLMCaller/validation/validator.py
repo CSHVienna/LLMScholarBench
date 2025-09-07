@@ -4,7 +4,11 @@ import os
 from jsonschema import validate, ValidationError
 
 class ResponseValidator:
-    def __init__(self, schema_dir='config/schemas'):
+    def __init__(self, schema_dir=None):
+        if schema_dir is None:
+            # Use absolute path relative to this file's directory
+            current_dir = os.path.dirname(os.path.abspath(__file__))
+            schema_dir = os.path.join(os.path.dirname(current_dir), 'config', 'schemas')
         self.schemas = self.load_schemas(schema_dir)
 
     def load_schemas(self, schema_dir):
