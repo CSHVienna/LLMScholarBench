@@ -81,13 +81,5 @@
     "stop": null,
     "stream": false,
     "system_message_ref": "physics_research_assistant"
-  },
-  "gemini-2.0-flash": {
-    "model": "google/gemini-2.0-flash-exp:free",
-    "max_attempts": 3,
-    "temperature": 0,
-    "stop": null,
-    "stream": false,
-    "system_message_ref": "physics_research_assistant"
   }
 }
