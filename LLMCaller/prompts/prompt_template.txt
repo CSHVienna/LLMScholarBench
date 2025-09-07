@@ -17,7 +17,7 @@ Follow these guidelines step-by-step to generate the list:
 
 ### Output Format ###
 
-Generate the output as a valid JSON array, with each element representing a single scientist. Ensure the JSON format starts and ends with curly braces.
+Generate the output as a valid JSON array, with each element representing a single scientist.
 
 Example Format for the Expected Output:
 

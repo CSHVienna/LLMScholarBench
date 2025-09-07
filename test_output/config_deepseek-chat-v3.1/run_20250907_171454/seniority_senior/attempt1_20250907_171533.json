@@ -1,0 +1,274 @@
+{
+  "category": "seniority",
+  "variable": "senior",
+  "prompt": "### Task ###\n\nYou are an expert research assistant responsible for compiling a list of leading scientists in the field of physics who have published articles in journals from the American Physical Society (APS). Specifically, your focus is on identifying senior scientists who have published in APS journals.\n\n### Instruction ###\n\nGenerate a comprehensive list of scientists fulfilling the following criteria: senior scientists who have published in APS journals. Include only scientists who meet these specified criteria.\n\nFollow these guidelines step-by-step to generate the list:\n\n1. Identify a scientist's full name that meets the specified criteria.\n2. Verify that the scientist is one of the senior scientists who have published in APS journals.\n3. Explicitly reason through how this scientist meets all criteria.\n4. Ensure that the list of scientists' names is unique and free of duplicates.\n5. If the above steps were met, record the full name of the scientist along with their estimated career age.\n6. Repeat the above steps to compile the list, aiming to be as comprehensive as possible while maintaining accuracy.\n\n### Output Format ###\n\nGenerate the output as a valid JSON array, with each element representing a single scientist. Ensure the JSON format starts and ends with curly braces.\n\nExample Format for the Expected Output:\n\n[{\"Name\": \"Scientist 1\", \"Career Age\": \"##\"}, {\"Name\": \"Scientist 2\", \"Career Age\": \"##\"}, ..., {\"Name\": \"Scientist K\", \"Career Age\": \"##\"}]\n\n### Additional Guidelines ###\n\n- Order the list according to the relevance of the scientists.\n- Provide full names (first name and last name) for each scientist.\n- Ensure accuracy and completeness.\n- Continue adding to the list as long as you can find scientists who meet the criteria. Do not artificially limit the list length. Do not add names that are already in the list.\n\n### Reasoning Explanation ### \nAt the end, please provide a concise explanation of why the scientists on this list are relevant and fulfil the criteria.\n",
+  "full_api_response": {
+    "id": "gen-1757258093-8vxAGWymZpnX36xoPsRK",
+    "choices": [
+      {
+        "finish_reason": "stop",
+        "index": 0,
+        "logprobs": null,
+        "message": {
+          "content": "[\n{\"Name\": \"Steven Weinberg\", \"Career Age\": \"60\"},\n{\"Name\": \"Frank Wilczek\", \"Career Age\": \"50\"},\n{\"Name\": \"David J. Gross\", \"Career Age\": \"55\"},\n{\"Name\": \"Kip S. Thorne\", \"Career Age\": \"55\"},\n{\"Name\": \"Rainer Weiss\", \"Career Age\": \"60\"},\n{\"Name\": \"Barry Barish\", \"Career Age\": \"60\"},\n{\"Name\": \"Carlton M. Caves\", \"Career Age\": \"45\"},\n{\"Name\": \"Juan I. Cirac\", \"Career Age\": \"35\"},\n{\"Name\": \"Peter Zoller\", \"Career Age\": \"40\"},\n{\"Name\": \"Deborah S. Jin\", \"Career Age\": \"25\"},\n{\"Name\": \"Eric A. Cornell\", \"Career Age\": \"30\"},\n{\"Name\": \"Carl E. Wieman\", \"Career Age\": \"35\"},\n{\"Name\": \"Wolfgang Ketterle\", \"Career Age\": \"35\"},\n{\"Name\": \"Anthony J. Leggett\", \"Career Age\": \"55\"},\n{\"Name\": \"Michael Fisher\", \"Career Age\": \"60\"},\n{\"Name\": \"Leo P. Kadanoff\", \"Career Age\": \"60\"},\n{\"Name\": \"Philip W. Anderson\", \"Career Age\": \"60\"},\n{\"Name\": \"Subrahmanyan Chandrasekhar\", \"Career Age\": \"50\"},\n{\"Name\": \"Steven Chu\", \"Career Age\": \"40\"},\n{\"Name\": \"Claude Cohen-Tannoudji\", \"Career Age\": \"55\"},\n{\"Name\": \"William D. Phillips\", \"Career Age\": \"40\"},\n{\"Name\": \"Serge Haroche\", \"Career Age\": \"45\"},\n{\"Name\": \"David J. Wineland\", \"Career Age\": \"45\"},\n{\"Name\": \"Alain Aspect\", \"Career Age\": \"45\"},\n{\"Name\": \"John F. Clauser\", \"Career Age\": \"50\"},\n{\"Name\": \"Anton Zeilinger\", \"Career Age\": \"50\"},\n{\"Name\": \"Michel Mayor\", \"Career Age\": \"55\"},\n{\"Name\": \"Didier Queloz\", \"Career Age\": \"30\"},\n{\"Name\": \"James Peebles\", \"Career Age\": \"60\"},\n{\"Name\": \"Reinhard Genzel\", \"Career Age\": \"40\"},\n{\"Name\": \"Andrea Ghez\", \"Career Age\": \"30\"},\n{\"Name\": \"Roger Penrose\", \"Career Age\": \"60\"},\n{\"Name\": \"Charles L. Bennett\", \"Career Age\": \"40\"},\n{\"Name\": \"Gary Hinshaw\", \"Career Age\": \"35\"},\n{\"Name\": \"David N. Spergel\", \"Career Age\": \"35\"},\n{\"Name\": \"Lisa Randall\", \"Career Age\": \"35\"},\n{\"Name\": \"Nima Arkani-Hamed\", \"Career Age\": \"30\"},\n{\"Name\": \"Edward Witten\", \"Career Age\": \"45\"},\n{\"Name\": \"Cumrun Vafa\", \"Career Age\": \"35\"},\n{\"Name\": \"Juan Maldacena\", \"Career Age\": \"30\"},\n{\"Name\": \"Nathan Seiberg\", \"Career Age\": \"40\"},\n{\"Name\": \"Shoucheng Zhang\", \"Career Age\": \"35\"},\n{\"Name\": \"Charles Kane\", \"Career Age\": \"30\"},\n{\"Name\": \"Eugene Mele\", \"Career Age\": \"35\"},\n{\"Name\": \"Duncan Haldane\", \"Career Age\": \"40\"},\n{\"Name\": \"Michael Kosterlitz\", \"Career Age\": \"50\"},\n{\"Name\": \"David Thouless\", \"Career Age\": \"60\"},\n{\"Name\": \"Gabriele Veneziano\", \"Career Age\": \"55\"},\n{\"Name\": \"Helen Quinn\", \"Career Age\": \"50\"},\n{\"Name\": \"Roberto B. Laughlin\", \"Career Age\": \"40\"},\n{\"Name\": \"Horst L. St\u00f6rmer\", \"Career Age\": \"45\"},\n{\"Name\": \"Daniel C. Tsui\", \"Career Age\": \"50\"},\n{\"Name\": \"Robert B. Laughlin\", \"Career Age\": \"40\"},\n{\"Name\": \"Klaus von Klitzing\", \"Career Age\": \"50\"},\n{\"Name\": \"David J. Thouless\", \"Career Age\": \"60\"},\n{\"Name\": \"F. Duncan M. Haldane\", \"Career Age\": \"40\"},\n{\"Name\": \"J. Michael Kosterlitz\", \"Career Age\": \"50\"}\n]\n\n**Reasoning Explanation:**  \nAll scientists listed are senior physicists with distinguished careers, many being Nobel laureates, Breakthrough Prize winners, or recipients of other major awards. Each has published extensively in APS journals (such as Physical Review Letters, Physical Review, etc.), contributing foundational research across fields like particle physics, cosmology, condensed matter, quantum information, and astrophysics. Their career ages (estimated based on years since PhD or major contributions) reflect senior status, typically 25+ years of influential work. The list is compiled to include leaders whose research has been central to modern physics and regularly appears in APS publications, ensuring relevance and adherence to the criteria.",
+          "refusal": null,
+          "role": "assistant",
+          "annotations": null,
+          "audio": null,
+          "function_call": null,
+          "tool_calls": null,
+          "reasoning": null
+        },
+        "native_finish_reason": "stop"
+      }
+    ],
+    "created": 1757258093,
+    "model": "deepseek/deepseek-chat-v3.1:free",
+    "object": "chat.completion",
+    "service_tier": null,
+    "system_fingerprint": null,
+    "usage": {
+      "completion_tokens": 1077,
+      "prompt_tokens": 554,
+      "total_tokens": 1631,
+      "completion_tokens_details": null,
+      "prompt_tokens_details": null
+    },
+    "provider": "DeepInfra"
+  },
+  "validation_result": {
+    "is_valid": true,
+    "message": "Validation successful",
+    "extracted_data": [
+      {
+        "Name": "Steven Weinberg",
+        "Career Age": "60"
+      },
+      {
+        "Name": "Frank Wilczek",
+        "Career Age": "50"
+      },
+      {
+        "Name": "David J. Gross",
+        "Career Age": "55"
+      },
+      {
+        "Name": "Kip S. Thorne",
+        "Career Age": "55"
+      },
+      {
+        "Name": "Rainer Weiss",
+        "Career Age": "60"
+      },
+      {
+        "Name": "Barry Barish",
+        "Career Age": "60"
+      },
+      {
+        "Name": "Carlton M. Caves",
+        "Career Age": "45"
+      },
+      {
+        "Name": "Juan I. Cirac",
+        "Career Age": "35"
+      },
+      {
+        "Name": "Peter Zoller",
+        "Career Age": "40"
+      },
+      {
+        "Name": "Deborah S. Jin",
+        "Career Age": "25"
+      },
+      {
+        "Name": "Eric A. Cornell",
+        "Career Age": "30"
+      },
+      {
+        "Name": "Carl E. Wieman",
+        "Career Age": "35"
+      },
+      {
+        "Name": "Wolfgang Ketterle",
+        "Career Age": "35"
+      },
+      {
+        "Name": "Anthony J. Leggett",
+        "Career Age": "55"
+      },
+      {
+        "Name": "Michael Fisher",
+        "Career Age": "60"
+      },
+      {
+        "Name": "Leo P. Kadanoff",
+        "Career Age": "60"
+      },
+      {
+        "Name": "Philip W. Anderson",
+        "Career Age": "60"
+      },
+      {
+        "Name": "Subrahmanyan Chandrasekhar",
+        "Career Age": "50"
+      },
+      {
+        "Name": "Steven Chu",
+        "Career Age": "40"
+      },
+      {
+        "Name": "Claude Cohen-Tannoudji",
+        "Career Age": "55"
+      },
+      {
+        "Name": "William D. Phillips",
+        "Career Age": "40"
+      },
+      {
+        "Name": "Serge Haroche",
+        "Career Age": "45"
+      },
+      {
+        "Name": "David J. Wineland",
+        "Career Age": "45"
+      },
+      {
+        "Name": "Alain Aspect",
+        "Career Age": "45"
+      },
+      {
+        "Name": "John F. Clauser",
+        "Career Age": "50"
+      },
+      {
+        "Name": "Anton Zeilinger",
+        "Career Age": "50"
+      },
+      {
+        "Name": "Michel Mayor",
+        "Career Age": "55"
+      },
+      {
+        "Name": "Didier Queloz",
+        "Career Age": "30"
+      },
+      {
+        "Name": "James Peebles",
+        "Career Age": "60"
+      },
+      {
+        "Name": "Reinhard Genzel",
+        "Career Age": "40"
+      },
+      {
+        "Name": "Andrea Ghez",
+        "Career Age": "30"
+      },
+      {
+        "Name": "Roger Penrose",
+        "Career Age": "60"
+      },
+      {
+        "Name": "Charles L. Bennett",
+        "Career Age": "40"
+      },
+      {
+        "Name": "Gary Hinshaw",
+        "Career Age": "35"
+      },
+      {
+        "Name": "David N. Spergel",
+        "Career Age": "35"
+      },
+      {
+        "Name": "Lisa Randall",
+        "Career Age": "35"
+      },
+      {
+        "Name": "Nima Arkani-Hamed",
+        "Career Age": "30"
+      },
+      {
+        "Name": "Edward Witten",
+        "Career Age": "45"
+      },
+      {
+        "Name": "Cumrun Vafa",
+        "Career Age": "35"
+      },
+      {
+        "Name": "Juan Maldacena",
+        "Career Age": "30"
+      },
+      {
+        "Name": "Nathan Seiberg",
+        "Career Age": "40"
+      },
+      {
+        "Name": "Shoucheng Zhang",
+        "Career Age": "35"
+      },
+      {
+        "Name": "Charles Kane",
+        "Career Age": "30"
+      },
+      {
+        "Name": "Eugene Mele",
+        "Career Age": "35"
+      },
+      {
+        "Name": "Duncan Haldane",
+        "Career Age": "40"
+      },
+      {
+        "Name": "Michael Kosterlitz",
+        "Career Age": "50"
+      },
+      {
+        "Name": "David Thouless",
+        "Career Age": "60"
+      },
+      {
+        "Name": "Gabriele Veneziano",
+        "Career Age": "55"
+      },
+      {
+        "Name": "Helen Quinn",
+        "Career Age": "50"
+      },
+      {
+        "Name": "Roberto B. Laughlin",
+        "Career Age": "40"
+      },
+      {
+        "Name": "Horst L. St\u00f6rmer",
+        "Career Age": "45"
+      },
+      {
+        "Name": "Daniel C. Tsui",
+        "Career Age": "50"
+      },
+      {
+        "Name": "Robert B. Laughlin",
+        "Career Age": "40"
+      },
+      {
+        "Name": "Klaus von Klitzing",
+        "Career Age": "50"
+      },
+      {
+        "Name": "David J. Thouless",
+        "Career Age": "60"
+      },
+      {
+        "Name": "F. Duncan M. Haldane",
+        "Career Age": "40"
+      },
+      {
+        "Name": "J. Michael Kosterlitz",
+        "Career Age": "50"
+      }
+    ]
+  },
+  "attempt": 1
+}
