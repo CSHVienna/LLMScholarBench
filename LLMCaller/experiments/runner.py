@@ -39,6 +39,18 @@ class ExperimentRunner:
         
         self.logger.info(f"Experiment run completed at {datetime.now().strftime('%Y-%m-%d %H:%M:%S')}")
 
+    def run_single_experiment(self, category, variable):
+        """Run experiment for a single category-variable pair"""
+        self.logger.info(f"Single experiment started for {category}: {variable} at {datetime.now().strftime('%Y-%m-%d %H:%M:%S')}")
+        self.run_variable_experiment(category, variable)
+        
+        # Print usage summary
+        usage_summary = self.api_client.get_usage_summary()
+        self.logger.info(f"Usage Summary: {usage_summary}")
+        print(f"\nUsage Summary: {usage_summary}")
+        
+        self.logger.info(f"Single experiment completed for {category}: {variable} at {datetime.now().strftime('%Y-%m-%d %H:%M:%S')}")
+
     def run_variable_experiment(self, category, variable):
         max_attempts = self.config.get('max_attempts', 3)
         prompt = generate_prompt(category, variable)

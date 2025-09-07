@@ -5,11 +5,15 @@ from experiments.runner import ExperimentRunner
 from config.loader import load_llm_setup
 from datetime import datetime
 
-def create_experiment_config(model_name):
+def create_experiment_config(model_name, output_dir=None):
     config = load_llm_setup(model_name)
     
+    # Get output directory from config or override
+    if output_dir is None:
+        output_dir = config.get('global', {}).get('output_dir', 'experiments')
+    
     # Create a base directory for this model configuration if it doesn't exist
-    base_config_dir = f"experiments/config_{model_name}"
+    base_config_dir = os.path.join(output_dir, f"config_{model_name}")
     os.makedirs(base_config_dir, exist_ok=True)
     
     # Copy the configuration file to the base directory
@@ -25,17 +29,50 @@ def create_experiment_config(model_name):
     
     return run_dir, config
 
-def run_experiment(model_name):
-    run_dir, config = create_experiment_config(model_name)
+def run_experiment(model_name, output_dir=None, category=None, variable=None):
+    run_dir, config = create_experiment_config(model_name, output_dir)
     runner = ExperimentRunner(run_dir, config)
-    runner.run_experiment()
+    if category and variable:
+        runner.run_single_experiment(category, variable)
+    else:
+        runner.run_experiment()
     print(f"Experiment completed. Results saved in {run_dir}")
+
+def run_all_models(output_dir=None, category=None, variable=None):
+    models = ["deepseek-chat-v3.1", "deepseek-r1", "qwen3-235b", "gemini-2.0-flash", 
+              "llama-3.3-70b", "llama-3.1-405b", "mistral-small-3.2", "gpt-oss-20b", 
+              "gemma-3-27b", "llama-3.3-8b", "qwen3-8b"]
+    
+    for model in models:
+        print(f"\n=== Running experiment for {model} ===")
+        run_experiment(model, output_dir, category, variable)
 
 if __name__ == "__main__":
     parser = argparse.ArgumentParser(description="Run LLM experiments")
-    parser.add_argument("--model", type=str, required=True, 
+    parser.add_argument("--model", type=str, 
                         choices=["deepseek-chat-v3.1", "deepseek-r1", "qwen3-235b", "gemini-2.0-flash", "llama-3.3-70b", "llama-3.1-405b", "mistral-small-3.2", "gpt-oss-20b", "gemma-3-27b", "llama-3.3-8b", "qwen3-8b"],
                         help="Specify the model to use for the experiment")
+    parser.add_argument("--all-models", action="store_true", 
+                        help="Run experiments for all models sequentially")
+    parser.add_argument("--output-dir", type=str, 
+                        help="Override output directory (default from config)")
+    parser.add_argument("--category", type=str,
+                        choices=["top_k", "epoch", "field", "twins", "seniority"],
+                        help="Run single category experiment")
+    parser.add_argument("--variable", type=str,
+                        help="Run single variable experiment (requires --category)")
+    
     args = parser.parse_args()
-
-    run_experiment(args.model)
+    
+    # Validation
+    if not args.model and not args.all_models:
+        parser.error("Either --model or --all-models is required")
+    if args.model and args.all_models:
+        parser.error("Cannot specify both --model and --all-models")
+    if args.variable and not args.category:
+        parser.error("--variable requires --category")
+    
+    if args.all_models:
+        run_all_models(args.output_dir, args.category, args.variable)
+    else:
+        run_experiment(args.model, args.output_dir, args.category, args.variable)
