@@ -376,35 +376,73 @@ async def create_experiment_executor(run_dir, config):
         max_attempts = config.get('max_attempts', 3)
         prompt = generate_prompt(category, variable)
         
-        # Try the experiment (this will be handled by smart queue for retries)
-        api_response = await api_client.generate_response(prompt)
-        
-        # Validate response
-        response_content = api_response.choices[0].message.content
-        is_valid, message, extracted_data = validator.validate_response(response_content, category)
-        
-        # Prepare result
-        result = {
-            "category": category,
-            "variable": variable,
-            "prompt": prompt,
-            "full_api_response": api_response.model_dump(),
-            "validation_result": {
-                "is_valid": is_valid,
-                "message": message,
-                "extracted_data": extracted_data
-            },
-            "attempt": 1  # Smart queue handles retry attempts
-        }
-        
-        # Save result
-        save_attempt(result, run_dir)
-        update_summary(result, run_dir)
-        
-        if not is_valid:
-            raise Exception(f"Validation failed: {message}")
-        
-        return result
+        api_response = None
+        try:
+            # Try the experiment (this will be handled by smart queue for retries)
+            api_response = await api_client.generate_response(prompt)
+            
+            # Validate response
+            response_content = api_response.choices[0].message.content
+            is_valid, message, extracted_data = validator.validate_response(response_content, category)
+            
+            # Prepare result
+            result = {
+                "category": category,
+                "variable": variable,
+                "prompt": prompt,
+                "full_api_response": api_response.model_dump(),
+                "validation_result": {
+                    "is_valid": is_valid,
+                    "message": message,
+                    "extracted_data": extracted_data
+                },
+                "attempt": 1  # Smart queue handles retry attempts
+            }
+            
+            # Save result
+            save_attempt(result, run_dir)
+            update_summary(result, run_dir)
+            
+            if not is_valid:
+                raise Exception(f"Validation failed: {message}")
+            
+            return result
+            
+        except Exception as e:
+            # Save whatever we got back - API response OR exception details
+            error_result = {
+                "category": category,
+                "variable": variable,
+                "prompt": prompt,
+                "attempt": 1,
+                "error": {
+                    "error_type": type(e).__name__,
+                    "message": str(e)
+                },
+                "validation_result": {
+                    "is_valid": False,
+                    "message": "Error occurred during processing",
+                    "extracted_data": None
+                }
+            }
+            
+            # ALWAYS save whatever we got back - API response OR exception details
+            if api_response is not None:
+                error_result["full_api_response"] = api_response.model_dump()
+            else:
+                # Save exception details as "response" - this covers rate limits, API errors, etc.
+                error_result["full_api_response"] = {
+                    "error_from_exception": str(e),
+                    "exception_type": type(e).__name__,
+                    "raw_exception": str(e)
+                }
+            
+            # Save error result
+            save_attempt(error_result, run_dir)
+            update_summary(error_result, run_dir)
+            
+            # Re-raise for smart queue retry handling
+            raise e
     
     return executor
 
