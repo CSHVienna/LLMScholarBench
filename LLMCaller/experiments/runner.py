@@ -177,17 +177,16 @@ class ExperimentRunner:
                     }
                 }
                 
-                # Include full API response if available (key fix)
+                # ALWAYS save whatever we got back - API response OR exception details
                 if api_response is not None:
                     error_result["full_api_response"] = api_response.model_dump()
-                    # Preserve validation details if it was a validation error
-                    if "validation" in str(e).lower():
-                        try:
-                            response_content = api_response.choices[0].message.content
-                            _, val_message, _ = self.validator.validate_response(response_content, category)
-                            error_result["validation_result"]["message"] = val_message
-                        except:
-                            pass  # Keep default error message
+                else:
+                    # Save exception details as "response" - this covers rate limits, API errors, etc.
+                    error_result["full_api_response"] = {
+                        "error_from_exception": str(e),
+                        "exception_type": type(e).__name__,
+                        "raw_exception": str(e)
+                    }
                 
                 result_path = save_attempt(error_result, self.run_dir)
                 summary_path = update_summary(error_result, self.run_dir)
