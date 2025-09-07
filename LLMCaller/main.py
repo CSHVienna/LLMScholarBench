@@ -41,9 +41,15 @@ def run_experiment(model_name, output_dir=None, category=None, variable=None):
 def run_all_models(output_dir=None, category=None, variable=None):
     models = get_available_models()
     
-    for model in models:
-        print(f"\n=== Running experiment for {model} ===")
+    for i, model in enumerate(models):
+        print(f"\n=== Running experiment for {model} ({i+1}/{len(models)}) ===")
         run_experiment(model, output_dir, category, variable)
+        
+        # Add delay between models to ensure rate limiting works properly
+        if i < len(models) - 1:  # Don't sleep after the last model
+            print(f"Waiting 2 seconds before next model...")
+            import time
+            time.sleep(2)
 
 if __name__ == "__main__":
     available_models = get_available_models()

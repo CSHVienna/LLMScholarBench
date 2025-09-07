@@ -34,19 +34,19 @@ class ExperimentRunner:
         all_pairs = [(category, variable) for category, variables in categories_variables.items() for variable in variables]
         random.shuffle(all_pairs)
 
-        # Process experiments in batches of 20 (rate limit)
-        batch_size = 20
-        for i in range(0, len(all_pairs), batch_size):
-            batch = all_pairs[i:i + batch_size]
-            print(f"Processing batch {i//batch_size + 1}/{(len(all_pairs) + batch_size - 1)//batch_size} ({len(batch)} experiments)")
+        # Process experiments sequentially to respect rate limits
+        # Each API call needs to respect the 15 calls/minute limit
+        for i, (category, variable) in enumerate(all_pairs):
+            print(f"Processing experiment {i+1}/{len(all_pairs)}: {category} - {variable}")
             
-            # Run batch concurrently
-            tasks = [self.run_variable_experiment_async(category, variable) for category, variable in batch]
-            await asyncio.gather(*tasks, return_exceptions=True)
-            
-            # Small delay between batches to be safe
-            if i + batch_size < len(all_pairs):
-                await asyncio.sleep(1)
+            try:
+                await self.run_variable_experiment_async(category, variable)
+                # Add a small delay between experiments to be safe with rate limiting
+                if i < len(all_pairs) - 1:  # Don't sleep after the last experiment
+                    await asyncio.sleep(0.5)  # Half second between experiments
+            except Exception as e:
+                self.logger.error(f"Failed to run experiment {category}:{variable} - {str(e)}")
+                continue
 
         # Print usage summary at the end
         usage_summary = self.api_client.get_usage_summary()
