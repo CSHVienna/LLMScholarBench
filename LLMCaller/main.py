@@ -2,7 +2,7 @@ import argparse
 import os
 import json
 from experiments.runner import ExperimentRunner
-from config.loader import load_llm_setup
+from config.loader import load_llm_setup, get_available_models
 from datetime import datetime
 
 def create_experiment_config(model_name, output_dir=None):
@@ -39,18 +39,17 @@ def run_experiment(model_name, output_dir=None, category=None, variable=None):
     print(f"Experiment completed. Results saved in {run_dir}")
 
 def run_all_models(output_dir=None, category=None, variable=None):
-    models = ["deepseek-chat-v3.1", "deepseek-r1", "qwen3-235b", "gemini-2.0-flash", 
-              "llama-3.3-70b", "llama-3.1-405b", "mistral-small-3.2", "gpt-oss-20b", 
-              "gemma-3-27b", "llama-3.3-8b", "qwen3-8b"]
+    models = get_available_models()
     
     for model in models:
         print(f"\n=== Running experiment for {model} ===")
         run_experiment(model, output_dir, category, variable)
 
 if __name__ == "__main__":
+    available_models = get_available_models()
     parser = argparse.ArgumentParser(description="Run LLM experiments")
     parser.add_argument("--model", type=str, 
-                        choices=["deepseek-chat-v3.1", "deepseek-r1", "qwen3-235b", "gemini-2.0-flash", "llama-3.3-70b", "llama-3.1-405b", "mistral-small-3.2", "gpt-oss-20b", "gemma-3-27b", "llama-3.3-8b", "qwen3-8b"],
+                        choices=available_models,
                         help="Specify the model to use for the experiment")
     parser.add_argument("--all-models", action="store_true", 
                         help="Run experiments for all models sequentially")
