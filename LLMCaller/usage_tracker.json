@@ -22,5 +22,23 @@
     "first_call": "2025-09-08T02:17:02.256549",
     "last_call": "2025-09-08T02:17:02.256564",
     "provider": "openai"
+  },
+  "gpt-5": {
+    "total_calls": 19,
+    "total_tokens": 151627,
+    "total_prompt_tokens": 10569,
+    "total_completion_tokens": 141058,
+    "first_call": "2025-09-08T03:00:09.408298",
+    "last_call": "2025-09-08T11:33:56.165401",
+    "provider": "openai"
+  },
+  "gpt-5-mini": {
+    "total_calls": 31,
+    "total_tokens": 87177,
+    "total_prompt_tokens": 17380,
+    "total_completion_tokens": 69797,
+    "first_call": "2025-09-08T11:27:33.588627",
+    "last_call": "2025-09-08T11:34:31.573497",
+    "provider": "openai"
   }
 }

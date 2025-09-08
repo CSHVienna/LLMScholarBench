@@ -95,7 +95,7 @@
   "gpt-4o": {
     "model": "gpt-5",
     "max_attempts": 3,
-    "temperature": 0,
+    "temperature": 1, 
     "stop": null,
     "stream": false,
     "system_message_ref": "physics_research_assistant",
@@ -104,7 +104,7 @@
   "gpt-4o-mini": {
     "model": "gpt-5-mini",
     "max_attempts": 3,
-    "temperature": 0,
+    "temperature": 1,
     "stop": null,
     "stream": false,
     "system_message_ref": "physics_research_assistant",
