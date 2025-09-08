@@ -77,7 +77,7 @@
     ]
   },
   "2025-09-08": {
-    "total_calls": 366,
+    "total_calls": 571,
     "runs": [
       {
         "timestamp": "2025-09-08T02:45:16.045607",
@@ -133,6 +133,34 @@
           "efficiency_percent": 60.75949367088608,
           "wasted_slots": 124,
           "total_time_minutes": 526.7229291637739
+        }
+      },
+      {
+        "timestamp": "2025-09-08T12:41:01.467983",
+        "calls": 205,
+        "models": 12,
+        "experiments": 216,
+        "metadata": {
+          "queue_system": "smart_queue_multi_model",
+          "models": [
+            "llama-3.3-8b",
+            "qwen3-8b",
+            "gpt-oss-20b",
+            "mistral-small-3.2",
+            "gemma-3-27b",
+            "llama-3.3-70b",
+            "qwen3-235b",
+            "llama-3.1-405b",
+            "deepseek-chat-v3.1",
+            "deepseek-r1",
+            "gpt-5",
+            "gpt-5-mini"
+          ],
+          "total_batches": 17,
+          "success_rate": "205/216",
+          "efficiency_percent": 74.53874538745387,
+          "wasted_slots": 69,
+          "total_time_minutes": 20.752606284618377
         }
       }
     ]
