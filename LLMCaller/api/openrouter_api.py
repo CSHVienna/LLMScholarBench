@@ -1,8 +1,9 @@
 import os
 import time
 import asyncio
+import json
 from datetime import datetime
-from typing import Optional
+from typing import Optional, Tuple
 from openai import AsyncOpenAI
 from dotenv import load_dotenv
 
@@ -65,6 +66,107 @@ class OpenRouterAPI:
             ]),
             'rate_limit': '15 calls per minute (global)'
         }
+    
+    async def check_rate_limit_status(self) -> Tuple[bool, Optional[float]]:
+        """
+        Pre-flight rate limit check - make a minimal test call to see if we're rate limited
+        
+        Returns:
+            (can_proceed: bool, wait_time_seconds: Optional[float])
+            - (True, None): No rate limit, can proceed
+            - (False, wait_seconds): Rate limited, should wait wait_seconds before proceeding
+        """
+        try:
+            # Make a minimal test call
+            test_prompt = "Hi"  # Shortest possible prompt
+            chat_completion = await self.client.chat.completions.create(
+                messages=[{"role": "user", "content": test_prompt}],
+                model=self.config['model'],
+                temperature=0,
+                max_tokens=1,  # Minimize token usage
+                stream=False
+            )
+            
+            # Success - no rate limit active
+            print("✅ Pre-flight check: No rate limit detected, proceeding...")
+            return True, None
+            
+        except Exception as e:
+            error_str = str(e)
+            
+            # Check if this is a 429 rate limit error
+            if "429" in error_str and "Rate limit exceeded" in error_str:
+                print(f"⏳ Pre-flight check: Rate limit detected - {error_str}")
+                
+                # Try to extract reset timestamp from error
+                try:
+                    # Look for X-RateLimit-Reset in the error message
+                    if "X-RateLimit-Reset" in error_str:
+                        # Extract the timestamp - it's in the metadata headers
+                        # Error format: {...'X-RateLimit-Reset': '1757285940000'...}
+                        start = error_str.find("'X-RateLimit-Reset': '") + len("'X-RateLimit-Reset': '")
+                        end = error_str.find("'", start)
+                        reset_timestamp_ms = int(error_str[start:end])
+                        
+                        # Convert to seconds and calculate wait time
+                        reset_timestamp_seconds = reset_timestamp_ms / 1000
+                        current_time = time.time()
+                        wait_time = max(0, reset_timestamp_seconds - current_time)
+                        
+                        print(f"📊 Rate limit will reset in {wait_time:.1f} seconds")
+                        return False, wait_time
+                    
+                except Exception as parse_error:
+                    print(f"⚠️  Could not parse reset time: {parse_error}")
+                
+                # Fallback: use default wait time
+                print("⏳ Using default 60-second wait time")
+                return False, 60.0
+            
+            else:
+                # Some other error - re-raise it
+                print(f"❌ Pre-flight check failed with non-rate-limit error: {e}")
+                raise e
+
+    async def wait_for_rate_limit_reset(self) -> bool:
+        """
+        Perform pre-flight check and wait if rate limited
+        
+        Returns:
+            True: Ready to proceed
+            False: Should abort (some non-rate-limit error occurred)
+        """
+        try:
+            can_proceed, wait_time = await self.check_rate_limit_status()
+            
+            if can_proceed:
+                return True
+            
+            # We're rate limited - wait for reset
+            if wait_time and wait_time > 0:
+                print(f"⏳ Rate limit detected. Waiting {wait_time:.1f} seconds for reset...")
+                
+                # Show progress during long waits
+                if wait_time > 10:
+                    # Show countdown for long waits
+                    remaining = wait_time
+                    while remaining > 0:
+                        mins, secs = divmod(remaining, 60)
+                        print(f"⏰ Rate limit reset in {int(mins):02d}:{int(secs):02d}")
+                        sleep_time = min(30, remaining)  # Update every 30s or remaining time
+                        await asyncio.sleep(sleep_time)
+                        remaining -= sleep_time
+                else:
+                    await asyncio.sleep(wait_time)
+                
+                print("✅ Rate limit should be reset now, proceeding...")
+                return True
+            
+            return True  # Fallback to proceed
+            
+        except Exception as e:
+            print(f"❌ Pre-flight rate limit check failed: {e}")
+            return False  # Signal to abort
 
     async def generate_response(self, prompt):
         """Generate response using OpenRouter API with rate limiting"""

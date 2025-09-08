@@ -1,0 +1,14 @@
+{
+  "seniority": {
+    "early_career": {
+      "attempts": [
+        {
+          "attempt": 1,
+          "timestamp": "20250908_021608",
+          "is_valid": true
+        }
+      ],
+      "latest_attempt": 1
+    }
+  }
+}

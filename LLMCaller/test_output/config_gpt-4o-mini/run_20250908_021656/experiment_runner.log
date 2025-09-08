@@ -1,0 +1,25 @@
+2025-09-08 02:16:56,930 - experiment_runner - INFO - Single smart experiment started for seniority: senior at 2025-09-08 02:16:56
+2025-09-08 02:16:56,952 - experiment_runner - INFO - 🎯 Setting gpt-4o-mini as current model
+2025-09-08 02:16:56,953 - experiment_runner - INFO - ➕ Added 1 tasks for gpt-4o-mini
+2025-09-08 02:16:56,953 - experiment_runner - INFO - 🚀 Starting time-based smart queue processing
+2025-09-08 02:16:56,953 - experiment_runner - INFO -    Rate limit: 15 calls/minute
+2025-09-08 02:16:56,953 - experiment_runner - INFO -    Strategy: Send batch every 60s, handle retries dynamically
+2025-09-08 02:16:56,953 - experiment_runner - INFO - 🚀 Batch 1: Launching 1 tasks
+2025-09-08 02:16:56,953 - experiment_runner - INFO -    Queue status: {'retry_queue': 0, 'current_model_queue': 0, 'next_model_queue': 0, 'total_pending': 0}
+2025-09-08 02:16:56,953 - experiment_runner - INFO -    Tasks: ['gpt-4o-mini:seniority:senior']
+2025-09-08 02:16:56,953 - experiment_runner - INFO - ⚠️  Only 1/15 slots used (14 wasted)
+2025-09-08 02:16:56,953 - experiment_runner - INFO - ⏳ Waiting for 1 active batches to complete...
+2025-09-08 02:17:01,953 - experiment_runner - INFO - ⏳ Waiting for 1 active batches to complete...
+2025-09-08 02:17:02,259 - experiment_runner - INFO - ✅ Success: seniority:senior - test_output/config_gpt-4o-mini/run_20250908_021656/seniority_senior/attempt1_20250908_021702.json
+2025-09-08 02:17:02,259 - experiment_runner - INFO - ✅ Completed gpt-4o-mini:seniority:senior
+2025-09-08 02:17:02,259 - experiment_runner - INFO - ✅ Task completed: gpt-4o-mini:seniority:senior
+2025-09-08 02:17:06,956 - experiment_runner - INFO - ✅ Batch 1 completed in 10.0s
+2025-09-08 02:17:06,957 - experiment_runner - INFO - 🎉 Smart queue processing completed!
+2025-09-08 02:17:06,957 - experiment_runner - INFO -    Total time: 0.2 minutes
+2025-09-08 02:17:06,957 - experiment_runner - INFO -    Total tasks: 1
+2025-09-08 02:17:06,957 - experiment_runner - INFO -    Completed: 1
+2025-09-08 02:17:06,957 - experiment_runner - INFO -    Failed: 0
+2025-09-08 02:17:06,957 - experiment_runner - INFO -    API calls: 1
+2025-09-08 02:17:06,957 - experiment_runner - INFO -    Efficiency: -1300.0% (wasted 14 slots)
+2025-09-08 02:17:06,989 - experiment_runner - INFO - Usage Summary: {'provider': 'openai', 'model': 'gpt-4o-mini', 'note': 'No rate limits applied for OpenAI models'}
+2025-09-08 02:17:06,989 - experiment_runner - INFO - Single smart experiment completed for seniority: senior at 2025-09-08 02:17:06

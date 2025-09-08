@@ -31,10 +31,14 @@ def load_llm_setup(model_name):
         else:
             raise ValueError(f"System message reference '{message_ref}' not found in system_messages.json")
     
-    # Load provider info from cached CSV
-    provider_map = _load_provider_info()
-    if model_config['model'] in provider_map:
-        model_config['provider'] = provider_map[model_config['model']]
+    # Load provider info from cached CSV only if not explicitly set
+    if 'provider' not in model_config:
+        provider_map = _load_provider_info()
+        if model_config['model'] in provider_map:
+            model_config['provider'] = provider_map[model_config['model']]
+        else:
+            # Default to openrouter for backward compatibility
+            model_config['provider'] = 'openrouter'
     
     return model_config
 
