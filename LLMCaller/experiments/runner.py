@@ -194,15 +194,23 @@ class ExperimentRunner:
                     }
                 }
                 
-                # ALWAYS save whatever we got back - API response OR exception details
+                # ALWAYS save whatever we got back - API response AND exception details
                 if api_response is not None:
+                    # API call succeeded, save the full response for debugging
                     error_result["full_api_response"] = api_response.model_dump()
+                    # Also save what went wrong during processing
+                    error_result["processing_error"] = {
+                        "error_type": type(e).__name__,
+                        "message": str(e),
+                        "note": "API call succeeded but processing failed (e.g., JSON parsing)"
+                    }
                 else:
-                    # Save exception details as "response" - this covers rate limits, API errors, etc.
+                    # API call itself failed - save exception details
                     error_result["full_api_response"] = {
                         "error_from_exception": str(e),
                         "exception_type": type(e).__name__,
-                        "raw_exception": str(e)
+                        "raw_exception": str(e),
+                        "note": "API call itself failed"
                     }
                 
                 result_path = save_attempt(error_result, self.run_dir)
