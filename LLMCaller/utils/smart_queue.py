@@ -361,13 +361,13 @@ async def create_experiment_executor(run_dir, config):
     from config.validator import validate_llm_setup
     from storage.saver import save_attempt
     from storage.summarizer import update_summary
-    from api.openrouter_api import OpenRouterAPI
+    from api.api_factory import create_api_client
     from validation.validator import ResponseValidator
     from prompts.generator import generate_prompt
     
     # Initialize components
     validate_llm_setup(config)
-    api_client = OpenRouterAPI(config)
+    api_client = create_api_client(config)
     validator = ResponseValidator()
     
     async def executor(experiment_pair):

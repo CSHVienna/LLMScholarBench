@@ -4,5 +4,23 @@
       "count": 150,
       "active": true
     }
+  },
+  "gpt-4o": {
+    "total_calls": 3,
+    "total_tokens": 1721,
+    "total_prompt_tokens": 1291,
+    "total_completion_tokens": 430,
+    "first_call": "2025-09-08T02:14:11.100447",
+    "last_call": "2025-09-08T02:16:08.949443",
+    "provider": "openai"
+  },
+  "gpt-4o-mini": {
+    "total_calls": 1,
+    "total_tokens": 849,
+    "total_prompt_tokens": 553,
+    "total_completion_tokens": 296,
+    "first_call": "2025-09-08T02:17:02.256549",
+    "last_call": "2025-09-08T02:17:02.256564",
+    "provider": "openai"
   }
 }

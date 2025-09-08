@@ -6,7 +6,7 @@ from config.validator import validate_llm_setup
 from logs.setup import setup_logging
 from storage.saver import save_attempt
 from storage.summarizer import update_summary
-from api.openrouter_api import OpenRouterAPI
+from api.api_factory import create_api_client
 from validation.validator import ResponseValidator
 from prompts.generator import generate_prompt
 from usage.tracker import DailyUsageTracker
@@ -18,7 +18,7 @@ class ExperimentRunner:
         self.run_dir = run_dir
         self.logger = setup_logging(run_dir)
         self.config = self._validate_config(config)
-        self.api_client = OpenRouterAPI(self.config)
+        self.api_client = create_api_client(self.config)
         self.validator = ResponseValidator()
         self.usage_tracker = DailyUsageTracker()
         self.batch_size = batch_size
@@ -53,6 +53,14 @@ class ExperimentRunner:
             raise Exception(error_msg)
         
         self.logger.info(f"Pre-flight check passed: {usage_info['current_usage']} + {total_experiments} = {usage_info['total_after']}/{usage_info['daily_limit']}")
+        
+        # Pre-flight rate limit check
+        print("🔍 Checking current rate limit status...")
+        rate_limit_ready = await self.api_client.wait_for_rate_limit_reset()
+        if not rate_limit_ready:
+            error_msg = "Pre-flight rate limit check failed - aborting experiments"
+            self.logger.error(error_msg)
+            raise Exception(error_msg)
         
         # Process experiments using optimal batching
         results = await self.batch_processor.process_batches(
@@ -105,6 +113,15 @@ class ExperimentRunner:
     async def _run_single_experiment_async(self, category, variable):
         """Run experiment for a single category-variable pair"""
         self.logger.info(f"Single experiment started for {category}: {variable} at {datetime.now().strftime('%Y-%m-%d %H:%M:%S')}")
+        
+        # Pre-flight rate limit check
+        print("🔍 Checking current rate limit status...")
+        rate_limit_ready = await self.api_client.wait_for_rate_limit_reset()
+        if not rate_limit_ready:
+            error_msg = "Pre-flight rate limit check failed - aborting experiment"
+            self.logger.error(error_msg)
+            raise Exception(error_msg)
+        
         await self.run_variable_experiment_async(category, variable)
         
         # Print usage summary
