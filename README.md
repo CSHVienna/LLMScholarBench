@@ -1,2 +1,2 @@
-# LLMScholar-WWW24
-WWW submission
+# LLMScholar: Generation of Academic Biographies and Genealogy Trees
+...
