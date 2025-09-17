@@ -31,4 +31,4 @@ Example Format for the Expected Output:
 - Continue adding to the list as long as you can find scientists who meet the criteria. Do not artificially limit the list length. Do not add names that are already in the list.
 
 ### Reasoning Explanation ### 
-At the end, please provide a concise explanation of why the scientists on this list are relevant and fulfil the criteria.
+At the end, please provide a concise explanation of why the scientists on this list are relevant and fulfill the criteria.
