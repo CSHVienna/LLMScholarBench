@@ -91,23 +91,5 @@
     "stream": false,
     "system_message_ref": "physics_research_assistant",
     "provider": "openrouter"
-  },
-  "gpt-5": {
-    "model": "gpt-5",
-    "max_attempts": 3,
-    "temperature": 1, 
-    "stop": null,
-    "stream": false,
-    "system_message_ref": "physics_research_assistant",
-    "provider": "openai"
-  },
-  "gpt-5-mini": {
-    "model": "gpt-5-mini",
-    "max_attempts": 3,
-    "temperature": 1,
-    "stop": null,
-    "stream": false,
-    "system_message_ref": "physics_research_assistant",
-    "provider": "openai"
   }
 }
