@@ -73,6 +73,13 @@ def get_available_models():
     # Filter out 'global' key if it exists
     return [key for key in all_configs.keys() if key != 'global']
 
+def get_global_config():
+    """Get global configuration settings"""
+    config_dir = os.path.dirname(os.path.abspath(__file__))
+    config_path = os.path.join(config_dir, 'llm_setup.json')
+    all_configs = load_config(config_path)
+    return all_configs.get('global', {})
+
 def load_twin_scientists_config():
     config_dir = os.path.dirname(os.path.abspath(__file__))
     config_path = os.path.join(config_dir, 'twin_scientists_config.json')

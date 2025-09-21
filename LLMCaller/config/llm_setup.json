@@ -1,6 +1,7 @@
 {
   "global": {
-    "output_dir": "experiments"
+    "output_dir": "experiments",
+    "credentials_dir": "/Users/barolo/Desktop/credentials"
   },
   "llama-3.3-8b": {
     "model": "meta-llama/llama-3.3-8b-instruct:free",
@@ -91,5 +92,53 @@
     "stream": false,
     "system_message_ref": "physics_research_assistant",
     "provider": "openrouter"
+  },
+  "gemini-2.5-pro": {
+    "model": "gemini-2.5-pro",
+    "max_attempts": 3,
+    "temperature": 0,
+    "grounded": false,
+    "provider": "gemini",
+    "system_message_ref": "physics_research_assistant"
+  },
+  "gemini-2.5-pro-grounded": {
+    "model": "gemini-2.5-pro",
+    "max_attempts": 3,
+    "temperature": 0,
+    "grounded": true,
+    "provider": "gemini",
+    "system_message_ref": "physics_research_assistant"
+  },
+  "gemini-2.5-flash": {
+    "model": "gemini-2.5-flash",
+    "max_attempts": 3,
+    "temperature": 0,
+    "grounded": false,
+    "provider": "gemini",
+    "system_message_ref": "physics_research_assistant"
+  },
+  "gemini-2.5-flash-grounded": {
+    "model": "gemini-2.5-flash",
+    "max_attempts": 3,
+    "temperature": 0,
+    "grounded": true,
+    "provider": "gemini",
+    "system_message_ref": "physics_research_assistant"
+  },
+  "gemini-2.5-flash-lite": {
+    "model": "gemini-2.5-flash-lite",
+    "max_attempts": 3,
+    "temperature": 0,
+    "grounded": false,
+    "provider": "gemini",
+    "system_message_ref": "physics_research_assistant"
+  },
+  "gemini-2.5-flash-lite-grounded": {
+    "model": "gemini-2.5-flash-lite",
+    "max_attempts": 3,
+    "temperature": 0,
+    "grounded": true,
+    "provider": "gemini",
+    "system_message_ref": "physics_research_assistant"
   }
 }
