@@ -3,6 +3,24 @@
     "output_dir": "experiments",
     "credentials_dir": "credentials"
   },
+      "grok-4-fast": {
+    "model": "x-ai/grok-4-fast:free",
+    "max_attempts": 3,
+    "temperature": 0,
+    "stop": null,
+    "stream": false,
+    "system_message_ref": "physics_research_assistant",
+    "provider": "openrouter"
+  },
+    "llama-4-mav": {
+    "model": "meta-llama/llama-4-maverick:free",
+    "max_attempts": 3,
+    "temperature": 0,
+    "stop": null,
+    "stream": false,
+    "system_message_ref": "physics_research_assistant",
+    "provider": "openrouter"
+  },
   "llama-3.3-8b": {
     "model": "meta-llama/llama-3.3-8b-instruct:free",
     "max_attempts": 3,
@@ -59,15 +77,6 @@
   },
   "qwen3-235b": {
     "model": "qwen/qwen3-235b-a22b:free",
-    "max_attempts": 3,
-    "temperature": 0,
-    "stop": null,
-    "stream": false,
-    "system_message_ref": "physics_research_assistant",
-    "provider": "openrouter"
-  },
-  "llama-3.1-405b": {
-    "model": "meta-llama/llama-3.1-405b-instruct:free",
     "max_attempts": 3,
     "temperature": 0,
     "stop": null,

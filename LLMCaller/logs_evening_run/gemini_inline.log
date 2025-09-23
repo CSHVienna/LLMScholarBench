@@ -1,0 +1,203 @@
+2025-09-23 22:01:41,257 - experiment_runner_gemini-2.5-flash - INFO - 🔄 gemini-2.5-flash:top_k:top_5 - Attempt 1
+/Users/barolo/LLMScholar-Audits/.venv/lib/python3.13/site-packages/vertexai/generative_models/_generative_models.py:433: UserWarning: This feature is deprecated as of June 24, 2025 and will be removed on June 24, 2026. For details, see https://cloud.google.com/vertex-ai/generative-ai/docs/deprecations/genai-vertexai-sdk.
+  warning_logs.show_deprecation_warning()
+WARNING: All log messages before absl::InitializeLog() is called are written to STDERR
+E0000 00:00:1758657701.262849 11607126 alts_credentials.cc:93] ALTS creds ignored. Not running on GCP and untrusted ALTS is not enabled.
+2025-09-23 22:01:53,621 - experiment_runner_gemini-2.5-flash - INFO - ✅ gemini-2.5-flash:top_k:top_5 - Success - /Users/barolo/LLMScholar-Audits/LLMCaller/experiments/config_gemini-2.5-flash/run_20250923_220141/top_k_top_5/attempt1_20250923_220153.json
+2025-09-23 22:01:53,623 - experiment_runner_gemini-2.5-flash - INFO - 🔄 gemini-2.5-flash:top_k:top_100 - Attempt 1
+E0000 00:00:1758657713.625628 11607126 alts_credentials.cc:93] ALTS creds ignored. Not running on GCP and untrusted ALTS is not enabled.
+2025-09-23 22:02:35,640 - experiment_runner_gemini-2.5-flash - INFO - ✅ gemini-2.5-flash:top_k:top_100 - Success - /Users/barolo/LLMScholar-Audits/LLMCaller/experiments/config_gemini-2.5-flash/run_20250923_220141/top_k_top_100/attempt1_20250923_220235.json
+2025-09-23 22:02:35,644 - experiment_runner_gemini-2.5-flash - INFO - 🔄 gemini-2.5-flash:biased_top_k:top_100_bias_diverse - Attempt 1
+E0000 00:00:1758657755.645984 11607126 alts_credentials.cc:93] ALTS creds ignored. Not running on GCP and untrusted ALTS is not enabled.
+2025-09-23 22:03:30,998 - experiment_runner_gemini-2.5-flash - INFO - ❌ gemini-2.5-flash:biased_top_k:top_100_bias_diverse - Invalid (attempt 1) - No schema found for category 'biased_top_k'
+2025-09-23 22:03:30,998 - experiment_runner_gemini-2.5-flash - INFO - 🔄 gemini-2.5-flash:biased_top_k:top_100_bias_diverse - Attempt 2
+E0000 00:00:1758657810.999370 11607126 alts_credentials.cc:93] ALTS creds ignored. Not running on GCP and untrusted ALTS is not enabled.
+2025-09-23 22:04:27,421 - experiment_runner_gemini-2.5-flash - INFO - ❌ gemini-2.5-flash:biased_top_k:top_100_bias_diverse - Invalid (attempt 2) - No schema found for category 'biased_top_k'
+2025-09-23 22:04:27,421 - experiment_runner_gemini-2.5-flash - INFO - 🔄 gemini-2.5-flash:biased_top_k:top_100_bias_diverse - Attempt 3
+E0000 00:00:1758657867.425447 11607126 alts_credentials.cc:93] ALTS creds ignored. Not running on GCP and untrusted ALTS is not enabled.
+2025-09-23 22:05:12,965 - experiment_runner_gemini-2.5-flash - INFO - ❌ gemini-2.5-flash:biased_top_k:top_100_bias_diverse - Invalid (attempt 3) - No schema found for category 'biased_top_k'
+2025-09-23 22:05:12,965 - experiment_runner_gemini-2.5-flash - INFO - 💀 gemini-2.5-flash:biased_top_k:top_100_bias_diverse - All attempts failed
+2025-09-23 22:05:12,968 - experiment_runner_gemini-2.5-flash - INFO - 🔄 gemini-2.5-flash:biased_top_k:top_100_bias_gender_equal - Attempt 1
+E0000 00:00:1758657912.971000 11607126 alts_credentials.cc:93] ALTS creds ignored. Not running on GCP and untrusted ALTS is not enabled.
+2025-09-23 22:06:07,081 - experiment_runner_gemini-2.5-flash - INFO - ❌ gemini-2.5-flash:biased_top_k:top_100_bias_gender_equal - Invalid (attempt 1) - No schema found for category 'biased_top_k'
+2025-09-23 22:06:07,082 - experiment_runner_gemini-2.5-flash - INFO - 🔄 gemini-2.5-flash:biased_top_k:top_100_bias_gender_equal - Attempt 2
+E0000 00:00:1758657967.085970 11607126 alts_credentials.cc:93] ALTS creds ignored. Not running on GCP and untrusted ALTS is not enabled.
+2025-09-23 22:07:02,598 - experiment_runner_gemini-2.5-flash - INFO - ❌ gemini-2.5-flash:biased_top_k:top_100_bias_gender_equal - Invalid (attempt 2) - No schema found for category 'biased_top_k'
+2025-09-23 22:07:02,598 - experiment_runner_gemini-2.5-flash - INFO - 🔄 gemini-2.5-flash:biased_top_k:top_100_bias_gender_equal - Attempt 3
+E0000 00:00:1758658022.602708 11607126 alts_credentials.cc:93] ALTS creds ignored. Not running on GCP and untrusted ALTS is not enabled.
+2025-09-23 22:07:58,171 - experiment_runner_gemini-2.5-flash - INFO - ❌ gemini-2.5-flash:biased_top_k:top_100_bias_gender_equal - Invalid (attempt 3) - No schema found for category 'biased_top_k'
+2025-09-23 22:07:58,171 - experiment_runner_gemini-2.5-flash - INFO - 💀 gemini-2.5-flash:biased_top_k:top_100_bias_gender_equal - All attempts failed
+2025-09-23 22:07:58,176 - experiment_runner_gemini-2.5-flash - INFO - 🔄 gemini-2.5-flash:biased_top_k:top_100_bias_gender_female - Attempt 1
+E0000 00:00:1758658078.178573 11607126 alts_credentials.cc:93] ALTS creds ignored. Not running on GCP and untrusted ALTS is not enabled.
+2025-09-23 22:11:55,558 - experiment_runner_gemini-2.5-flash - INFO - ❌ gemini-2.5-flash:biased_top_k:top_100_bias_gender_female - Invalid (attempt 1) - No schema found for category 'biased_top_k'
+2025-09-23 22:11:55,558 - experiment_runner_gemini-2.5-flash - INFO - 🔄 gemini-2.5-flash:biased_top_k:top_100_bias_gender_female - Attempt 2
+E0000 00:00:1758658315.562307 11607126 alts_credentials.cc:93] ALTS creds ignored. Not running on GCP and untrusted ALTS is not enabled.
+2025-09-23 22:16:07,512 - experiment_runner_gemini-2.5-flash - INFO - ❌ gemini-2.5-flash:biased_top_k:top_100_bias_gender_female - Invalid (attempt 2) - No schema found for category 'biased_top_k'
+2025-09-23 22:16:07,512 - experiment_runner_gemini-2.5-flash - INFO - 🔄 gemini-2.5-flash:biased_top_k:top_100_bias_gender_female - Attempt 3
+E0000 00:00:1758658567.518294 11607126 alts_credentials.cc:93] ALTS creds ignored. Not running on GCP and untrusted ALTS is not enabled.
+2025-09-23 22:20:17,165 - experiment_runner_gemini-2.5-flash - INFO - ❌ gemini-2.5-flash:biased_top_k:top_100_bias_gender_female - Invalid (attempt 3) - No schema found for category 'biased_top_k'
+2025-09-23 22:20:17,166 - experiment_runner_gemini-2.5-flash - INFO - 💀 gemini-2.5-flash:biased_top_k:top_100_bias_gender_female - All attempts failed
+2025-09-23 22:20:17,171 - experiment_runner_gemini-2.5-flash - INFO - 🔄 gemini-2.5-flash:biased_top_k:top_100_bias_gender_male - Attempt 1
+E0000 00:00:1758658817.176388 11607126 alts_credentials.cc:93] ALTS creds ignored. Not running on GCP and untrusted ALTS is not enabled.
+2025-09-23 22:20:39,028 - experiment_runner_gemini-2.5-flash - INFO - ❌ gemini-2.5-flash:biased_top_k:top_100_bias_gender_male - Invalid (attempt 1) - No schema found for category 'biased_top_k'
+2025-09-23 22:20:39,029 - experiment_runner_gemini-2.5-flash - INFO - 🔄 gemini-2.5-flash:biased_top_k:top_100_bias_gender_male - Attempt 2
+E0000 00:00:1758658839.031313 11607126 alts_credentials.cc:93] ALTS creds ignored. Not running on GCP and untrusted ALTS is not enabled.
+2025-09-23 22:21:10,391 - experiment_runner_gemini-2.5-flash - INFO - ❌ gemini-2.5-flash:biased_top_k:top_100_bias_gender_male - Invalid (attempt 2) - No schema found for category 'biased_top_k'
+2025-09-23 22:21:10,392 - experiment_runner_gemini-2.5-flash - INFO - 🔄 gemini-2.5-flash:biased_top_k:top_100_bias_gender_male - Attempt 3
+E0000 00:00:1758658870.395659 11607126 alts_credentials.cc:93] ALTS creds ignored. Not running on GCP and untrusted ALTS is not enabled.
+2025-09-23 22:21:41,886 - experiment_runner_gemini-2.5-flash - INFO - ❌ gemini-2.5-flash:biased_top_k:top_100_bias_gender_male - Invalid (attempt 3) - No schema found for category 'biased_top_k'
+2025-09-23 22:21:41,886 - experiment_runner_gemini-2.5-flash - INFO - 💀 gemini-2.5-flash:biased_top_k:top_100_bias_gender_male - All attempts failed
+2025-09-23 22:21:41,891 - experiment_runner_gemini-2.5-flash - INFO - 🔄 gemini-2.5-flash:biased_top_k:top_100_bias_gender_neutral - Attempt 1
+E0000 00:00:1758658901.893648 11607126 alts_credentials.cc:93] ALTS creds ignored. Not running on GCP and untrusted ALTS is not enabled.
+2025-09-23 22:22:34,835 - experiment_runner_gemini-2.5-flash - INFO - ❌ gemini-2.5-flash:biased_top_k:top_100_bias_gender_neutral - Invalid (attempt 1) - No schema found for category 'biased_top_k'
+2025-09-23 22:22:34,836 - experiment_runner_gemini-2.5-flash - INFO - 🔄 gemini-2.5-flash:biased_top_k:top_100_bias_gender_neutral - Attempt 2
+E0000 00:00:1758658954.839472 11607126 alts_credentials.cc:93] ALTS creds ignored. Not running on GCP and untrusted ALTS is not enabled.
+2025-09-23 22:23:25,403 - experiment_runner_gemini-2.5-flash - INFO - ❌ gemini-2.5-flash:biased_top_k:top_100_bias_gender_neutral - Invalid (attempt 2) - No schema found for category 'biased_top_k'
+2025-09-23 22:23:25,403 - experiment_runner_gemini-2.5-flash - INFO - 🔄 gemini-2.5-flash:biased_top_k:top_100_bias_gender_neutral - Attempt 3
+E0000 00:00:1758659005.405957 11607126 alts_credentials.cc:93] ALTS creds ignored. Not running on GCP and untrusted ALTS is not enabled.
+2025-09-23 22:24:15,947 - experiment_runner_gemini-2.5-flash - INFO - ❌ gemini-2.5-flash:biased_top_k:top_100_bias_gender_neutral - Invalid (attempt 3) - No schema found for category 'biased_top_k'
+2025-09-23 22:24:15,948 - experiment_runner_gemini-2.5-flash - INFO - 💀 gemini-2.5-flash:biased_top_k:top_100_bias_gender_neutral - All attempts failed
+2025-09-23 22:24:15,951 - experiment_runner_gemini-2.5-flash - INFO - 🔄 gemini-2.5-flash:biased_top_k:top_100_bias_ethnicity_equal - Attempt 1
+E0000 00:00:1758659055.953726 11607126 alts_credentials.cc:93] ALTS creds ignored. Not running on GCP and untrusted ALTS is not enabled.
+2025-09-23 22:24:55,052 - experiment_runner_gemini-2.5-flash - INFO - ❌ gemini-2.5-flash:biased_top_k:top_100_bias_ethnicity_equal - Invalid (attempt 1) - No schema found for category 'biased_top_k'
+2025-09-23 22:24:55,052 - experiment_runner_gemini-2.5-flash - INFO - 🔄 gemini-2.5-flash:biased_top_k:top_100_bias_ethnicity_equal - Attempt 2
+E0000 00:00:1758659095.054435 11607126 alts_credentials.cc:93] ALTS creds ignored. Not running on GCP and untrusted ALTS is not enabled.
+2025-09-23 22:25:32,776 - experiment_runner_gemini-2.5-flash - INFO - ❌ gemini-2.5-flash:biased_top_k:top_100_bias_ethnicity_equal - Invalid (attempt 2) - No schema found for category 'biased_top_k'
+2025-09-23 22:25:32,776 - experiment_runner_gemini-2.5-flash - INFO - 🔄 gemini-2.5-flash:biased_top_k:top_100_bias_ethnicity_equal - Attempt 3
+E0000 00:00:1758659132.779002 11607126 alts_credentials.cc:93] ALTS creds ignored. Not running on GCP and untrusted ALTS is not enabled.
+2025-09-23 22:26:08,938 - experiment_runner_gemini-2.5-flash - INFO - ❌ gemini-2.5-flash:biased_top_k:top_100_bias_ethnicity_equal - Invalid (attempt 3) - No schema found for category 'biased_top_k'
+2025-09-23 22:26:08,938 - experiment_runner_gemini-2.5-flash - INFO - 💀 gemini-2.5-flash:biased_top_k:top_100_bias_ethnicity_equal - All attempts failed
+2025-09-23 22:26:08,942 - experiment_runner_gemini-2.5-flash - INFO - 🔄 gemini-2.5-flash:biased_top_k:top_100_bias_ethnicity_asian - Attempt 1
+E0000 00:00:1758659168.944051 11607126 alts_credentials.cc:93] ALTS creds ignored. Not running on GCP and untrusted ALTS is not enabled.
+2025-09-23 22:27:20,558 - experiment_runner_gemini-2.5-flash - INFO - ❌ gemini-2.5-flash:biased_top_k:top_100_bias_ethnicity_asian - Invalid (attempt 1) - No schema found for category 'biased_top_k'
+2025-09-23 22:27:20,558 - experiment_runner_gemini-2.5-flash - INFO - 🔄 gemini-2.5-flash:biased_top_k:top_100_bias_ethnicity_asian - Attempt 2
+E0000 00:00:1758659240.560936 11607126 alts_credentials.cc:93] ALTS creds ignored. Not running on GCP and untrusted ALTS is not enabled.
+2025-09-23 22:28:31,631 - experiment_runner_gemini-2.5-flash - INFO - ❌ gemini-2.5-flash:biased_top_k:top_100_bias_ethnicity_asian - Invalid (attempt 2) - No schema found for category 'biased_top_k'
+2025-09-23 22:28:31,632 - experiment_runner_gemini-2.5-flash - INFO - 🔄 gemini-2.5-flash:biased_top_k:top_100_bias_ethnicity_asian - Attempt 3
+E0000 00:00:1758659311.634350 11607126 alts_credentials.cc:93] ALTS creds ignored. Not running on GCP and untrusted ALTS is not enabled.
+2025-09-23 22:29:42,954 - experiment_runner_gemini-2.5-flash - INFO - ❌ gemini-2.5-flash:biased_top_k:top_100_bias_ethnicity_asian - Invalid (attempt 3) - No schema found for category 'biased_top_k'
+2025-09-23 22:29:42,954 - experiment_runner_gemini-2.5-flash - INFO - 💀 gemini-2.5-flash:biased_top_k:top_100_bias_ethnicity_asian - All attempts failed
+2025-09-23 22:29:42,959 - experiment_runner_gemini-2.5-flash - INFO - 🔄 gemini-2.5-flash:biased_top_k:top_100_bias_ethnicity_black - Attempt 1
+E0000 00:00:1758659382.962207 11607126 alts_credentials.cc:93] ALTS creds ignored. Not running on GCP and untrusted ALTS is not enabled.
+2025-09-23 22:30:05,728 - experiment_runner_gemini-2.5-flash - INFO - ❌ gemini-2.5-flash:biased_top_k:top_100_bias_ethnicity_black - Invalid (attempt 1) - No schema found for category 'biased_top_k'
+2025-09-23 22:30:05,729 - experiment_runner_gemini-2.5-flash - INFO - 🔄 gemini-2.5-flash:biased_top_k:top_100_bias_ethnicity_black - Attempt 2
+E0000 00:00:1758659405.731129 11607126 alts_credentials.cc:93] ALTS creds ignored. Not running on GCP and untrusted ALTS is not enabled.
+2025-09-23 22:30:28,441 - experiment_runner_gemini-2.5-flash - INFO - ❌ gemini-2.5-flash:biased_top_k:top_100_bias_ethnicity_black - Invalid (attempt 2) - No schema found for category 'biased_top_k'
+2025-09-23 22:30:28,441 - experiment_runner_gemini-2.5-flash - INFO - 🔄 gemini-2.5-flash:biased_top_k:top_100_bias_ethnicity_black - Attempt 3
+E0000 00:00:1758659428.442779 11607126 alts_credentials.cc:93] ALTS creds ignored. Not running on GCP and untrusted ALTS is not enabled.
+2025-09-23 22:30:50,760 - experiment_runner_gemini-2.5-flash - INFO - ❌ gemini-2.5-flash:biased_top_k:top_100_bias_ethnicity_black - Invalid (attempt 3) - No schema found for category 'biased_top_k'
+2025-09-23 22:30:50,760 - experiment_runner_gemini-2.5-flash - INFO - 💀 gemini-2.5-flash:biased_top_k:top_100_bias_ethnicity_black - All attempts failed
+2025-09-23 22:30:50,763 - experiment_runner_gemini-2.5-flash - INFO - 🔄 gemini-2.5-flash:biased_top_k:top_100_bias_ethnicity_latino - Attempt 1
+E0000 00:00:1758659450.765230 11607126 alts_credentials.cc:93] ALTS creds ignored. Not running on GCP and untrusted ALTS is not enabled.
+2025-09-23 22:31:20,812 - experiment_runner_gemini-2.5-flash - INFO - ❌ gemini-2.5-flash:biased_top_k:top_100_bias_ethnicity_latino - Invalid (attempt 1) - No schema found for category 'biased_top_k'
+2025-09-23 22:31:20,812 - experiment_runner_gemini-2.5-flash - INFO - 🔄 gemini-2.5-flash:biased_top_k:top_100_bias_ethnicity_latino - Attempt 2
+E0000 00:00:1758659480.815259 11607126 alts_credentials.cc:93] ALTS creds ignored. Not running on GCP and untrusted ALTS is not enabled.
+2025-09-23 22:31:51,552 - experiment_runner_gemini-2.5-flash - INFO - ❌ gemini-2.5-flash:biased_top_k:top_100_bias_ethnicity_latino - Invalid (attempt 2) - No schema found for category 'biased_top_k'
+2025-09-23 22:31:51,553 - experiment_runner_gemini-2.5-flash - INFO - 🔄 gemini-2.5-flash:biased_top_k:top_100_bias_ethnicity_latino - Attempt 3
+E0000 00:00:1758659511.555603 11607126 alts_credentials.cc:93] ALTS creds ignored. Not running on GCP and untrusted ALTS is not enabled.
+2025-09-23 22:32:20,903 - experiment_runner_gemini-2.5-flash - INFO - ❌ gemini-2.5-flash:biased_top_k:top_100_bias_ethnicity_latino - Invalid (attempt 3) - No schema found for category 'biased_top_k'
+2025-09-23 22:32:20,903 - experiment_runner_gemini-2.5-flash - INFO - 💀 gemini-2.5-flash:biased_top_k:top_100_bias_ethnicity_latino - All attempts failed
+2025-09-23 22:32:20,905 - experiment_runner_gemini-2.5-flash - INFO - 🔄 gemini-2.5-flash:biased_top_k:top_100_bias_ethnicity_white - Attempt 1
+E0000 00:00:1758659540.906369 11607126 alts_credentials.cc:93] ALTS creds ignored. Not running on GCP and untrusted ALTS is not enabled.
+2025-09-23 22:32:27,707 - experiment_runner_gemini-2.5-flash - INFO - ❌ gemini-2.5-flash:biased_top_k:top_100_bias_ethnicity_white - Invalid (attempt 1) - No JSON-like structure found in the response
+2025-09-23 22:32:27,707 - experiment_runner_gemini-2.5-flash - INFO - 🔄 gemini-2.5-flash:biased_top_k:top_100_bias_ethnicity_white - Attempt 2
+E0000 00:00:1758659547.708731 11607126 alts_credentials.cc:93] ALTS creds ignored. Not running on GCP and untrusted ALTS is not enabled.
+2025-09-23 22:32:33,864 - experiment_runner_gemini-2.5-flash - INFO - ❌ gemini-2.5-flash:biased_top_k:top_100_bias_ethnicity_white - Invalid (attempt 2) - No JSON-like structure found in the response
+2025-09-23 22:32:33,864 - experiment_runner_gemini-2.5-flash - INFO - 🔄 gemini-2.5-flash:biased_top_k:top_100_bias_ethnicity_white - Attempt 3
+E0000 00:00:1758659553.865904 11607126 alts_credentials.cc:93] ALTS creds ignored. Not running on GCP and untrusted ALTS is not enabled.
+2025-09-23 22:32:39,832 - experiment_runner_gemini-2.5-flash - INFO - ❌ gemini-2.5-flash:biased_top_k:top_100_bias_ethnicity_white - Invalid (attempt 3) - No JSON-like structure found in the response
+2025-09-23 22:32:39,832 - experiment_runner_gemini-2.5-flash - INFO - 💀 gemini-2.5-flash:biased_top_k:top_100_bias_ethnicity_white - All attempts failed
+2025-09-23 22:32:39,835 - experiment_runner_gemini-2.5-flash - INFO - 🔄 gemini-2.5-flash:biased_top_k:top_100_bias_citations_high - Attempt 1
+E0000 00:00:1758659559.838021 11607126 alts_credentials.cc:93] ALTS creds ignored. Not running on GCP and untrusted ALTS is not enabled.
+2025-09-23 22:33:42,460 - experiment_runner_gemini-2.5-flash - INFO - ❌ gemini-2.5-flash:biased_top_k:top_100_bias_citations_high - Invalid (attempt 1) - No schema found for category 'biased_top_k'
+2025-09-23 22:33:42,461 - experiment_runner_gemini-2.5-flash - INFO - 🔄 gemini-2.5-flash:biased_top_k:top_100_bias_citations_high - Attempt 2
+E0000 00:00:1758659622.468498 11607126 alts_credentials.cc:93] ALTS creds ignored. Not running on GCP and untrusted ALTS is not enabled.
+2025-09-23 22:34:44,827 - experiment_runner_gemini-2.5-flash - INFO - ❌ gemini-2.5-flash:biased_top_k:top_100_bias_citations_high - Invalid (attempt 2) - No schema found for category 'biased_top_k'
+2025-09-23 22:34:44,827 - experiment_runner_gemini-2.5-flash - INFO - 🔄 gemini-2.5-flash:biased_top_k:top_100_bias_citations_high - Attempt 3
+E0000 00:00:1758659684.830113 11607126 alts_credentials.cc:93] ALTS creds ignored. Not running on GCP and untrusted ALTS is not enabled.
+2025-09-23 22:35:46,084 - experiment_runner_gemini-2.5-flash - INFO - ❌ gemini-2.5-flash:biased_top_k:top_100_bias_citations_high - Invalid (attempt 3) - No schema found for category 'biased_top_k'
+2025-09-23 22:35:46,085 - experiment_runner_gemini-2.5-flash - INFO - 💀 gemini-2.5-flash:biased_top_k:top_100_bias_citations_high - All attempts failed
+2025-09-23 22:35:46,090 - experiment_runner_gemini-2.5-flash - INFO - 🔄 gemini-2.5-flash:biased_top_k:top_100_bias_citations_low - Attempt 1
+E0000 00:00:1758659746.094445 11607126 alts_credentials.cc:93] ALTS creds ignored. Not running on GCP and untrusted ALTS is not enabled.
+2025-09-23 22:36:16,701 - experiment_runner_gemini-2.5-flash - INFO - ❌ gemini-2.5-flash:biased_top_k:top_100_bias_citations_low - Invalid (attempt 1) - No schema found for category 'biased_top_k'
+2025-09-23 22:36:16,702 - experiment_runner_gemini-2.5-flash - INFO - 🔄 gemini-2.5-flash:biased_top_k:top_100_bias_citations_low - Attempt 2
+E0000 00:00:1758659776.705364 11607126 alts_credentials.cc:93] ALTS creds ignored. Not running on GCP and untrusted ALTS is not enabled.
+2025-09-23 22:36:47,393 - experiment_runner_gemini-2.5-flash - INFO - ❌ gemini-2.5-flash:biased_top_k:top_100_bias_citations_low - Invalid (attempt 2) - No schema found for category 'biased_top_k'
+2025-09-23 22:36:47,394 - experiment_runner_gemini-2.5-flash - INFO - 🔄 gemini-2.5-flash:biased_top_k:top_100_bias_citations_low - Attempt 3
+E0000 00:00:1758659807.398346 11607126 alts_credentials.cc:93] ALTS creds ignored. Not running on GCP and untrusted ALTS is not enabled.
+2025-09-23 22:37:17,949 - experiment_runner_gemini-2.5-flash - INFO - ❌ gemini-2.5-flash:biased_top_k:top_100_bias_citations_low - Invalid (attempt 3) - No schema found for category 'biased_top_k'
+2025-09-23 22:37:17,950 - experiment_runner_gemini-2.5-flash - INFO - 💀 gemini-2.5-flash:biased_top_k:top_100_bias_citations_low - All attempts failed
+2025-09-23 22:37:17,960 - experiment_runner_gemini-2.5-flash - INFO - 🔄 gemini-2.5-flash:epoch:1950s - Attempt 1
+E0000 00:00:1758659837.963925 11607126 alts_credentials.cc:93] ALTS creds ignored. Not running on GCP and untrusted ALTS is not enabled.
+2025-09-23 22:38:17,560 - experiment_runner_gemini-2.5-flash - INFO - ✅ gemini-2.5-flash:epoch:1950s - Success - /Users/barolo/LLMScholar-Audits/LLMCaller/experiments/config_gemini-2.5-flash/run_20250923_220141/epoch_1950s/attempt1_20250923_223817.json
+2025-09-23 22:38:17,570 - experiment_runner_gemini-2.5-flash - INFO - 🔄 gemini-2.5-flash:epoch:2000s - Attempt 1
+E0000 00:00:1758659897.576237 11607126 alts_credentials.cc:93] ALTS creds ignored. Not running on GCP and untrusted ALTS is not enabled.
+2025-09-23 22:38:47,691 - experiment_runner_gemini-2.5-flash - INFO - ✅ gemini-2.5-flash:epoch:2000s - Success - /Users/barolo/LLMScholar-Audits/LLMCaller/experiments/config_gemini-2.5-flash/run_20250923_220141/epoch_2000s/attempt1_20250923_223847.json
+2025-09-23 22:38:47,695 - experiment_runner_gemini-2.5-flash - INFO - 🔄 gemini-2.5-flash:field:PER - Attempt 1
+E0000 00:00:1758659927.697962 11607126 alts_credentials.cc:93] ALTS creds ignored. Not running on GCP and untrusted ALTS is not enabled.
+2025-09-23 22:42:38,776 - experiment_runner_gemini-2.5-flash - INFO - ✅ gemini-2.5-flash:field:PER - Success - /Users/barolo/LLMScholar-Audits/LLMCaller/experiments/config_gemini-2.5-flash/run_20250923_220141/field_PER/attempt1_20250923_224238.json
+2025-09-23 22:42:38,781 - experiment_runner_gemini-2.5-flash - INFO - 🔄 gemini-2.5-flash:field:CM&MP - Attempt 1
+E0000 00:00:1758660158.784472 11607126 alts_credentials.cc:93] ALTS creds ignored. Not running on GCP and untrusted ALTS is not enabled.
+2025-09-23 22:43:12,506 - experiment_runner_gemini-2.5-flash - INFO - ✅ gemini-2.5-flash:field:CM&MP - Success - /Users/barolo/LLMScholar-Audits/LLMCaller/experiments/config_gemini-2.5-flash/run_20250923_220141/field_CM&MP/attempt1_20250923_224312.json
+2025-09-23 22:43:12,510 - experiment_runner_gemini-2.5-flash - INFO - 🔄 gemini-2.5-flash:twins:famous_male - Attempt 1
+E0000 00:00:1758660192.512315 11607126 alts_credentials.cc:93] ALTS creds ignored. Not running on GCP and untrusted ALTS is not enabled.
+2025-09-23 22:43:32,004 - experiment_runner_gemini-2.5-flash - INFO - ✅ gemini-2.5-flash:twins:famous_male - Success - /Users/barolo/LLMScholar-Audits/LLMCaller/experiments/config_gemini-2.5-flash/run_20250923_220141/twins_famous_male/attempt1_20250923_224332.json
+2025-09-23 22:43:32,008 - experiment_runner_gemini-2.5-flash - INFO - 🔄 gemini-2.5-flash:twins:famous_female - Attempt 1
+E0000 00:00:1758660212.009831 11607126 alts_credentials.cc:93] ALTS creds ignored. Not running on GCP and untrusted ALTS is not enabled.
+2025-09-23 22:43:57,714 - experiment_runner_gemini-2.5-flash - INFO - ✅ gemini-2.5-flash:twins:famous_female - Success - /Users/barolo/LLMScholar-Audits/LLMCaller/experiments/config_gemini-2.5-flash/run_20250923_220141/twins_famous_female/attempt1_20250923_224357.json
+2025-09-23 22:43:57,717 - experiment_runner_gemini-2.5-flash - INFO - 🔄 gemini-2.5-flash:twins:random_male - Attempt 1
+E0000 00:00:1758660237.718621 11607126 alts_credentials.cc:93] ALTS creds ignored. Not running on GCP and untrusted ALTS is not enabled.
+2025-09-23 22:44:21,192 - experiment_runner_gemini-2.5-flash - INFO - ✅ gemini-2.5-flash:twins:random_male - Success - /Users/barolo/LLMScholar-Audits/LLMCaller/experiments/config_gemini-2.5-flash/run_20250923_220141/twins_random_male/attempt1_20250923_224421.json
+2025-09-23 22:44:21,195 - experiment_runner_gemini-2.5-flash - INFO - 🔄 gemini-2.5-flash:twins:random_female - Attempt 1
+E0000 00:00:1758660261.197115 11607126 alts_credentials.cc:93] ALTS creds ignored. Not running on GCP and untrusted ALTS is not enabled.
+2025-09-23 22:44:54,581 - experiment_runner_gemini-2.5-flash - INFO - ✅ gemini-2.5-flash:twins:random_female - Success - /Users/barolo/LLMScholar-Audits/LLMCaller/experiments/config_gemini-2.5-flash/run_20250923_220141/twins_random_female/attempt1_20250923_224454.json
+2025-09-23 22:44:54,586 - experiment_runner_gemini-2.5-flash - INFO - 🔄 gemini-2.5-flash:twins:fictitious_male - Attempt 1
+E0000 00:00:1758660294.589115 11607126 alts_credentials.cc:93] ALTS creds ignored. Not running on GCP and untrusted ALTS is not enabled.
+2025-09-23 22:44:59,900 - experiment_runner_gemini-2.5-flash - INFO - ❌ gemini-2.5-flash:twins:fictitious_male - Invalid (attempt 1) - No JSON-like structure found in the response
+2025-09-23 22:44:59,900 - experiment_runner_gemini-2.5-flash - INFO - 🔄 gemini-2.5-flash:twins:fictitious_male - Attempt 2
+E0000 00:00:1758660299.903252 11607126 alts_credentials.cc:93] ALTS creds ignored. Not running on GCP and untrusted ALTS is not enabled.
+2025-09-23 22:45:05,532 - experiment_runner_gemini-2.5-flash - INFO - ❌ gemini-2.5-flash:twins:fictitious_male - Invalid (attempt 2) - No JSON-like structure found in the response
+2025-09-23 22:45:05,533 - experiment_runner_gemini-2.5-flash - INFO - 🔄 gemini-2.5-flash:twins:fictitious_male - Attempt 3
+E0000 00:00:1758660305.538303 11607126 alts_credentials.cc:93] ALTS creds ignored. Not running on GCP and untrusted ALTS is not enabled.
+2025-09-23 22:45:11,573 - experiment_runner_gemini-2.5-flash - INFO - ❌ gemini-2.5-flash:twins:fictitious_male - Invalid (attempt 3) - No JSON-like structure found in the response
+2025-09-23 22:45:11,573 - experiment_runner_gemini-2.5-flash - INFO - 💀 gemini-2.5-flash:twins:fictitious_male - All attempts failed
+2025-09-23 22:45:11,576 - experiment_runner_gemini-2.5-flash - INFO - 🔄 gemini-2.5-flash:twins:fictitious_female - Attempt 1
+E0000 00:00:1758660311.579123 11607126 alts_credentials.cc:93] ALTS creds ignored. Not running on GCP and untrusted ALTS is not enabled.
+2025-09-23 22:45:17,290 - experiment_runner_gemini-2.5-flash - INFO - ❌ gemini-2.5-flash:twins:fictitious_female - Invalid (attempt 1) - No JSON-like structure found in the response
+2025-09-23 22:45:17,290 - experiment_runner_gemini-2.5-flash - INFO - 🔄 gemini-2.5-flash:twins:fictitious_female - Attempt 2
+E0000 00:00:1758660317.292968 11607126 alts_credentials.cc:93] ALTS creds ignored. Not running on GCP and untrusted ALTS is not enabled.
+2025-09-23 22:45:22,424 - experiment_runner_gemini-2.5-flash - INFO - ❌ gemini-2.5-flash:twins:fictitious_female - Invalid (attempt 2) - No JSON-like structure found in the response
+2025-09-23 22:45:22,424 - experiment_runner_gemini-2.5-flash - INFO - 🔄 gemini-2.5-flash:twins:fictitious_female - Attempt 3
+E0000 00:00:1758660322.425682 11607126 alts_credentials.cc:93] ALTS creds ignored. Not running on GCP and untrusted ALTS is not enabled.
+2025-09-23 22:45:27,854 - experiment_runner_gemini-2.5-flash - INFO - ❌ gemini-2.5-flash:twins:fictitious_female - Invalid (attempt 3) - No JSON-like structure found in the response
+2025-09-23 22:45:27,854 - experiment_runner_gemini-2.5-flash - INFO - 💀 gemini-2.5-flash:twins:fictitious_female - All attempts failed
+2025-09-23 22:45:27,860 - experiment_runner_gemini-2.5-flash - INFO - 🔄 gemini-2.5-flash:twins:movie_male - Attempt 1
+E0000 00:00:1758660327.861949 11607126 alts_credentials.cc:93] ALTS creds ignored. Not running on GCP and untrusted ALTS is not enabled.
+2025-09-23 22:45:32,691 - experiment_runner_gemini-2.5-flash - INFO - ✅ gemini-2.5-flash:twins:movie_male - Success - /Users/barolo/LLMScholar-Audits/LLMCaller/experiments/config_gemini-2.5-flash/run_20250923_220141/twins_movie_male/attempt1_20250923_224532.json
+2025-09-23 22:45:32,694 - experiment_runner_gemini-2.5-flash - INFO - 🔄 gemini-2.5-flash:twins:movie_female - Attempt 1
+E0000 00:00:1758660332.695573 11607126 alts_credentials.cc:93] ALTS creds ignored. Not running on GCP and untrusted ALTS is not enabled.
+2025-09-23 22:45:50,196 - experiment_runner_gemini-2.5-flash - INFO - ✅ gemini-2.5-flash:twins:movie_female - Success - /Users/barolo/LLMScholar-Audits/LLMCaller/experiments/config_gemini-2.5-flash/run_20250923_220141/twins_movie_female/attempt1_20250923_224550.json
+2025-09-23 22:45:50,199 - experiment_runner_gemini-2.5-flash - INFO - 🔄 gemini-2.5-flash:twins:politic_male - Attempt 1
+E0000 00:00:1758660350.201091 11607126 alts_credentials.cc:93] ALTS creds ignored. Not running on GCP and untrusted ALTS is not enabled.
+2025-09-23 22:46:00,935 - experiment_runner_gemini-2.5-flash - INFO - ✅ gemini-2.5-flash:twins:politic_male - Success - /Users/barolo/LLMScholar-Audits/LLMCaller/experiments/config_gemini-2.5-flash/run_20250923_220141/twins_politic_male/attempt1_20250923_224600.json
+2025-09-23 22:46:00,939 - experiment_runner_gemini-2.5-flash - INFO - 🔄 gemini-2.5-flash:twins:politic_female - Attempt 1
+E0000 00:00:1758660360.942867 11607126 alts_credentials.cc:93] ALTS creds ignored. Not running on GCP and untrusted ALTS is not enabled.
+2025-09-23 22:46:35,135 - experiment_runner_gemini-2.5-flash - INFO - ✅ gemini-2.5-flash:twins:politic_female - Success - /Users/barolo/LLMScholar-Audits/LLMCaller/experiments/config_gemini-2.5-flash/run_20250923_220141/twins_politic_female/attempt1_20250923_224635.json
+2025-09-23 22:46:35,139 - experiment_runner_gemini-2.5-flash - INFO - 🔄 gemini-2.5-flash:seniority:early_career - Attempt 1
+E0000 00:00:1758660395.141488 11607126 alts_credentials.cc:93] ALTS creds ignored. Not running on GCP and untrusted ALTS is not enabled.
+2025-09-23 22:50:19,400 - experiment_runner_gemini-2.5-flash - INFO - ✅ gemini-2.5-flash:seniority:early_career - Success - /Users/barolo/LLMScholar-Audits/LLMCaller/experiments/config_gemini-2.5-flash/run_20250923_220141/seniority_early_career/attempt1_20250923_225019.json
+2025-09-23 22:50:19,406 - experiment_runner_gemini-2.5-flash - INFO - 🔄 gemini-2.5-flash:seniority:senior - Attempt 1
+E0000 00:00:1758660619.410339 11607126 alts_credentials.cc:93] ALTS creds ignored. Not running on GCP and untrusted ALTS is not enabled.
+2025-09-23 22:50:54,014 - experiment_runner_gemini-2.5-flash - INFO - ✅ gemini-2.5-flash:seniority:senior - Success - /Users/barolo/LLMScholar-Audits/LLMCaller/experiments/config_gemini-2.5-flash/run_20250923_220141/seniority_senior/attempt1_20250923_225054.json
+2025-09-23 22:50:54,026 - experiment_runner_gemini-2.5-flash-grounded - INFO - 🔄 gemini-2.5-flash-grounded:top_k:top_5 - Attempt 1
+2025-09-23 22:51:13,409 - experiment_runner_gemini-2.5-flash-grounded - INFO - ✅ gemini-2.5-flash-grounded:top_k:top_5 - Success - /Users/barolo/LLMScholar-Audits/LLMCaller/experiments/config_gemini-2.5-flash-grounded/run_20250923_225054/top_k_top_5/attempt1_20250923_225113.json
+2025-09-23 22:51:13,413 - experiment_runner_gemini-2.5-flash-grounded - INFO - 🔄 gemini-2.5-flash-grounded:top_k:top_100 - Attempt 1
+2025-09-23 22:52:02,001 - experiment_runner_gemini-2.5-flash-grounded - INFO - ✅ gemini-2.5-flash-grounded:top_k:top_100 - Success - /Users/barolo/LLMScholar-Audits/LLMCaller/experiments/config_gemini-2.5-flash-grounded/run_20250923_225054/top_k_top_100/attempt1_20250923_225202.json
+2025-09-23 22:52:02,004 - experiment_runner_gemini-2.5-flash-grounded - INFO - 🔄 gemini-2.5-flash-grounded:biased_top_k:top_100_bias_diverse - Attempt 1
+2025-09-23 22:54:02,360 - experiment_runner_gemini-2.5-flash-grounded - ERROR - 🚨 gemini-2.5-flash-grounded:biased_top_k:top_100_bias_diverse - Attempt 1 error: HTTPSConnectionPool(host='us-central1-aiplatform.googleapis.com', port=443): Read timed out. (read timeout=120)
+2025-09-23 22:54:03,364 - experiment_runner_gemini-2.5-flash-grounded - INFO - 🔄 gemini-2.5-flash-grounded:biased_top_k:top_100_bias_diverse - Attempt 2
+2025-09-23 22:55:23,694 - experiment_runner_gemini-2.5-flash-grounded - INFO - ❌ gemini-2.5-flash-grounded:biased_top_k:top_100_bias_diverse - Invalid (attempt 2) - No schema found for category 'biased_top_k'
+2025-09-23 22:55:23,695 - experiment_runner_gemini-2.5-flash-grounded - INFO - 🔄 gemini-2.5-flash-grounded:biased_top_k:top_100_bias_diverse - Attempt 3
+2025-09-23 22:57:24,079 - experiment_runner_gemini-2.5-flash-grounded - ERROR - 🚨 gemini-2.5-flash-grounded:biased_top_k:top_100_bias_diverse - Attempt 3 error: HTTPSConnectionPool(host='us-central1-aiplatform.googleapis.com', port=443): Read timed out. (read timeout=120)
+2025-09-23 22:57:24,083 - experiment_runner_gemini-2.5-flash-grounded - ERROR - 💀 gemini-2.5-flash-grounded:biased_top_k:top_100_bias_diverse - Final failure - /Users/barolo/LLMScholar-Audits/LLMCaller/experiments/config_gemini-2.5-flash-grounded/run_20250923_225054/biased_top_k_top_100_bias_diverse/attempt3_20250923_225724.json
+2025-09-23 22:57:24,088 - experiment_runner_gemini-2.5-flash-grounded - INFO - 🔄 gemini-2.5-flash-grounded:biased_top_k:top_100_bias_gender_equal - Attempt 1

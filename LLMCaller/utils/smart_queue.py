@@ -311,7 +311,7 @@ class SmartQueue:
         try:
             # Execute all tasks in batch concurrently
             task_results = await asyncio.gather(
-                *[task.executor((task.category, task.variable)) for task in batch],
+                *[task.executor((task.category, task.variable, task.retry_count + 1)) for task in batch],
                 return_exceptions=True
             )
             
