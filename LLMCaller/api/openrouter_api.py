@@ -67,7 +67,8 @@ class OpenRouterAPI:
 
             if len(OpenRouterAPI._global_minute_calls) >= max_calls_per_minute:
                 wait_time = 60 - (now - OpenRouterAPI._global_minute_calls[0]) + 1
-                print(f"Global rate limit reached ({max_calls_per_minute}/min). Waiting {wait_time:.1f} seconds...")
+                timestamp = datetime.now().strftime("%Y-%m-%d %H:%M:%S")
+                print(f"[{timestamp}] Global rate limit reached ({max_calls_per_minute}/min). Waiting {wait_time:.1f} seconds...")
                 await asyncio.sleep(wait_time)
                 # Clear old calls after waiting
                 now = time.time()
@@ -219,7 +220,8 @@ class OpenRouterAPI:
             return chat_completion
             
         except Exception as e:
-            print(f"Error with OpenRouter API: {e}")
+            timestamp = datetime.now().strftime("%Y-%m-%d %H:%M:%S")
+            print(f"[{timestamp}] Error with OpenRouter API: {e}")
             raise e
 
 def test_api_key():
