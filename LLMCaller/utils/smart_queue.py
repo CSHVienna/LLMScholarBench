@@ -70,7 +70,8 @@ class SmartQueue:
         if self.logger:
             getattr(self.logger, level)(message)
         else:
-            print(f"[{level.upper()}] {message}")
+            timestamp = datetime.now().strftime("%Y-%m-%d %H:%M:%S")
+            print(f"[{timestamp}] [{level.upper()}] {message}")
     
     def add_model_tasks(self, model_name: str, experiments: List[Tuple[str, str]], executor: Callable):
         """

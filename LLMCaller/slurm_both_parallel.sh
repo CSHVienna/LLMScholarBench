@@ -43,7 +43,7 @@ mkdir -p logs
 
 # Run both in background, wait for both to complete
 echo "Starting OpenRouter models..."
-python3 main.py --all-models-smart --provider openrouter --batch-size 20 > logs/openrouter_inline.log 2>&1 &
+python3 main.py --all-models-smart --provider openrouter --batch-size 15 > logs/openrouter_inline.log 2>&1 &
 OPENROUTER_PID=$!
 
 echo "Starting Gemini models..."
