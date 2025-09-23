@@ -5,6 +5,7 @@ import asyncio
 from experiments.runner import ExperimentRunner
 from experiments.runner_smart import SmartExperimentRunner, MultiModelSmartRunner
 from config.loader import load_llm_setup, get_available_models
+from run_gemini_concurrent import run_gemini_concurrent
 from datetime import datetime
 
 def create_experiment_config(model_name, output_dir=None):
@@ -85,6 +86,9 @@ if __name__ == "__main__":
                         help="Run single variable experiment (requires --category)")
     parser.add_argument("--batch-size", type=int, default=15,
                         help="Set batch size for API calls (default: 15)")
+    parser.add_argument("--provider", type=str,
+                        choices=["openrouter", "gemini"],
+                        help="Filter models by provider (openrouter or gemini)")
     
     args = parser.parse_args()
     
@@ -96,9 +100,37 @@ if __name__ == "__main__":
         parser.error("--variable requires --category")
     
     if args.all_models_smart:
-        print("🚀 Using smart queue system for optimal cross-model batching!")
-        print(f"   Batch size: {args.batch_size}")
-        run_all_models_smart(args.output_dir, args.category, args.variable, args.batch_size)
+        # Get models filtered by provider
+        models = get_available_models(provider_filter=args.provider)
+
+        if not models:
+            print(f"❌ No models found for provider: {args.provider}")
+            exit(1)
+
+        # Route to appropriate execution strategy
+        if args.provider == 'gemini':
+            print(f"🧠 Running {len(models)} Gemini models concurrently (no rate limits)")
+            asyncio.run(run_gemini_concurrent(models, args.output_dir, args.category, args.variable))
+        elif args.provider == 'openrouter':
+            print(f"🚀 Running {len(models)} OpenRouter models with smart queue system")
+            print(f"   Batch size: {args.batch_size}")
+            runner = MultiModelSmartRunner(args.output_dir, batch_size=args.batch_size)
+            asyncio.run(runner.run_all_models_smart(models, args.category, args.variable))
+        else:
+            # No provider specified - check for mixed providers
+            openrouter_models = get_available_models(provider_filter='openrouter')
+            gemini_models = get_available_models(provider_filter='gemini')
+
+            if openrouter_models and gemini_models:
+                print("⚠️  Mixed providers detected! For optimal performance, use --provider to run them separately:")
+                print(f"   --provider openrouter  ({len(openrouter_models)} models)")
+                print(f"   --provider gemini      ({len(gemini_models)} models)")
+                print("   Running all with OpenRouter strategy (suboptimal for Gemini)...")
+
+            print(f"🚀 Using smart queue system for {len(models)} models")
+            print(f"   Batch size: {args.batch_size}")
+            runner = MultiModelSmartRunner(args.output_dir, batch_size=args.batch_size)
+            asyncio.run(runner.run_all_models_smart(models, args.category, args.variable))
     elif args.all_models:
         print("📝 Using legacy sequential processing (consider --all-models-smart for better efficiency)")
         print(f"   Batch size: {args.batch_size}")

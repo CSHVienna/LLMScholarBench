@@ -65,20 +65,38 @@ def _load_provider_info():
         print(f"Warning: Could not load provider info from CSV: {e}")
     return provider_map
 
-def get_available_models():
-    """Get list of all available model names from llm_setup.json"""
+def get_available_models(provider_filter=None):
+    """Get list of available model names, optionally filtered by provider"""
     config_dir = os.path.dirname(os.path.abspath(__file__))
     config_path = os.path.join(config_dir, 'llm_setup.json')
     all_configs = load_config(config_path)
-    # Filter out 'global' key if it exists
-    return [key for key in all_configs.keys() if key != 'global']
+    models = [key for key in all_configs.keys() if key != 'global']
+
+    if provider_filter:
+        filtered = []
+        for model in models:
+            config = all_configs[model]
+            if config.get('provider') == provider_filter:
+                filtered.append(model)
+        return filtered
+
+    return models
 
 def get_global_config():
-    """Get global configuration settings"""
+    """Get global configuration settings with environment variable overrides"""
     config_dir = os.path.dirname(os.path.abspath(__file__))
     config_path = os.path.join(config_dir, 'llm_setup.json')
     all_configs = load_config(config_path)
-    return all_configs.get('global', {})
+    global_config = all_configs.get('global', {})
+
+    # Override with environment variables if they exist
+    if os.getenv('LLMCALLER_CREDENTIALS'):
+        global_config['credentials_dir'] = os.getenv('LLMCALLER_CREDENTIALS')
+
+    if os.getenv('LLMCALLER_OUTPUT'):
+        global_config['output_dir'] = os.getenv('LLMCALLER_OUTPUT')
+
+    return global_config
 
 def load_twin_scientists_config():
     config_dir = os.path.dirname(os.path.abspath(__file__))
