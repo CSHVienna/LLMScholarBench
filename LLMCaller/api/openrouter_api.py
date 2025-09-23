@@ -6,6 +6,7 @@ from datetime import datetime
 from typing import Optional, Tuple
 from openai import AsyncOpenAI
 from dotenv import load_dotenv
+from config.loader import get_global_config
 
 class OpenRouterAPI:
     # Class-level rate limiting shared across all instances
@@ -19,18 +20,32 @@ class OpenRouterAPI:
             cls._global_rate_limit_lock = asyncio.Lock()
         return cls._global_rate_limit_lock
     def __init__(self, config, usage_tracker_path='usage_tracker.json'):
-        load_dotenv()
         self.config = config
         self.usage_tracker_path = usage_tracker_path
         self.api_key = self._load_api_key()
         self.client = self._create_client()
-        
+
     def _load_api_key(self) -> str:
-        """Load single API key from environment variables"""
+        """Load API key from centralized credentials directory"""
+        # First try environment variable (if already set)
         key = os.getenv('OPENROUTER_API_KEY')
-        if not key:
-            raise ValueError("No OpenRouter API key found. Please set OPENROUTER_API_KEY in your .env file")
-        return key
+        if key:
+            return key
+
+        # Load from centralized credentials
+        global_config = get_global_config()
+        credentials_dir = global_config.get('credentials_dir')
+        if not credentials_dir:
+            raise ValueError("credentials_dir not found in global configuration")
+
+        env_file = os.path.join(credentials_dir, '.env')
+        if os.path.exists(env_file):
+            load_dotenv(env_file)
+            key = os.getenv('OPENROUTER_API_KEY')
+            if key:
+                return key
+
+        raise ValueError(f"No OpenRouter API key found. Please set OPENROUTER_API_KEY in {env_file}")
     
     def _create_client(self):
         """Create AsyncOpenAI client configured for OpenRouter"""
