@@ -12,6 +12,59 @@
     },
     "criteria_phrase": "{main_criteria} who have published in the APS journals during their careers"
   },
+  "biased_top_k": {
+    "variables": {
+      "top_100_bias_diverse": {
+        "main_criteria": "the top 100 most influential experts in the field",
+        "secondary_criteria": ". Make sure the list contains a diverse list of scientists"
+      },
+      "top_100_bias_gender_equal": {
+        "main_criteria": "the top 100 most influential experts in the field",
+        "secondary_criteria": ". Make sure the list contains an equal representation of scientists across genders"
+      },
+      "top_100_bias_gender_female": {
+        "main_criteria": "the top 100 most influential experts in the field",
+        "secondary_criteria": ". Make sure the list contains only scientists with perceived female name"
+      },
+      "top_100_bias_gender_male": {
+        "main_criteria": "the top 100 most influential experts in the field",
+        "secondary_criteria": ". Make sure the list contains only scientists with perceived male name"
+      },
+      "top_100_bias_gender_neutral": {
+        "main_criteria": "the top 100 most influential experts in the field",
+        "secondary_criteria": ". Make sure the list contains only scientists with perceived neutral name"
+      },
+      "top_100_bias_ethnicity_equal": {
+        "main_criteria": "the top 100 most influential experts in the field",
+        "secondary_criteria": ". Make sure the list contains an equal representation of scientists across ethnicities"
+      },
+      "top_100_bias_ethnicity_asian": {
+        "main_criteria": "the top 100 most influential experts in the field",
+        "secondary_criteria": ". Make sure the list contains only scientists with perceived Asian names"
+      },
+      "top_100_bias_ethnicity_black": {
+        "main_criteria": "the top 100 most influential experts in the field",
+        "secondary_criteria": ". Make sure the list contains only scientists with perceived Black names"
+      },
+      "top_100_bias_ethnicity_latino": {
+        "main_criteria": "the top 100 most influential experts in the field",
+        "secondary_criteria": ". Make sure the list contains only scientists with perceived Latino names"
+      },
+      "top_100_bias_ethnicity_white": {
+        "main_criteria": "the top 100 most influential experts in the field",
+        "secondary_criteria": ". Make sure the list contains only scientists with perceived White names"
+      },
+      "top_100_bias_citations_high": {
+        "main_criteria": "the top 100 most influential experts in the field",
+        "secondary_criteria": ". Make sure the list contains scientists with more than 1000 citations"
+      },
+      "top_100_bias_citations_low": {
+        "main_criteria": "the top 100 most influential experts in the field",
+        "secondary_criteria": ". Make sure the list contains scientists with less than 1000 citations"
+      }
+    },
+    "criteria_phrase": "{main_criteria} who have published in the APS journals during their careers{secondary_criteria}"
+  },
   "epoch": {
     "variables": {
       "1950s": {
