@@ -6,10 +6,13 @@ LLMCaller is a modular and flexible system designed to run experiments with vari
 
 ## Key Features
 
-- Support for multiple LLM configurations (e.g., Gemma 2 9b, LLaMA 3 (8b, 70b), Mixtral 8x7b)
+- Support for 14+ models across multiple API providers (OpenRouter, Gemini)
+- Smart Queue System for optimal API efficiency and zero wasted calls
+- Parallel execution support (run multiple providers simultaneously)
 - Modular architecture for easy extension and maintenance
 - Randomized experiment execution to minimize ordering bias
-- Robust error handling and logging
+- Centralized credential management
+- Robust error handling and comprehensive logging
 - Structured storage of experiment results and configurations
 
 ## System Architecture
@@ -18,12 +21,17 @@ The LLMCaller system is composed of several modules, each with a specific respon
 
 1. **Main Script** (`main.py`): Entry point for running experiments.
 2. **Experiment Runner** (`experiments/runner.py`): Orchestrates the execution of experiments.
-3. **API Client** (`api/groq_api.py`): Handles communication with the LLM API.
+3. **API Clients** (`api/`): Multi-provider support via factory pattern
+   - `api_factory.py`: Creates appropriate client based on provider
+   - `openrouter_api.py`: OpenRouter API with rate limiting
+   - `gemini_api.py`: Google Gemini/Vertex AI
+   - `openai_api.py`: OpenAI-compatible API client
 4. **Configuration Management** (`config/`): Loads and validates experiment configurations.
 5. **Prompt Generation** (`prompts/generator.py`): Creates prompts for each experiment variable.
 6. **Result Storage** (`storage/`): Saves experiment results and maintains summaries.
 7. **Logging** (`logs/setup.py`): Sets up logging for the experiment runs.
 8. **Validation** (`validation/validator.py`): Validates LLM responses.
+9. **Smart Queue System** (`utils/smart_queue.py`): Advanced batching with cross-model optimization.
 
 ## How It Works
 
@@ -37,23 +45,72 @@ The LLMCaller system is composed of several modules, each with a specific respon
    - If the response is invalid, the system retries up to a configured maximum number of attempts.
 5. Results are saved in a structured directory format, including logs and summaries.
 
+## API Providers & Models
+
+### OpenRouter (10 models)
+Free-tier models with rate limiting (15-20 calls/min):
+- LLaMA: `llama-3.3-8b`, `llama-3.3-70b`, `llama-3.1-405b`
+- Qwen: `qwen3-8b`, `qwen3-235b`
+- Others: `gpt-oss-20b`, `mistral-small-3.2`, `gemma-3-27b`, `deepseek-chat-v3.1`, `deepseek-r1`
+
+### Gemini (4 models)
+Google Vertex AI with concurrent execution:
+- `gemini-2.5-flash`, `gemini-2.5-flash-grounded`
+- `gemini-2.5-pro`, `gemini-2.5-pro-grounded`
+
 ## Usage
 
-To run an experiment with a specific model:
-
+### Recommended: Run all models with smart queue
 ```bash
-python main.py --model MODEL_NAME
+# OpenRouter (60-90 min)
+python main.py --all-models-smart --provider openrouter --batch-size 20
+
+# Gemini (10-20 min)
+python main.py --all-models-smart --provider gemini
 ```
 
-Replace `MODEL_NAME` with one of the following options:
-- `gemma2-9b`
-- `llama3-70b`
-- `llama3-8b`
-- `mixtral-8x7b`
+### Single model
+```bash
+python main.py --model llama-3.3-8b
+```
+
+### Parallel execution (both providers)
+```bash
+./slurm_both_parallel.sh
+```
+
+See [SMART_QUEUE.md](SMART_QUEUE.md) for detailed documentation.
+
+## Credentials Setup
+
+### Required files in credentials directory:
+
+```bash
+credentials/
+├── .env                    # OpenRouter API key
+└── .keys/                  # Google Cloud config directory
+    ├── config.ini         # GCP project settings
+    └── service-account.json
+```
+
+### Setup
+
+```bash
+# Set environment variable
+export LLMCALLER_CREDENTIALS="/path/to/credentials"
+export LLMCALLER_OUTPUT="/path/to/experiments"
+
+# Create .env file
+echo "OPENROUTER_API_KEY=your_key_here" > $LLMCALLER_CREDENTIALS/.env
+
+# Create .keys/config.ini
+mkdir -p $LLMCALLER_CREDENTIALS/.keys
+# Add Google Cloud settings and service account JSON
+```
 
 ## Directory Structure
 
-After running experiments, your directory structure will look like this:
+After running experiments:
 
 ```
 experiments/
@@ -63,30 +120,73 @@ experiments/
     │   ├── experiment_runner.log
     │   ├── experiment_summary.json
     │   ├── [category1]_[variable1]/
-    │   │   ├── attempt1_[timestamp].json
-    │   │   └── attempt2_[timestamp].json
+    │   │   ├── attempt1_[timestamp].json  # Full result: prompt, response, validation
+    │   │   └── attempt2_[timestamp].json  # Retry if needed
     │   └── [category2]_[variable2]/
     │       └── attempt1_[timestamp].json
     └── run_[timestamp2]/
-        ├── experiment_runner.log
-        ├── experiment_summary.json
         └── ...
+
+logs/
+├── openrouter_inline.log
+└── gemini_inline.log
 ```
 
 ## Extending the System
 
-To add new models or modify existing ones, update the `config/model_configs.json` file.
+### Add new models
+Edit `config/llm_setup.json`:
+```json
+{
+  "your-model": {
+    "model": "provider/model-id",
+    "provider": "openrouter",
+    "temperature": 0,
+    "max_attempts": 3
+  }
+}
+```
 
-To add new experiment categories or variables, modify the `config/category_variables.json` file and update the prompt generation logic in `prompts/generator.py`.
+### Add new experiment categories
+1. Update `config/category_variables.json`
+2. Create schema in `config/schemas/[category].json`
+3. Update `prompts/generator.py`
 
-## Troubleshooting
+## Running on a Server (Scheduled Execution)
 
-If you encounter issues:
-1. Check the experiment logs in the run directory.
-2. Ensure your API key is correctly set in the environment variables.
-3. Verify that the selected model is available and correctly configured.
+```bash
+# 1. Clone and setup
+git clone <your-repo-url>
+cd LLMScholar-Audits/LLMCaller
+uv venv
+source .venv/bin/activate
+uv pip install -r requirements.txt
 
-For more detailed information on each module, refer to the inline documentation in the respective Python files.
+# 2. Configure credentials
+export LLMCALLER_CREDENTIALS="/path/to/credentials"
+export LLMCALLER_OUTPUT="/path/to/experiments"
+# Setup .env and .keys/ as described in Credentials Setup
+
+# 3. Edit paths in slurm_both_parallel.sh
+# Update LLMCALLER_CREDENTIALS and LLMCALLER_OUTPUT
+
+# 4. Test run
+chmod +x slurm_both_parallel.sh
+./slurm_both_parallel.sh
+
+# 5. Schedule with cron (3x daily: midnight, 8am, 4pm)
+crontab -e
+# Add: 0 0,8,16 * * * cd /full/path/to/LLMCaller && ./slurm_both_parallel.sh
+```
+
+### Performance
+- **Parallel (both providers)**: ~60-90 min (recommended)
+- **OpenRouter only**: ~60-90 min (rate limited)
+- **Gemini only**: ~10-20 min (concurrent)
+
+Logs: `logs/` directory with timestamps.
+
+For more detailed information, see [SMART_QUEUE.md](SMART_QUEUE.md) and inline documentation in the respective Python files.
 
 ## Fictitious Twin Names
 

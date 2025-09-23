@@ -8,6 +8,28 @@
 export LLMCALLER_CREDENTIALS="/Users/barolo/Desktop/credentials"
 export LLMCALLER_OUTPUT="/Users/barolo/LLMScholar-Audits/LLMCaller/experiments"
 
+# Check credentials folder exists and has required files
+if [ ! -d "$LLMCALLER_CREDENTIALS" ]; then
+    echo "❌ ERROR: Credentials folder not found at: $LLMCALLER_CREDENTIALS"
+    echo ""
+    echo "📋 Setup instructions:"
+    echo "   1. Create credentials folder: mkdir -p $LLMCALLER_CREDENTIALS"
+    echo "   2. Create .keys/ directory with Google Cloud config file"
+    echo "   3. Create .env file with API keys"
+    echo ""
+    exit 1
+fi
+
+if [ ! -d "$LLMCALLER_CREDENTIALS/.keys" ] || [ ! -f "$LLMCALLER_CREDENTIALS/.env" ]; then
+    echo "❌ ERROR: Missing required files in credentials folder"
+    echo ""
+    echo "📋 Required:"
+    echo "   - $LLMCALLER_CREDENTIALS/.keys/ (directory with Google Cloud config)"
+    echo "   - $LLMCALLER_CREDENTIALS/.env (file with API keys)"
+    echo ""
+    exit 1
+fi
+
 # Run both providers in parallel within single job
 echo "🚀 Starting both OpenRouter and Gemini models in parallel"
 echo "   Credentials: $LLMCALLER_CREDENTIALS"
