@@ -93,6 +93,22 @@
     "system_message_ref": "physics_research_assistant",
     "provider": "openrouter"
   },
+    "gemini-2.5-flash-lite": {
+    "model": "gemini-2.5-flash-lite",
+    "max_attempts": 3,
+    "temperature": 0,
+    "grounded": false,
+    "provider": "gemini",
+    "system_message_ref": "physics_research_assistant"
+  },
+  "gemini-2.5-flash-lite-grounded": {
+    "model": "gemini-2.5-flash-lite",
+    "max_attempts": 3,
+    "temperature": 0,
+    "grounded": true,
+    "provider": "gemini",
+    "system_message_ref": "physics_research_assistant"
+  },
   "gemini-2.5-flash": {
     "model": "gemini-2.5-flash",
     "max_attempts": 3,
