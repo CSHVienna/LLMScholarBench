@@ -2,8 +2,13 @@ import os
 import logging
 from logging.handlers import RotatingFileHandler
 
-def setup_logging(run_dir):
-    logger = logging.getLogger('experiment_runner')
+def setup_logging(run_dir, model_name=None):
+    logger_name = f'experiment_runner_{model_name}' if model_name else 'experiment_runner'
+    logger = logging.getLogger(logger_name)
+
+    if logger.handlers:
+        logger.handlers.clear()
+
     logger.setLevel(logging.DEBUG)
 
     console_handler = logging.StreamHandler()

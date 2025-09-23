@@ -115,9 +115,9 @@ async def run_single_gemini_experiment(model_name, category, variable, run_dir, 
             await asyncio.sleep(1)
 
 async def run_gemini_concurrent(models, output_dir=None, category=None, variable=None):
-    """Run all Gemini models concurrently with full response saving"""
+    """Run all Gemini models sequentially (one experiment at a time)"""
 
-    print(f"🧠 Running {len(models)} Gemini models concurrently (no artificial rate limits)")
+    print(f"🧠 Running {len(models)} Gemini models sequentially")
 
     # Load experiments
     if category and variable:
@@ -130,10 +130,10 @@ async def run_gemini_concurrent(models, output_dir=None, category=None, variable
                 experiments.append((cat, var))
 
     print(f"📊 Total experiments per model: {len(experiments)}")
-    print(f"📊 Total concurrent tasks: {len(models)} models × {len(experiments)} experiments = {len(models) * len(experiments)}")
+    print(f"📊 Total tasks: {len(models)} models × {len(experiments)} experiments = {len(models) * len(experiments)}")
 
-    # Create all experiment directories and tasks
-    all_tasks = []
+    all_results = []
+    start_time = asyncio.get_event_loop().time()
 
     for model_name in models:
         # Create experiment config directory (same pattern as existing)
@@ -158,31 +158,26 @@ async def run_gemini_concurrent(models, output_dir=None, category=None, variable
         run_dir = os.path.join(base_config_dir, f"run_{timestamp}")
         os.makedirs(run_dir, exist_ok=True)
 
-        # Setup logger for this model (setup_logging returns a logger)
-        logger = setup_logging(run_dir)
+        # Setup logger for this model with unique name
+        logger = setup_logging(run_dir, model_name=model_name)
 
-        # Create tasks for all experiments for this model
+        # Run experiments sequentially for this model
+        print(f"\n🚀 Running {len(experiments)} experiments for {model_name}...")
         for cat, var in experiments:
-            task = run_single_gemini_experiment(model_name, cat, var, run_dir, logger)
-            all_tasks.append(task)
-
-    # Run all tasks concurrently
-    print(f"🚀 Launching {len(all_tasks)} concurrent Gemini tasks...")
-    start_time = asyncio.get_event_loop().time()
-
-    results = await asyncio.gather(*all_tasks, return_exceptions=True)
+            result = await run_single_gemini_experiment(model_name, cat, var, run_dir, logger)
+            all_results.append(result)
 
     end_time = asyncio.get_event_loop().time()
     total_time = end_time - start_time
 
     # Summary
-    success_count = sum(1 for r in results if isinstance(r, dict) and r.get('validation_result', {}).get('is_valid', False))
-    error_count = sum(1 for r in results if isinstance(r, Exception))
+    success_count = sum(1 for r in all_results if isinstance(r, dict) and r.get('validation_result', {}).get('is_valid', False))
+    error_count = sum(1 for r in all_results if isinstance(r, Exception))
 
-    print(f"\n🎉 Gemini concurrent execution completed!")
+    print(f"\n🎉 Gemini sequential execution completed!")
     print(f"   Total time: {total_time:.1f} seconds")
-    print(f"   Average per task: {total_time/len(all_tasks):.1f} seconds")
-    print(f"   Valid results: {success_count}/{len(all_tasks)}")
+    print(f"   Average per task: {total_time/len(all_results):.1f} seconds")
+    print(f"   Valid results: {success_count}/{len(all_results)}")
     print(f"   Errors: {error_count}")
 
-    return results
+    return all_results
