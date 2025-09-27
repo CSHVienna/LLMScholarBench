@@ -5,7 +5,7 @@
 #SBATCH --error=logs/both_parallel_%j.err
 
 # Environment configuration
-export LLMCALLER_CREDENTIALS="/Users/barolo/Desktop/credentials"
+export LLMCALLER_CREDENTIALS="/Users/barolo/Desktop/credentials" 
 export LLMCALLER_OUTPUT="/Users/barolo/LLMScholar-Audits/LLMCaller/experiments"
 
 # Check credentials folder exists and has required files
