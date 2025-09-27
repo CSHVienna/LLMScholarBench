@@ -965,3 +965,1114 @@
 [2025-09-23 23:30:34] [INFO] ❌➡️ Task failed, added to retry queue: gpt-oss-20b:biased_top_k:top_100_bias_diverse
 [2025-09-23 23:30:34] [INFO] ↩️  Retrying gpt-oss-20b:biased_top_k:top_100_bias_ethnicity_asian (attempt 3)
 [2025-09-23 23:30:34] [INFO] ❌➡️ Task failed, added to retry queue: gpt-oss-20b:biased_top_k:top_100_bias_ethnicity_asian
+[2025-09-23 23:30:34] [INFO] ↩️  Retrying gpt-oss-20b:biased_top_k:top_100_bias_citations_high (attempt 3)
+[2025-09-23 23:30:34] [INFO] ❌➡️ Task failed, added to retry queue: gpt-oss-20b:biased_top_k:top_100_bias_citations_high
+[2025-09-23 23:30:34] [ERROR] ❌ Task gpt-oss-20b:twins:random_female failed permanently after 3 attempts
+[2025-09-23 23:30:34] [INFO] ❌💀 Task permanently failed: gpt-oss-20b:twins:random_female
+[2025-09-23 23:30:34] [ERROR] ❌ Task gpt-oss-20b:biased_top_k:top_100_bias_gender_female failed permanently after 3 attempts
+[2025-09-23 23:30:34] [INFO] ❌💀 Task permanently failed: gpt-oss-20b:biased_top_k:top_100_bias_gender_female
+[2025-09-23 23:30:34] [ERROR] ❌ Task gpt-oss-20b:biased_top_k:top_100_bias_ethnicity_equal failed permanently after 3 attempts
+[2025-09-23 23:30:34] [INFO] ❌💀 Task permanently failed: gpt-oss-20b:biased_top_k:top_100_bias_ethnicity_equal
+[2025-09-23 23:30:34] [ERROR] ❌ Task gpt-oss-20b:field:CM&MP failed permanently after 3 attempts
+[2025-09-23 23:30:34] [INFO] ❌💀 Task permanently failed: gpt-oss-20b:field:CM&MP
+[2025-09-23 23:30:34] [ERROR] ❌ Task gpt-oss-20b:biased_top_k:top_100_bias_gender_equal failed permanently after 3 attempts
+[2025-09-23 23:30:34] [INFO] ❌💀 Task permanently failed: gpt-oss-20b:biased_top_k:top_100_bias_gender_equal
+[2025-09-23 23:30:34] Error with OpenRouter API: Expecting value: line 555 column 1 (char 3047)
+[2025-09-23 23:30:34] Error with OpenRouter API: Expecting value: line 167 column 1 (char 913)
+[2025-09-23 23:30:58] [INFO] ✅ Batch 16 completed in 300.0s
+[2025-09-23 23:30:58] [INFO] ✅ Batch 17 completed in 240.0s
+[2025-09-23 23:30:58] [INFO] 🚀 Batch 21: Launching 20 tasks
+[2025-09-23 23:30:58] [INFO]    Queue status: {'retry_queue': 6, 'current_model_queue': 1, 'next_model_queue': 90, 'total_pending': 97}
+[2025-09-23 23:30:58] [INFO]    Tasks: ['llama-3.3-70b:biased_top_k:top_100_bias_gender_female', 'llama-3.3-70b:biased_top_k:top_100_bias_ethnicity_equal', 'llama-3.3-70b:field:CM&MP', 'llama-3.3-70b:biased_top_k:top_100_bias_gender_equal', 'llama-3.3-70b:twins:fictitious_female', 'llama-3.3-70b:biased_top_k:top_100_bias_ethnicity_latino', 'llama-3.3-70b:twins:famous_male', 'llama-3.3-70b:twins:movie_male', 'llama-3.3-70b:seniority:senior', 'llama-3.3-70b:biased_top_k:top_100_bias_citations_low', 'llama-3.3-70b:twins:movie_female', 'qwen3-8b:biased_top_k:top_100_bias_citations_low', 'gpt-oss-20b:seniority:early_career', 'gpt-oss-20b:epoch:2000s', 'gpt-oss-20b:biased_top_k:top_100_bias_ethnicity_white', 'gpt-oss-20b:field:PER', 'gpt-oss-20b:biased_top_k:top_100_bias_ethnicity_black', 'gpt-oss-20b:biased_top_k:top_100_bias_gender_male', 'gpt-oss-20b:twins:fictitious_male', 'gpt-oss-20b:biased_top_k:top_100_bias_gender_neutral']
+[2025-09-23 23:30:58] [INFO] ⏱️  Waiting 60s before next batch (regardless of completion)...
+[2025-09-23 23:31:02] Error with OpenRouter API: Expecting value: line 301 column 1 (char 1650)
+[2025-09-23 23:31:02] Error with OpenRouter API: Error code: 429 - {'error': {'message': 'Rate limit exceeded: free-models-per-min. ', 'code': 429, 'metadata': {'headers': {'X-RateLimit-Limit': '16', 'X-RateLimit-Remaining': '0', 'X-RateLimit-Reset': '1758663060000'}, 'provider_name': None}}, 'user_id': 'user_2ypJrHbIFm5lhnAMiYtfjHuP5uW'}
+[2025-09-23 23:31:02] Error with OpenRouter API: Error code: 429 - {'error': {'message': 'Rate limit exceeded: free-models-per-min. ', 'code': 429, 'metadata': {'headers': {'X-RateLimit-Limit': '16', 'X-RateLimit-Remaining': '0', 'X-RateLimit-Reset': '1758663060000'}, 'provider_name': None}}, 'user_id': 'user_2ypJrHbIFm5lhnAMiYtfjHuP5uW'}
+[2025-09-23 23:31:02] Error with OpenRouter API: Error code: 429 - {'error': {'message': 'Rate limit exceeded: free-models-per-min. ', 'code': 429, 'metadata': {'headers': {'X-RateLimit-Limit': '16', 'X-RateLimit-Remaining': '0', 'X-RateLimit-Reset': '1758663060000'}, 'provider_name': None}}, 'user_id': 'user_2ypJrHbIFm5lhnAMiYtfjHuP5uW'}
+[2025-09-23 23:31:02] Error with OpenRouter API: Error code: 429 - {'error': {'message': 'Rate limit exceeded: free-models-per-min. ', 'code': 429, 'metadata': {'headers': {'X-RateLimit-Limit': '16', 'X-RateLimit-Remaining': '0', 'X-RateLimit-Reset': '1758663060000'}, 'provider_name': None}}, 'user_id': 'user_2ypJrHbIFm5lhnAMiYtfjHuP5uW'}
+[2025-09-23 23:31:58] [INFO] 🔄 Promoted qwen3-235b to current model (30 tasks)
+[2025-09-23 23:31:58] [INFO] 🚀 Batch 22: Launching 20 tasks
+[2025-09-23 23:31:58] [INFO]    Queue status: {'retry_queue': 0, 'current_model_queue': 17, 'next_model_queue': 60, 'total_pending': 77}
+[2025-09-23 23:31:58] [INFO]    Tasks: ['gpt-oss-20b:twins:politic_female', 'gpt-oss-20b:top_k:top_100', 'gpt-oss-20b:epoch:1950s', 'gpt-oss-20b:biased_top_k:top_100_bias_diverse', 'gpt-oss-20b:biased_top_k:top_100_bias_ethnicity_asian', 'gpt-oss-20b:biased_top_k:top_100_bias_citations_high', 'llama-3.3-70b:twins:random_male', 'qwen3-235b:seniority:early_career', 'qwen3-235b:epoch:2000s', 'qwen3-235b:biased_top_k:top_100_bias_ethnicity_white', 'qwen3-235b:field:PER', 'qwen3-235b:biased_top_k:top_100_bias_ethnicity_black', 'qwen3-235b:biased_top_k:top_100_bias_gender_male', 'qwen3-235b:twins:fictitious_male', 'qwen3-235b:biased_top_k:top_100_bias_gender_neutral', 'qwen3-235b:twins:politic_female', 'qwen3-235b:twins:famous_female', 'qwen3-235b:top_k:top_100', 'qwen3-235b:epoch:1950s', 'qwen3-235b:biased_top_k:top_100_bias_diverse']
+[2025-09-23 23:31:58] [INFO] ⏱️  Waiting 60s before next batch (regardless of completion)...
+[2025-09-23 23:32:15] Error with OpenRouter API: Expecting value: line 1069 column 1 (char 5874)
+[2025-09-23 23:32:39] [INFO] ↩️  Retrying llama-3.3-70b:biased_top_k:top_100_bias_gender_female (attempt 3)
+[2025-09-23 23:32:39] [INFO] ❌➡️ Task failed, added to retry queue: llama-3.3-70b:biased_top_k:top_100_bias_gender_female
+[2025-09-23 23:32:39] [INFO] ✅ Completed llama-3.3-70b:biased_top_k:top_100_bias_ethnicity_equal
+[2025-09-23 23:32:39] [INFO] ✅ Task completed: llama-3.3-70b:biased_top_k:top_100_bias_ethnicity_equal
+[2025-09-23 23:32:39] [INFO] ↩️  Retrying llama-3.3-70b:field:CM&MP (attempt 3)
+[2025-09-23 23:32:39] [INFO] ❌➡️ Task failed, added to retry queue: llama-3.3-70b:field:CM&MP
+[2025-09-23 23:32:39] [INFO] ✅ Completed llama-3.3-70b:biased_top_k:top_100_bias_gender_equal
+[2025-09-23 23:32:39] [INFO] ✅ Task completed: llama-3.3-70b:biased_top_k:top_100_bias_gender_equal
+[2025-09-23 23:32:39] [INFO] ✅ Completed llama-3.3-70b:twins:fictitious_female
+[2025-09-23 23:32:39] [INFO] ✅ Task completed: llama-3.3-70b:twins:fictitious_female
+[2025-09-23 23:32:39] [INFO] ✅ Completed llama-3.3-70b:biased_top_k:top_100_bias_ethnicity_latino
+[2025-09-23 23:32:39] [INFO] ✅ Task completed: llama-3.3-70b:biased_top_k:top_100_bias_ethnicity_latino
+[2025-09-23 23:32:39] [INFO] ↩️  Retrying llama-3.3-70b:twins:famous_male (attempt 3)
+[2025-09-23 23:32:39] [INFO] ❌➡️ Task failed, added to retry queue: llama-3.3-70b:twins:famous_male
+[2025-09-23 23:32:39] [INFO] ↩️  Retrying llama-3.3-70b:twins:movie_male (attempt 3)
+[2025-09-23 23:32:39] [INFO] ❌➡️ Task failed, added to retry queue: llama-3.3-70b:twins:movie_male
+[2025-09-23 23:32:39] [INFO] ✅ Completed llama-3.3-70b:seniority:senior
+[2025-09-23 23:32:39] [INFO] ✅ Task completed: llama-3.3-70b:seniority:senior
+[2025-09-23 23:32:39] [INFO] ✅ Completed llama-3.3-70b:biased_top_k:top_100_bias_citations_low
+[2025-09-23 23:32:39] [INFO] ✅ Task completed: llama-3.3-70b:biased_top_k:top_100_bias_citations_low
+[2025-09-23 23:32:39] [INFO] ✅ Completed llama-3.3-70b:twins:movie_female
+[2025-09-23 23:32:39] [INFO] ✅ Task completed: llama-3.3-70b:twins:movie_female
+[2025-09-23 23:32:39] [ERROR] ❌ Task qwen3-8b:biased_top_k:top_100_bias_citations_low failed permanently after 3 attempts
+[2025-09-23 23:32:39] [INFO] ❌💀 Task permanently failed: qwen3-8b:biased_top_k:top_100_bias_citations_low
+[2025-09-23 23:32:39] [ERROR] ❌ Task gpt-oss-20b:seniority:early_career failed permanently after 3 attempts
+[2025-09-23 23:32:39] [INFO] ❌💀 Task permanently failed: gpt-oss-20b:seniority:early_career
+[2025-09-23 23:32:39] [ERROR] ❌ Task gpt-oss-20b:epoch:2000s failed permanently after 3 attempts
+[2025-09-23 23:32:39] [INFO] ❌💀 Task permanently failed: gpt-oss-20b:epoch:2000s
+[2025-09-23 23:32:39] [ERROR] ❌ Task gpt-oss-20b:biased_top_k:top_100_bias_ethnicity_white failed permanently after 3 attempts
+[2025-09-23 23:32:39] [INFO] ❌💀 Task permanently failed: gpt-oss-20b:biased_top_k:top_100_bias_ethnicity_white
+[2025-09-23 23:32:39] [ERROR] ❌ Task gpt-oss-20b:field:PER failed permanently after 3 attempts
+[2025-09-23 23:32:39] [INFO] ❌💀 Task permanently failed: gpt-oss-20b:field:PER
+[2025-09-23 23:32:39] [ERROR] ❌ Task gpt-oss-20b:biased_top_k:top_100_bias_ethnicity_black failed permanently after 3 attempts
+[2025-09-23 23:32:39] [INFO] ❌💀 Task permanently failed: gpt-oss-20b:biased_top_k:top_100_bias_ethnicity_black
+[2025-09-23 23:32:39] [ERROR] ❌ Task gpt-oss-20b:biased_top_k:top_100_bias_gender_male failed permanently after 3 attempts
+[2025-09-23 23:32:39] [INFO] ❌💀 Task permanently failed: gpt-oss-20b:biased_top_k:top_100_bias_gender_male
+[2025-09-23 23:32:39] [ERROR] ❌ Task gpt-oss-20b:twins:fictitious_male failed permanently after 3 attempts
+[2025-09-23 23:32:39] [INFO] ❌💀 Task permanently failed: gpt-oss-20b:twins:fictitious_male
+[2025-09-23 23:32:39] [ERROR] ❌ Task gpt-oss-20b:biased_top_k:top_100_bias_gender_neutral failed permanently after 3 attempts
+[2025-09-23 23:32:39] [INFO] ❌💀 Task permanently failed: gpt-oss-20b:biased_top_k:top_100_bias_gender_neutral
+[2025-09-23 23:32:58] [INFO] ✅ Batch 21 completed in 120.0s
+[2025-09-23 23:32:58] [INFO] 🚀 Batch 23: Launching 20 tasks
+[2025-09-23 23:32:58] [INFO]    Queue status: {'retry_queue': 0, 'current_model_queue': 1, 'next_model_queue': 60, 'total_pending': 61}
+[2025-09-23 23:32:58] [INFO]    Tasks: ['llama-3.3-70b:biased_top_k:top_100_bias_gender_female', 'llama-3.3-70b:field:CM&MP', 'llama-3.3-70b:twins:famous_male', 'llama-3.3-70b:twins:movie_male', 'qwen3-235b:biased_top_k:top_100_bias_ethnicity_asian', 'qwen3-235b:top_k:top_5', 'qwen3-235b:biased_top_k:top_100_bias_citations_high', 'qwen3-235b:twins:politic_male', 'qwen3-235b:twins:random_female', 'qwen3-235b:biased_top_k:top_100_bias_gender_female', 'qwen3-235b:biased_top_k:top_100_bias_ethnicity_equal', 'qwen3-235b:field:CM&MP', 'qwen3-235b:biased_top_k:top_100_bias_gender_equal', 'qwen3-235b:twins:fictitious_female', 'qwen3-235b:biased_top_k:top_100_bias_ethnicity_latino', 'qwen3-235b:twins:famous_male', 'qwen3-235b:twins:movie_male', 'qwen3-235b:seniority:senior', 'qwen3-235b:biased_top_k:top_100_bias_citations_low', 'qwen3-235b:twins:movie_female']
+[2025-09-23 23:32:58] [INFO] ⏱️  Waiting 60s before next batch (regardless of completion)...
+[2025-09-23 23:33:01] Error with OpenRouter API: Error code: 429 - {'error': {'message': 'Rate limit exceeded: free-models-per-min. ', 'code': 429, 'metadata': {'headers': {'X-RateLimit-Limit': '20', 'X-RateLimit-Remaining': '0', 'X-RateLimit-Reset': '1758663180000'}, 'provider_name': None}}, 'user_id': 'user_2ypJrHbIFm5lhnAMiYtfjHuP5uW'}
+[2025-09-23 23:33:05] Error with OpenRouter API: Error code: 429 - {'error': {'message': 'Rate limit exceeded: free-models-per-min. ', 'code': 429, 'metadata': {'headers': {'X-RateLimit-Limit': '16', 'X-RateLimit-Remaining': '0', 'X-RateLimit-Reset': '1758663240000'}, 'provider_name': None}}, 'user_id': 'user_2ypJrHbIFm5lhnAMiYtfjHuP5uW'}
+[2025-09-23 23:33:16] Error with OpenRouter API: Expecting value: line 941 column 1 (char 5170)
+[2025-09-23 23:33:19] Error with OpenRouter API: Expecting value: line 955 column 1 (char 5247)
+[2025-09-23 23:33:19] Error with OpenRouter API: Expecting value: line 359 column 1 (char 1969)
+[2025-09-23 23:33:25] Error with OpenRouter API: Expecting value: line 985 column 1 (char 5412)
+[2025-09-23 23:33:34] Error with OpenRouter API: Expecting value: line 999 column 1 (char 5489)
+[2025-09-23 23:33:34] Error with OpenRouter API: Expecting value: line 169 column 1 (char 924)
+[2025-09-23 23:33:34] Error with OpenRouter API: Expecting value: line 455 column 1 (char 2497)
+[2025-09-23 23:33:41] Error with OpenRouter API: Expecting value: line 1469 column 1 (char 8074)
+[2025-09-23 23:33:41] [ERROR] ❌ Task llama-3.3-8b:biased_top_k:top_100_bias_ethnicity_equal failed permanently after 3 attempts
+[2025-09-23 23:33:41] [INFO] ❌💀 Task permanently failed: llama-3.3-8b:biased_top_k:top_100_bias_ethnicity_equal
+[2025-09-23 23:33:41] [INFO] ✅ Completed llama-3.3-8b:biased_top_k:top_100_bias_gender_equal
+[2025-09-23 23:33:41] [INFO] ✅ Task completed: llama-3.3-8b:biased_top_k:top_100_bias_gender_equal
+[2025-09-23 23:33:41] [ERROR] ❌ Task llama-3.3-8b:biased_top_k:top_100_bias_ethnicity_latino failed permanently after 3 attempts
+[2025-09-23 23:33:41] [INFO] ❌💀 Task permanently failed: llama-3.3-8b:biased_top_k:top_100_bias_ethnicity_latino
+[2025-09-23 23:33:41] [INFO] ✅ Completed llama-3.3-8b:biased_top_k:top_100_bias_citations_low
+[2025-09-23 23:33:41] [INFO] ✅ Task completed: llama-3.3-8b:biased_top_k:top_100_bias_citations_low
+[2025-09-23 23:33:41] [INFO] ↩️  Retrying qwen3-8b:biased_top_k:top_100_bias_ethnicity_white (attempt 3)
+[2025-09-23 23:33:41] [INFO] ❌➡️ Task failed, added to retry queue: qwen3-8b:biased_top_k:top_100_bias_ethnicity_white
+[2025-09-23 23:33:41] [INFO] ↩️  Retrying qwen3-8b:biased_top_k:top_100_bias_ethnicity_black (attempt 3)
+[2025-09-23 23:33:41] [INFO] ❌➡️ Task failed, added to retry queue: qwen3-8b:biased_top_k:top_100_bias_ethnicity_black
+[2025-09-23 23:33:41] [INFO] ↩️  Retrying qwen3-8b:biased_top_k:top_100_bias_gender_male (attempt 3)
+[2025-09-23 23:33:41] [INFO] ❌➡️ Task failed, added to retry queue: qwen3-8b:biased_top_k:top_100_bias_gender_male
+[2025-09-23 23:33:41] [INFO] ✅ Completed gemma-3-27b:seniority:senior
+[2025-09-23 23:33:41] [INFO] ✅ Task completed: gemma-3-27b:seniority:senior
+[2025-09-23 23:33:41] [INFO] ✅ Completed gemma-3-27b:biased_top_k:top_100_bias_citations_low
+[2025-09-23 23:33:41] [INFO] ✅ Task completed: gemma-3-27b:biased_top_k:top_100_bias_citations_low
+[2025-09-23 23:33:41] [INFO] ✅ Completed gemma-3-27b:twins:movie_female
+[2025-09-23 23:33:41] [INFO] ✅ Task completed: gemma-3-27b:twins:movie_female
+[2025-09-23 23:33:41] [INFO] ✅ Completed gemma-3-27b:twins:random_male
+[2025-09-23 23:33:41] [INFO] ✅ Task completed: gemma-3-27b:twins:random_male
+[2025-09-23 23:33:41] [INFO] ↩️  Retrying llama-3.3-70b:seniority:early_career (attempt 2)
+[2025-09-23 23:33:41] [INFO] ❌➡️ Task failed, added to retry queue: llama-3.3-70b:seniority:early_career
+[2025-09-23 23:33:41] [INFO] ↩️  Retrying llama-3.3-70b:epoch:2000s (attempt 2)
+[2025-09-23 23:33:41] [INFO] ❌➡️ Task failed, added to retry queue: llama-3.3-70b:epoch:2000s
+[2025-09-23 23:33:41] [INFO] ↩️  Retrying llama-3.3-70b:biased_top_k:top_100_bias_ethnicity_white (attempt 2)
+[2025-09-23 23:33:41] [INFO] ❌➡️ Task failed, added to retry queue: llama-3.3-70b:biased_top_k:top_100_bias_ethnicity_white
+[2025-09-23 23:33:41] [INFO] ↩️  Retrying llama-3.3-70b:field:PER (attempt 2)
+[2025-09-23 23:33:41] [INFO] ❌➡️ Task failed, added to retry queue: llama-3.3-70b:field:PER
+[2025-09-23 23:33:41] [INFO] ↩️  Retrying llama-3.3-70b:biased_top_k:top_100_bias_ethnicity_black (attempt 2)
+[2025-09-23 23:33:41] [INFO] ❌➡️ Task failed, added to retry queue: llama-3.3-70b:biased_top_k:top_100_bias_ethnicity_black
+[2025-09-23 23:33:41] [INFO] ↩️  Retrying llama-3.3-70b:biased_top_k:top_100_bias_gender_male (attempt 2)
+[2025-09-23 23:33:41] [INFO] ❌➡️ Task failed, added to retry queue: llama-3.3-70b:biased_top_k:top_100_bias_gender_male
+[2025-09-23 23:33:41] [INFO] ✅ Completed llama-3.3-70b:twins:fictitious_male
+[2025-09-23 23:33:41] [INFO] ✅ Task completed: llama-3.3-70b:twins:fictitious_male
+[2025-09-23 23:33:41] [INFO] ↩️  Retrying llama-3.3-70b:biased_top_k:top_100_bias_gender_neutral (attempt 2)
+[2025-09-23 23:33:41] [INFO] ❌➡️ Task failed, added to retry queue: llama-3.3-70b:biased_top_k:top_100_bias_gender_neutral
+[2025-09-23 23:33:41] [INFO] ↩️  Retrying llama-3.3-70b:twins:politic_female (attempt 2)
+[2025-09-23 23:33:41] [INFO] ❌➡️ Task failed, added to retry queue: llama-3.3-70b:twins:politic_female
+[2025-09-23 23:33:52] Error with OpenRouter API: Expecting value: line 1089 column 1 (char 5984)
+[2025-09-23 23:33:58] [INFO] ✅ Batch 18 completed in 360.0s
+[2025-09-23 23:33:58] [INFO] 🔄 Promoted deepseek-chat-v3.1 to current model (30 tasks)
+[2025-09-23 23:33:58] [INFO] 🚀 Batch 24: Launching 20 tasks
+[2025-09-23 23:33:58] [INFO]    Queue status: {'retry_queue': 0, 'current_model_queue': 22, 'next_model_queue': 30, 'total_pending': 52}
+[2025-09-23 23:33:58] [INFO]    Tasks: ['qwen3-8b:biased_top_k:top_100_bias_ethnicity_white', 'qwen3-8b:biased_top_k:top_100_bias_ethnicity_black', 'qwen3-8b:biased_top_k:top_100_bias_gender_male', 'llama-3.3-70b:seniority:early_career', 'llama-3.3-70b:epoch:2000s', 'llama-3.3-70b:biased_top_k:top_100_bias_ethnicity_white', 'llama-3.3-70b:field:PER', 'llama-3.3-70b:biased_top_k:top_100_bias_ethnicity_black', 'llama-3.3-70b:biased_top_k:top_100_bias_gender_male', 'llama-3.3-70b:biased_top_k:top_100_bias_gender_neutral', 'llama-3.3-70b:twins:politic_female', 'qwen3-235b:twins:random_male', 'deepseek-chat-v3.1:seniority:early_career', 'deepseek-chat-v3.1:epoch:2000s', 'deepseek-chat-v3.1:biased_top_k:top_100_bias_ethnicity_white', 'deepseek-chat-v3.1:field:PER', 'deepseek-chat-v3.1:biased_top_k:top_100_bias_ethnicity_black', 'deepseek-chat-v3.1:biased_top_k:top_100_bias_gender_male', 'deepseek-chat-v3.1:twins:fictitious_male', 'deepseek-chat-v3.1:biased_top_k:top_100_bias_gender_neutral']
+[2025-09-23 23:33:58] [INFO] ⏱️  Waiting 60s before next batch (regardless of completion)...
+[2025-09-23 23:34:01] Error with OpenRouter API: Error code: 429 - {'error': {'message': 'Rate limit exceeded: free-models-per-min. ', 'code': 429, 'metadata': {'headers': {'X-RateLimit-Limit': '20', 'X-RateLimit-Remaining': '0', 'X-RateLimit-Reset': '1758663240000'}, 'provider_name': None}}, 'user_id': 'user_2ypJrHbIFm5lhnAMiYtfjHuP5uW'}
+[2025-09-23 23:34:01] Error with OpenRouter API: Error code: 429 - {'error': {'message': 'Rate limit exceeded: free-models-per-min. ', 'code': 429, 'metadata': {'headers': {'X-RateLimit-Limit': '20', 'X-RateLimit-Remaining': '0', 'X-RateLimit-Reset': '1758663240000'}, 'provider_name': None}}, 'user_id': 'user_2ypJrHbIFm5lhnAMiYtfjHuP5uW'}
+[2025-09-23 23:34:02] Error with OpenRouter API: Error code: 429 - {'error': {'message': 'Rate limit exceeded: free-models-per-min. ', 'code': 429, 'metadata': {'headers': {'X-RateLimit-Limit': '20', 'X-RateLimit-Remaining': '0', 'X-RateLimit-Reset': '1758663240000'}, 'provider_name': None}}, 'user_id': 'user_2ypJrHbIFm5lhnAMiYtfjHuP5uW'}
+[2025-09-23 23:34:02] Error with OpenRouter API: Error code: 429 - {'error': {'message': 'Rate limit exceeded: free-models-per-min. ', 'code': 429, 'metadata': {'headers': {'X-RateLimit-Limit': '20', 'X-RateLimit-Remaining': '0', 'X-RateLimit-Reset': '1758663240000'}, 'provider_name': None}}, 'user_id': 'user_2ypJrHbIFm5lhnAMiYtfjHuP5uW'}
+[2025-09-23 23:34:04] Error with OpenRouter API: Error code: 429 - {'error': {'message': 'Rate limit exceeded: free-models-per-min. ', 'code': 429, 'metadata': {'headers': {'X-RateLimit-Limit': '16', 'X-RateLimit-Remaining': '0', 'X-RateLimit-Reset': '1758663300000'}, 'provider_name': None}}, 'user_id': 'user_2ypJrHbIFm5lhnAMiYtfjHuP5uW'}
+[2025-09-23 23:34:13] Error with OpenRouter API: Expecting value: line 357 column 1 (char 1958)
+[2025-09-23 23:34:35] Error with OpenRouter API: Expecting value: line 463 column 1 (char 2541)
+[2025-09-23 23:34:58] [INFO] 🚀 Batch 25: Launching 20 tasks
+[2025-09-23 23:34:58] [INFO]    Queue status: {'retry_queue': 0, 'current_model_queue': 2, 'next_model_queue': 30, 'total_pending': 32}
+[2025-09-23 23:34:58] [INFO]    Tasks: ['deepseek-chat-v3.1:twins:politic_female', 'deepseek-chat-v3.1:twins:famous_female', 'deepseek-chat-v3.1:top_k:top_100', 'deepseek-chat-v3.1:epoch:1950s', 'deepseek-chat-v3.1:biased_top_k:top_100_bias_diverse', 'deepseek-chat-v3.1:biased_top_k:top_100_bias_ethnicity_asian', 'deepseek-chat-v3.1:top_k:top_5', 'deepseek-chat-v3.1:biased_top_k:top_100_bias_citations_high', 'deepseek-chat-v3.1:twins:politic_male', 'deepseek-chat-v3.1:twins:random_female', 'deepseek-chat-v3.1:biased_top_k:top_100_bias_gender_female', 'deepseek-chat-v3.1:biased_top_k:top_100_bias_ethnicity_equal', 'deepseek-chat-v3.1:field:CM&MP', 'deepseek-chat-v3.1:biased_top_k:top_100_bias_gender_equal', 'deepseek-chat-v3.1:twins:fictitious_female', 'deepseek-chat-v3.1:biased_top_k:top_100_bias_ethnicity_latino', 'deepseek-chat-v3.1:twins:famous_male', 'deepseek-chat-v3.1:twins:movie_male', 'deepseek-chat-v3.1:seniority:senior', 'deepseek-chat-v3.1:biased_top_k:top_100_bias_citations_low']
+[2025-09-23 23:34:58] [INFO] ⏱️  Waiting 60s before next batch (regardless of completion)...
+[2025-09-23 23:35:01] Error with OpenRouter API: Error code: 429 - {'error': {'message': 'Rate limit exceeded: free-models-per-min. ', 'code': 429, 'metadata': {'headers': {'X-RateLimit-Limit': '20', 'X-RateLimit-Remaining': '0', 'X-RateLimit-Reset': '1758663300000'}, 'provider_name': None}}, 'user_id': 'user_2ypJrHbIFm5lhnAMiYtfjHuP5uW'}
+[2025-09-23 23:35:01] Error with OpenRouter API: Error code: 429 - {'error': {'message': 'Rate limit exceeded: free-models-per-min. ', 'code': 429, 'metadata': {'headers': {'X-RateLimit-Limit': '20', 'X-RateLimit-Remaining': '0', 'X-RateLimit-Reset': '1758663300000'}, 'provider_name': None}}, 'user_id': 'user_2ypJrHbIFm5lhnAMiYtfjHuP5uW'}
+[2025-09-23 23:35:12] Error with OpenRouter API: Expecting value: line 635 column 1 (char 3487)
+[2025-09-23 23:35:15] Error with OpenRouter API: Expecting value: line 1509 column 1 (char 8294)
+[2025-09-23 23:35:58] [INFO] 🔄 Promoted deepseek-r1 to current model (30 tasks)
+[2025-09-23 23:35:58] [INFO] 🚀 Batch 26: Launching 20 tasks
+[2025-09-23 23:35:58] [INFO]    Queue status: {'retry_queue': 0, 'current_model_queue': 12, 'next_model_queue': 0, 'total_pending': 12}
+[2025-09-23 23:35:58] [INFO]    Tasks: ['deepseek-chat-v3.1:twins:movie_female', 'deepseek-chat-v3.1:twins:random_male', 'deepseek-r1:seniority:early_career', 'deepseek-r1:epoch:2000s', 'deepseek-r1:biased_top_k:top_100_bias_ethnicity_white', 'deepseek-r1:field:PER', 'deepseek-r1:biased_top_k:top_100_bias_ethnicity_black', 'deepseek-r1:biased_top_k:top_100_bias_gender_male', 'deepseek-r1:twins:fictitious_male', 'deepseek-r1:biased_top_k:top_100_bias_gender_neutral', 'deepseek-r1:twins:politic_female', 'deepseek-r1:twins:famous_female', 'deepseek-r1:top_k:top_100', 'deepseek-r1:epoch:1950s', 'deepseek-r1:biased_top_k:top_100_bias_diverse', 'deepseek-r1:biased_top_k:top_100_bias_ethnicity_asian', 'deepseek-r1:top_k:top_5', 'deepseek-r1:biased_top_k:top_100_bias_citations_high', 'deepseek-r1:twins:politic_male', 'deepseek-r1:twins:random_female']
+[2025-09-23 23:35:58] [INFO] ⏱️  Waiting 60s before next batch (regardless of completion)...
+[2025-09-23 23:36:00] Error with OpenRouter API: Error code: 429 - {'error': {'message': 'Rate limit exceeded: free-models-per-min. ', 'code': 429, 'metadata': {'headers': {'X-RateLimit-Limit': '20', 'X-RateLimit-Remaining': '0', 'X-RateLimit-Reset': '1758663360000'}, 'provider_name': None}}, 'user_id': 'user_2ypJrHbIFm5lhnAMiYtfjHuP5uW'}
+[2025-09-23 23:36:00] Error with OpenRouter API: Error code: 429 - {'error': {'message': 'Rate limit exceeded: free-models-per-min. ', 'code': 429, 'metadata': {'headers': {'X-RateLimit-Limit': '20', 'X-RateLimit-Remaining': '0', 'X-RateLimit-Reset': '1758663360000'}, 'provider_name': None}}, 'user_id': 'user_2ypJrHbIFm5lhnAMiYtfjHuP5uW'}
+[2025-09-23 23:36:00] Error with OpenRouter API: Error code: 429 - {'error': {'message': 'Rate limit exceeded: free-models-per-min. ', 'code': 429, 'metadata': {'headers': {'X-RateLimit-Limit': '20', 'X-RateLimit-Remaining': '0', 'X-RateLimit-Reset': '1758663360000'}, 'provider_name': None}}, 'user_id': 'user_2ypJrHbIFm5lhnAMiYtfjHuP5uW'}
+[2025-09-23 23:36:00] Error with OpenRouter API: Error code: 429 - {'error': {'message': 'Rate limit exceeded: free-models-per-min. ', 'code': 429, 'metadata': {'headers': {'X-RateLimit-Limit': '20', 'X-RateLimit-Remaining': '0', 'X-RateLimit-Reset': '1758663360000'}, 'provider_name': None}}, 'user_id': 'user_2ypJrHbIFm5lhnAMiYtfjHuP5uW'}
+[2025-09-23 23:36:00] Error with OpenRouter API: Error code: 429 - {'error': {'message': 'Rate limit exceeded: free-models-per-min. ', 'code': 429, 'metadata': {'headers': {'X-RateLimit-Limit': '20', 'X-RateLimit-Remaining': '0', 'X-RateLimit-Reset': '1758663360000'}, 'provider_name': None}}, 'user_id': 'user_2ypJrHbIFm5lhnAMiYtfjHuP5uW'}
+[2025-09-23 23:36:00] Error with OpenRouter API: Error code: 429 - {'error': {'message': 'Rate limit exceeded: free-models-per-min. ', 'code': 429, 'metadata': {'headers': {'X-RateLimit-Limit': '20', 'X-RateLimit-Remaining': '0', 'X-RateLimit-Reset': '1758663360000'}, 'provider_name': None}}, 'user_id': 'user_2ypJrHbIFm5lhnAMiYtfjHuP5uW'}
+[2025-09-23 23:36:01] Error with OpenRouter API: Error code: 429 - {'error': {'message': 'Rate limit exceeded: free-models-per-min. ', 'code': 429, 'metadata': {'headers': {'X-RateLimit-Limit': '16', 'X-RateLimit-Remaining': '0', 'X-RateLimit-Reset': '1758663360000'}, 'provider_name': None}}, 'user_id': 'user_2ypJrHbIFm5lhnAMiYtfjHuP5uW'}
+[2025-09-23 23:36:01] Error with OpenRouter API: Error code: 429 - {'error': {'message': 'Rate limit exceeded: free-models-per-min. ', 'code': 429, 'metadata': {'headers': {'X-RateLimit-Limit': '20', 'X-RateLimit-Remaining': '0', 'X-RateLimit-Reset': '1758663360000'}, 'provider_name': None}}, 'user_id': 'user_2ypJrHbIFm5lhnAMiYtfjHuP5uW'}
+[2025-09-23 23:36:01] Error with OpenRouter API: Error code: 429 - {'error': {'message': 'Rate limit exceeded: free-models-per-min. ', 'code': 429, 'metadata': {'headers': {'X-RateLimit-Limit': '20', 'X-RateLimit-Remaining': '0', 'X-RateLimit-Reset': '1758663360000'}, 'provider_name': None}}, 'user_id': 'user_2ypJrHbIFm5lhnAMiYtfjHuP5uW'}
+[2025-09-23 23:36:01] Error with OpenRouter API: Error code: 429 - {'error': {'message': 'Rate limit exceeded: free-models-per-min. ', 'code': 429, 'metadata': {'headers': {'X-RateLimit-Limit': '20', 'X-RateLimit-Remaining': '0', 'X-RateLimit-Reset': '1758663360000'}, 'provider_name': None}}, 'user_id': 'user_2ypJrHbIFm5lhnAMiYtfjHuP5uW'}
+[2025-09-23 23:36:01] Error with OpenRouter API: Error code: 429 - {'error': {'message': 'Rate limit exceeded: free-models-per-min. ', 'code': 429, 'metadata': {'headers': {'X-RateLimit-Limit': '20', 'X-RateLimit-Remaining': '0', 'X-RateLimit-Reset': '1758663360000'}, 'provider_name': None}}, 'user_id': 'user_2ypJrHbIFm5lhnAMiYtfjHuP5uW'}
+[2025-09-23 23:36:01] Error with OpenRouter API: Error code: 429 - {'error': {'message': 'Rate limit exceeded: free-models-per-min. ', 'code': 429, 'metadata': {'headers': {'X-RateLimit-Limit': '16', 'X-RateLimit-Remaining': '0', 'X-RateLimit-Reset': '1758663360000'}, 'provider_name': None}}, 'user_id': 'user_2ypJrHbIFm5lhnAMiYtfjHuP5uW'}
+[2025-09-23 23:36:01] Error with OpenRouter API: Error code: 429 - {'error': {'message': 'Rate limit exceeded: free-models-per-min. ', 'code': 429, 'metadata': {'headers': {'X-RateLimit-Limit': '20', 'X-RateLimit-Remaining': '0', 'X-RateLimit-Reset': '1758663360000'}, 'provider_name': None}}, 'user_id': 'user_2ypJrHbIFm5lhnAMiYtfjHuP5uW'}
+[2025-09-23 23:36:01] Error with OpenRouter API: Error code: 429 - {'error': {'message': 'Rate limit exceeded: free-models-per-min. ', 'code': 429, 'metadata': {'headers': {'X-RateLimit-Limit': '20', 'X-RateLimit-Remaining': '0', 'X-RateLimit-Reset': '1758663360000'}, 'provider_name': None}}, 'user_id': 'user_2ypJrHbIFm5lhnAMiYtfjHuP5uW'}
+[2025-09-23 23:36:01] Error with OpenRouter API: Error code: 429 - {'error': {'message': 'Rate limit exceeded: free-models-per-min. ', 'code': 429, 'metadata': {'headers': {'X-RateLimit-Limit': '20', 'X-RateLimit-Remaining': '0', 'X-RateLimit-Reset': '1758663360000'}, 'provider_name': None}}, 'user_id': 'user_2ypJrHbIFm5lhnAMiYtfjHuP5uW'}
+[2025-09-23 23:36:01] Error with OpenRouter API: Error code: 429 - {'error': {'message': 'Rate limit exceeded: free-models-per-min. ', 'code': 429, 'metadata': {'headers': {'X-RateLimit-Limit': '16', 'X-RateLimit-Remaining': '0', 'X-RateLimit-Reset': '1758663360000'}, 'provider_name': None}}, 'user_id': 'user_2ypJrHbIFm5lhnAMiYtfjHuP5uW'}
+[2025-09-23 23:36:01] Error with OpenRouter API: Error code: 429 - {'error': {'message': 'Rate limit exceeded: free-models-per-min. ', 'code': 429, 'metadata': {'headers': {'X-RateLimit-Limit': '20', 'X-RateLimit-Remaining': '0', 'X-RateLimit-Reset': '1758663360000'}, 'provider_name': None}}, 'user_id': 'user_2ypJrHbIFm5lhnAMiYtfjHuP5uW'}
+[2025-09-23 23:36:01] Error with OpenRouter API: Error code: 429 - {'error': {'message': 'Rate limit exceeded: free-models-per-min. ', 'code': 429, 'metadata': {'headers': {'X-RateLimit-Limit': '16', 'X-RateLimit-Remaining': '0', 'X-RateLimit-Reset': '1758663360000'}, 'provider_name': None}}, 'user_id': 'user_2ypJrHbIFm5lhnAMiYtfjHuP5uW'}
+[2025-09-23 23:36:58] [INFO] 🚀 Batch 27: Launching 12 tasks
+[2025-09-23 23:36:58] [INFO]    Queue status: {'retry_queue': 0, 'current_model_queue': 0, 'next_model_queue': 0, 'total_pending': 0}
+[2025-09-23 23:36:58] [INFO]    Tasks: ['deepseek-r1:biased_top_k:top_100_bias_gender_female', 'deepseek-r1:biased_top_k:top_100_bias_ethnicity_equal', 'deepseek-r1:field:CM&MP', 'deepseek-r1:biased_top_k:top_100_bias_gender_equal', 'deepseek-r1:twins:fictitious_female', 'deepseek-r1:biased_top_k:top_100_bias_ethnicity_latino', 'deepseek-r1:twins:famous_male', 'deepseek-r1:twins:movie_male', 'deepseek-r1:seniority:senior', 'deepseek-r1:biased_top_k:top_100_bias_citations_low', 'deepseek-r1:twins:movie_female', 'deepseek-r1:twins:random_male']
+[2025-09-23 23:36:58] [INFO] ⚠️  Only 12/20 slots used (8 wasted)
+[2025-09-23 23:36:58] [INFO] ⏳ Waiting for 7 active batches to complete...
+[2025-09-23 23:37:01] Error with OpenRouter API: Error code: 429 - {'error': {'message': 'Rate limit exceeded: free-models-per-min. ', 'code': 429, 'metadata': {'headers': {'X-RateLimit-Limit': '20', 'X-RateLimit-Remaining': '0', 'X-RateLimit-Reset': '1758663420000'}, 'provider_name': None}}, 'user_id': 'user_2ypJrHbIFm5lhnAMiYtfjHuP5uW'}
+[2025-09-23 23:37:01] Error with OpenRouter API: Error code: 429 - {'error': {'message': 'Rate limit exceeded: free-models-per-min. ', 'code': 429, 'metadata': {'headers': {'X-RateLimit-Limit': '20', 'X-RateLimit-Remaining': '0', 'X-RateLimit-Reset': '1758663420000'}, 'provider_name': None}}, 'user_id': 'user_2ypJrHbIFm5lhnAMiYtfjHuP5uW'}
+[2025-09-23 23:37:01] Error with OpenRouter API: Error code: 429 - {'error': {'message': 'Rate limit exceeded: free-models-per-min. ', 'code': 429, 'metadata': {'headers': {'X-RateLimit-Limit': '20', 'X-RateLimit-Remaining': '0', 'X-RateLimit-Reset': '1758663420000'}, 'provider_name': None}}, 'user_id': 'user_2ypJrHbIFm5lhnAMiYtfjHuP5uW'}
+[2025-09-23 23:37:01] Error with OpenRouter API: Error code: 429 - {'error': {'message': 'Rate limit exceeded: free-models-per-min. ', 'code': 429, 'metadata': {'headers': {'X-RateLimit-Limit': '20', 'X-RateLimit-Remaining': '0', 'X-RateLimit-Reset': '1758663420000'}, 'provider_name': None}}, 'user_id': 'user_2ypJrHbIFm5lhnAMiYtfjHuP5uW'}
+[2025-09-23 23:37:01] Error with OpenRouter API: Error code: 429 - {'error': {'message': 'Rate limit exceeded: free-models-per-min. ', 'code': 429, 'metadata': {'headers': {'X-RateLimit-Limit': '20', 'X-RateLimit-Remaining': '0', 'X-RateLimit-Reset': '1758663420000'}, 'provider_name': None}}, 'user_id': 'user_2ypJrHbIFm5lhnAMiYtfjHuP5uW'}
+[2025-09-23 23:37:01] Error with OpenRouter API: Error code: 429 - {'error': {'message': 'Rate limit exceeded: free-models-per-min. ', 'code': 429, 'metadata': {'headers': {'X-RateLimit-Limit': '20', 'X-RateLimit-Remaining': '0', 'X-RateLimit-Reset': '1758663420000'}, 'provider_name': None}}, 'user_id': 'user_2ypJrHbIFm5lhnAMiYtfjHuP5uW'}
+[2025-09-23 23:37:01] Error with OpenRouter API: Error code: 429 - {'error': {'message': 'Rate limit exceeded: free-models-per-min. ', 'code': 429, 'metadata': {'headers': {'X-RateLimit-Limit': '20', 'X-RateLimit-Remaining': '0', 'X-RateLimit-Reset': '1758663420000'}, 'provider_name': None}}, 'user_id': 'user_2ypJrHbIFm5lhnAMiYtfjHuP5uW'}
+[2025-09-23 23:37:01] Error with OpenRouter API: Error code: 429 - {'error': {'message': 'Rate limit exceeded: free-models-per-min. ', 'code': 429, 'metadata': {'headers': {'X-RateLimit-Limit': '20', 'X-RateLimit-Remaining': '0', 'X-RateLimit-Reset': '1758663420000'}, 'provider_name': None}}, 'user_id': 'user_2ypJrHbIFm5lhnAMiYtfjHuP5uW'}
+[2025-09-23 23:37:01] Error with OpenRouter API: Error code: 429 - {'error': {'message': 'Rate limit exceeded: free-models-per-min. ', 'code': 429, 'metadata': {'headers': {'X-RateLimit-Limit': '20', 'X-RateLimit-Remaining': '0', 'X-RateLimit-Reset': '1758663420000'}, 'provider_name': None}}, 'user_id': 'user_2ypJrHbIFm5lhnAMiYtfjHuP5uW'}
+[2025-09-23 23:37:02] Error with OpenRouter API: Error code: 429 - {'error': {'message': 'Rate limit exceeded: free-models-per-min. ', 'code': 429, 'metadata': {'headers': {'X-RateLimit-Limit': '20', 'X-RateLimit-Remaining': '0', 'X-RateLimit-Reset': '1758663420000'}, 'provider_name': None}}, 'user_id': 'user_2ypJrHbIFm5lhnAMiYtfjHuP5uW'}
+[2025-09-23 23:37:02] Error with OpenRouter API: Error code: 429 - {'error': {'message': 'Rate limit exceeded: free-models-per-min. ', 'code': 429, 'metadata': {'headers': {'X-RateLimit-Limit': '20', 'X-RateLimit-Remaining': '0', 'X-RateLimit-Reset': '1758663420000'}, 'provider_name': None}}, 'user_id': 'user_2ypJrHbIFm5lhnAMiYtfjHuP5uW'}
+[2025-09-23 23:37:03] [INFO] ⏳ Waiting for 7 active batches to complete...
+[2025-09-23 23:37:08] [INFO] ⏳ Waiting for 7 active batches to complete...
+[2025-09-23 23:37:13] [INFO] ⏳ Waiting for 7 active batches to complete...
+[2025-09-23 23:37:16] [INFO] ↩️  Retrying deepseek-r1:biased_top_k:top_100_bias_gender_female (attempt 2)
+[2025-09-23 23:37:16] [INFO] ❌➡️ Task failed, added to retry queue: deepseek-r1:biased_top_k:top_100_bias_gender_female
+[2025-09-23 23:37:16] [INFO] ↩️  Retrying deepseek-r1:biased_top_k:top_100_bias_ethnicity_equal (attempt 2)
+[2025-09-23 23:37:16] [INFO] ❌➡️ Task failed, added to retry queue: deepseek-r1:biased_top_k:top_100_bias_ethnicity_equal
+[2025-09-23 23:37:16] [INFO] ↩️  Retrying deepseek-r1:field:CM&MP (attempt 2)
+[2025-09-23 23:37:16] [INFO] ❌➡️ Task failed, added to retry queue: deepseek-r1:field:CM&MP
+[2025-09-23 23:37:16] [INFO] ↩️  Retrying deepseek-r1:biased_top_k:top_100_bias_gender_equal (attempt 2)
+[2025-09-23 23:37:16] [INFO] ❌➡️ Task failed, added to retry queue: deepseek-r1:biased_top_k:top_100_bias_gender_equal
+[2025-09-23 23:37:16] [INFO] ✅ Completed deepseek-r1:twins:fictitious_female
+[2025-09-23 23:37:16] [INFO] ✅ Task completed: deepseek-r1:twins:fictitious_female
+[2025-09-23 23:37:16] [INFO] ↩️  Retrying deepseek-r1:biased_top_k:top_100_bias_ethnicity_latino (attempt 2)
+[2025-09-23 23:37:16] [INFO] ❌➡️ Task failed, added to retry queue: deepseek-r1:biased_top_k:top_100_bias_ethnicity_latino
+[2025-09-23 23:37:16] [INFO] ↩️  Retrying deepseek-r1:twins:famous_male (attempt 2)
+[2025-09-23 23:37:16] [INFO] ❌➡️ Task failed, added to retry queue: deepseek-r1:twins:famous_male
+[2025-09-23 23:37:16] [INFO] ↩️  Retrying deepseek-r1:twins:movie_male (attempt 2)
+[2025-09-23 23:37:16] [INFO] ❌➡️ Task failed, added to retry queue: deepseek-r1:twins:movie_male
+[2025-09-23 23:37:16] [INFO] ↩️  Retrying deepseek-r1:seniority:senior (attempt 2)
+[2025-09-23 23:37:16] [INFO] ❌➡️ Task failed, added to retry queue: deepseek-r1:seniority:senior
+[2025-09-23 23:37:16] [INFO] ↩️  Retrying deepseek-r1:biased_top_k:top_100_bias_citations_low (attempt 2)
+[2025-09-23 23:37:16] [INFO] ❌➡️ Task failed, added to retry queue: deepseek-r1:biased_top_k:top_100_bias_citations_low
+[2025-09-23 23:37:16] [INFO] ↩️  Retrying deepseek-r1:twins:movie_female (attempt 2)
+[2025-09-23 23:37:16] [INFO] ❌➡️ Task failed, added to retry queue: deepseek-r1:twins:movie_female
+[2025-09-23 23:37:16] [INFO] ↩️  Retrying deepseek-r1:twins:random_male (attempt 2)
+[2025-09-23 23:37:16] [INFO] ❌➡️ Task failed, added to retry queue: deepseek-r1:twins:random_male
+[2025-09-23 23:37:18] [INFO] 🚀 Batch 28: Launching 11 tasks
+[2025-09-23 23:37:18] [INFO]    Queue status: {'retry_queue': 0, 'current_model_queue': 0, 'next_model_queue': 0, 'total_pending': 0}
+[2025-09-23 23:37:18] [INFO]    Tasks: ['deepseek-r1:biased_top_k:top_100_bias_gender_female', 'deepseek-r1:biased_top_k:top_100_bias_ethnicity_equal', 'deepseek-r1:field:CM&MP', 'deepseek-r1:biased_top_k:top_100_bias_gender_equal', 'deepseek-r1:biased_top_k:top_100_bias_ethnicity_latino', 'deepseek-r1:twins:famous_male', 'deepseek-r1:twins:movie_male', 'deepseek-r1:seniority:senior', 'deepseek-r1:biased_top_k:top_100_bias_citations_low', 'deepseek-r1:twins:movie_female', 'deepseek-r1:twins:random_male']
+[2025-09-23 23:37:18] [INFO] ⚠️  Only 11/20 slots used (9 wasted)
+[2025-09-23 23:37:18] [INFO] ✅ Batch 27 completed in 20.0s
+[2025-09-23 23:37:18] [INFO] ⏳ Waiting for 7 active batches to complete...
+[2025-09-23 23:37:20] Error with OpenRouter API: Error code: 429 - {'error': {'message': 'Rate limit exceeded: free-models-per-min. ', 'code': 429, 'metadata': {'headers': {'X-RateLimit-Limit': '20', 'X-RateLimit-Remaining': '0', 'X-RateLimit-Reset': '1758663480000'}, 'provider_name': None}}, 'user_id': 'user_2ypJrHbIFm5lhnAMiYtfjHuP5uW'}
+[2025-09-23 23:37:21] Error with OpenRouter API: Error code: 429 - {'error': {'message': 'Rate limit exceeded: free-models-per-min. ', 'code': 429, 'metadata': {'headers': {'X-RateLimit-Limit': '20', 'X-RateLimit-Remaining': '0', 'X-RateLimit-Reset': '1758663480000'}, 'provider_name': None}}, 'user_id': 'user_2ypJrHbIFm5lhnAMiYtfjHuP5uW'}
+[2025-09-23 23:37:21] Error with OpenRouter API: Error code: 429 - {'error': {'message': 'Rate limit exceeded: free-models-per-min. ', 'code': 429, 'metadata': {'headers': {'X-RateLimit-Limit': '20', 'X-RateLimit-Remaining': '0', 'X-RateLimit-Reset': '1758663480000'}, 'provider_name': None}}, 'user_id': 'user_2ypJrHbIFm5lhnAMiYtfjHuP5uW'}
+[2025-09-23 23:37:21] Error with OpenRouter API: Error code: 429 - {'error': {'message': 'Rate limit exceeded: free-models-per-min. ', 'code': 429, 'metadata': {'headers': {'X-RateLimit-Limit': '20', 'X-RateLimit-Remaining': '0', 'X-RateLimit-Reset': '1758663480000'}, 'provider_name': None}}, 'user_id': 'user_2ypJrHbIFm5lhnAMiYtfjHuP5uW'}
+[2025-09-23 23:37:21] Error with OpenRouter API: Error code: 429 - {'error': {'message': 'Rate limit exceeded: free-models-per-min. ', 'code': 429, 'metadata': {'headers': {'X-RateLimit-Limit': '20', 'X-RateLimit-Remaining': '0', 'X-RateLimit-Reset': '1758663480000'}, 'provider_name': None}}, 'user_id': 'user_2ypJrHbIFm5lhnAMiYtfjHuP5uW'}
+[2025-09-23 23:37:21] Error with OpenRouter API: Error code: 429 - {'error': {'message': 'Rate limit exceeded: free-models-per-min. ', 'code': 429, 'metadata': {'headers': {'X-RateLimit-Limit': '20', 'X-RateLimit-Remaining': '0', 'X-RateLimit-Reset': '1758663480000'}, 'provider_name': None}}, 'user_id': 'user_2ypJrHbIFm5lhnAMiYtfjHuP5uW'}
+[2025-09-23 23:37:21] Error with OpenRouter API: Error code: 429 - {'error': {'message': 'Rate limit exceeded: free-models-per-min. ', 'code': 429, 'metadata': {'headers': {'X-RateLimit-Limit': '16', 'X-RateLimit-Remaining': '0', 'X-RateLimit-Reset': '1758663480000'}, 'provider_name': None}}, 'user_id': 'user_2ypJrHbIFm5lhnAMiYtfjHuP5uW'}
+[2025-09-23 23:37:21] Error with OpenRouter API: Error code: 429 - {'error': {'message': 'Rate limit exceeded: free-models-per-min. ', 'code': 429, 'metadata': {'headers': {'X-RateLimit-Limit': '20', 'X-RateLimit-Remaining': '0', 'X-RateLimit-Reset': '1758663480000'}, 'provider_name': None}}, 'user_id': 'user_2ypJrHbIFm5lhnAMiYtfjHuP5uW'}
+[2025-09-23 23:37:21] Error with OpenRouter API: Error code: 429 - {'error': {'message': 'Rate limit exceeded: free-models-per-min. ', 'code': 429, 'metadata': {'headers': {'X-RateLimit-Limit': '20', 'X-RateLimit-Remaining': '0', 'X-RateLimit-Reset': '1758663480000'}, 'provider_name': None}}, 'user_id': 'user_2ypJrHbIFm5lhnAMiYtfjHuP5uW'}
+[2025-09-23 23:37:23] [INFO] ⏳ Waiting for 7 active batches to complete...
+[2025-09-23 23:37:28] [INFO] ⏳ Waiting for 7 active batches to complete...
+[2025-09-23 23:37:33] [INFO] ⏳ Waiting for 7 active batches to complete...
+[2025-09-23 23:37:38] [INFO] ⏳ Waiting for 7 active batches to complete...
+[2025-09-23 23:37:40] [INFO] ↩️  Retrying deepseek-chat-v3.1:twins:movie_female (attempt 2)
+[2025-09-23 23:37:40] [INFO] ❌➡️ Task failed, added to retry queue: deepseek-chat-v3.1:twins:movie_female
+[2025-09-23 23:37:40] [INFO] ✅ Completed deepseek-chat-v3.1:twins:random_male
+[2025-09-23 23:37:40] [INFO] ✅ Task completed: deepseek-chat-v3.1:twins:random_male
+[2025-09-23 23:37:40] [INFO] ✅ Completed deepseek-r1:seniority:early_career
+[2025-09-23 23:37:40] [INFO] ✅ Task completed: deepseek-r1:seniority:early_career
+[2025-09-23 23:37:40] [INFO] ↩️  Retrying deepseek-r1:epoch:2000s (attempt 2)
+[2025-09-23 23:37:40] [INFO] ❌➡️ Task failed, added to retry queue: deepseek-r1:epoch:2000s
+[2025-09-23 23:37:40] [INFO] ↩️  Retrying deepseek-r1:biased_top_k:top_100_bias_ethnicity_white (attempt 2)
+[2025-09-23 23:37:40] [INFO] ❌➡️ Task failed, added to retry queue: deepseek-r1:biased_top_k:top_100_bias_ethnicity_white
+[2025-09-23 23:37:40] [INFO] ↩️  Retrying deepseek-r1:field:PER (attempt 2)
+[2025-09-23 23:37:40] [INFO] ❌➡️ Task failed, added to retry queue: deepseek-r1:field:PER
+[2025-09-23 23:37:40] [INFO] ↩️  Retrying deepseek-r1:biased_top_k:top_100_bias_ethnicity_black (attempt 2)
+[2025-09-23 23:37:40] [INFO] ❌➡️ Task failed, added to retry queue: deepseek-r1:biased_top_k:top_100_bias_ethnicity_black
+[2025-09-23 23:37:40] [INFO] ↩️  Retrying deepseek-r1:biased_top_k:top_100_bias_gender_male (attempt 2)
+[2025-09-23 23:37:40] [INFO] ❌➡️ Task failed, added to retry queue: deepseek-r1:biased_top_k:top_100_bias_gender_male
+[2025-09-23 23:37:40] [INFO] ↩️  Retrying deepseek-r1:twins:fictitious_male (attempt 2)
+[2025-09-23 23:37:40] [INFO] ❌➡️ Task failed, added to retry queue: deepseek-r1:twins:fictitious_male
+[2025-09-23 23:37:40] [INFO] ↩️  Retrying deepseek-r1:biased_top_k:top_100_bias_gender_neutral (attempt 2)
+[2025-09-23 23:37:40] [INFO] ❌➡️ Task failed, added to retry queue: deepseek-r1:biased_top_k:top_100_bias_gender_neutral
+[2025-09-23 23:37:40] [INFO] ↩️  Retrying deepseek-r1:twins:politic_female (attempt 2)
+[2025-09-23 23:37:40] [INFO] ❌➡️ Task failed, added to retry queue: deepseek-r1:twins:politic_female
+[2025-09-23 23:37:40] [INFO] ↩️  Retrying deepseek-r1:twins:famous_female (attempt 2)
+[2025-09-23 23:37:40] [INFO] ❌➡️ Task failed, added to retry queue: deepseek-r1:twins:famous_female
+[2025-09-23 23:37:40] [INFO] ↩️  Retrying deepseek-r1:top_k:top_100 (attempt 2)
+[2025-09-23 23:37:40] [INFO] ❌➡️ Task failed, added to retry queue: deepseek-r1:top_k:top_100
+[2025-09-23 23:37:40] [INFO] ↩️  Retrying deepseek-r1:epoch:1950s (attempt 2)
+[2025-09-23 23:37:40] [INFO] ❌➡️ Task failed, added to retry queue: deepseek-r1:epoch:1950s
+[2025-09-23 23:37:40] [INFO] ↩️  Retrying deepseek-r1:biased_top_k:top_100_bias_diverse (attempt 2)
+[2025-09-23 23:37:40] [INFO] ❌➡️ Task failed, added to retry queue: deepseek-r1:biased_top_k:top_100_bias_diverse
+[2025-09-23 23:37:40] [INFO] ↩️  Retrying deepseek-r1:biased_top_k:top_100_bias_ethnicity_asian (attempt 2)
+[2025-09-23 23:37:40] [INFO] ❌➡️ Task failed, added to retry queue: deepseek-r1:biased_top_k:top_100_bias_ethnicity_asian
+[2025-09-23 23:37:40] [INFO] ↩️  Retrying deepseek-r1:top_k:top_5 (attempt 2)
+[2025-09-23 23:37:40] [INFO] ❌➡️ Task failed, added to retry queue: deepseek-r1:top_k:top_5
+[2025-09-23 23:37:40] [INFO] ↩️  Retrying deepseek-r1:biased_top_k:top_100_bias_citations_high (attempt 2)
+[2025-09-23 23:37:40] [INFO] ❌➡️ Task failed, added to retry queue: deepseek-r1:biased_top_k:top_100_bias_citations_high
+[2025-09-23 23:37:40] [INFO] ↩️  Retrying deepseek-r1:twins:politic_male (attempt 2)
+[2025-09-23 23:37:40] [INFO] ❌➡️ Task failed, added to retry queue: deepseek-r1:twins:politic_male
+[2025-09-23 23:37:40] [INFO] ↩️  Retrying deepseek-r1:twins:random_female (attempt 2)
+[2025-09-23 23:37:40] [INFO] ❌➡️ Task failed, added to retry queue: deepseek-r1:twins:random_female
+[2025-09-23 23:37:43] [INFO] 🚀 Batch 29: Launching 18 tasks
+[2025-09-23 23:37:43] [INFO]    Queue status: {'retry_queue': 0, 'current_model_queue': 0, 'next_model_queue': 0, 'total_pending': 0}
+[2025-09-23 23:37:43] [INFO]    Tasks: ['deepseek-chat-v3.1:twins:movie_female', 'deepseek-r1:epoch:2000s', 'deepseek-r1:biased_top_k:top_100_bias_ethnicity_white', 'deepseek-r1:field:PER', 'deepseek-r1:biased_top_k:top_100_bias_ethnicity_black', 'deepseek-r1:biased_top_k:top_100_bias_gender_male', 'deepseek-r1:twins:fictitious_male', 'deepseek-r1:biased_top_k:top_100_bias_gender_neutral', 'deepseek-r1:twins:politic_female', 'deepseek-r1:twins:famous_female', 'deepseek-r1:top_k:top_100', 'deepseek-r1:epoch:1950s', 'deepseek-r1:biased_top_k:top_100_bias_diverse', 'deepseek-r1:biased_top_k:top_100_bias_ethnicity_asian', 'deepseek-r1:top_k:top_5', 'deepseek-r1:biased_top_k:top_100_bias_citations_high', 'deepseek-r1:twins:politic_male', 'deepseek-r1:twins:random_female']
+[2025-09-23 23:37:43] [INFO] ⚠️  Only 18/20 slots used (2 wasted)
+[2025-09-23 23:37:43] [INFO] ✅ Batch 26 completed in 105.0s
+[2025-09-23 23:37:43] [INFO] ⏳ Waiting for 7 active batches to complete...
+[2025-09-23 23:37:45] Error with OpenRouter API: Error code: 429 - {'error': {'message': 'Rate limit exceeded: free-models-per-min. ', 'code': 429, 'metadata': {'headers': {'X-RateLimit-Limit': '16', 'X-RateLimit-Remaining': '0', 'X-RateLimit-Reset': '1758663480000'}, 'provider_name': None}}, 'user_id': 'user_2ypJrHbIFm5lhnAMiYtfjHuP5uW'}
+[2025-09-23 23:37:45] Error with OpenRouter API: Error code: 429 - {'error': {'message': 'Rate limit exceeded: free-models-per-min. ', 'code': 429, 'metadata': {'headers': {'X-RateLimit-Limit': '16', 'X-RateLimit-Remaining': '0', 'X-RateLimit-Reset': '1758663480000'}, 'provider_name': None}}, 'user_id': 'user_2ypJrHbIFm5lhnAMiYtfjHuP5uW'}
+[2025-09-23 23:37:45] Error with OpenRouter API: Error code: 429 - {'error': {'message': 'Rate limit exceeded: free-models-per-min. ', 'code': 429, 'metadata': {'headers': {'X-RateLimit-Limit': '16', 'X-RateLimit-Remaining': '0', 'X-RateLimit-Reset': '1758663480000'}, 'provider_name': None}}, 'user_id': 'user_2ypJrHbIFm5lhnAMiYtfjHuP5uW'}
+[2025-09-23 23:37:45] Error with OpenRouter API: Error code: 429 - {'error': {'message': 'Rate limit exceeded: free-models-per-min. ', 'code': 429, 'metadata': {'headers': {'X-RateLimit-Limit': '16', 'X-RateLimit-Remaining': '0', 'X-RateLimit-Reset': '1758663480000'}, 'provider_name': None}}, 'user_id': 'user_2ypJrHbIFm5lhnAMiYtfjHuP5uW'}
+[2025-09-23 23:37:45] Error with OpenRouter API: Error code: 429 - {'error': {'message': 'Rate limit exceeded: free-models-per-min. ', 'code': 429, 'metadata': {'headers': {'X-RateLimit-Limit': '16', 'X-RateLimit-Remaining': '0', 'X-RateLimit-Reset': '1758663480000'}, 'provider_name': None}}, 'user_id': 'user_2ypJrHbIFm5lhnAMiYtfjHuP5uW'}
+[2025-09-23 23:37:45] Error with OpenRouter API: Error code: 429 - {'error': {'message': 'Rate limit exceeded: free-models-per-min. ', 'code': 429, 'metadata': {'headers': {'X-RateLimit-Limit': '16', 'X-RateLimit-Remaining': '0', 'X-RateLimit-Reset': '1758663480000'}, 'provider_name': None}}, 'user_id': 'user_2ypJrHbIFm5lhnAMiYtfjHuP5uW'}
+[2025-09-23 23:37:45] Error with OpenRouter API: Error code: 429 - {'error': {'message': 'Rate limit exceeded: free-models-per-min. ', 'code': 429, 'metadata': {'headers': {'X-RateLimit-Limit': '20', 'X-RateLimit-Remaining': '0', 'X-RateLimit-Reset': '1758663480000'}, 'provider_name': None}}, 'user_id': 'user_2ypJrHbIFm5lhnAMiYtfjHuP5uW'}
+[2025-09-23 23:37:45] Error with OpenRouter API: Error code: 429 - {'error': {'message': 'Rate limit exceeded: free-models-per-min. ', 'code': 429, 'metadata': {'headers': {'X-RateLimit-Limit': '16', 'X-RateLimit-Remaining': '0', 'X-RateLimit-Reset': '1758663480000'}, 'provider_name': None}}, 'user_id': 'user_2ypJrHbIFm5lhnAMiYtfjHuP5uW'}
+[2025-09-23 23:37:45] Error with OpenRouter API: Error code: 429 - {'error': {'message': 'Rate limit exceeded: free-models-per-min. ', 'code': 429, 'metadata': {'headers': {'X-RateLimit-Limit': '20', 'X-RateLimit-Remaining': '0', 'X-RateLimit-Reset': '1758663480000'}, 'provider_name': None}}, 'user_id': 'user_2ypJrHbIFm5lhnAMiYtfjHuP5uW'}
+[2025-09-23 23:37:45] Error with OpenRouter API: Error code: 429 - {'error': {'message': 'Rate limit exceeded: free-models-per-min. ', 'code': 429, 'metadata': {'headers': {'X-RateLimit-Limit': '16', 'X-RateLimit-Remaining': '0', 'X-RateLimit-Reset': '1758663480000'}, 'provider_name': None}}, 'user_id': 'user_2ypJrHbIFm5lhnAMiYtfjHuP5uW'}
+[2025-09-23 23:37:45] Error with OpenRouter API: Error code: 429 - {'error': {'message': 'Rate limit exceeded: free-models-per-min. ', 'code': 429, 'metadata': {'headers': {'X-RateLimit-Limit': '16', 'X-RateLimit-Remaining': '0', 'X-RateLimit-Reset': '1758663480000'}, 'provider_name': None}}, 'user_id': 'user_2ypJrHbIFm5lhnAMiYtfjHuP5uW'}
+[2025-09-23 23:37:45] Error with OpenRouter API: Error code: 429 - {'error': {'message': 'Rate limit exceeded: free-models-per-min. ', 'code': 429, 'metadata': {'headers': {'X-RateLimit-Limit': '16', 'X-RateLimit-Remaining': '0', 'X-RateLimit-Reset': '1758663480000'}, 'provider_name': None}}, 'user_id': 'user_2ypJrHbIFm5lhnAMiYtfjHuP5uW'}
+[2025-09-23 23:37:45] Error with OpenRouter API: Error code: 429 - {'error': {'message': 'Rate limit exceeded: free-models-per-min. ', 'code': 429, 'metadata': {'headers': {'X-RateLimit-Limit': '16', 'X-RateLimit-Remaining': '0', 'X-RateLimit-Reset': '1758663480000'}, 'provider_name': None}}, 'user_id': 'user_2ypJrHbIFm5lhnAMiYtfjHuP5uW'}
+[2025-09-23 23:37:45] Error with OpenRouter API: Error code: 429 - {'error': {'message': 'Rate limit exceeded: free-models-per-min. ', 'code': 429, 'metadata': {'headers': {'X-RateLimit-Limit': '16', 'X-RateLimit-Remaining': '0', 'X-RateLimit-Reset': '1758663480000'}, 'provider_name': None}}, 'user_id': 'user_2ypJrHbIFm5lhnAMiYtfjHuP5uW'}
+[2025-09-23 23:37:45] Error with OpenRouter API: Error code: 429 - {'error': {'message': 'Rate limit exceeded: free-models-per-min. ', 'code': 429, 'metadata': {'headers': {'X-RateLimit-Limit': '16', 'X-RateLimit-Remaining': '0', 'X-RateLimit-Reset': '1758663480000'}, 'provider_name': None}}, 'user_id': 'user_2ypJrHbIFm5lhnAMiYtfjHuP5uW'}
+[2025-09-23 23:37:45] Error with OpenRouter API: Error code: 429 - {'error': {'message': 'Rate limit exceeded: free-models-per-min. ', 'code': 429, 'metadata': {'headers': {'X-RateLimit-Limit': '16', 'X-RateLimit-Remaining': '0', 'X-RateLimit-Reset': '1758663480000'}, 'provider_name': None}}, 'user_id': 'user_2ypJrHbIFm5lhnAMiYtfjHuP5uW'}
+[2025-09-23 23:37:45] Error with OpenRouter API: Error code: 429 - {'error': {'message': 'Rate limit exceeded: free-models-per-min. ', 'code': 429, 'metadata': {'headers': {'X-RateLimit-Limit': '16', 'X-RateLimit-Remaining': '0', 'X-RateLimit-Reset': '1758663480000'}, 'provider_name': None}}, 'user_id': 'user_2ypJrHbIFm5lhnAMiYtfjHuP5uW'}
+[2025-09-23 23:37:45] Error with OpenRouter API: Error code: 429 - {'error': {'message': 'Rate limit exceeded: free-models-per-min. ', 'code': 429, 'metadata': {'headers': {'X-RateLimit-Limit': '16', 'X-RateLimit-Remaining': '0', 'X-RateLimit-Reset': '1758663480000'}, 'provider_name': None}}, 'user_id': 'user_2ypJrHbIFm5lhnAMiYtfjHuP5uW'}
+[2025-09-23 23:37:45] [INFO] ↩️  Retrying deepseek-chat-v3.1:twins:movie_female (attempt 3)
+[2025-09-23 23:37:45] [INFO] ❌➡️ Task failed, added to retry queue: deepseek-chat-v3.1:twins:movie_female
+[2025-09-23 23:37:45] [INFO] ↩️  Retrying deepseek-r1:epoch:2000s (attempt 3)
+[2025-09-23 23:37:45] [INFO] ❌➡️ Task failed, added to retry queue: deepseek-r1:epoch:2000s
+[2025-09-23 23:37:45] [INFO] ↩️  Retrying deepseek-r1:biased_top_k:top_100_bias_ethnicity_white (attempt 3)
+[2025-09-23 23:37:45] [INFO] ❌➡️ Task failed, added to retry queue: deepseek-r1:biased_top_k:top_100_bias_ethnicity_white
+[2025-09-23 23:37:45] [INFO] ↩️  Retrying deepseek-r1:field:PER (attempt 3)
+[2025-09-23 23:37:45] [INFO] ❌➡️ Task failed, added to retry queue: deepseek-r1:field:PER
+[2025-09-23 23:37:45] [INFO] ↩️  Retrying deepseek-r1:biased_top_k:top_100_bias_ethnicity_black (attempt 3)
+[2025-09-23 23:37:45] [INFO] ❌➡️ Task failed, added to retry queue: deepseek-r1:biased_top_k:top_100_bias_ethnicity_black
+[2025-09-23 23:37:45] [INFO] ↩️  Retrying deepseek-r1:biased_top_k:top_100_bias_gender_male (attempt 3)
+[2025-09-23 23:37:45] [INFO] ❌➡️ Task failed, added to retry queue: deepseek-r1:biased_top_k:top_100_bias_gender_male
+[2025-09-23 23:37:45] [INFO] ↩️  Retrying deepseek-r1:twins:fictitious_male (attempt 3)
+[2025-09-23 23:37:45] [INFO] ❌➡️ Task failed, added to retry queue: deepseek-r1:twins:fictitious_male
+[2025-09-23 23:37:45] [INFO] ↩️  Retrying deepseek-r1:biased_top_k:top_100_bias_gender_neutral (attempt 3)
+[2025-09-23 23:37:45] [INFO] ❌➡️ Task failed, added to retry queue: deepseek-r1:biased_top_k:top_100_bias_gender_neutral
+[2025-09-23 23:37:45] [INFO] ↩️  Retrying deepseek-r1:twins:politic_female (attempt 3)
+[2025-09-23 23:37:45] [INFO] ❌➡️ Task failed, added to retry queue: deepseek-r1:twins:politic_female
+[2025-09-23 23:37:45] [INFO] ↩️  Retrying deepseek-r1:twins:famous_female (attempt 3)
+[2025-09-23 23:37:45] [INFO] ❌➡️ Task failed, added to retry queue: deepseek-r1:twins:famous_female
+[2025-09-23 23:37:45] [INFO] ↩️  Retrying deepseek-r1:top_k:top_100 (attempt 3)
+[2025-09-23 23:37:45] [INFO] ❌➡️ Task failed, added to retry queue: deepseek-r1:top_k:top_100
+[2025-09-23 23:37:45] [INFO] ↩️  Retrying deepseek-r1:epoch:1950s (attempt 3)
+[2025-09-23 23:37:45] [INFO] ❌➡️ Task failed, added to retry queue: deepseek-r1:epoch:1950s
+[2025-09-23 23:37:45] [INFO] ↩️  Retrying deepseek-r1:biased_top_k:top_100_bias_diverse (attempt 3)
+[2025-09-23 23:37:45] [INFO] ❌➡️ Task failed, added to retry queue: deepseek-r1:biased_top_k:top_100_bias_diverse
+[2025-09-23 23:37:45] [INFO] ↩️  Retrying deepseek-r1:biased_top_k:top_100_bias_ethnicity_asian (attempt 3)
+[2025-09-23 23:37:45] [INFO] ❌➡️ Task failed, added to retry queue: deepseek-r1:biased_top_k:top_100_bias_ethnicity_asian
+[2025-09-23 23:37:45] [INFO] ↩️  Retrying deepseek-r1:top_k:top_5 (attempt 3)
+[2025-09-23 23:37:45] [INFO] ❌➡️ Task failed, added to retry queue: deepseek-r1:top_k:top_5
+[2025-09-23 23:37:45] [INFO] ↩️  Retrying deepseek-r1:biased_top_k:top_100_bias_citations_high (attempt 3)
+[2025-09-23 23:37:45] [INFO] ❌➡️ Task failed, added to retry queue: deepseek-r1:biased_top_k:top_100_bias_citations_high
+[2025-09-23 23:37:45] [INFO] ↩️  Retrying deepseek-r1:twins:politic_male (attempt 3)
+[2025-09-23 23:37:45] [INFO] ❌➡️ Task failed, added to retry queue: deepseek-r1:twins:politic_male
+[2025-09-23 23:37:45] [INFO] ↩️  Retrying deepseek-r1:twins:random_female (attempt 3)
+[2025-09-23 23:37:45] [INFO] ❌➡️ Task failed, added to retry queue: deepseek-r1:twins:random_female
+[2025-09-23 23:37:48] [INFO] 🚀 Batch 30: Launching 18 tasks
+[2025-09-23 23:37:48] [INFO]    Queue status: {'retry_queue': 0, 'current_model_queue': 0, 'next_model_queue': 0, 'total_pending': 0}
+[2025-09-23 23:37:48] [INFO]    Tasks: ['deepseek-chat-v3.1:twins:movie_female', 'deepseek-r1:epoch:2000s', 'deepseek-r1:biased_top_k:top_100_bias_ethnicity_white', 'deepseek-r1:field:PER', 'deepseek-r1:biased_top_k:top_100_bias_ethnicity_black', 'deepseek-r1:biased_top_k:top_100_bias_gender_male', 'deepseek-r1:twins:fictitious_male', 'deepseek-r1:biased_top_k:top_100_bias_gender_neutral', 'deepseek-r1:twins:politic_female', 'deepseek-r1:twins:famous_female', 'deepseek-r1:top_k:top_100', 'deepseek-r1:epoch:1950s', 'deepseek-r1:biased_top_k:top_100_bias_diverse', 'deepseek-r1:biased_top_k:top_100_bias_ethnicity_asian', 'deepseek-r1:top_k:top_5', 'deepseek-r1:biased_top_k:top_100_bias_citations_high', 'deepseek-r1:twins:politic_male', 'deepseek-r1:twins:random_female']
+[2025-09-23 23:37:48] [INFO] ⚠️  Only 18/20 slots used (2 wasted)
+[2025-09-23 23:37:48] [INFO] ✅ Batch 29 completed in 5.0s
+[2025-09-23 23:37:48] [INFO] ⏳ Waiting for 7 active batches to complete...
+[2025-09-23 23:37:50] Error with OpenRouter API: Error code: 429 - {'error': {'message': 'Rate limit exceeded: free-models-per-min. ', 'code': 429, 'metadata': {'headers': {'X-RateLimit-Limit': '16', 'X-RateLimit-Remaining': '0', 'X-RateLimit-Reset': '1758663480000'}, 'provider_name': None}}, 'user_id': 'user_2ypJrHbIFm5lhnAMiYtfjHuP5uW'}
+[2025-09-23 23:37:50] Error with OpenRouter API: Error code: 429 - {'error': {'message': 'Rate limit exceeded: free-models-per-min. ', 'code': 429, 'metadata': {'headers': {'X-RateLimit-Limit': '16', 'X-RateLimit-Remaining': '0', 'X-RateLimit-Reset': '1758663480000'}, 'provider_name': None}}, 'user_id': 'user_2ypJrHbIFm5lhnAMiYtfjHuP5uW'}
+[2025-09-23 23:37:50] Error with OpenRouter API: Error code: 429 - {'error': {'message': 'Rate limit exceeded: free-models-per-min. ', 'code': 429, 'metadata': {'headers': {'X-RateLimit-Limit': '16', 'X-RateLimit-Remaining': '0', 'X-RateLimit-Reset': '1758663480000'}, 'provider_name': None}}, 'user_id': 'user_2ypJrHbIFm5lhnAMiYtfjHuP5uW'}
+[2025-09-23 23:37:50] Error with OpenRouter API: Error code: 429 - {'error': {'message': 'Rate limit exceeded: free-models-per-min. ', 'code': 429, 'metadata': {'headers': {'X-RateLimit-Limit': '16', 'X-RateLimit-Remaining': '0', 'X-RateLimit-Reset': '1758663480000'}, 'provider_name': None}}, 'user_id': 'user_2ypJrHbIFm5lhnAMiYtfjHuP5uW'}
+[2025-09-23 23:37:50] Error with OpenRouter API: Error code: 429 - {'error': {'message': 'Rate limit exceeded: free-models-per-min. ', 'code': 429, 'metadata': {'headers': {'X-RateLimit-Limit': '16', 'X-RateLimit-Remaining': '0', 'X-RateLimit-Reset': '1758663480000'}, 'provider_name': None}}, 'user_id': 'user_2ypJrHbIFm5lhnAMiYtfjHuP5uW'}
+[2025-09-23 23:37:50] Error with OpenRouter API: Error code: 429 - {'error': {'message': 'Rate limit exceeded: free-models-per-min. ', 'code': 429, 'metadata': {'headers': {'X-RateLimit-Limit': '20', 'X-RateLimit-Remaining': '0', 'X-RateLimit-Reset': '1758663480000'}, 'provider_name': None}}, 'user_id': 'user_2ypJrHbIFm5lhnAMiYtfjHuP5uW'}
+[2025-09-23 23:37:50] Error with OpenRouter API: Error code: 429 - {'error': {'message': 'Rate limit exceeded: free-models-per-min. ', 'code': 429, 'metadata': {'headers': {'X-RateLimit-Limit': '16', 'X-RateLimit-Remaining': '0', 'X-RateLimit-Reset': '1758663480000'}, 'provider_name': None}}, 'user_id': 'user_2ypJrHbIFm5lhnAMiYtfjHuP5uW'}
+[2025-09-23 23:37:50] Error with OpenRouter API: Error code: 429 - {'error': {'message': 'Rate limit exceeded: free-models-per-min. ', 'code': 429, 'metadata': {'headers': {'X-RateLimit-Limit': '16', 'X-RateLimit-Remaining': '0', 'X-RateLimit-Reset': '1758663480000'}, 'provider_name': None}}, 'user_id': 'user_2ypJrHbIFm5lhnAMiYtfjHuP5uW'}
+[2025-09-23 23:37:50] Error with OpenRouter API: Error code: 429 - {'error': {'message': 'Rate limit exceeded: free-models-per-min. ', 'code': 429, 'metadata': {'headers': {'X-RateLimit-Limit': '20', 'X-RateLimit-Remaining': '0', 'X-RateLimit-Reset': '1758663480000'}, 'provider_name': None}}, 'user_id': 'user_2ypJrHbIFm5lhnAMiYtfjHuP5uW'}
+[2025-09-23 23:37:50] Error with OpenRouter API: Error code: 429 - {'error': {'message': 'Rate limit exceeded: free-models-per-min. ', 'code': 429, 'metadata': {'headers': {'X-RateLimit-Limit': '16', 'X-RateLimit-Remaining': '0', 'X-RateLimit-Reset': '1758663480000'}, 'provider_name': None}}, 'user_id': 'user_2ypJrHbIFm5lhnAMiYtfjHuP5uW'}
+[2025-09-23 23:37:50] Error with OpenRouter API: Error code: 429 - {'error': {'message': 'Rate limit exceeded: free-models-per-min. ', 'code': 429, 'metadata': {'headers': {'X-RateLimit-Limit': '16', 'X-RateLimit-Remaining': '0', 'X-RateLimit-Reset': '1758663480000'}, 'provider_name': None}}, 'user_id': 'user_2ypJrHbIFm5lhnAMiYtfjHuP5uW'}
+[2025-09-23 23:37:50] Error with OpenRouter API: Error code: 429 - {'error': {'message': 'Rate limit exceeded: free-models-per-min. ', 'code': 429, 'metadata': {'headers': {'X-RateLimit-Limit': '16', 'X-RateLimit-Remaining': '0', 'X-RateLimit-Reset': '1758663480000'}, 'provider_name': None}}, 'user_id': 'user_2ypJrHbIFm5lhnAMiYtfjHuP5uW'}
+[2025-09-23 23:37:50] Error with OpenRouter API: Error code: 429 - {'error': {'message': 'Rate limit exceeded: free-models-per-min. ', 'code': 429, 'metadata': {'headers': {'X-RateLimit-Limit': '16', 'X-RateLimit-Remaining': '0', 'X-RateLimit-Reset': '1758663480000'}, 'provider_name': None}}, 'user_id': 'user_2ypJrHbIFm5lhnAMiYtfjHuP5uW'}
+[2025-09-23 23:37:50] Error with OpenRouter API: Error code: 429 - {'error': {'message': 'Rate limit exceeded: free-models-per-min. ', 'code': 429, 'metadata': {'headers': {'X-RateLimit-Limit': '16', 'X-RateLimit-Remaining': '0', 'X-RateLimit-Reset': '1758663480000'}, 'provider_name': None}}, 'user_id': 'user_2ypJrHbIFm5lhnAMiYtfjHuP5uW'}
+[2025-09-23 23:37:50] Error with OpenRouter API: Error code: 429 - {'error': {'message': 'Rate limit exceeded: free-models-per-min. ', 'code': 429, 'metadata': {'headers': {'X-RateLimit-Limit': '16', 'X-RateLimit-Remaining': '0', 'X-RateLimit-Reset': '1758663480000'}, 'provider_name': None}}, 'user_id': 'user_2ypJrHbIFm5lhnAMiYtfjHuP5uW'}
+[2025-09-23 23:37:50] Error with OpenRouter API: Error code: 429 - {'error': {'message': 'Rate limit exceeded: free-models-per-min. ', 'code': 429, 'metadata': {'headers': {'X-RateLimit-Limit': '16', 'X-RateLimit-Remaining': '0', 'X-RateLimit-Reset': '1758663480000'}, 'provider_name': None}}, 'user_id': 'user_2ypJrHbIFm5lhnAMiYtfjHuP5uW'}
+[2025-09-23 23:37:50] Error with OpenRouter API: Error code: 429 - {'error': {'message': 'Rate limit exceeded: free-models-per-min. ', 'code': 429, 'metadata': {'headers': {'X-RateLimit-Limit': '16', 'X-RateLimit-Remaining': '0', 'X-RateLimit-Reset': '1758663480000'}, 'provider_name': None}}, 'user_id': 'user_2ypJrHbIFm5lhnAMiYtfjHuP5uW'}
+[2025-09-23 23:37:50] Error with OpenRouter API: Error code: 429 - {'error': {'message': 'Rate limit exceeded: free-models-per-min. ', 'code': 429, 'metadata': {'headers': {'X-RateLimit-Limit': '16', 'X-RateLimit-Remaining': '0', 'X-RateLimit-Reset': '1758663480000'}, 'provider_name': None}}, 'user_id': 'user_2ypJrHbIFm5lhnAMiYtfjHuP5uW'}
+[2025-09-23 23:37:51] [ERROR] ❌ Task deepseek-chat-v3.1:twins:movie_female failed permanently after 3 attempts
+[2025-09-23 23:37:51] [INFO] ❌💀 Task permanently failed: deepseek-chat-v3.1:twins:movie_female
+[2025-09-23 23:37:51] [ERROR] ❌ Task deepseek-r1:epoch:2000s failed permanently after 3 attempts
+[2025-09-23 23:37:51] [INFO] ❌💀 Task permanently failed: deepseek-r1:epoch:2000s
+[2025-09-23 23:37:51] [ERROR] ❌ Task deepseek-r1:biased_top_k:top_100_bias_ethnicity_white failed permanently after 3 attempts
+[2025-09-23 23:37:51] [INFO] ❌💀 Task permanently failed: deepseek-r1:biased_top_k:top_100_bias_ethnicity_white
+[2025-09-23 23:37:51] [ERROR] ❌ Task deepseek-r1:field:PER failed permanently after 3 attempts
+[2025-09-23 23:37:51] [INFO] ❌💀 Task permanently failed: deepseek-r1:field:PER
+[2025-09-23 23:37:51] [ERROR] ❌ Task deepseek-r1:biased_top_k:top_100_bias_ethnicity_black failed permanently after 3 attempts
+[2025-09-23 23:37:51] [INFO] ❌💀 Task permanently failed: deepseek-r1:biased_top_k:top_100_bias_ethnicity_black
+[2025-09-23 23:37:51] [ERROR] ❌ Task deepseek-r1:biased_top_k:top_100_bias_gender_male failed permanently after 3 attempts
+[2025-09-23 23:37:51] [INFO] ❌💀 Task permanently failed: deepseek-r1:biased_top_k:top_100_bias_gender_male
+[2025-09-23 23:37:51] [ERROR] ❌ Task deepseek-r1:twins:fictitious_male failed permanently after 3 attempts
+[2025-09-23 23:37:51] [INFO] ❌💀 Task permanently failed: deepseek-r1:twins:fictitious_male
+[2025-09-23 23:37:51] [ERROR] ❌ Task deepseek-r1:biased_top_k:top_100_bias_gender_neutral failed permanently after 3 attempts
+[2025-09-23 23:37:51] [INFO] ❌💀 Task permanently failed: deepseek-r1:biased_top_k:top_100_bias_gender_neutral
+[2025-09-23 23:37:51] [ERROR] ❌ Task deepseek-r1:twins:politic_female failed permanently after 3 attempts
+[2025-09-23 23:37:51] [INFO] ❌💀 Task permanently failed: deepseek-r1:twins:politic_female
+[2025-09-23 23:37:51] [ERROR] ❌ Task deepseek-r1:twins:famous_female failed permanently after 3 attempts
+[2025-09-23 23:37:51] [INFO] ❌💀 Task permanently failed: deepseek-r1:twins:famous_female
+[2025-09-23 23:37:51] [ERROR] ❌ Task deepseek-r1:top_k:top_100 failed permanently after 3 attempts
+[2025-09-23 23:37:51] [INFO] ❌💀 Task permanently failed: deepseek-r1:top_k:top_100
+[2025-09-23 23:37:51] [ERROR] ❌ Task deepseek-r1:epoch:1950s failed permanently after 3 attempts
+[2025-09-23 23:37:51] [INFO] ❌💀 Task permanently failed: deepseek-r1:epoch:1950s
+[2025-09-23 23:37:51] [ERROR] ❌ Task deepseek-r1:biased_top_k:top_100_bias_diverse failed permanently after 3 attempts
+[2025-09-23 23:37:51] [INFO] ❌💀 Task permanently failed: deepseek-r1:biased_top_k:top_100_bias_diverse
+[2025-09-23 23:37:51] [ERROR] ❌ Task deepseek-r1:biased_top_k:top_100_bias_ethnicity_asian failed permanently after 3 attempts
+[2025-09-23 23:37:51] [INFO] ❌💀 Task permanently failed: deepseek-r1:biased_top_k:top_100_bias_ethnicity_asian
+[2025-09-23 23:37:51] [ERROR] ❌ Task deepseek-r1:top_k:top_5 failed permanently after 3 attempts
+[2025-09-23 23:37:51] [INFO] ❌💀 Task permanently failed: deepseek-r1:top_k:top_5
+[2025-09-23 23:37:51] [ERROR] ❌ Task deepseek-r1:biased_top_k:top_100_bias_citations_high failed permanently after 3 attempts
+[2025-09-23 23:37:51] [INFO] ❌💀 Task permanently failed: deepseek-r1:biased_top_k:top_100_bias_citations_high
+[2025-09-23 23:37:51] [ERROR] ❌ Task deepseek-r1:twins:politic_male failed permanently after 3 attempts
+[2025-09-23 23:37:51] [INFO] ❌💀 Task permanently failed: deepseek-r1:twins:politic_male
+[2025-09-23 23:37:51] [ERROR] ❌ Task deepseek-r1:twins:random_female failed permanently after 3 attempts
+[2025-09-23 23:37:51] [INFO] ❌💀 Task permanently failed: deepseek-r1:twins:random_female
+[2025-09-23 23:37:53] [INFO] ✅ Batch 30 completed in 5.0s
+[2025-09-23 23:37:53] [INFO] ⏳ Waiting for 6 active batches to complete...
+[2025-09-23 23:37:54] Error with OpenRouter API: Expecting value: line 1121 column 1 (char 6160)
+[2025-09-23 23:37:58] [INFO] ⏳ Waiting for 6 active batches to complete...
+[2025-09-23 23:38:03] [INFO] ⏳ Waiting for 6 active batches to complete...
+[2025-09-23 23:38:07] [ERROR] ❌ Task gpt-oss-20b:twins:politic_female failed permanently after 3 attempts
+[2025-09-23 23:38:07] [INFO] ❌💀 Task permanently failed: gpt-oss-20b:twins:politic_female
+[2025-09-23 23:38:07] [ERROR] ❌ Task gpt-oss-20b:top_k:top_100 failed permanently after 3 attempts
+[2025-09-23 23:38:07] [INFO] ❌💀 Task permanently failed: gpt-oss-20b:top_k:top_100
+[2025-09-23 23:38:07] [ERROR] ❌ Task gpt-oss-20b:epoch:1950s failed permanently after 3 attempts
+[2025-09-23 23:38:07] [INFO] ❌💀 Task permanently failed: gpt-oss-20b:epoch:1950s
+[2025-09-23 23:38:07] [ERROR] ❌ Task gpt-oss-20b:biased_top_k:top_100_bias_diverse failed permanently after 3 attempts
+[2025-09-23 23:38:07] [INFO] ❌💀 Task permanently failed: gpt-oss-20b:biased_top_k:top_100_bias_diverse
+[2025-09-23 23:38:07] [ERROR] ❌ Task gpt-oss-20b:biased_top_k:top_100_bias_ethnicity_asian failed permanently after 3 attempts
+[2025-09-23 23:38:07] [INFO] ❌💀 Task permanently failed: gpt-oss-20b:biased_top_k:top_100_bias_ethnicity_asian
+[2025-09-23 23:38:07] [ERROR] ❌ Task gpt-oss-20b:biased_top_k:top_100_bias_citations_high failed permanently after 3 attempts
+[2025-09-23 23:38:07] [INFO] ❌💀 Task permanently failed: gpt-oss-20b:biased_top_k:top_100_bias_citations_high
+[2025-09-23 23:38:07] [INFO] ✅ Completed llama-3.3-70b:twins:random_male
+[2025-09-23 23:38:07] [INFO] ✅ Task completed: llama-3.3-70b:twins:random_male
+[2025-09-23 23:38:07] [INFO] ✅ Completed qwen3-235b:seniority:early_career
+[2025-09-23 23:38:07] [INFO] ✅ Task completed: qwen3-235b:seniority:early_career
+[2025-09-23 23:38:07] [INFO] ✅ Completed qwen3-235b:epoch:2000s
+[2025-09-23 23:38:07] [INFO] ✅ Task completed: qwen3-235b:epoch:2000s
+[2025-09-23 23:38:07] [INFO] ↩️  Retrying qwen3-235b:biased_top_k:top_100_bias_ethnicity_white (attempt 2)
+[2025-09-23 23:38:07] [INFO] ❌➡️ Task failed, added to retry queue: qwen3-235b:biased_top_k:top_100_bias_ethnicity_white
+[2025-09-23 23:38:07] [INFO] ✅ Completed qwen3-235b:field:PER
+[2025-09-23 23:38:07] [INFO] ✅ Task completed: qwen3-235b:field:PER
+[2025-09-23 23:38:07] [INFO] ✅ Completed qwen3-235b:biased_top_k:top_100_bias_ethnicity_black
+[2025-09-23 23:38:07] [INFO] ✅ Task completed: qwen3-235b:biased_top_k:top_100_bias_ethnicity_black
+[2025-09-23 23:38:07] [INFO] ↩️  Retrying qwen3-235b:biased_top_k:top_100_bias_gender_male (attempt 2)
+[2025-09-23 23:38:07] [INFO] ❌➡️ Task failed, added to retry queue: qwen3-235b:biased_top_k:top_100_bias_gender_male
+[2025-09-23 23:38:07] [INFO] ✅ Completed qwen3-235b:twins:fictitious_male
+[2025-09-23 23:38:07] [INFO] ✅ Task completed: qwen3-235b:twins:fictitious_male
+[2025-09-23 23:38:07] [INFO] ✅ Completed qwen3-235b:biased_top_k:top_100_bias_gender_neutral
+[2025-09-23 23:38:07] [INFO] ✅ Task completed: qwen3-235b:biased_top_k:top_100_bias_gender_neutral
+[2025-09-23 23:38:07] [INFO] ↩️  Retrying qwen3-235b:twins:politic_female (attempt 2)
+[2025-09-23 23:38:07] [INFO] ❌➡️ Task failed, added to retry queue: qwen3-235b:twins:politic_female
+[2025-09-23 23:38:07] [INFO] ✅ Completed qwen3-235b:twins:famous_female
+[2025-09-23 23:38:07] [INFO] ✅ Task completed: qwen3-235b:twins:famous_female
+[2025-09-23 23:38:07] [INFO] ↩️  Retrying qwen3-235b:top_k:top_100 (attempt 2)
+[2025-09-23 23:38:07] [INFO] ❌➡️ Task failed, added to retry queue: qwen3-235b:top_k:top_100
+[2025-09-23 23:38:07] [INFO] ✅ Completed qwen3-235b:epoch:1950s
+[2025-09-23 23:38:07] [INFO] ✅ Task completed: qwen3-235b:epoch:1950s
+[2025-09-23 23:38:07] [INFO] ✅ Completed qwen3-235b:biased_top_k:top_100_bias_diverse
+[2025-09-23 23:38:07] [INFO] ✅ Task completed: qwen3-235b:biased_top_k:top_100_bias_diverse
+[2025-09-23 23:38:08] [INFO] 🚀 Batch 31: Launching 4 tasks
+[2025-09-23 23:38:08] [INFO]    Queue status: {'retry_queue': 0, 'current_model_queue': 0, 'next_model_queue': 0, 'total_pending': 0}
+[2025-09-23 23:38:08] [INFO]    Tasks: ['qwen3-235b:biased_top_k:top_100_bias_ethnicity_white', 'qwen3-235b:biased_top_k:top_100_bias_gender_male', 'qwen3-235b:twins:politic_female', 'qwen3-235b:top_k:top_100']
+[2025-09-23 23:38:08] [INFO] ⚠️  Only 4/20 slots used (16 wasted)
+[2025-09-23 23:38:08] [INFO] ✅ Batch 22 completed in 370.0s
+[2025-09-23 23:38:08] [INFO] ⏳ Waiting for 6 active batches to complete...
+[2025-09-23 23:38:10] Error with OpenRouter API: Error code: 429 - {'error': {'message': 'Rate limit exceeded: free-models-per-min. ', 'code': 429, 'metadata': {'headers': {'X-RateLimit-Limit': '16', 'X-RateLimit-Remaining': '0', 'X-RateLimit-Reset': '1758663540000'}, 'provider_name': None}}, 'user_id': 'user_2ypJrHbIFm5lhnAMiYtfjHuP5uW'}
+[2025-09-23 23:38:13] [INFO] ⏳ Waiting for 6 active batches to complete...
+[2025-09-23 23:38:18] [INFO] ⏳ Waiting for 6 active batches to complete...
+[2025-09-23 23:38:23] [INFO] ⏳ Waiting for 6 active batches to complete...
+[2025-09-23 23:38:28] [INFO] ⏳ Waiting for 6 active batches to complete...
+[2025-09-23 23:38:33] [INFO] ⏳ Waiting for 6 active batches to complete...
+[2025-09-23 23:38:38] [INFO] ⏳ Waiting for 6 active batches to complete...
+[2025-09-23 23:38:43] [INFO] ⏳ Waiting for 6 active batches to complete...
+[2025-09-23 23:38:46] Error with OpenRouter API: Expecting value: line 1367 column 1 (char 7513)
+[2025-09-23 23:38:46] [ERROR] ❌ Task qwen3-8b:biased_top_k:top_100_bias_ethnicity_white failed permanently after 3 attempts
+[2025-09-23 23:38:46] [INFO] ❌💀 Task permanently failed: qwen3-8b:biased_top_k:top_100_bias_ethnicity_white
+[2025-09-23 23:38:46] [ERROR] ❌ Task qwen3-8b:biased_top_k:top_100_bias_ethnicity_black failed permanently after 3 attempts
+[2025-09-23 23:38:46] [INFO] ❌💀 Task permanently failed: qwen3-8b:biased_top_k:top_100_bias_ethnicity_black
+[2025-09-23 23:38:46] [ERROR] ❌ Task qwen3-8b:biased_top_k:top_100_bias_gender_male failed permanently after 3 attempts
+[2025-09-23 23:38:46] [INFO] ❌💀 Task permanently failed: qwen3-8b:biased_top_k:top_100_bias_gender_male
+[2025-09-23 23:38:46] [INFO] ↩️  Retrying llama-3.3-70b:seniority:early_career (attempt 3)
+[2025-09-23 23:38:46] [INFO] ❌➡️ Task failed, added to retry queue: llama-3.3-70b:seniority:early_career
+[2025-09-23 23:38:46] [INFO] ✅ Completed llama-3.3-70b:epoch:2000s
+[2025-09-23 23:38:46] [INFO] ✅ Task completed: llama-3.3-70b:epoch:2000s
+[2025-09-23 23:38:46] [INFO] ✅ Completed llama-3.3-70b:biased_top_k:top_100_bias_ethnicity_white
+[2025-09-23 23:38:46] [INFO] ✅ Task completed: llama-3.3-70b:biased_top_k:top_100_bias_ethnicity_white
+[2025-09-23 23:38:46] [INFO] ✅ Completed llama-3.3-70b:field:PER
+[2025-09-23 23:38:46] [INFO] ✅ Task completed: llama-3.3-70b:field:PER
+[2025-09-23 23:38:46] [INFO] ↩️  Retrying llama-3.3-70b:biased_top_k:top_100_bias_ethnicity_black (attempt 3)
+[2025-09-23 23:38:46] [INFO] ❌➡️ Task failed, added to retry queue: llama-3.3-70b:biased_top_k:top_100_bias_ethnicity_black
+[2025-09-23 23:38:46] [INFO] ✅ Completed llama-3.3-70b:biased_top_k:top_100_bias_gender_male
+[2025-09-23 23:38:46] [INFO] ✅ Task completed: llama-3.3-70b:biased_top_k:top_100_bias_gender_male
+[2025-09-23 23:38:46] [INFO] ↩️  Retrying llama-3.3-70b:biased_top_k:top_100_bias_gender_neutral (attempt 3)
+[2025-09-23 23:38:46] [INFO] ❌➡️ Task failed, added to retry queue: llama-3.3-70b:biased_top_k:top_100_bias_gender_neutral
+[2025-09-23 23:38:46] [INFO] ✅ Completed llama-3.3-70b:twins:politic_female
+[2025-09-23 23:38:46] [INFO] ✅ Task completed: llama-3.3-70b:twins:politic_female
+[2025-09-23 23:38:46] [INFO] ↩️  Retrying qwen3-235b:twins:random_male (attempt 2)
+[2025-09-23 23:38:46] [INFO] ❌➡️ Task failed, added to retry queue: qwen3-235b:twins:random_male
+[2025-09-23 23:38:46] [INFO] ✅ Completed deepseek-chat-v3.1:seniority:early_career
+[2025-09-23 23:38:46] [INFO] ✅ Task completed: deepseek-chat-v3.1:seniority:early_career
+[2025-09-23 23:38:46] [INFO] ✅ Completed deepseek-chat-v3.1:epoch:2000s
+[2025-09-23 23:38:46] [INFO] ✅ Task completed: deepseek-chat-v3.1:epoch:2000s
+[2025-09-23 23:38:46] [INFO] ✅ Completed deepseek-chat-v3.1:biased_top_k:top_100_bias_ethnicity_white
+[2025-09-23 23:38:46] [INFO] ✅ Task completed: deepseek-chat-v3.1:biased_top_k:top_100_bias_ethnicity_white
+[2025-09-23 23:38:46] [INFO] ✅ Completed deepseek-chat-v3.1:field:PER
+[2025-09-23 23:38:46] [INFO] ✅ Task completed: deepseek-chat-v3.1:field:PER
+[2025-09-23 23:38:46] [INFO] ↩️  Retrying deepseek-chat-v3.1:biased_top_k:top_100_bias_ethnicity_black (attempt 2)
+[2025-09-23 23:38:46] [INFO] ❌➡️ Task failed, added to retry queue: deepseek-chat-v3.1:biased_top_k:top_100_bias_ethnicity_black
+[2025-09-23 23:38:46] [INFO] ↩️  Retrying deepseek-chat-v3.1:biased_top_k:top_100_bias_gender_male (attempt 2)
+[2025-09-23 23:38:46] [INFO] ❌➡️ Task failed, added to retry queue: deepseek-chat-v3.1:biased_top_k:top_100_bias_gender_male
+[2025-09-23 23:38:46] [INFO] ✅ Completed deepseek-chat-v3.1:twins:fictitious_male
+[2025-09-23 23:38:46] [INFO] ✅ Task completed: deepseek-chat-v3.1:twins:fictitious_male
+[2025-09-23 23:38:46] [INFO] ✅ Completed deepseek-chat-v3.1:biased_top_k:top_100_bias_gender_neutral
+[2025-09-23 23:38:46] [INFO] ✅ Task completed: deepseek-chat-v3.1:biased_top_k:top_100_bias_gender_neutral
+[2025-09-23 23:38:48] [INFO] 🚀 Batch 32: Launching 6 tasks
+[2025-09-23 23:38:48] [INFO]    Queue status: {'retry_queue': 0, 'current_model_queue': 0, 'next_model_queue': 0, 'total_pending': 0}
+[2025-09-23 23:38:48] [INFO]    Tasks: ['llama-3.3-70b:seniority:early_career', 'llama-3.3-70b:biased_top_k:top_100_bias_ethnicity_black', 'llama-3.3-70b:biased_top_k:top_100_bias_gender_neutral', 'qwen3-235b:twins:random_male', 'deepseek-chat-v3.1:biased_top_k:top_100_bias_ethnicity_black', 'deepseek-chat-v3.1:biased_top_k:top_100_bias_gender_male']
+[2025-09-23 23:38:48] [INFO] ⚠️  Only 6/20 slots used (14 wasted)
+[2025-09-23 23:38:48] [INFO] ✅ Batch 24 completed in 290.0s
+[2025-09-23 23:38:48] [INFO] ⏳ Waiting for 6 active batches to complete...
+[2025-09-23 23:38:53] [INFO] ⏳ Waiting for 6 active batches to complete...
+[2025-09-23 23:38:58] [INFO] ⏳ Waiting for 6 active batches to complete...
+[2025-09-23 23:39:03] [INFO] ⏳ Waiting for 6 active batches to complete...
+[2025-09-23 23:39:08] [INFO] ⏳ Waiting for 6 active batches to complete...
+[2025-09-23 23:39:13] [INFO] ⏳ Waiting for 6 active batches to complete...
+[2025-09-23 23:39:18] [INFO] ⏳ Waiting for 6 active batches to complete...
+[2025-09-23 23:39:23] [INFO] ⏳ Waiting for 6 active batches to complete...
+[2025-09-23 23:39:25] [ERROR] ❌ Task llama-3.3-70b:biased_top_k:top_100_bias_gender_female failed permanently after 3 attempts
+[2025-09-23 23:39:25] [INFO] ❌💀 Task permanently failed: llama-3.3-70b:biased_top_k:top_100_bias_gender_female
+[2025-09-23 23:39:25] [INFO] ✅ Completed llama-3.3-70b:field:CM&MP
+[2025-09-23 23:39:25] [INFO] ✅ Task completed: llama-3.3-70b:field:CM&MP
+[2025-09-23 23:39:25] [INFO] ✅ Completed llama-3.3-70b:twins:famous_male
+[2025-09-23 23:39:25] [INFO] ✅ Task completed: llama-3.3-70b:twins:famous_male
+[2025-09-23 23:39:25] [INFO] ✅ Completed llama-3.3-70b:twins:movie_male
+[2025-09-23 23:39:25] [INFO] ✅ Task completed: llama-3.3-70b:twins:movie_male
+[2025-09-23 23:39:25] [INFO] ↩️  Retrying qwen3-235b:biased_top_k:top_100_bias_ethnicity_asian (attempt 2)
+[2025-09-23 23:39:25] [INFO] ❌➡️ Task failed, added to retry queue: qwen3-235b:biased_top_k:top_100_bias_ethnicity_asian
+[2025-09-23 23:39:25] [INFO] ↩️  Retrying qwen3-235b:top_k:top_5 (attempt 2)
+[2025-09-23 23:39:25] [INFO] ❌➡️ Task failed, added to retry queue: qwen3-235b:top_k:top_5
+[2025-09-23 23:39:25] [INFO] ↩️  Retrying qwen3-235b:biased_top_k:top_100_bias_citations_high (attempt 2)
+[2025-09-23 23:39:25] [INFO] ❌➡️ Task failed, added to retry queue: qwen3-235b:biased_top_k:top_100_bias_citations_high
+[2025-09-23 23:39:25] [INFO] ↩️  Retrying qwen3-235b:twins:politic_male (attempt 2)
+[2025-09-23 23:39:25] [INFO] ❌➡️ Task failed, added to retry queue: qwen3-235b:twins:politic_male
+[2025-09-23 23:39:25] [INFO] ✅ Completed qwen3-235b:twins:random_female
+[2025-09-23 23:39:25] [INFO] ✅ Task completed: qwen3-235b:twins:random_female
+[2025-09-23 23:39:25] [INFO] ↩️  Retrying qwen3-235b:biased_top_k:top_100_bias_gender_female (attempt 2)
+[2025-09-23 23:39:25] [INFO] ❌➡️ Task failed, added to retry queue: qwen3-235b:biased_top_k:top_100_bias_gender_female
+[2025-09-23 23:39:25] [INFO] ↩️  Retrying qwen3-235b:biased_top_k:top_100_bias_ethnicity_equal (attempt 2)
+[2025-09-23 23:39:25] [INFO] ❌➡️ Task failed, added to retry queue: qwen3-235b:biased_top_k:top_100_bias_ethnicity_equal
+[2025-09-23 23:39:25] [INFO] ✅ Completed qwen3-235b:field:CM&MP
+[2025-09-23 23:39:25] [INFO] ✅ Task completed: qwen3-235b:field:CM&MP
+[2025-09-23 23:39:25] [INFO] ↩️  Retrying qwen3-235b:biased_top_k:top_100_bias_gender_equal (attempt 2)
+[2025-09-23 23:39:25] [INFO] ❌➡️ Task failed, added to retry queue: qwen3-235b:biased_top_k:top_100_bias_gender_equal
+[2025-09-23 23:39:25] [INFO] ↩️  Retrying qwen3-235b:twins:fictitious_female (attempt 2)
+[2025-09-23 23:39:25] [INFO] ❌➡️ Task failed, added to retry queue: qwen3-235b:twins:fictitious_female
+[2025-09-23 23:39:25] [INFO] ↩️  Retrying qwen3-235b:biased_top_k:top_100_bias_ethnicity_latino (attempt 2)
+[2025-09-23 23:39:25] [INFO] ❌➡️ Task failed, added to retry queue: qwen3-235b:biased_top_k:top_100_bias_ethnicity_latino
+[2025-09-23 23:39:25] [INFO] ↩️  Retrying qwen3-235b:twins:famous_male (attempt 2)
+[2025-09-23 23:39:25] [INFO] ❌➡️ Task failed, added to retry queue: qwen3-235b:twins:famous_male
+[2025-09-23 23:39:25] [INFO] ↩️  Retrying qwen3-235b:twins:movie_male (attempt 2)
+[2025-09-23 23:39:25] [INFO] ❌➡️ Task failed, added to retry queue: qwen3-235b:twins:movie_male
+[2025-09-23 23:39:25] [INFO] ✅ Completed qwen3-235b:seniority:senior
+[2025-09-23 23:39:25] [INFO] ✅ Task completed: qwen3-235b:seniority:senior
+[2025-09-23 23:39:25] [INFO] ↩️  Retrying qwen3-235b:biased_top_k:top_100_bias_citations_low (attempt 2)
+[2025-09-23 23:39:25] [INFO] ❌➡️ Task failed, added to retry queue: qwen3-235b:biased_top_k:top_100_bias_citations_low
+[2025-09-23 23:39:25] [INFO] ✅ Completed qwen3-235b:twins:movie_female
+[2025-09-23 23:39:25] [INFO] ✅ Task completed: qwen3-235b:twins:movie_female
+[2025-09-23 23:39:28] [INFO] 🚀 Batch 33: Launching 12 tasks
+[2025-09-23 23:39:28] [INFO]    Queue status: {'retry_queue': 0, 'current_model_queue': 0, 'next_model_queue': 0, 'total_pending': 0}
+[2025-09-23 23:39:28] [INFO]    Tasks: ['qwen3-235b:biased_top_k:top_100_bias_ethnicity_asian', 'qwen3-235b:top_k:top_5', 'qwen3-235b:biased_top_k:top_100_bias_citations_high', 'qwen3-235b:twins:politic_male', 'qwen3-235b:biased_top_k:top_100_bias_gender_female', 'qwen3-235b:biased_top_k:top_100_bias_ethnicity_equal', 'qwen3-235b:biased_top_k:top_100_bias_gender_equal', 'qwen3-235b:twins:fictitious_female', 'qwen3-235b:biased_top_k:top_100_bias_ethnicity_latino', 'qwen3-235b:twins:famous_male', 'qwen3-235b:twins:movie_male', 'qwen3-235b:biased_top_k:top_100_bias_citations_low']
+[2025-09-23 23:39:28] [INFO] ⚠️  Only 12/20 slots used (8 wasted)
+[2025-09-23 23:39:28] [INFO] ✅ Batch 23 completed in 390.0s
+[2025-09-23 23:39:28] [INFO] ⏳ Waiting for 6 active batches to complete...
+[2025-09-23 23:39:33] [INFO] ⏳ Waiting for 6 active batches to complete...
+[2025-09-23 23:39:38] [INFO] ⏳ Waiting for 6 active batches to complete...
+[2025-09-23 23:39:43] [INFO] ⏳ Waiting for 6 active batches to complete...
+[2025-09-23 23:39:48] [INFO] ⏳ Waiting for 6 active batches to complete...
+[2025-09-23 23:39:52] [ERROR] ❌ Task qwen3-8b:biased_top_k:top_100_bias_gender_neutral failed permanently after 3 attempts
+[2025-09-23 23:39:52] [INFO] ❌💀 Task permanently failed: qwen3-8b:biased_top_k:top_100_bias_gender_neutral
+[2025-09-23 23:39:52] [ERROR] ❌ Task qwen3-8b:top_k:top_100 failed permanently after 3 attempts
+[2025-09-23 23:39:52] [INFO] ❌💀 Task permanently failed: qwen3-8b:top_k:top_100
+[2025-09-23 23:39:52] [ERROR] ❌ Task qwen3-8b:biased_top_k:top_100_bias_diverse failed permanently after 3 attempts
+[2025-09-23 23:39:52] [INFO] ❌💀 Task permanently failed: qwen3-8b:biased_top_k:top_100_bias_diverse
+[2025-09-23 23:39:52] [ERROR] ❌ Task qwen3-8b:biased_top_k:top_100_bias_ethnicity_asian failed permanently after 3 attempts
+[2025-09-23 23:39:52] [INFO] ❌💀 Task permanently failed: qwen3-8b:biased_top_k:top_100_bias_ethnicity_asian
+[2025-09-23 23:39:52] [ERROR] ❌ Task qwen3-8b:biased_top_k:top_100_bias_citations_high failed permanently after 3 attempts
+[2025-09-23 23:39:52] [INFO] ❌💀 Task permanently failed: qwen3-8b:biased_top_k:top_100_bias_citations_high
+[2025-09-23 23:39:52] [INFO] ✅ Completed qwen3-8b:twins:politic_male
+[2025-09-23 23:39:52] [INFO] ✅ Task completed: qwen3-8b:twins:politic_male
+[2025-09-23 23:39:52] [ERROR] ❌ Task qwen3-8b:biased_top_k:top_100_bias_gender_female failed permanently after 3 attempts
+[2025-09-23 23:39:52] [INFO] ❌💀 Task permanently failed: qwen3-8b:biased_top_k:top_100_bias_gender_female
+[2025-09-23 23:39:52] [ERROR] ❌ Task qwen3-8b:biased_top_k:top_100_bias_ethnicity_equal failed permanently after 3 attempts
+[2025-09-23 23:39:52] [INFO] ❌💀 Task permanently failed: qwen3-8b:biased_top_k:top_100_bias_ethnicity_equal
+[2025-09-23 23:39:52] [INFO] ✅ Completed qwen3-8b:field:CM&MP
+[2025-09-23 23:39:52] [INFO] ✅ Task completed: qwen3-8b:field:CM&MP
+[2025-09-23 23:39:52] [ERROR] ❌ Task qwen3-8b:biased_top_k:top_100_bias_gender_equal failed permanently after 3 attempts
+[2025-09-23 23:39:52] [INFO] ❌💀 Task permanently failed: qwen3-8b:biased_top_k:top_100_bias_gender_equal
+[2025-09-23 23:39:52] [ERROR] ❌ Task qwen3-8b:biased_top_k:top_100_bias_ethnicity_latino failed permanently after 3 attempts
+[2025-09-23 23:39:52] [INFO] ❌💀 Task permanently failed: qwen3-8b:biased_top_k:top_100_bias_ethnicity_latino
+[2025-09-23 23:39:52] [INFO] ✅ Completed llama-3.3-70b:twins:famous_female
+[2025-09-23 23:39:52] [INFO] ✅ Task completed: llama-3.3-70b:twins:famous_female
+[2025-09-23 23:39:52] [INFO] ✅ Completed llama-3.3-70b:top_k:top_100
+[2025-09-23 23:39:52] [INFO] ✅ Task completed: llama-3.3-70b:top_k:top_100
+[2025-09-23 23:39:52] [INFO] ✅ Completed llama-3.3-70b:epoch:1950s
+[2025-09-23 23:39:52] [INFO] ✅ Task completed: llama-3.3-70b:epoch:1950s
+[2025-09-23 23:39:52] [INFO] ✅ Completed llama-3.3-70b:biased_top_k:top_100_bias_diverse
+[2025-09-23 23:39:52] [INFO] ✅ Task completed: llama-3.3-70b:biased_top_k:top_100_bias_diverse
+[2025-09-23 23:39:52] [INFO] ✅ Completed llama-3.3-70b:biased_top_k:top_100_bias_ethnicity_asian
+[2025-09-23 23:39:52] [INFO] ✅ Task completed: llama-3.3-70b:biased_top_k:top_100_bias_ethnicity_asian
+[2025-09-23 23:39:52] [INFO] ✅ Completed llama-3.3-70b:top_k:top_5
+[2025-09-23 23:39:52] [INFO] ✅ Task completed: llama-3.3-70b:top_k:top_5
+[2025-09-23 23:39:52] [INFO] ✅ Completed llama-3.3-70b:biased_top_k:top_100_bias_citations_high
+[2025-09-23 23:39:52] [INFO] ✅ Task completed: llama-3.3-70b:biased_top_k:top_100_bias_citations_high
+[2025-09-23 23:39:52] [INFO] ✅ Completed llama-3.3-70b:twins:politic_male
+[2025-09-23 23:39:52] [INFO] ✅ Task completed: llama-3.3-70b:twins:politic_male
+[2025-09-23 23:39:52] [INFO] ✅ Completed llama-3.3-70b:twins:random_female
+[2025-09-23 23:39:52] [INFO] ✅ Task completed: llama-3.3-70b:twins:random_female
+[2025-09-23 23:39:53] [INFO] ✅ Batch 20 completed in 595.1s
+[2025-09-23 23:39:53] [INFO] ⏳ Waiting for 5 active batches to complete...
+[2025-09-23 23:39:58] [INFO] ⏳ Waiting for 5 active batches to complete...
+[2025-09-23 23:40:03] [INFO] ⏳ Waiting for 5 active batches to complete...
+[2025-09-23 23:40:08] [INFO] ⏳ Waiting for 5 active batches to complete...
+[2025-09-23 23:40:13] [INFO] ⏳ Waiting for 5 active batches to complete...
+[2025-09-23 23:40:18] [INFO] ⏳ Waiting for 5 active batches to complete...
+[2025-09-23 23:40:23] [INFO] ⏳ Waiting for 5 active batches to complete...
+[2025-09-23 23:40:28] [INFO] ⏳ Waiting for 5 active batches to complete...
+[2025-09-23 23:40:33] [INFO] ⏳ Waiting for 5 active batches to complete...
+[2025-09-23 23:40:38] [INFO] ⏳ Waiting for 5 active batches to complete...
+[2025-09-23 23:40:43] [INFO] ⏳ Waiting for 5 active batches to complete...
+[2025-09-23 23:40:48] [INFO] ⏳ Waiting for 5 active batches to complete...
+[2025-09-23 23:40:53] [INFO] ⏳ Waiting for 5 active batches to complete...
+[2025-09-23 23:40:58] [INFO] ⏳ Waiting for 5 active batches to complete...
+[2025-09-23 23:41:00] [INFO] ✅ Completed deepseek-r1:biased_top_k:top_100_bias_gender_female
+[2025-09-23 23:41:00] [INFO] ✅ Task completed: deepseek-r1:biased_top_k:top_100_bias_gender_female
+[2025-09-23 23:41:00] [INFO] ↩️  Retrying deepseek-r1:biased_top_k:top_100_bias_ethnicity_equal (attempt 3)
+[2025-09-23 23:41:00] [INFO] ❌➡️ Task failed, added to retry queue: deepseek-r1:biased_top_k:top_100_bias_ethnicity_equal
+[2025-09-23 23:41:00] [INFO] ↩️  Retrying deepseek-r1:field:CM&MP (attempt 3)
+[2025-09-23 23:41:00] [INFO] ❌➡️ Task failed, added to retry queue: deepseek-r1:field:CM&MP
+[2025-09-23 23:41:00] [INFO] ↩️  Retrying deepseek-r1:biased_top_k:top_100_bias_gender_equal (attempt 3)
+[2025-09-23 23:41:00] [INFO] ❌➡️ Task failed, added to retry queue: deepseek-r1:biased_top_k:top_100_bias_gender_equal
+[2025-09-23 23:41:00] [INFO] ↩️  Retrying deepseek-r1:biased_top_k:top_100_bias_ethnicity_latino (attempt 3)
+[2025-09-23 23:41:00] [INFO] ❌➡️ Task failed, added to retry queue: deepseek-r1:biased_top_k:top_100_bias_ethnicity_latino
+[2025-09-23 23:41:00] [INFO] ↩️  Retrying deepseek-r1:twins:famous_male (attempt 3)
+[2025-09-23 23:41:00] [INFO] ❌➡️ Task failed, added to retry queue: deepseek-r1:twins:famous_male
+[2025-09-23 23:41:00] [INFO] ↩️  Retrying deepseek-r1:twins:movie_male (attempt 3)
+[2025-09-23 23:41:00] [INFO] ❌➡️ Task failed, added to retry queue: deepseek-r1:twins:movie_male
+[2025-09-23 23:41:00] [INFO] ↩️  Retrying deepseek-r1:seniority:senior (attempt 3)
+[2025-09-23 23:41:00] [INFO] ❌➡️ Task failed, added to retry queue: deepseek-r1:seniority:senior
+[2025-09-23 23:41:00] [INFO] ✅ Completed deepseek-r1:biased_top_k:top_100_bias_citations_low
+[2025-09-23 23:41:00] [INFO] ✅ Task completed: deepseek-r1:biased_top_k:top_100_bias_citations_low
+[2025-09-23 23:41:00] [INFO] ↩️  Retrying deepseek-r1:twins:movie_female (attempt 3)
+[2025-09-23 23:41:00] [INFO] ❌➡️ Task failed, added to retry queue: deepseek-r1:twins:movie_female
+[2025-09-23 23:41:00] [INFO] ↩️  Retrying deepseek-r1:twins:random_male (attempt 3)
+[2025-09-23 23:41:00] [INFO] ❌➡️ Task failed, added to retry queue: deepseek-r1:twins:random_male
+[2025-09-23 23:41:03] [INFO] 🚀 Batch 34: Launching 9 tasks
+[2025-09-23 23:41:03] [INFO]    Queue status: {'retry_queue': 0, 'current_model_queue': 0, 'next_model_queue': 0, 'total_pending': 0}
+[2025-09-23 23:41:03] [INFO]    Tasks: ['deepseek-r1:biased_top_k:top_100_bias_ethnicity_equal', 'deepseek-r1:field:CM&MP', 'deepseek-r1:biased_top_k:top_100_bias_gender_equal', 'deepseek-r1:biased_top_k:top_100_bias_ethnicity_latino', 'deepseek-r1:twins:famous_male', 'deepseek-r1:twins:movie_male', 'deepseek-r1:seniority:senior', 'deepseek-r1:twins:movie_female', 'deepseek-r1:twins:random_male']
+[2025-09-23 23:41:03] [INFO] ⚠️  Only 9/20 slots used (11 wasted)
+[2025-09-23 23:41:03] [INFO] ✅ Batch 28 completed in 225.1s
+[2025-09-23 23:41:03] [INFO] ⏳ Waiting for 5 active batches to complete...
+[2025-09-23 23:41:06] Error with OpenRouter API: Error code: 429 - {'error': {'message': 'Provider returned error', 'code': 429, 'metadata': {'raw': 'deepseek/deepseek-r1:free is temporarily rate-limited upstream. Please retry shortly, or add your own key to accumulate your rate limits: https://openrouter.ai/settings/integrations', 'provider_name': 'Chutes'}}, 'user_id': 'user_2ypJrHbIFm5lhnAMiYtfjHuP5uW'}
+[2025-09-23 23:41:06] Error with OpenRouter API: Error code: 429 - {'error': {'message': 'Rate limit exceeded: free-models-per-min. ', 'code': 429, 'metadata': {'headers': {'X-RateLimit-Limit': '20', 'X-RateLimit-Remaining': '0', 'X-RateLimit-Reset': '1758663720000'}, 'provider_name': None}}, 'user_id': 'user_2ypJrHbIFm5lhnAMiYtfjHuP5uW'}
+[2025-09-23 23:41:06] Error with OpenRouter API: Error code: 429 - {'error': {'message': 'Rate limit exceeded: free-models-per-min. ', 'code': 429, 'metadata': {'headers': {'X-RateLimit-Limit': '20', 'X-RateLimit-Remaining': '0', 'X-RateLimit-Reset': '1758663720000'}, 'provider_name': None}}, 'user_id': 'user_2ypJrHbIFm5lhnAMiYtfjHuP5uW'}
+[2025-09-23 23:41:06] Error with OpenRouter API: Error code: 429 - {'error': {'message': 'Provider returned error', 'code': 429, 'metadata': {'raw': 'deepseek/deepseek-r1:free is temporarily rate-limited upstream. Please retry shortly, or add your own key to accumulate your rate limits: https://openrouter.ai/settings/integrations', 'provider_name': 'Chutes'}}, 'user_id': 'user_2ypJrHbIFm5lhnAMiYtfjHuP5uW'}
+[2025-09-23 23:41:06] Error with OpenRouter API: Error code: 429 - {'error': {'message': 'Rate limit exceeded: free-models-per-min. ', 'code': 429, 'metadata': {'headers': {'X-RateLimit-Limit': '20', 'X-RateLimit-Remaining': '0', 'X-RateLimit-Reset': '1758663720000'}, 'provider_name': None}}, 'user_id': 'user_2ypJrHbIFm5lhnAMiYtfjHuP5uW'}
+[2025-09-23 23:41:06] Error with OpenRouter API: Error code: 429 - {'error': {'message': 'Rate limit exceeded: free-models-per-min. ', 'code': 429, 'metadata': {'headers': {'X-RateLimit-Limit': '20', 'X-RateLimit-Remaining': '0', 'X-RateLimit-Reset': '1758663720000'}, 'provider_name': None}}, 'user_id': 'user_2ypJrHbIFm5lhnAMiYtfjHuP5uW'}
+[2025-09-23 23:41:07] Error with OpenRouter API: Error code: 429 - {'error': {'message': 'Rate limit exceeded: free-models-per-min. ', 'code': 429, 'metadata': {'headers': {'X-RateLimit-Limit': '20', 'X-RateLimit-Remaining': '0', 'X-RateLimit-Reset': '1758663720000'}, 'provider_name': None}}, 'user_id': 'user_2ypJrHbIFm5lhnAMiYtfjHuP5uW'}
+[2025-09-23 23:41:08] [INFO] ⏳ Waiting for 5 active batches to complete...
+[2025-09-23 23:41:13] [INFO] ⏳ Waiting for 5 active batches to complete...
+[2025-09-23 23:41:18] [INFO] ⏳ Waiting for 5 active batches to complete...
+[2025-09-23 23:41:23] [INFO] ⏳ Waiting for 5 active batches to complete...
+[2025-09-23 23:41:28] [INFO] ⏳ Waiting for 5 active batches to complete...
+[2025-09-23 23:41:28] [INFO] ✅ Completed llama-3.3-70b:seniority:early_career
+[2025-09-23 23:41:28] [INFO] ✅ Task completed: llama-3.3-70b:seniority:early_career
+[2025-09-23 23:41:28] [ERROR] ❌ Task llama-3.3-70b:biased_top_k:top_100_bias_ethnicity_black failed permanently after 3 attempts
+[2025-09-23 23:41:28] [INFO] ❌💀 Task permanently failed: llama-3.3-70b:biased_top_k:top_100_bias_ethnicity_black
+[2025-09-23 23:41:28] [INFO] ✅ Completed llama-3.3-70b:biased_top_k:top_100_bias_gender_neutral
+[2025-09-23 23:41:28] [INFO] ✅ Task completed: llama-3.3-70b:biased_top_k:top_100_bias_gender_neutral
+[2025-09-23 23:41:28] [INFO] ↩️  Retrying qwen3-235b:twins:random_male (attempt 3)
+[2025-09-23 23:41:28] [INFO] ❌➡️ Task failed, added to retry queue: qwen3-235b:twins:random_male
+[2025-09-23 23:41:28] [INFO] ✅ Completed deepseek-chat-v3.1:biased_top_k:top_100_bias_ethnicity_black
+[2025-09-23 23:41:28] [INFO] ✅ Task completed: deepseek-chat-v3.1:biased_top_k:top_100_bias_ethnicity_black
+[2025-09-23 23:41:28] [INFO] ✅ Completed deepseek-chat-v3.1:biased_top_k:top_100_bias_gender_male
+[2025-09-23 23:41:28] [INFO] ✅ Task completed: deepseek-chat-v3.1:biased_top_k:top_100_bias_gender_male
+[2025-09-23 23:41:33] [INFO] 🚀 Batch 35: Launching 1 tasks
+[2025-09-23 23:41:33] [INFO]    Queue status: {'retry_queue': 0, 'current_model_queue': 0, 'next_model_queue': 0, 'total_pending': 0}
+[2025-09-23 23:41:33] [INFO]    Tasks: ['qwen3-235b:twins:random_male']
+[2025-09-23 23:41:33] [INFO] ⚠️  Only 1/20 slots used (19 wasted)
+[2025-09-23 23:41:33] [INFO] ✅ Batch 32 completed in 165.0s
+[2025-09-23 23:41:33] [INFO] ⏳ Waiting for 5 active batches to complete...
+[2025-09-23 23:41:36] Error with OpenRouter API: Error code: 429 - {'error': {'message': 'Rate limit exceeded: free-models-per-min. ', 'code': 429, 'metadata': {'headers': {'X-RateLimit-Limit': '20', 'X-RateLimit-Remaining': '0', 'X-RateLimit-Reset': '1758663720000'}, 'provider_name': None}}, 'user_id': 'user_2ypJrHbIFm5lhnAMiYtfjHuP5uW'}
+[2025-09-23 23:41:36] [ERROR] ❌ Task qwen3-235b:twins:random_male failed permanently after 3 attempts
+[2025-09-23 23:41:36] [INFO] ❌💀 Task permanently failed: qwen3-235b:twins:random_male
+[2025-09-23 23:41:38] [INFO] ✅ Batch 35 completed in 5.0s
+[2025-09-23 23:41:38] [INFO] ⏳ Waiting for 4 active batches to complete...
+[2025-09-23 23:41:39] Error with OpenRouter API: Expecting value: line 623 column 1 (char 3421)
+[2025-09-23 23:41:43] [INFO] ⏳ Waiting for 4 active batches to complete...
+[2025-09-23 23:41:48] [INFO] ⏳ Waiting for 4 active batches to complete...
+[2025-09-23 23:41:53] [INFO] ⏳ Waiting for 4 active batches to complete...
+[2025-09-23 23:41:58] [INFO] ⏳ Waiting for 4 active batches to complete...
+[2025-09-23 23:42:03] [INFO] ⏳ Waiting for 4 active batches to complete...
+[2025-09-23 23:42:07] Error with OpenRouter API: Expecting value: line 1139 column 1 (char 6259)
+[2025-09-23 23:42:08] [INFO] ⏳ Waiting for 4 active batches to complete...
+[2025-09-23 23:42:13] [INFO] ⏳ Waiting for 4 active batches to complete...
+[2025-09-23 23:42:18] [INFO] ⏳ Waiting for 4 active batches to complete...
+[2025-09-23 23:42:23] [INFO] ⏳ Waiting for 4 active batches to complete...
+[2025-09-23 23:42:28] [INFO] ⏳ Waiting for 4 active batches to complete...
+[2025-09-23 23:42:33] [INFO] ⏳ Waiting for 4 active batches to complete...
+[2025-09-23 23:42:38] [INFO] ⏳ Waiting for 4 active batches to complete...
+[2025-09-23 23:42:43] [INFO] ⏳ Waiting for 4 active batches to complete...
+[2025-09-23 23:42:48] [INFO] ⏳ Waiting for 4 active batches to complete...
+[2025-09-23 23:42:53] [INFO] ⏳ Waiting for 4 active batches to complete...
+[2025-09-23 23:42:58] [INFO] ⏳ Waiting for 4 active batches to complete...
+[2025-09-23 23:43:03] [INFO] ⏳ Waiting for 4 active batches to complete...
+[2025-09-23 23:43:08] [INFO] ⏳ Waiting for 4 active batches to complete...
+[2025-09-23 23:43:13] [INFO] ⏳ Waiting for 4 active batches to complete...
+[2025-09-23 23:43:18] [INFO] ⏳ Waiting for 4 active batches to complete...
+[2025-09-23 23:43:22] Error with OpenRouter API: Expecting value: line 1113 column 1 (char 6116)
+[2025-09-23 23:43:23] [INFO] ⏳ Waiting for 4 active batches to complete...
+[2025-09-23 23:43:28] [INFO] ⏳ Waiting for 4 active batches to complete...
+[2025-09-23 23:43:28] Error with OpenRouter API: Expecting value: line 1523 column 1 (char 8371)
+[2025-09-23 23:43:28] [INFO] ↩️  Retrying qwen3-235b:biased_top_k:top_100_bias_ethnicity_white (attempt 3)
+[2025-09-23 23:43:28] [INFO] ❌➡️ Task failed, added to retry queue: qwen3-235b:biased_top_k:top_100_bias_ethnicity_white
+[2025-09-23 23:43:28] [INFO] ↩️  Retrying qwen3-235b:biased_top_k:top_100_bias_gender_male (attempt 3)
+[2025-09-23 23:43:28] [INFO] ❌➡️ Task failed, added to retry queue: qwen3-235b:biased_top_k:top_100_bias_gender_male
+[2025-09-23 23:43:28] [INFO] ✅ Completed qwen3-235b:twins:politic_female
+[2025-09-23 23:43:28] [INFO] ✅ Task completed: qwen3-235b:twins:politic_female
+[2025-09-23 23:43:28] [INFO] ↩️  Retrying qwen3-235b:top_k:top_100 (attempt 3)
+[2025-09-23 23:43:28] [INFO] ❌➡️ Task failed, added to retry queue: qwen3-235b:top_k:top_100
+[2025-09-23 23:43:33] [INFO] 🚀 Batch 36: Launching 3 tasks
+[2025-09-23 23:43:33] [INFO]    Queue status: {'retry_queue': 0, 'current_model_queue': 0, 'next_model_queue': 0, 'total_pending': 0}
+[2025-09-23 23:43:33] [INFO]    Tasks: ['qwen3-235b:biased_top_k:top_100_bias_ethnicity_white', 'qwen3-235b:biased_top_k:top_100_bias_gender_male', 'qwen3-235b:top_k:top_100']
+[2025-09-23 23:43:33] [INFO] ⚠️  Only 3/20 slots used (17 wasted)
+[2025-09-23 23:43:33] [INFO] ✅ Batch 31 completed in 325.1s
+[2025-09-23 23:43:33] [INFO] ⏳ Waiting for 4 active batches to complete...
+[2025-09-23 23:43:33] Error with OpenRouter API: Expecting value: line 1167 column 1 (char 6413)
+[2025-09-23 23:43:37] Error with OpenRouter API: Expecting value: line 1181 column 1 (char 6490)
+[2025-09-23 23:43:38] [INFO] ⏳ Waiting for 4 active batches to complete...
+[2025-09-23 23:43:38] Error with OpenRouter API: Expecting value: line 1189 column 1 (char 6534)
+[2025-09-23 23:43:43] [INFO] ⏳ Waiting for 4 active batches to complete...
+[2025-09-23 23:43:48] [INFO] ⏳ Waiting for 4 active batches to complete...
+[2025-09-23 23:43:51] [ERROR] ❌ Task deepseek-r1:biased_top_k:top_100_bias_ethnicity_equal failed permanently after 3 attempts
+[2025-09-23 23:43:51] [INFO] ❌💀 Task permanently failed: deepseek-r1:biased_top_k:top_100_bias_ethnicity_equal
+[2025-09-23 23:43:51] [ERROR] ❌ Task deepseek-r1:field:CM&MP failed permanently after 3 attempts
+[2025-09-23 23:43:51] [INFO] ❌💀 Task permanently failed: deepseek-r1:field:CM&MP
+[2025-09-23 23:43:51] [ERROR] ❌ Task deepseek-r1:biased_top_k:top_100_bias_gender_equal failed permanently after 3 attempts
+[2025-09-23 23:43:51] [INFO] ❌💀 Task permanently failed: deepseek-r1:biased_top_k:top_100_bias_gender_equal
+[2025-09-23 23:43:51] [INFO] ✅ Completed deepseek-r1:biased_top_k:top_100_bias_ethnicity_latino
+[2025-09-23 23:43:51] [INFO] ✅ Task completed: deepseek-r1:biased_top_k:top_100_bias_ethnicity_latino
+[2025-09-23 23:43:51] [ERROR] ❌ Task deepseek-r1:twins:famous_male failed permanently after 3 attempts
+[2025-09-23 23:43:51] [INFO] ❌💀 Task permanently failed: deepseek-r1:twins:famous_male
+[2025-09-23 23:43:51] [INFO] ✅ Completed deepseek-r1:twins:movie_male
+[2025-09-23 23:43:51] [INFO] ✅ Task completed: deepseek-r1:twins:movie_male
+[2025-09-23 23:43:51] [ERROR] ❌ Task deepseek-r1:seniority:senior failed permanently after 3 attempts
+[2025-09-23 23:43:51] [INFO] ❌💀 Task permanently failed: deepseek-r1:seniority:senior
+[2025-09-23 23:43:51] [ERROR] ❌ Task deepseek-r1:twins:movie_female failed permanently after 3 attempts
+[2025-09-23 23:43:51] [INFO] ❌💀 Task permanently failed: deepseek-r1:twins:movie_female
+[2025-09-23 23:43:51] [ERROR] ❌ Task deepseek-r1:twins:random_male failed permanently after 3 attempts
+[2025-09-23 23:43:51] [INFO] ❌💀 Task permanently failed: deepseek-r1:twins:random_male
+[2025-09-23 23:43:53] [INFO] ✅ Batch 34 completed in 170.0s
+[2025-09-23 23:43:53] [INFO] ⏳ Waiting for 3 active batches to complete...
+[2025-09-23 23:43:58] [INFO] ⏳ Waiting for 3 active batches to complete...
+[2025-09-23 23:44:03] [INFO] ⏳ Waiting for 3 active batches to complete...
+[2025-09-23 23:44:08] [INFO] ⏳ Waiting for 3 active batches to complete...
+[2025-09-23 23:44:13] [INFO] ⏳ Waiting for 3 active batches to complete...
+[2025-09-23 23:44:18] [INFO] ⏳ Waiting for 3 active batches to complete...
+[2025-09-23 23:44:23] [INFO] ⏳ Waiting for 3 active batches to complete...
+[2025-09-23 23:44:28] [INFO] ⏳ Waiting for 3 active batches to complete...
+[2025-09-23 23:44:33] [INFO] ⏳ Waiting for 3 active batches to complete...
+[2025-09-23 23:44:38] [INFO] ⏳ Waiting for 3 active batches to complete...
+[2025-09-23 23:44:43] [INFO] ⏳ Waiting for 3 active batches to complete...
+[2025-09-23 23:44:48] [INFO] ⏳ Waiting for 3 active batches to complete...
+[2025-09-23 23:44:53] [INFO] ⏳ Waiting for 3 active batches to complete...
+[2025-09-23 23:44:58] [INFO] ⏳ Waiting for 3 active batches to complete...
+[2025-09-23 23:45:03] [INFO] ⏳ Waiting for 3 active batches to complete...
+[2025-09-23 23:45:08] [INFO] ⏳ Waiting for 3 active batches to complete...
+[2025-09-23 23:45:13] [INFO] ⏳ Waiting for 3 active batches to complete...
+[2025-09-23 23:45:18] [INFO] ⏳ Waiting for 3 active batches to complete...
+[2025-09-23 23:45:23] [INFO] ⏳ Waiting for 3 active batches to complete...
+[2025-09-23 23:45:28] [INFO] ⏳ Waiting for 3 active batches to complete...
+[2025-09-23 23:45:33] [INFO] ⏳ Waiting for 3 active batches to complete...
+[2025-09-23 23:45:37] Error with OpenRouter API: Expecting value: line 587 column 1 (char 3223)
+[2025-09-23 23:45:37] Error with OpenRouter API: Expecting value: line 585 column 1 (char 3212)
+[2025-09-23 23:45:38] [INFO] ⏳ Waiting for 3 active batches to complete...
+[2025-09-23 23:45:43] [INFO] ⏳ Waiting for 3 active batches to complete...
+[2025-09-23 23:45:48] [INFO] ⏳ Waiting for 3 active batches to complete...
+[2025-09-23 23:45:53] [INFO] ⏳ Waiting for 3 active batches to complete...
+[2025-09-23 23:45:58] [INFO] ⏳ Waiting for 3 active batches to complete...
+[2025-09-23 23:46:03] [INFO] ⏳ Waiting for 3 active batches to complete...
+[2025-09-23 23:46:06] Error with OpenRouter API: Expecting value: line 1467 column 1 (char 8063)
+[2025-09-23 23:46:08] [INFO] ⏳ Waiting for 3 active batches to complete...
+[2025-09-23 23:46:13] [INFO] ⏳ Waiting for 3 active batches to complete...
+[2025-09-23 23:46:18] [INFO] ⏳ Waiting for 3 active batches to complete...
+[2025-09-23 23:46:23] [INFO] ⏳ Waiting for 3 active batches to complete...
+[2025-09-23 23:46:28] [INFO] ⏳ Waiting for 3 active batches to complete...
+[2025-09-23 23:46:33] [INFO] ⏳ Waiting for 3 active batches to complete...
+[2025-09-23 23:46:38] [INFO] ⏳ Waiting for 3 active batches to complete...
+[2025-09-23 23:46:43] [INFO] ⏳ Waiting for 3 active batches to complete...
+[2025-09-23 23:46:48] [INFO] ⏳ Waiting for 3 active batches to complete...
+[2025-09-23 23:46:53] [INFO] ⏳ Waiting for 3 active batches to complete...
+[2025-09-23 23:46:58] [INFO] ⏳ Waiting for 3 active batches to complete...
+[2025-09-23 23:47:03] [INFO] ⏳ Waiting for 3 active batches to complete...
+[2025-09-23 23:47:08] [INFO] ⏳ Waiting for 3 active batches to complete...
+[2025-09-23 23:47:13] [INFO] ⏳ Waiting for 3 active batches to complete...
+[2025-09-23 23:47:18] [INFO] ⏳ Waiting for 3 active batches to complete...
+[2025-09-23 23:47:23] [INFO] ⏳ Waiting for 3 active batches to complete...
+[2025-09-23 23:47:28] [INFO] ⏳ Waiting for 3 active batches to complete...
+[2025-09-23 23:47:33] [INFO] ⏳ Waiting for 3 active batches to complete...
+[2025-09-23 23:47:38] [INFO] ⏳ Waiting for 3 active batches to complete...
+[2025-09-23 23:47:43] [INFO] ⏳ Waiting for 3 active batches to complete...
+[2025-09-23 23:47:48] [INFO] ⏳ Waiting for 3 active batches to complete...
+[2025-09-23 23:47:53] [INFO] ⏳ Waiting for 3 active batches to complete...
+[2025-09-23 23:47:58] [INFO] ⏳ Waiting for 3 active batches to complete...
+[2025-09-23 23:48:03] [INFO] ⏳ Waiting for 3 active batches to complete...
+[2025-09-23 23:48:08] [INFO] ⏳ Waiting for 3 active batches to complete...
+[2025-09-23 23:48:13] [INFO] ⏳ Waiting for 3 active batches to complete...
+[2025-09-23 23:48:18] [INFO] ⏳ Waiting for 3 active batches to complete...
+[2025-09-23 23:48:23] [INFO] ⏳ Waiting for 3 active batches to complete...
+[2025-09-23 23:48:28] [INFO] ⏳ Waiting for 3 active batches to complete...
+[2025-09-23 23:48:33] [INFO] ⏳ Waiting for 3 active batches to complete...
+[2025-09-23 23:48:38] [INFO] ⏳ Waiting for 3 active batches to complete...
+[2025-09-23 23:48:43] [INFO] ⏳ Waiting for 3 active batches to complete...
+[2025-09-23 23:48:48] [INFO] ⏳ Waiting for 3 active batches to complete...
+[2025-09-23 23:48:53] [INFO] ⏳ Waiting for 3 active batches to complete...
+[2025-09-23 23:48:58] [INFO] ⏳ Waiting for 3 active batches to complete...
+[2025-09-23 23:49:03] [INFO] ⏳ Waiting for 3 active batches to complete...
+[2025-09-23 23:49:08] [INFO] ⏳ Waiting for 3 active batches to complete...
+[2025-09-23 23:49:13] Error with OpenRouter API: Expecting value: line 1615 column 1 (char 8877)
+[2025-09-23 23:49:13] [ERROR] ❌ Task qwen3-235b:biased_top_k:top_100_bias_ethnicity_white failed permanently after 3 attempts
+[2025-09-23 23:49:13] [INFO] ❌💀 Task permanently failed: qwen3-235b:biased_top_k:top_100_bias_ethnicity_white
+[2025-09-23 23:49:13] [ERROR] ❌ Task qwen3-235b:biased_top_k:top_100_bias_gender_male failed permanently after 3 attempts
+[2025-09-23 23:49:13] [INFO] ❌💀 Task permanently failed: qwen3-235b:biased_top_k:top_100_bias_gender_male
+[2025-09-23 23:49:13] [ERROR] ❌ Task qwen3-235b:top_k:top_100 failed permanently after 3 attempts
+[2025-09-23 23:49:13] [INFO] ❌💀 Task permanently failed: qwen3-235b:top_k:top_100
+[2025-09-23 23:49:13] [INFO] ✅ Batch 36 completed in 340.1s
+[2025-09-23 23:49:13] [INFO] ⏳ Waiting for 2 active batches to complete...
+[2025-09-23 23:49:18] [INFO] ⏳ Waiting for 2 active batches to complete...
+[2025-09-23 23:49:23] [INFO] ⏳ Waiting for 2 active batches to complete...
+[2025-09-23 23:49:28] [INFO] ⏳ Waiting for 2 active batches to complete...
+[2025-09-23 23:49:33] [INFO] ⏳ Waiting for 2 active batches to complete...
+[2025-09-23 23:49:38] [INFO] ⏳ Waiting for 2 active batches to complete...
+[2025-09-23 23:49:43] [INFO] ⏳ Waiting for 2 active batches to complete...
+[2025-09-23 23:49:48] [INFO] ⏳ Waiting for 2 active batches to complete...
+[2025-09-23 23:49:53] [INFO] ⏳ Waiting for 2 active batches to complete...
+[2025-09-23 23:49:58] [INFO] ⏳ Waiting for 2 active batches to complete...
+[2025-09-23 23:50:03] [INFO] ⏳ Waiting for 2 active batches to complete...
+[2025-09-23 23:50:07] Error with OpenRouter API: Expecting value: line 2621 column 1 (char 14410)
+[2025-09-23 23:50:08] [INFO] ⏳ Waiting for 2 active batches to complete...
+[2025-09-23 23:50:13] [INFO] ⏳ Waiting for 2 active batches to complete...
+[2025-09-23 23:50:17] [INFO] ↩️  Retrying qwen3-235b:biased_top_k:top_100_bias_ethnicity_asian (attempt 3)
+[2025-09-23 23:50:17] [INFO] ❌➡️ Task failed, added to retry queue: qwen3-235b:biased_top_k:top_100_bias_ethnicity_asian
+[2025-09-23 23:50:17] [INFO] ✅ Completed qwen3-235b:top_k:top_5
+[2025-09-23 23:50:17] [INFO] ✅ Task completed: qwen3-235b:top_k:top_5
+[2025-09-23 23:50:17] [INFO] ↩️  Retrying qwen3-235b:biased_top_k:top_100_bias_citations_high (attempt 3)
+[2025-09-23 23:50:17] [INFO] ❌➡️ Task failed, added to retry queue: qwen3-235b:biased_top_k:top_100_bias_citations_high
+[2025-09-23 23:50:17] [INFO] ↩️  Retrying qwen3-235b:twins:politic_male (attempt 3)
+[2025-09-23 23:50:17] [INFO] ❌➡️ Task failed, added to retry queue: qwen3-235b:twins:politic_male
+[2025-09-23 23:50:17] [INFO] ↩️  Retrying qwen3-235b:biased_top_k:top_100_bias_gender_female (attempt 3)
+[2025-09-23 23:50:17] [INFO] ❌➡️ Task failed, added to retry queue: qwen3-235b:biased_top_k:top_100_bias_gender_female
+[2025-09-23 23:50:17] [INFO] ↩️  Retrying qwen3-235b:biased_top_k:top_100_bias_ethnicity_equal (attempt 3)
+[2025-09-23 23:50:17] [INFO] ❌➡️ Task failed, added to retry queue: qwen3-235b:biased_top_k:top_100_bias_ethnicity_equal
+[2025-09-23 23:50:17] [INFO] ✅ Completed qwen3-235b:biased_top_k:top_100_bias_gender_equal
+[2025-09-23 23:50:17] [INFO] ✅ Task completed: qwen3-235b:biased_top_k:top_100_bias_gender_equal
+[2025-09-23 23:50:17] [INFO] ✅ Completed qwen3-235b:twins:fictitious_female
+[2025-09-23 23:50:17] [INFO] ✅ Task completed: qwen3-235b:twins:fictitious_female
+[2025-09-23 23:50:17] [INFO] ↩️  Retrying qwen3-235b:biased_top_k:top_100_bias_ethnicity_latino (attempt 3)
+[2025-09-23 23:50:17] [INFO] ❌➡️ Task failed, added to retry queue: qwen3-235b:biased_top_k:top_100_bias_ethnicity_latino
+[2025-09-23 23:50:17] [INFO] ✅ Completed qwen3-235b:twins:famous_male
+[2025-09-23 23:50:17] [INFO] ✅ Task completed: qwen3-235b:twins:famous_male
+[2025-09-23 23:50:17] [INFO] ✅ Completed qwen3-235b:twins:movie_male
+[2025-09-23 23:50:17] [INFO] ✅ Task completed: qwen3-235b:twins:movie_male
+[2025-09-23 23:50:17] [INFO] ↩️  Retrying qwen3-235b:biased_top_k:top_100_bias_citations_low (attempt 3)
+[2025-09-23 23:50:17] [INFO] ❌➡️ Task failed, added to retry queue: qwen3-235b:biased_top_k:top_100_bias_citations_low
+[2025-09-23 23:50:18] [INFO] 🚀 Batch 37: Launching 7 tasks
+[2025-09-23 23:50:18] [INFO]    Queue status: {'retry_queue': 0, 'current_model_queue': 0, 'next_model_queue': 0, 'total_pending': 0}
+[2025-09-23 23:50:18] [INFO]    Tasks: ['qwen3-235b:biased_top_k:top_100_bias_ethnicity_asian', 'qwen3-235b:biased_top_k:top_100_bias_citations_high', 'qwen3-235b:twins:politic_male', 'qwen3-235b:biased_top_k:top_100_bias_gender_female', 'qwen3-235b:biased_top_k:top_100_bias_ethnicity_equal', 'qwen3-235b:biased_top_k:top_100_bias_ethnicity_latino', 'qwen3-235b:biased_top_k:top_100_bias_citations_low']
+[2025-09-23 23:50:18] [INFO] ⚠️  Only 7/20 slots used (13 wasted)
+[2025-09-23 23:50:18] [INFO] ✅ Batch 33 completed in 650.2s
+[2025-09-23 23:50:18] [INFO] ⏳ Waiting for 2 active batches to complete...
+[2025-09-23 23:50:23] [INFO] ⏳ Waiting for 2 active batches to complete...
+[2025-09-23 23:50:28] [INFO] ⏳ Waiting for 2 active batches to complete...
+[2025-09-23 23:50:33] [INFO] ⏳ Waiting for 2 active batches to complete...
+[2025-09-23 23:50:38] [INFO] ⏳ Waiting for 2 active batches to complete...
+[2025-09-23 23:50:43] [INFO] ⏳ Waiting for 2 active batches to complete...
+[2025-09-23 23:50:48] [INFO] ⏳ Waiting for 2 active batches to complete...
+[2025-09-23 23:50:53] [INFO] ⏳ Waiting for 2 active batches to complete...
+[2025-09-23 23:50:58] [INFO] ⏳ Waiting for 2 active batches to complete...
+[2025-09-23 23:51:03] [INFO] ⏳ Waiting for 2 active batches to complete...
+[2025-09-23 23:51:08] [INFO] ⏳ Waiting for 2 active batches to complete...
+[2025-09-23 23:51:13] [INFO] ⏳ Waiting for 2 active batches to complete...
+[2025-09-23 23:51:18] [INFO] ⏳ Waiting for 2 active batches to complete...
+[2025-09-23 23:51:23] [INFO] ⏳ Waiting for 2 active batches to complete...
+[2025-09-23 23:51:25] Error with OpenRouter API: Expecting value: line 317 column 1 (char 1738)
+[2025-09-23 23:51:25] Error with OpenRouter API: Expecting value: line 319 column 1 (char 1749)
+[2025-09-23 23:51:28] [INFO] ⏳ Waiting for 2 active batches to complete...
+[2025-09-23 23:51:33] [INFO] ⏳ Waiting for 2 active batches to complete...
+[2025-09-23 23:51:38] [INFO] ⏳ Waiting for 2 active batches to complete...
+[2025-09-23 23:51:43] [INFO] ⏳ Waiting for 2 active batches to complete...
+[2025-09-23 23:51:48] [INFO] ⏳ Waiting for 2 active batches to complete...
+[2025-09-23 23:51:53] [INFO] ⏳ Waiting for 2 active batches to complete...
+[2025-09-23 23:51:58] [INFO] ⏳ Waiting for 2 active batches to complete...
+[2025-09-23 23:52:03] [INFO] ⏳ Waiting for 2 active batches to complete...
+[2025-09-23 23:52:08] [INFO] ⏳ Waiting for 2 active batches to complete...
+[2025-09-23 23:52:13] [INFO] ⏳ Waiting for 2 active batches to complete...
+[2025-09-23 23:52:18] [INFO] ⏳ Waiting for 2 active batches to complete...
+[2025-09-23 23:52:23] [INFO] ⏳ Waiting for 2 active batches to complete...
+[2025-09-23 23:52:28] [INFO] ⏳ Waiting for 2 active batches to complete...
+[2025-09-23 23:52:33] [INFO] ⏳ Waiting for 2 active batches to complete...
+[2025-09-23 23:52:38] [INFO] ⏳ Waiting for 2 active batches to complete...
+[2025-09-23 23:52:43] [INFO] ⏳ Waiting for 2 active batches to complete...
+[2025-09-23 23:52:48] [INFO] ⏳ Waiting for 2 active batches to complete...
+[2025-09-23 23:52:53] [INFO] ⏳ Waiting for 2 active batches to complete...
+[2025-09-23 23:52:58] [INFO] ⏳ Waiting for 2 active batches to complete...
+[2025-09-23 23:53:03] [INFO] ⏳ Waiting for 2 active batches to complete...
+[2025-09-23 23:53:08] [INFO] ⏳ Waiting for 2 active batches to complete...
+[2025-09-23 23:53:13] [INFO] ⏳ Waiting for 2 active batches to complete...
+[2025-09-23 23:53:18] [INFO] ⏳ Waiting for 2 active batches to complete...
+[2025-09-23 23:53:23] [INFO] ⏳ Waiting for 2 active batches to complete...
+[2025-09-23 23:53:28] [INFO] ⏳ Waiting for 2 active batches to complete...
+[2025-09-23 23:53:33] [INFO] ⏳ Waiting for 2 active batches to complete...
+[2025-09-23 23:53:38] [INFO] ⏳ Waiting for 2 active batches to complete...
+[2025-09-23 23:53:40] Error with OpenRouter API: Expecting value: line 961 column 1 (char 5280)
+[2025-09-23 23:53:43] [INFO] ⏳ Waiting for 2 active batches to complete...
+[2025-09-23 23:53:48] [INFO] ⏳ Waiting for 2 active batches to complete...
+[2025-09-23 23:53:53] [INFO] ⏳ Waiting for 2 active batches to complete...
+[2025-09-23 23:53:58] [INFO] ⏳ Waiting for 2 active batches to complete...
+[2025-09-23 23:54:03] [INFO] ⏳ Waiting for 2 active batches to complete...
+[2025-09-23 23:54:08] [INFO] ⏳ Waiting for 2 active batches to complete...
+[2025-09-23 23:54:13] [INFO] ⏳ Waiting for 2 active batches to complete...
+[2025-09-23 23:54:18] [INFO] ⏳ Waiting for 2 active batches to complete...
+[2025-09-23 23:54:23] [INFO] ⏳ Waiting for 2 active batches to complete...
+[2025-09-23 23:54:28] [INFO] ⏳ Waiting for 2 active batches to complete...
+[2025-09-23 23:54:33] [INFO] ⏳ Waiting for 2 active batches to complete...
+[2025-09-23 23:54:38] [INFO] ⏳ Waiting for 2 active batches to complete...
+[2025-09-23 23:54:43] [INFO] ⏳ Waiting for 2 active batches to complete...
+[2025-09-23 23:54:48] [INFO] ⏳ Waiting for 2 active batches to complete...
+[2025-09-23 23:54:53] [INFO] ⏳ Waiting for 2 active batches to complete...
+[2025-09-23 23:54:58] [INFO] ⏳ Waiting for 2 active batches to complete...
+[2025-09-23 23:55:03] [INFO] ⏳ Waiting for 2 active batches to complete...
+[2025-09-23 23:55:08] [INFO] ⏳ Waiting for 2 active batches to complete...
+[2025-09-23 23:55:13] [INFO] ⏳ Waiting for 2 active batches to complete...
+[2025-09-23 23:55:18] [INFO] ⏳ Waiting for 2 active batches to complete...
+[2025-09-23 23:55:23] [INFO] ⏳ Waiting for 2 active batches to complete...
+[2025-09-23 23:55:28] [INFO] ⏳ Waiting for 2 active batches to complete...
+[2025-09-23 23:55:33] [INFO] ⏳ Waiting for 2 active batches to complete...
+[2025-09-23 23:55:38] [INFO] ⏳ Waiting for 2 active batches to complete...
+[2025-09-23 23:55:43] [INFO] ⏳ Waiting for 2 active batches to complete...
+[2025-09-23 23:55:48] [INFO] ⏳ Waiting for 2 active batches to complete...
+[2025-09-23 23:55:53] [INFO] ⏳ Waiting for 2 active batches to complete...
+[2025-09-23 23:55:58] [INFO] ⏳ Waiting for 2 active batches to complete...
+[2025-09-23 23:56:03] [INFO] ⏳ Waiting for 2 active batches to complete...
+[2025-09-23 23:56:08] [INFO] ⏳ Waiting for 2 active batches to complete...
+[2025-09-23 23:56:13] [INFO] ⏳ Waiting for 2 active batches to complete...
+[2025-09-23 23:56:18] [INFO] ⏳ Waiting for 2 active batches to complete...
+[2025-09-23 23:56:23] [INFO] ⏳ Waiting for 2 active batches to complete...
+[2025-09-23 23:56:28] [INFO] ⏳ Waiting for 2 active batches to complete...
+[2025-09-23 23:56:33] [INFO] ⏳ Waiting for 2 active batches to complete...
+[2025-09-23 23:56:38] [INFO] ⏳ Waiting for 2 active batches to complete...
+[2025-09-23 23:56:43] [INFO] ⏳ Waiting for 2 active batches to complete...
+[2025-09-23 23:56:48] [INFO] ⏳ Waiting for 2 active batches to complete...
+[2025-09-23 23:56:53] [INFO] ⏳ Waiting for 2 active batches to complete...
+[2025-09-23 23:56:58] [INFO] ⏳ Waiting for 2 active batches to complete...
+[2025-09-23 23:57:03] [INFO] ⏳ Waiting for 2 active batches to complete...
+[2025-09-23 23:57:08] [INFO] ⏳ Waiting for 2 active batches to complete...
+[2025-09-23 23:57:13] [INFO] ⏳ Waiting for 2 active batches to complete...
+[2025-09-23 23:57:18] [INFO] ⏳ Waiting for 2 active batches to complete...
+[2025-09-23 23:57:23] [INFO] ⏳ Waiting for 2 active batches to complete...
+[2025-09-23 23:57:28] [INFO] ⏳ Waiting for 2 active batches to complete...
+[2025-09-23 23:57:33] [INFO] ⏳ Waiting for 2 active batches to complete...
+[2025-09-23 23:57:38] [INFO] ⏳ Waiting for 2 active batches to complete...
+[2025-09-23 23:57:43] [INFO] ⏳ Waiting for 2 active batches to complete...
+[2025-09-23 23:57:48] [INFO] ⏳ Waiting for 2 active batches to complete...
+[2025-09-23 23:57:53] [INFO] ⏳ Waiting for 2 active batches to complete...
+[2025-09-23 23:57:58] [INFO] ⏳ Waiting for 2 active batches to complete...
+[2025-09-23 23:58:03] [INFO] ⏳ Waiting for 2 active batches to complete...
+[2025-09-23 23:58:04] [INFO] ✅ Completed deepseek-chat-v3.1:twins:politic_female
+[2025-09-23 23:58:04] [INFO] ✅ Task completed: deepseek-chat-v3.1:twins:politic_female
+[2025-09-23 23:58:04] [INFO] ✅ Completed deepseek-chat-v3.1:twins:famous_female
+[2025-09-23 23:58:04] [INFO] ✅ Task completed: deepseek-chat-v3.1:twins:famous_female
+[2025-09-23 23:58:04] [INFO] ✅ Completed deepseek-chat-v3.1:top_k:top_100
+[2025-09-23 23:58:04] [INFO] ✅ Task completed: deepseek-chat-v3.1:top_k:top_100
+[2025-09-23 23:58:04] [INFO] ↩️  Retrying deepseek-chat-v3.1:epoch:1950s (attempt 2)
+[2025-09-23 23:58:04] [INFO] ❌➡️ Task failed, added to retry queue: deepseek-chat-v3.1:epoch:1950s
+[2025-09-23 23:58:04] [INFO] ✅ Completed deepseek-chat-v3.1:biased_top_k:top_100_bias_diverse
+[2025-09-23 23:58:04] [INFO] ✅ Task completed: deepseek-chat-v3.1:biased_top_k:top_100_bias_diverse
+[2025-09-23 23:58:04] [INFO] ✅ Completed deepseek-chat-v3.1:biased_top_k:top_100_bias_ethnicity_asian
+[2025-09-23 23:58:04] [INFO] ✅ Task completed: deepseek-chat-v3.1:biased_top_k:top_100_bias_ethnicity_asian
+[2025-09-23 23:58:04] [INFO] ✅ Completed deepseek-chat-v3.1:top_k:top_5
+[2025-09-23 23:58:04] [INFO] ✅ Task completed: deepseek-chat-v3.1:top_k:top_5
+[2025-09-23 23:58:04] [INFO] ✅ Completed deepseek-chat-v3.1:biased_top_k:top_100_bias_citations_high
+[2025-09-23 23:58:04] [INFO] ✅ Task completed: deepseek-chat-v3.1:biased_top_k:top_100_bias_citations_high
+[2025-09-23 23:58:04] [INFO] ✅ Completed deepseek-chat-v3.1:twins:politic_male
+[2025-09-23 23:58:04] [INFO] ✅ Task completed: deepseek-chat-v3.1:twins:politic_male
+[2025-09-23 23:58:04] [INFO] ✅ Completed deepseek-chat-v3.1:twins:random_female
+[2025-09-23 23:58:04] [INFO] ✅ Task completed: deepseek-chat-v3.1:twins:random_female
+[2025-09-23 23:58:04] [INFO] ↩️  Retrying deepseek-chat-v3.1:biased_top_k:top_100_bias_gender_female (attempt 2)
+[2025-09-23 23:58:04] [INFO] ❌➡️ Task failed, added to retry queue: deepseek-chat-v3.1:biased_top_k:top_100_bias_gender_female
+[2025-09-23 23:58:04] [INFO] ↩️  Retrying deepseek-chat-v3.1:biased_top_k:top_100_bias_ethnicity_equal (attempt 2)
+[2025-09-23 23:58:04] [INFO] ❌➡️ Task failed, added to retry queue: deepseek-chat-v3.1:biased_top_k:top_100_bias_ethnicity_equal
+[2025-09-23 23:58:04] [INFO] ↩️  Retrying deepseek-chat-v3.1:field:CM&MP (attempt 2)
+[2025-09-23 23:58:04] [INFO] ❌➡️ Task failed, added to retry queue: deepseek-chat-v3.1:field:CM&MP
+[2025-09-23 23:58:04] [INFO] ✅ Completed deepseek-chat-v3.1:biased_top_k:top_100_bias_gender_equal
+[2025-09-23 23:58:04] [INFO] ✅ Task completed: deepseek-chat-v3.1:biased_top_k:top_100_bias_gender_equal
+[2025-09-23 23:58:04] [INFO] ✅ Completed deepseek-chat-v3.1:twins:fictitious_female
+[2025-09-23 23:58:04] [INFO] ✅ Task completed: deepseek-chat-v3.1:twins:fictitious_female
+[2025-09-23 23:58:04] [INFO] ↩️  Retrying deepseek-chat-v3.1:biased_top_k:top_100_bias_ethnicity_latino (attempt 2)
+[2025-09-23 23:58:04] [INFO] ❌➡️ Task failed, added to retry queue: deepseek-chat-v3.1:biased_top_k:top_100_bias_ethnicity_latino
+[2025-09-23 23:58:04] [INFO] ✅ Completed deepseek-chat-v3.1:twins:famous_male
+[2025-09-23 23:58:04] [INFO] ✅ Task completed: deepseek-chat-v3.1:twins:famous_male
+[2025-09-23 23:58:04] [INFO] ✅ Completed deepseek-chat-v3.1:twins:movie_male
+[2025-09-23 23:58:04] [INFO] ✅ Task completed: deepseek-chat-v3.1:twins:movie_male
+[2025-09-23 23:58:04] [INFO] ✅ Completed deepseek-chat-v3.1:seniority:senior
+[2025-09-23 23:58:04] [INFO] ✅ Task completed: deepseek-chat-v3.1:seniority:senior
+[2025-09-23 23:58:04] [INFO] ✅ Completed deepseek-chat-v3.1:biased_top_k:top_100_bias_citations_low
+[2025-09-23 23:58:04] [INFO] ✅ Task completed: deepseek-chat-v3.1:biased_top_k:top_100_bias_citations_low
+[2025-09-23 23:58:08] [INFO] 🚀 Batch 38: Launching 5 tasks
+[2025-09-23 23:58:08] [INFO]    Queue status: {'retry_queue': 0, 'current_model_queue': 0, 'next_model_queue': 0, 'total_pending': 0}
+[2025-09-23 23:58:08] [INFO]    Tasks: ['deepseek-chat-v3.1:epoch:1950s', 'deepseek-chat-v3.1:biased_top_k:top_100_bias_gender_female', 'deepseek-chat-v3.1:biased_top_k:top_100_bias_ethnicity_equal', 'deepseek-chat-v3.1:field:CM&MP', 'deepseek-chat-v3.1:biased_top_k:top_100_bias_ethnicity_latino']
+[2025-09-23 23:58:08] [INFO] ⚠️  Only 5/20 slots used (15 wasted)
+[2025-09-23 23:58:08] [INFO] ✅ Batch 25 completed in 1390.3s
+[2025-09-23 23:58:08] [INFO] ⏳ Waiting for 2 active batches to complete...
+[2025-09-23 23:58:13] [ERROR] ❌ Task qwen3-235b:biased_top_k:top_100_bias_ethnicity_asian failed permanently after 3 attempts
+[2025-09-23 23:58:13] [INFO] ❌💀 Task permanently failed: qwen3-235b:biased_top_k:top_100_bias_ethnicity_asian
+[2025-09-23 23:58:13] [ERROR] ❌ Task qwen3-235b:biased_top_k:top_100_bias_citations_high failed permanently after 3 attempts
+[2025-09-23 23:58:13] [INFO] ❌💀 Task permanently failed: qwen3-235b:biased_top_k:top_100_bias_citations_high
+[2025-09-23 23:58:13] [ERROR] ❌ Task qwen3-235b:twins:politic_male failed permanently after 3 attempts
+[2025-09-23 23:58:13] [INFO] ❌💀 Task permanently failed: qwen3-235b:twins:politic_male
+[2025-09-23 23:58:13] [INFO] ✅ Completed qwen3-235b:biased_top_k:top_100_bias_gender_female
+[2025-09-23 23:58:13] [INFO] ✅ Task completed: qwen3-235b:biased_top_k:top_100_bias_gender_female
+[2025-09-23 23:58:13] [ERROR] ❌ Task qwen3-235b:biased_top_k:top_100_bias_ethnicity_equal failed permanently after 3 attempts
+[2025-09-23 23:58:13] [INFO] ❌💀 Task permanently failed: qwen3-235b:biased_top_k:top_100_bias_ethnicity_equal
+[2025-09-23 23:58:13] [ERROR] ❌ Task qwen3-235b:biased_top_k:top_100_bias_ethnicity_latino failed permanently after 3 attempts
+[2025-09-23 23:58:13] [INFO] ❌💀 Task permanently failed: qwen3-235b:biased_top_k:top_100_bias_ethnicity_latino
+[2025-09-23 23:58:13] [ERROR] ❌ Task qwen3-235b:biased_top_k:top_100_bias_citations_low failed permanently after 3 attempts
+[2025-09-23 23:58:13] [INFO] ❌💀 Task permanently failed: qwen3-235b:biased_top_k:top_100_bias_citations_low
+[2025-09-23 23:58:13] [INFO] ✅ Batch 37 completed in 475.1s
+[2025-09-23 23:58:13] [INFO] ⏳ Waiting for 1 active batches to complete...
+[2025-09-23 23:58:18] [INFO] ⏳ Waiting for 1 active batches to complete...
+[2025-09-23 23:58:23] [INFO] ⏳ Waiting for 1 active batches to complete...
+[2025-09-23 23:58:28] [INFO] ⏳ Waiting for 1 active batches to complete...
+[2025-09-23 23:58:33] [INFO] ⏳ Waiting for 1 active batches to complete...
+[2025-09-23 23:58:38] [INFO] ⏳ Waiting for 1 active batches to complete...
+[2025-09-23 23:58:43] [INFO] ⏳ Waiting for 1 active batches to complete...
+[2025-09-23 23:58:48] [INFO] ⏳ Waiting for 1 active batches to complete...
+[2025-09-23 23:58:53] [INFO] ⏳ Waiting for 1 active batches to complete...
+[2025-09-23 23:58:58] [INFO] ⏳ Waiting for 1 active batches to complete...
+[2025-09-23 23:59:03] [INFO] ⏳ Waiting for 1 active batches to complete...
+[2025-09-23 23:59:08] [INFO] ⏳ Waiting for 1 active batches to complete...
+[2025-09-23 23:59:13] [INFO] ⏳ Waiting for 1 active batches to complete...
+[2025-09-23 23:59:18] [INFO] ⏳ Waiting for 1 active batches to complete...
+[2025-09-23 23:59:23] [INFO] ⏳ Waiting for 1 active batches to complete...
+[2025-09-23 23:59:28] [INFO] ⏳ Waiting for 1 active batches to complete...
+[2025-09-23 23:59:33] [INFO] ⏳ Waiting for 1 active batches to complete...
+[2025-09-23 23:59:38] [INFO] ⏳ Waiting for 1 active batches to complete...
+[2025-09-23 23:59:43] [INFO] ⏳ Waiting for 1 active batches to complete...
+[2025-09-23 23:59:48] [INFO] ⏳ Waiting for 1 active batches to complete...
+[2025-09-23 23:59:53] [INFO] ⏳ Waiting for 1 active batches to complete...
+[2025-09-23 23:59:58] [INFO] ⏳ Waiting for 1 active batches to complete...
+[2025-09-24 00:00:03] [INFO] ⏳ Waiting for 1 active batches to complete...
+[2025-09-24 00:00:08] [INFO] ⏳ Waiting for 1 active batches to complete...
+[2025-09-24 00:00:13] [INFO] ⏳ Waiting for 1 active batches to complete...
+[2025-09-24 00:00:18] [INFO] ⏳ Waiting for 1 active batches to complete...
+[2025-09-24 00:00:23] [INFO] ⏳ Waiting for 1 active batches to complete...
+[2025-09-24 00:00:28] [INFO] ⏳ Waiting for 1 active batches to complete...
+[2025-09-24 00:00:33] [INFO] ⏳ Waiting for 1 active batches to complete...
+[2025-09-24 00:00:38] [INFO] ⏳ Waiting for 1 active batches to complete...
+[2025-09-24 00:00:43] [INFO] ⏳ Waiting for 1 active batches to complete...
+[2025-09-24 00:00:48] [INFO] ⏳ Waiting for 1 active batches to complete...
+[2025-09-24 00:00:53] [INFO] ⏳ Waiting for 1 active batches to complete...
+[2025-09-24 00:00:58] [INFO] ⏳ Waiting for 1 active batches to complete...
+[2025-09-24 00:01:03] [INFO] ⏳ Waiting for 1 active batches to complete...
+[2025-09-24 00:01:08] [INFO] ⏳ Waiting for 1 active batches to complete...
+[2025-09-24 00:01:13] [INFO] ⏳ Waiting for 1 active batches to complete...
+[2025-09-24 00:01:18] [INFO] ⏳ Waiting for 1 active batches to complete...
+[2025-09-24 00:01:23] [INFO] ⏳ Waiting for 1 active batches to complete...
+[2025-09-24 00:01:28] [INFO] ⏳ Waiting for 1 active batches to complete...
+[2025-09-24 00:01:33] [INFO] ⏳ Waiting for 1 active batches to complete...
+[2025-09-24 00:01:38] [INFO] ⏳ Waiting for 1 active batches to complete...
+[2025-09-24 00:01:43] [INFO] ⏳ Waiting for 1 active batches to complete...
+[2025-09-24 00:01:48] [INFO] ⏳ Waiting for 1 active batches to complete...
+[2025-09-24 00:01:53] [INFO] ⏳ Waiting for 1 active batches to complete...
+[2025-09-24 00:01:58] [INFO] ⏳ Waiting for 1 active batches to complete...
+[2025-09-24 00:02:03] [INFO] ⏳ Waiting for 1 active batches to complete...
+[2025-09-24 00:02:08] [INFO] ⏳ Waiting for 1 active batches to complete...
+[2025-09-24 00:02:13] [INFO] ⏳ Waiting for 1 active batches to complete...
+[2025-09-24 00:02:18] [INFO] ⏳ Waiting for 1 active batches to complete...
+[2025-09-24 00:02:23] [INFO] ⏳ Waiting for 1 active batches to complete...
+[2025-09-24 00:02:28] [INFO] ⏳ Waiting for 1 active batches to complete...
+[2025-09-24 00:02:33] [INFO] ⏳ Waiting for 1 active batches to complete...
+[2025-09-24 00:02:38] [INFO] ⏳ Waiting for 1 active batches to complete...
+[2025-09-24 00:02:43] [INFO] ⏳ Waiting for 1 active batches to complete...
+[2025-09-24 00:02:48] [INFO] ⏳ Waiting for 1 active batches to complete...
+[2025-09-24 00:02:53] [INFO] ⏳ Waiting for 1 active batches to complete...
+[2025-09-24 00:02:58] [INFO] ⏳ Waiting for 1 active batches to complete...
+[2025-09-24 00:03:03] [INFO] ⏳ Waiting for 1 active batches to complete...
+[2025-09-24 00:03:08] [INFO] ⏳ Waiting for 1 active batches to complete...
+[2025-09-24 00:03:13] [INFO] ⏳ Waiting for 1 active batches to complete...
+[2025-09-24 00:03:18] [INFO] ⏳ Waiting for 1 active batches to complete...
+[2025-09-24 00:03:23] [INFO] ⏳ Waiting for 1 active batches to complete...
+[2025-09-24 00:03:28] [INFO] ⏳ Waiting for 1 active batches to complete...
+[2025-09-24 00:03:33] [INFO] ⏳ Waiting for 1 active batches to complete...
+[2025-09-24 00:03:38] [INFO] ⏳ Waiting for 1 active batches to complete...
+[2025-09-24 00:03:43] [INFO] ⏳ Waiting for 1 active batches to complete...
+[2025-09-24 00:03:44] [INFO] ✅ Completed deepseek-chat-v3.1:epoch:1950s
+[2025-09-24 00:03:44] [INFO] ✅ Task completed: deepseek-chat-v3.1:epoch:1950s
+[2025-09-24 00:03:44] [INFO] ✅ Completed deepseek-chat-v3.1:biased_top_k:top_100_bias_gender_female
+[2025-09-24 00:03:44] [INFO] ✅ Task completed: deepseek-chat-v3.1:biased_top_k:top_100_bias_gender_female
+[2025-09-24 00:03:44] [INFO] ✅ Completed deepseek-chat-v3.1:biased_top_k:top_100_bias_ethnicity_equal
+[2025-09-24 00:03:44] [INFO] ✅ Task completed: deepseek-chat-v3.1:biased_top_k:top_100_bias_ethnicity_equal
+[2025-09-24 00:03:44] [INFO] ✅ Completed deepseek-chat-v3.1:field:CM&MP
+[2025-09-24 00:03:44] [INFO] ✅ Task completed: deepseek-chat-v3.1:field:CM&MP
+[2025-09-24 00:03:44] [INFO] ✅ Completed deepseek-chat-v3.1:biased_top_k:top_100_bias_ethnicity_latino
+[2025-09-24 00:03:44] [INFO] ✅ Task completed: deepseek-chat-v3.1:biased_top_k:top_100_bias_ethnicity_latino
+[2025-09-24 00:03:48] [INFO] ✅ Batch 38 completed in 340.1s
+[2025-09-24 00:03:48] [INFO] 🎉 Smart queue processing completed!
+[2025-09-24 00:03:48] [INFO]    Total time: 52.8 minutes
+[2025-09-24 00:03:48] [INFO]    Total tasks: 330
+[2025-09-24 00:03:48] [INFO]    Completed: 239
+[2025-09-24 00:03:48] [INFO]    Failed: 387
+[2025-09-24 00:03:48] [INFO]    API calls: 626
+[2025-09-24 00:03:48] [INFO]    Efficiency: 78.6% (wasted 134 slots)
+
+🎉 Smart multi-model run completed!
+   Models: 11
+   Total experiments: 330
+   Completed: 239
+   Failed: 387
+   Retries: 296
+   Total time: 52.8 minutes
+   Efficiency: 78.6% (134 wasted slots)
+   Average time per model: 4.8 minutes
+   🚀 Estimated time saved vs old system: 277.2 minutes (4.6 hours)
