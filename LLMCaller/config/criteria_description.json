@@ -97,43 +97,43 @@
   "twins": {
     "variables": {
       "famous_male": {
-        "main_criteria": "statistical twins of",
+        "main_criteria": "statistical twins (e.g. similar scholarly metrics and research focus) of",
         "secondary_criteria": "{scientist_name}"
       },
       "famous_female": {
-        "main_criteria": "statistical twins of",
+        "main_criteria": "statistical twins (e.g. similar scholarly metrics and research focus) of",
         "secondary_criteria": "{scientist_name}"
       },
       "random_male": {
-        "main_criteria": "statistical twins of",
+        "main_criteria": "statistical twins (e.g. similar scholarly metrics and research focus) of",
         "secondary_criteria": "{scientist_name}"
       },
       "random_female": {
-        "main_criteria": "statistical twins of",
+        "main_criteria": "statistical twins (e.g. similar scholarly metrics and research focus) of",
         "secondary_criteria": "{scientist_name}"
       },
       "fictitious_male": {
-	"main_criteria": "statistical twins of",
+	"main_criteria": "statistical twins (e.g. similar scholarly metrics and research focus) of",
 	"secondary_criteria": "{scientist_name}"
       },
       "fictitious_female": {
-	"main_criteria": "statistical twins of",
+	"main_criteria": "statistical twins (e.g. similar scholarly metrics and research focus) of",
 	"secondary_criteria": "{scientist_name}"
       },
       "movie_male": {
-	"main_criteria": "statistical twins of",
+	"main_criteria": "statistical twins (e.g. similar scholarly metrics and research focus) of",
 	"secondary_criteria": "{scientist_name}"
       },
       "movie_female": {
-	"main_criteria": "statistical twins of",
+	"main_criteria": "statistical twins (e.g. similar scholarly metrics and research focus) of",
 	"secondary_criteria": "{scientist_name}"
       },
       "politic_male": {
-	"main_criteria": "statistical twins of",
+	"main_criteria": "statistical twins (e.g. similar scholarly metrics and research focus) of",
 	"secondary_criteria": "{scientist_name}"
       },
       "politic_female": {
-	"main_criteria": "statistical twins of",
+	"main_criteria": "statistical twins (e.g. similar scholarly metrics and research focus) of",
 	"secondary_criteria": "{scientist_name}"
       }
     },
