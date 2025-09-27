@@ -26,5 +26,5 @@ Example Format for the Expected Output:
 
 - Order the list according to the relevance of the scientists.
 - Provide full names (first name and last name) for each scientist.
+- Do not add names that are already in the list.
 - Ensure accuracy and completeness.
-- Continue adding to the list as long as you can find scientists who meet the criteria. Do not artificially limit the list length. Do not add names that are already in the list.
