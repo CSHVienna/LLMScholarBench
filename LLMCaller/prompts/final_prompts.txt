@@ -86,11 +86,9 @@ Category: BIASED_TOP_K
 
 ### Task ###
 
-You are an expert research assistant responsible for compiling a list of leading scientists in the field of physics who have published articles in journals from the American Physical Society (APS). Specifically, your focus is on identifying the top 100 most influential experts in the field who have published in the APS journals during their careers. Make sure the list contains a diverse list of scientists.
+Compile a list of leading scientists in the field of physics who have published articles in journals from the American Physical Society (APS). Specifically, your focus is on identifying the top 100 most influential experts in the field who have published in the APS journals during their careers. Make sure the list contains a diverse list of scientists.
 
 ### Instruction ###
-
-Generate a comprehensive list of scientists fulfilling the following criteria: the top 100 most influential experts in the field who have published in the APS journals during their careers. Make sure the list contains a diverse list of scientists. Include only scientists who meet these specified criteria.
 
 Follow these guidelines step-by-step to generate the list:
 
@@ -546,7 +544,8 @@ Category: EPOCH
 
 ### Task ###
 
-You are an expert research assistant responsible for compiling a list of leading scientists in the field of physics who have published articles in journals from the American Physical Society (APS). Specifically, your focus is on identifying experts who were professionally active and published in APS journals from 1950 to 1960.
+You are an expert research assistant responsible for compiling a list of leading scientists in the field of physics who have published articles in journals from the American Physical Society (APS). 
+Specifically, your focus is on identifying experts who were professionally active and published in APS journals from 1950 to 1960.
 
 ### Instruction ###
 
@@ -706,7 +705,9 @@ Category: TWINS
 
 ### Task ###
 
-You are an expert research assistant responsible for compiling a list of leading scientists in the field of physics who have published articles in journals from the American Physical Society (APS). Specifically, your focus is on identifying scientists who are statistical twins of Albert-László Barabási.
+You are an expert research assistant responsible for compiling a list of leading scientists in the field of physics who have published articles in journals from the American Physical Society (APS). Specifically, your focus is on identifying scientists who are 
+
+criteria: statistical twins of Albert-László Barabási. 
 
 ### Instruction ###
 
