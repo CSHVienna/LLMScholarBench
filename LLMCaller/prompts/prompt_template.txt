@@ -1,7 +1,7 @@
 ### Task ###
 
 Compile a list of leading scientists in the field of physics who have published articles in journals from the American Physical Society (APS). 
-Specifically, follow this criteria: {criteria}.
+Specifically, follow these criteria: {criteria}.
 
 ### Instruction ###
 
