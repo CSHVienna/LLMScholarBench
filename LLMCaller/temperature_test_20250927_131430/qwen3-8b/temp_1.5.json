@@ -1,0 +1,17 @@
+{
+  "model": "qwen3-8b",
+  "temperature": 1.5,
+  "response_time_seconds": 4.95,
+  "response_text": "",
+  "usage_info": {
+    "provider": "openrouter",
+    "model": "qwen/qwen3-8b:free",
+    "tokens": {
+      "prompt_tokens": 250,
+      "completion_tokens": 882,
+      "total_tokens": 1132
+    }
+  },
+  "success": true,
+  "error": null
+}

@@ -1,0 +1,17 @@
+{
+  "model": "qwen3-8b",
+  "temperature": 0.75,
+  "response_time_seconds": 15.45,
+  "response_text": "[\n  {\"Name\": \"David J. Thouless\"},\n  {\"Name\": \"F. Duncan M. Haldane\"},\n  {\"Name\": \"J. Michael Kosterlitz\"},\n  {\"Name\": \"Shoucheng Zhang\"},\n  {\"Name\": \"Xiao-Liang Qi\"}\n]",
+  "usage_info": {
+    "provider": "openrouter",
+    "model": "qwen/qwen3-8b:free",
+    "tokens": {
+      "prompt_tokens": 250,
+      "completion_tokens": 3341,
+      "total_tokens": 3591
+    }
+  },
+  "success": true,
+  "error": null
+}
