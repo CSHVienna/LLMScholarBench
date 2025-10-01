@@ -1,0 +1,6 @@
+{
+  "model": "llama-3.3-70b",
+  "temperature": 4.2105263157894735,
+  "success": false,
+  "error": "Error code: 400 - {'error': {'message': 'Expected temperature to be at most 2, received 4.2105263157894735', 'code': 400, 'metadata': {'provider_name': None}}}"
+}

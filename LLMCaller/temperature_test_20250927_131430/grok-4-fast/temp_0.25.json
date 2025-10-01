@@ -1,0 +1,17 @@
+{
+  "model": "grok-4-fast",
+  "temperature": 0.25,
+  "response_time_seconds": 6.34,
+  "response_text": "[{\"Name\": \"Andre Geim\"}, {\"Name\": \"Konstantin Novoselov\"}, {\"Name\": \"David Thouless\"}, {\"Name\": \"Duncan Haldane\"}, {\"Name\": \"Michael Kosterlitz\"}]",
+  "usage_info": {
+    "provider": "openrouter",
+    "model": "x-ai/grok-4-fast:free",
+    "tokens": {
+      "prompt_tokens": 347,
+      "completion_tokens": 714,
+      "total_tokens": 1061
+    }
+  },
+  "success": true,
+  "error": null
+}

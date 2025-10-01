@@ -1,0 +1,6 @@
+{
+  "model": "llama-3.3-70b",
+  "temperature": 1.0526315789473684,
+  "success": true,
+  "error": null
+}

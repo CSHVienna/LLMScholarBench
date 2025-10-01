@@ -1,0 +1,17 @@
+{
+  "model": "mistral-small-3.2",
+  "temperature": 0.25,
+  "response_time_seconds": 2.38,
+  "response_text": "```json\n[\n    {\"Name\": \"Philip W. Anderson\"},\n    {\"Name\": \"Frank Wilczek\"},\n    {\"Name\": \"Philip Kim\"},\n    {\"Name\": \"Nai Phuan Ong\"},\n    {\"Name\": \"David J. Thouless\"}\n]\n```",
+  "usage_info": {
+    "provider": "openrouter",
+    "model": "mistralai/mistral-small-3.2-24b-instruct:free",
+    "tokens": {
+      "prompt_tokens": 253,
+      "completion_tokens": 58,
+      "total_tokens": 311
+    }
+  },
+  "success": true,
+  "error": null
+}

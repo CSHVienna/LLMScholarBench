@@ -110,40 +110,32 @@ class OpenRouterAPI:
             
         except Exception as e:
             error_str = str(e)
-            
-            # Check if this is a 429 rate limit error
-            if "429" in error_str and "Rate limit exceeded" in error_str:
-                print(f"⏳ Pre-flight check: Rate limit detected - {error_str}")
-                
-                # Try to extract reset timestamp from error
-                try:
-                    # Look for X-RateLimit-Reset in the error message
-                    if "X-RateLimit-Reset" in error_str:
-                        # Extract the timestamp - it's in the metadata headers
-                        # Error format: {...'X-RateLimit-Reset': '1757285940000'...}
-                        start = error_str.find("'X-RateLimit-Reset': '") + len("'X-RateLimit-Reset': '")
-                        end = error_str.find("'", start)
-                        reset_timestamp_ms = int(error_str[start:end])
-                        
-                        # Convert to seconds and calculate wait time
-                        reset_timestamp_seconds = reset_timestamp_ms / 1000
-                        current_time = time.time()
-                        wait_time = max(0, reset_timestamp_seconds - current_time)
-                        
-                        print(f"📊 Rate limit will reset in {wait_time:.1f} seconds")
-                        return False, wait_time
-                    
-                except Exception as parse_error:
-                    print(f"⚠️  Could not parse reset time: {parse_error}")
-                
-                # Fallback: use default wait time
-                print("⏳ Using default 60-second wait time")
-                return False, 60.0
-            
-            else:
-                # Some other error - re-raise it
-                print(f"❌ Pre-flight check failed with non-rate-limit error: {e}")
-                raise e
+
+            # Try to extract reset timestamp from error
+            try:
+                # Look for X-RateLimit-Reset in the error message
+                if "X-RateLimit-Reset" in error_str:
+                    # Extract the timestamp - it's in the metadata headers
+                    # Error format: {...'X-RateLimit-Reset': '1757285940000'...}
+                    start = error_str.find("'X-RateLimit-Reset': '") + len("'X-RateLimit-Reset': '")
+                    end = error_str.find("'", start)
+                    reset_timestamp_ms = int(error_str[start:end])
+
+                    # Convert to seconds and calculate wait time
+                    reset_timestamp_seconds = reset_timestamp_ms / 1000
+                    current_time = time.time()
+                    wait_time = max(0, reset_timestamp_seconds - current_time)
+
+                    print(f"⏳ Pre-flight check: Rate limit detected with reset time - waiting {wait_time:.1f}s")
+                    return False, wait_time
+
+            except Exception as parse_error:
+                pass  # Could not parse reset time, use default below
+
+            # Any error during pre-flight = wait and retry (429s, JSON errors, upstream limits, etc.)
+            print(f"⏳ Pre-flight check: Error detected - {error_str[:200]}")
+            print("⏳ Waiting 120 seconds before retrying...")
+            return False, 120.0
 
     async def wait_for_rate_limit_reset(self) -> bool:
         """

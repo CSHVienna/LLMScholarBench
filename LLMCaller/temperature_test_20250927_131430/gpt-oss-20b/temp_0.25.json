@@ -1,0 +1,9 @@
+{
+  "model": "gpt-oss-20b",
+  "temperature": 0.25,
+  "response_time_seconds": null,
+  "response_text": null,
+  "usage_info": null,
+  "success": false,
+  "error": "'NoneType' object is not subscriptable"
+}

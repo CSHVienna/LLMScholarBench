@@ -8,8 +8,22 @@ from config.loader import load_llm_setup, get_available_models
 from run_gemini_concurrent import run_gemini_concurrent
 from datetime import datetime
 
-def create_experiment_config(model_name, output_dir=None):
+def create_experiment_config(model_name, output_dir=None, temperature_override=None):
     config = load_llm_setup(model_name)
+
+    # Override temperature if provided, adjusting for model's max_temperature
+    if temperature_override is not None:
+        max_temp = config.get('max_temperature', 2)  # Default to 2 if not specified
+
+        if max_temp == 1:
+            # For models with max_temp=1, divide input temperature by 2
+            actual_temp = temperature_override / 2
+            print(f"🌡️  {model_name}: temp {temperature_override} → {actual_temp} (divided by 2 for max_temp=1)")
+        else:
+            # For models with max_temp=2, use temperature as-is
+            actual_temp = temperature_override
+
+        config['temperature'] = actual_temp
     
     # Get output directory from config or override
     if output_dir is None:
@@ -89,7 +103,9 @@ if __name__ == "__main__":
     parser.add_argument("--provider", type=str,
                         choices=["openrouter", "gemini"],
                         help="Filter models by provider (openrouter or gemini)")
-    
+    parser.add_argument("--temperature", type=float,
+                        help="Override temperature for all models (0.0-2.0)")
+
     args = parser.parse_args()
     
     # Validation
@@ -110,11 +126,15 @@ if __name__ == "__main__":
         # Route to appropriate execution strategy
         if args.provider == 'gemini':
             print(f"🧠 Running {len(models)} Gemini models concurrently (no rate limits)")
-            asyncio.run(run_gemini_concurrent(models, args.output_dir, args.category, args.variable))
+            if args.temperature is not None:
+                print(f"   Temperature override: {args.temperature}")
+            asyncio.run(run_gemini_concurrent(models, args.output_dir, args.category, args.variable, args.temperature))
         elif args.provider == 'openrouter':
             print(f"🚀 Running {len(models)} OpenRouter models with smart queue system")
             print(f"   Batch size: {args.batch_size}")
-            runner = MultiModelSmartRunner(args.output_dir, batch_size=args.batch_size)
+            if args.temperature is not None:
+                print(f"   Temperature override: {args.temperature}")
+            runner = MultiModelSmartRunner(args.output_dir, batch_size=args.batch_size, temperature_override=args.temperature)
             asyncio.run(runner.run_all_models_smart(models, args.category, args.variable))
         else:
             # No provider specified - check for mixed providers

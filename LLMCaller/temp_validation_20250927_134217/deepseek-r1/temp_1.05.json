@@ -1,0 +1,6 @@
+{
+  "model": "deepseek-r1",
+  "temperature": 1.0526315789473684,
+  "success": false,
+  "error": "Error code: 429 - {'error': {'message': 'Provider returned error', 'code': 429, 'metadata': {'raw': 'deepseek/deepseek-r1:free is temporarily rate-limited upstream. Please retry shortly, or add your own key to accumulate your rate limits: https://openrouter.ai/settings/integrations', 'provider_name': 'Chutes'}}, 'user_id': 'user_2ypJrHbIFm5lhnAMiYtfjHuP5uW'}"
+}

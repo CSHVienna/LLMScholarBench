@@ -9,11 +9,15 @@ from storage.saver import save_attempt
 from storage.summarizer import update_summary
 from logs.setup import setup_logging
 
-async def run_single_gemini_experiment(model_name, category, variable, run_dir, logger):
+async def run_single_gemini_experiment(model_name, category, variable, run_dir, logger, temperature_override=None):
     """Run a single experiment with full response saving and retry logic"""
 
     # Load model config
     config = load_llm_setup(model_name)
+
+    # Override temperature if provided
+    if temperature_override is not None:
+        config['temperature'] = temperature_override
 
     # Create API client
     api_client = create_api_client(config)
@@ -114,10 +118,12 @@ async def run_single_gemini_experiment(model_name, category, variable, run_dir, 
             # Wait a bit before retry (small delay for API stability)
             await asyncio.sleep(1)
 
-async def run_gemini_concurrent(models, output_dir=None, category=None, variable=None):
+async def run_gemini_concurrent(models, output_dir=None, category=None, variable=None, temperature_override=None):
     """Run all Gemini models sequentially (one experiment at a time)"""
 
     print(f"🧠 Running {len(models)} Gemini models sequentially")
+    if temperature_override is not None:
+        print(f"   Temperature override: {temperature_override}")
 
     # Load experiments
     if category and variable:
@@ -164,7 +170,7 @@ async def run_gemini_concurrent(models, output_dir=None, category=None, variable
         # Run experiments sequentially for this model
         print(f"\n🚀 Running {len(experiments)} experiments for {model_name}...")
         for cat, var in experiments:
-            result = await run_single_gemini_experiment(model_name, cat, var, run_dir, logger)
+            result = await run_single_gemini_experiment(model_name, cat, var, run_dir, logger, temperature_override)
             all_results.append(result)
 
     end_time = asyncio.get_event_loop().time()
