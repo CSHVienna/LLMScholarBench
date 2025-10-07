@@ -7,13 +7,16 @@
 # Get temperature from command line argument
 TEMP=${1:-0}
 
+export LLMCALLER_CREDENTIALS="/home/barolo/credentials" 
+export LLMCALLER_OUTPUT="/raid5pool/tank/barolo/llmscholar/experiments"
+
 echo "🌡️  Running experiments with temperature: $TEMP"
 echo "   Job ID: $SLURM_JOB_ID"
 echo "   Credentials: $LLMCALLER_CREDENTIALS"
 echo "   Output: $LLMCALLER_OUTPUT"
 
-cd /path/to/your/LLMCaller  # YOU NEED TO UPDATE THIS PATH
-source .venv/bin/activate
+cd /home/barolo/LLMCaller  # YOU NEED TO UPDATE THIS PATH
+source /home/barolo/.venv/bin/activate
 
 # Create logs directory if it doesn't exist
 mkdir -p logs

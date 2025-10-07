@@ -1,2 +1,40 @@
-# Ignore Python virtual environment
+# Python virtual environment
 venv/
+env/
+.venv/
+
+# Python cache
+__pycache__/
+*.pyc
+*.pyo
+*.pyd
+.Python
+
+# Mac system files
+.DS_Store
+
+# Logs and temporary files
+logs/
+*.log
+cron_cheatsheat.txt
+*-can-you-check-which-ecron-jobs-i-have-rigth-now.txt
+
+# Usage tracking data
+usage_tracker.json
+
+# Test outputs
+test_output/
+temp_validation_*/
+temperature_test_*/
+
+# Experiment data (keep .py files but exclude data directories)
+experiments/config_*/
+experiments/__pycache__/
+experiments/.DS_Store
+
+# Storage cache
+storage/__pycache__/
+storage/.DS_Store
+
+# Other data directories
+usage/
