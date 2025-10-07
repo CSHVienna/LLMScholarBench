@@ -1,3 +1,2 @@
-from .batching import BatchProcessor, calculate_optimal_batching, chunk_list
-
-__all__ = ['BatchProcessor', 'calculate_optimal_batching', 'chunk_list']
+# Utils module - old batching code removed (now using async approach)
+__all__ = []
