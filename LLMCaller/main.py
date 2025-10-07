@@ -2,104 +2,26 @@ import argparse
 import os
 import json
 import asyncio
-from experiments.runner import ExperimentRunner
-from experiments.runner_smart import SmartExperimentRunner, MultiModelSmartRunner
+from experiments.runner_openrouter_async import OpenRouterAsyncRunner
 from config.loader import load_llm_setup, get_available_models
 from run_gemini_concurrent import run_gemini_concurrent
 from datetime import datetime
 
-def create_experiment_config(model_name, output_dir=None, temperature_override=None):
-    config = load_llm_setup(model_name)
-
-    # Override temperature if provided, adjusting for model's max_temperature
-    if temperature_override is not None:
-        max_temp = config.get('max_temperature', 2)  # Default to 2 if not specified
-
-        if max_temp == 1:
-            # For models with max_temp=1, divide input temperature by 2
-            actual_temp = temperature_override / 2
-            print(f"🌡️  {model_name}: temp {temperature_override} → {actual_temp} (divided by 2 for max_temp=1)")
-        else:
-            # For models with max_temp=2, use temperature as-is
-            actual_temp = temperature_override
-
-        config['temperature'] = actual_temp
-    
-    # Get output directory from config or override
-    if output_dir is None:
-        output_dir = config.get('global', {}).get('output_dir', 'experiments')
-    
-    # Create a base directory for this model configuration if it doesn't exist
-    base_config_dir = os.path.join(output_dir, f"config_{model_name}")
-    os.makedirs(base_config_dir, exist_ok=True)
-    
-    # Copy the configuration file to the base directory
-    config_file_path = os.path.join(base_config_dir, "llm_setup.json")
-    if not os.path.exists(config_file_path):
-        with open(config_file_path, 'w') as f:
-            json.dump(config, f, indent=2)
-    
-    # Create a new directory for this run
-    timestamp = datetime.now().strftime("%Y%m%d_%H%M%S")
-    run_dir = os.path.join(base_config_dir, f"run_{timestamp}")
-    os.makedirs(run_dir, exist_ok=True)
-    
-    return run_dir, config
-
-def run_experiment(model_name, output_dir=None, category=None, variable=None, use_smart_queue=False, batch_size=15):
-    run_dir, config = create_experiment_config(model_name, output_dir)
-    
-    if use_smart_queue:
-        runner = SmartExperimentRunner(run_dir, config, batch_size=batch_size)
-    else:
-        runner = ExperimentRunner(run_dir, config, batch_size=batch_size)
-    
-    if category and variable:
-        runner.run_single_experiment(category, variable)
-    else:
-        runner.run_experiment()
-    print(f"Experiment completed. Results saved in {run_dir}")
-
-def run_all_models(output_dir=None, category=None, variable=None, batch_size=15):
-    models = get_available_models()
-    
-    for i, model in enumerate(models):
-        print(f"\n=== Running experiment for {model} ({i+1}/{len(models)}) ===")
-        run_experiment(model, output_dir, category, variable, False, batch_size)
-        
-        # Add delay between models to ensure rate limiting works properly
-        if i < len(models) - 1:  # Don't sleep after the last model
-            print(f"Waiting 2 seconds before next model...")
-            import time
-            time.sleep(2)
-
-def run_all_models_smart(output_dir=None, category=None, variable=None, batch_size=15):
-    """Run all models using the smart queue system for optimal efficiency"""
-    models = get_available_models()
-    runner = MultiModelSmartRunner(output_dir, batch_size=batch_size)
-    asyncio.run(runner.run_all_models_smart(models, category, variable))
+# Old functions removed - use --all-models-async instead
 
 if __name__ == "__main__":
     available_models = get_available_models()
     parser = argparse.ArgumentParser(description="Run LLM experiments")
-    parser.add_argument("--model", type=str, 
-                        choices=available_models,
-                        help="Specify the model to use for the experiment")
-    parser.add_argument("--all-models", action="store_true", 
-                        help="Run experiments for all models sequentially")
-    parser.add_argument("--all-models-smart", action="store_true",
-                        help="Run experiments for all models using smart queue (RECOMMENDED for efficiency)")
-    parser.add_argument("--smart", action="store_true",
-                        help="Use smart queue system for single model (better retry handling)")
+    parser.add_argument("--all-models-async", action="store_true",
+                        required=True,
+                        help="Run experiments fully async (no rate limiting)")
     parser.add_argument("--output-dir", type=str, 
                         help="Override output directory (default from config)")
     parser.add_argument("--category", type=str,
-                        choices=["top_k", "epoch", "field", "twins", "seniority"],
+                        choices=["top_k", "biased_top_k", "epoch", "field", "twins", "seniority"],
                         help="Run single category experiment")
     parser.add_argument("--variable", type=str,
                         help="Run single variable experiment (requires --category)")
-    parser.add_argument("--batch-size", type=int, default=15,
-                        help="Set batch size for API calls (default: 15)")
     parser.add_argument("--provider", type=str,
                         choices=["openrouter", "gemini"],
                         help="Filter models by provider (openrouter or gemini)")
@@ -107,56 +29,49 @@ if __name__ == "__main__":
                         help="Override temperature for all models (0.0-2.0)")
 
     args = parser.parse_args()
-    
+
     # Validation
-    model_options = [args.model, args.all_models, args.all_models_smart]
-    if sum(bool(x) for x in model_options) != 1:
-        parser.error("Exactly one of --model, --all-models, or --all-models-smart is required")
     if args.variable and not args.category:
         parser.error("--variable requires --category")
-    
-    if args.all_models_smart:
-        # Get models filtered by provider
-        models = get_available_models(provider_filter=args.provider)
 
-        if not models:
-            print(f"❌ No models found for provider: {args.provider}")
-            exit(1)
+    # Run async experiments (always - it's the only mode now)
+    models = get_available_models(provider_filter=args.provider)
 
-        # Route to appropriate execution strategy
-        if args.provider == 'gemini':
-            print(f"🧠 Running {len(models)} Gemini models concurrently (no rate limits)")
-            if args.temperature is not None:
-                print(f"   Temperature override: {args.temperature}")
-            asyncio.run(run_gemini_concurrent(models, args.output_dir, args.category, args.variable, args.temperature))
-        elif args.provider == 'openrouter':
-            print(f"🚀 Running {len(models)} OpenRouter models with smart queue system")
-            print(f"   Batch size: {args.batch_size}")
-            if args.temperature is not None:
-                print(f"   Temperature override: {args.temperature}")
-            runner = MultiModelSmartRunner(args.output_dir, batch_size=args.batch_size, temperature_override=args.temperature)
-            asyncio.run(runner.run_all_models_smart(models, args.category, args.variable))
-        else:
-            # No provider specified - check for mixed providers
-            openrouter_models = get_available_models(provider_filter='openrouter')
-            gemini_models = get_available_models(provider_filter='gemini')
+    if not models:
+        print(f"❌ No models found for provider: {args.provider}")
+        exit(1)
 
-            if openrouter_models and gemini_models:
-                print("⚠️  Mixed providers detected! For optimal performance, use --provider to run them separately:")
-                print(f"   --provider openrouter  ({len(openrouter_models)} models)")
-                print(f"   --provider gemini      ({len(gemini_models)} models)")
-                print("   Running all with OpenRouter strategy (suboptimal for Gemini)...")
+    # Route to appropriate async execution strategy
+    if args.provider == 'gemini':
+        print(f"🧠 Running {len(models)} Gemini models concurrently (async)")
+        if args.temperature is not None:
+            print(f"   Temperature override: {args.temperature}")
+        asyncio.run(run_gemini_concurrent(models, args.output_dir, args.category, args.variable, args.temperature))
 
-            print(f"🚀 Using smart queue system for {len(models)} models")
-            print(f"   Batch size: {args.batch_size}")
-            runner = MultiModelSmartRunner(args.output_dir, batch_size=args.batch_size)
-            asyncio.run(runner.run_all_models_smart(models, args.category, args.variable))
-    elif args.all_models:
-        print("📝 Using legacy sequential processing (consider --all-models-smart for better efficiency)")
-        print(f"   Batch size: {args.batch_size}")
-        run_all_models(args.output_dir, args.category, args.variable, args.batch_size)
+    elif args.provider == 'openrouter':
+        print(f"🚀 Running {len(models)} OpenRouter models fully async (no rate limiting)")
+        if args.temperature is not None:
+            print(f"   Temperature override: {args.temperature}")
+        runner = OpenRouterAsyncRunner(args.output_dir, temperature_override=args.temperature)
+        asyncio.run(runner.run_all_models(models, args.category, args.variable))
+
     else:
-        if args.smart:
-            print("🧠 Using smart queue system for better retry handling!")
-            print(f"   Batch size: {args.batch_size}")
-        run_experiment(args.model, args.output_dir, args.category, args.variable, args.smart, args.batch_size)
+        # No provider specified - run both in parallel
+        openrouter_models = get_available_models(provider_filter='openrouter')
+        gemini_models = get_available_models(provider_filter='gemini')
+
+        async def run_both_providers():
+            tasks = []
+            if openrouter_models:
+                print(f"📡 OpenRouter: {len(openrouter_models)} models (async)")
+                or_runner = OpenRouterAsyncRunner(args.output_dir, temperature_override=args.temperature)
+                tasks.append(or_runner.run_all_models(openrouter_models, args.category, args.variable))
+
+            if gemini_models:
+                print(f"🧠 Gemini: {len(gemini_models)} models (async)")
+                tasks.append(run_gemini_concurrent(gemini_models, args.output_dir, args.category, args.variable, args.temperature))
+
+            return await asyncio.gather(*tasks)
+
+        print(f"🌐 Running both providers in parallel ({len(models)} total models)")
+        asyncio.run(run_both_providers())

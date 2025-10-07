@@ -33,9 +33,12 @@ class OpenRouterAPI:
         if key:
             return key
 
-        # Load from centralized credentials
-        global_config = get_global_config()
-        credentials_dir = global_config.get('credentials_dir')
+        # Load from config if provided, otherwise use global config
+        credentials_dir = self.config.get('credentials_dir')
+        if not credentials_dir:
+            global_config = get_global_config()
+            credentials_dir = global_config.get('credentials_dir')
+
         if not credentials_dir:
             raise ValueError("credentials_dir not found in global configuration")
 
@@ -192,18 +195,37 @@ class OpenRouterAPI:
             # Add provider preference if specified
             if 'provider' in self.config and self.config['provider']:
                 extra_headers["X-OpenRouter-Provider"] = self.config['provider']
-            
-            chat_completion = await self.client.chat.completions.create(
-                extra_headers=extra_headers,
-                messages=[
+
+            # Prepare extra_body for sub-provider enforcement
+            extra_body = {}
+            if 'sub_provider' in self.config and self.config['sub_provider']:
+                extra_body["provider"] = {
+                    "order": [self.config['sub_provider']],
+                    "allow_fallbacks": False
+                }
+
+            # Prepare API call parameters
+            api_params = {
+                "extra_headers": extra_headers,
+                "messages": [
                     {"role": "system", "content": self.config['system_message']},
                     {"role": "user", "content": prompt}
                 ],
-                model=self.config['model'],
-                temperature=self.config['temperature'],
-                stop=self.config['stop'],
-                stream=self.config['stream']
-            )
+                "model": self.config['model'],
+                "temperature": self.config['temperature'],
+                "stop": self.config['stop'],
+                "stream": self.config['stream']
+            }
+
+            # Add max_tokens if specified
+            if 'max_tokens' in self.config:
+                api_params['max_tokens'] = self.config['max_tokens']
+
+            # Add extra_body if needed
+            if extra_body:
+                api_params['extra_body'] = extra_body
+
+            chat_completion = await self.client.chat.completions.create(**api_params)
             
             # Update global rate limit tracking
             async with self._get_lock():

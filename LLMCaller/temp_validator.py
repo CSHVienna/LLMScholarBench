@@ -7,23 +7,28 @@ Tests 20 temperature values from 0 to 5 for each model.
 import asyncio
 import os
 import json
+import argparse
 import numpy as np
 from datetime import datetime
 from config.loader import get_available_models, load_llm_setup
 from api.openrouter_api import OpenRouterAPI
 
+# Default config file (can be overridden via command line)
+DEFAULT_CONFIG_FILE = 'llm_setup_pay.json'
+
 # Simple test prompt (short)
 TEST_PROMPT = "Hi"
 
-# Generate 20 temperature values from 0 to 5 (including extremes)
-TEMPERATURES = np.linspace(0, 5, 20).tolist()
+# Generate 5 temperature values from 0 to 2 (including extremes)
+TEMPERATURES = np.linspace(0, 2, 5).tolist()
 
-async def test_model_temperature(model_name, temperature):
+async def test_model_temperature(model_name, temperature, config_file):
     """Test a single model with a specific temperature"""
     try:
         # Load config and override temperature
-        config = load_llm_setup(model_name)
+        config = load_llm_setup(model_name, config_file=config_file)
         config['temperature'] = temperature
+        config['max_tokens'] = 2  # Minimize token usage for testing
 
         # Create API client
         api_client = OpenRouterAPI(config)
@@ -46,7 +51,7 @@ async def test_model_temperature(model_name, temperature):
             "error": str(e)
         }
 
-async def test_model_all_temperatures(model_name, output_dir):
+async def test_model_all_temperatures(model_name, output_dir, config_file):
     """Test one model with all temperature values in parallel"""
     print(f"🧪 Testing {model_name} with {len(TEMPERATURES)} temperatures in parallel...")
 
@@ -57,7 +62,7 @@ async def test_model_all_temperatures(model_name, output_dir):
     # Create all tasks for this model (all temperatures in parallel)
     tasks = []
     for temp in TEMPERATURES:
-        task = test_model_temperature(model_name, temp)
+        task = test_model_temperature(model_name, temp, config_file)
         tasks.append(task)
 
     # Run all temperature tests in parallel
@@ -91,9 +96,10 @@ async def test_model_all_temperatures(model_name, output_dir):
 
     return summary
 
-async def main():
+async def main(config_file):
     """Main function to test all OpenRouter models"""
     print("🌡️  Temperature Validation Test")
+    print(f"   Config file: {config_file}")
     print(f"   Testing {len(TEMPERATURES)} temperatures: {TEMPERATURES[0]:.2f} to {TEMPERATURES[-1]:.2f}")
     print()
 
@@ -104,27 +110,19 @@ async def main():
     print(f"📁 Results will be saved to: {output_dir}/")
     print()
 
-    # Get OpenRouter models only
-    openrouter_models = get_available_models(provider_filter='openrouter')
+    # Get OpenRouter models only from specified config
+    openrouter_models = get_available_models(provider_filter='openrouter', config_file=config_file)
     print(f"🚀 Found {len(openrouter_models)} OpenRouter models to test")
     print(f"   Models: {', '.join(openrouter_models)}")
     print()
 
-    all_summaries = []
+    # Run ALL tests in parallel (all models, all temperatures)
+    print(f"🚀 Running ALL tests in parallel...")
+    print(f"   Total requests: {len(openrouter_models)} models × {len(TEMPERATURES)} temps = {len(openrouter_models) * len(TEMPERATURES)} requests")
+    print()
 
-    # Test each model sequentially (with 1-minute delay between models)
-    for i, model in enumerate(openrouter_models):
-        print(f"📊 Testing model {i+1}/{len(openrouter_models)}: {model}")
-
-        summary = await test_model_all_temperatures(model, output_dir)
-        all_summaries.append(summary)
-
-        # Wait 1 minute between models (except for the last one)
-        if i < len(openrouter_models) - 1:
-            print(f"⏳ Waiting 60 seconds before next model...")
-            await asyncio.sleep(60)
-
-        print()
+    tasks = [test_model_all_temperatures(model, output_dir, config_file) for model in openrouter_models]
+    all_summaries = await asyncio.gather(*tasks)
 
     # Save overall summary
     overall_summary = {
@@ -164,6 +162,14 @@ async def main():
         print(f"   {model}: {success}/{total} ({success_rate:.1f}%)")
 
 if __name__ == "__main__":
+    parser = argparse.ArgumentParser(description='Test temperature acceptance for OpenRouter models')
+    parser.add_argument(
+        '--config',
+        default=DEFAULT_CONFIG_FILE,
+        help=f'Config file to use (default: {DEFAULT_CONFIG_FILE})'
+    )
+    args = parser.parse_args()
+
     print("🧪 Temperature Validation Script")
     print("=" * 50)
-    asyncio.run(main())
+    asyncio.run(main(args.config))
