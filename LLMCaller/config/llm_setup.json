@@ -350,6 +350,26 @@
     "input_price": "0.80",
     "output_price": "0.80"
   },
+  "grok-4-fast": {
+    "model": "x-ai/grok-4-fast",
+    "max_attempts": 3,
+    "temperature": 0.5,
+    "max_temperature": 2,
+    "stop": null,
+    "stream": false,
+    "system_message_ref": "physics_research_assistant",
+    "provider": "openrouter",
+    "sub_provider": "xai",
+    "quantization": "",
+    "sub_provider_model_endpoint": "grok-4-fast-non-reasoning",
+    "latency": "5.02s",
+    "throughput": "89.19tps",
+    "total_context": "2M",
+    "max_output": "30K",
+    "host_country": "US",
+    "input_price": "0.40",
+    "output_price": "1"
+  },
   "deepseek-chat-v3.1": {
     "model": "deepseek/deepseek-chat-v3.1",
     "max_attempts": 3,
