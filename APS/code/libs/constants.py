@@ -124,7 +124,17 @@ APS_RANKING_METRICS = {'publications':'aps_works_count',
 
 
 ### EXPERIMETS ###
-LLMS = ['llama3-8b', 'llama-3.1-8b', 'gemma2-9b', 'mixtral-8x7b', 'llama3-70b', 'llama-3.1-70b']
+# LLMS = ['llama3-8b', 'llama-3.1-8b', 'gemma2-9b', 'mixtral-8x7b', 'llama3-70b', 'llama-3.1-70b']
+LLMS = ["deepseek-chat-v3.1", "deepseek-r1-0528",
+        "gemini-2.5-flash", "gemini-2.5-pro", "gemini-2.5-flash-grounded", "gemini-2.5-pro-grounded",
+        "gpt-oss-20b", "gpt-oss-120b",
+        "llama-3.3-8b", "llama-3.1-70b", "llama-3.3-70b", "llama-3.1-405b", "llama-4-scout", "llama-4-mav",
+        "qwen3-8b", "qwen3-14b", "qwen3-32b", "qwen3-30b-a3b-2507", "qwen3-235b-a22b-2507", 
+        "mistral-small-3.2-24b", "mistral-medium-3", 
+        "gemma-3-12b-it", "gemma-3-27b-it",
+        "grok-4-fast"]
+
+# deepseek-chat-v3.1 deepseek-r1-0528 gemini-2.5-flash gemini-2.5-pro gemini-2.5-flash-grounded gemini-2.5-pro-grounded gpt-oss-20b gpt-oss-120b llama-3.3-8b llama-3.1-70b llama-3.3-70b llama-3.1-405b llama-4-scout llama-4-mav qwen3-8b qwen3-14b qwen3-32b qwen3-30b-a3b-2507 qwen3-235b-a22b-2507 mistral-small-3.2-24b mistral-medium-3 gemma-3-12b-it gemma-3-27b-it grok-4-fast
 
 EXPERIMENT_OUTPUT_VALID = 'valid'
 EXPERIMENT_OUTPUT_VERBOSED = 'verbose'
@@ -132,6 +142,8 @@ EXPERIMENT_OUTPUT_FIXED = 'fixed'
 EXPERIMENT_OUTPUT_INVALID = 'invalid'
 EXPERIMENT_OUTPUT_INVALID_RATE_LIMIT = 'rate_limit'
 EXPERIMENT_OUTPUT_INVALID_SERVER_ERROR = 'server_error'
+EXPERIMENT_OUTPUT_PROVIDER_ERROR = 'provider_error'
+EXPERIMENT_OUTPUT_ILLUSTRATIVE = 'illustrative'
 
 EXPERIMENTS_BAD_CONTENT_TEXTS = ['no specific scientists found', 'i was unable to', 
                                  'it appears that there is limited publicly available information', 
@@ -147,12 +159,22 @@ EXPERIMENT_OUTPUT_VALIDATION_FLAGS_COLORS = {EXPERIMENT_OUTPUT_VALID : (0.0, 0.2
                                              EXPERIMENT_OUTPUT_INVALID_SERVER_ERROR : (0.32941176470588235, 0.18823529411764706, 0.0196078431372549, 1.0)}
 EXPERIMENT_OUTPUT_VALID_FLAGS = [EXPERIMENT_OUTPUT_VALID,EXPERIMENT_OUTPUT_VERBOSED] #,EXPERIMENT_OUTPUT_FIXED
 
-LLMS_COLORS = {'llama3-8b':'tab:blue', 
-               'llama-3.1-8b':'tab:orange', 
-               'gemma2-9b':'tab:green', 
-               'mixtral-8x7b':'tab:red', 
-               'llama3-70b':'tab:purple', 
-               'llama-3.1-70b':'tab:brown'}
+# LLMS_COLORS = {'llama3-8b':'tab:blue', 
+#                'llama-3.1-8b':'tab:orange', 
+#                'gemma2-9b':'tab:green', 
+#                'mixtral-8x7b':'tab:red', 
+#                'llama3-70b':'tab:purple', 
+#                'llama-3.1-70b':'tab:brown'}
+
+LLM_COLOR = {'deepseek': 'tab:blue',
+             'gemini': 'tab:orange',
+             'gpt': 'tab:green',
+             'llama': 'tab:red',
+             'qwen3': 'tab:purple',
+             'mistral': 'tab:brown',
+             'gemma': 'tab:pink',
+             'grok': 'tab:gray'}
+LLMS_COLORS = {LLM_COLOR[llm.split("-")[0]] for llm in LLMS}
 
 
 EXPERIMENT_TASK_TOPK = 'top_k'
@@ -312,3 +334,5 @@ SIMILARITIES_DIR = 'similarities'
 import numpy as np
 NONE = ['', None, 'None', 'nan', 'NaN', np.nan, 'null', 'Null', 'NULL', 'N/A', 'n/a', 'N/a', 'n/A']
 INF = [np.inf, -np.inf]
+
+TEMPERATURE_FOLDER_PREFIX = 'temperature_'
