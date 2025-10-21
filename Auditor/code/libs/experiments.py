@@ -11,20 +11,35 @@ from libs import helpers
 from libs import constants
 
 def is_valid_extracted_data(extracted_data):
+    if extracted_data is None:
+        return False
     if not extracted_data or all(not bool(d) for d in extracted_data) or len(extracted_data) == 0:        
         return False
     return True
 
-def extract_and_convert_to_dict(input_string, file_path):
+def extract_and_convert_to_dict(result_api, file_path):
+    if result_api.get('choices', None) is None:
+        return None, constants.EXPERIMENT_OUTPUT_PROVIDER_ERROR
+
+    input_string = result_api.get('choices', [{}])[0].get('message', {}).get('content', None)
+
+    error_keywords_lc = ['"error"', 'fatalerror', '.runners(position', 'taba_keydown', 'unable to provide', 'addtogroup', 'onitemclick', 'getinstance', "i'm stuck", '.datasource', 'getclient', 'phone.toolstrip', 'actordatatype', 'baseactivity', 'setcurrent_company', '.clearfest', 'getdata_suffix', '.texture_config', 'translator_concurrent']
+    if input_string in [None, ''] or any(keyword in input_string.lower() for keyword in error_keywords_lc):
+        return None, constants.EXPERIMENT_OUTPUT_INVALID
+    
     input_string = input_string.replace('\n', ' ').replace('\r', ' ').replace('\t', ' ').replace("\\", '').replace('...', '').replace('```json', ' ')
     valid_flag = None
     
     for bad_content in constants.EXPERIMENTS_BAD_CONTENT_TEXTS:
         if bad_content.lower() in input_string.lower():
             return None, constants.EXPERIMENT_OUTPUT_INVALID   
+
+    input_string = input_string.replace('"Years": 2', '"Years": "2').replace('0},', '0"},').replace(".}",'."}')
     
-    input_string = input_string.replace('"Years": 2', '"Years": "2').replace('0},', '0"},')
-    
+    if 'Note: This response is illustrative' in input_string:
+        input_string = input_string.split('Note: This response is illustrative')[0]
+        valid_flag = constants.EXPERIMENT_OUTPUT_ILLUSTRATIVE
+
     if '### Updated Output ###' in input_string:
         input_string = input_string.split("### Updated Output ###")[1].split("###")[0]
 
@@ -76,13 +91,13 @@ def extract_and_convert_to_dict(input_string, file_path):
             if end_index != -1:  # "]" found
                 # valid JSON in verbosed response
                 substring = input_string[start_index:end_index+1]
-                valid_flag = constants.EXPERIMENT_OUTPUT_VERBOSED
+                valid_flag = constants.EXPERIMENT_OUTPUT_VERBOSED if valid_flag is None else valid_flag
             else:  # "]" not found
                 last_curly = input_string.rfind("}")
                 if last_curly != -1:
                     # valid JSON after fixing truncated JSON
                     substring = input_string[start_index:last_curly + 1] + "]"
-                    valid_flag = constants.EXPERIMENT_OUTPUT_FIXED
+                    valid_flag = constants.EXPERIMENT_OUTPUT_FIXED if valid_flag is None else valid_flag
                 else:
                     # io.printf(f"\n{input_string}\nNo matching ']' or ')' found.\n")
                     return None, constants.EXPERIMENT_OUTPUT_INVALID
@@ -92,6 +107,7 @@ def extract_and_convert_to_dict(input_string, file_path):
 
         # Convert the substring to a dictionary
         result_dict = ast.literal_eval(substring)
+                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                    
         return result_dict, valid_flag
     
     except Exception as e:
@@ -105,12 +121,12 @@ def _get_extracted_data(result_api, validation_result, file_path):
 
     # if it is not valid (at first) - try to extract the data (if possible)
     if not is_valid:
-        output, valid_flag = extract_and_convert_to_dict(result_api.get('choices', [{}])[0].get('message', {}).get('content', ''), file_path)
+        output, valid_flag = extract_and_convert_to_dict(result_api, file_path)
 
         if output is None:
-            return None, constants.EXPERIMENT_OUTPUT_INVALID
+            return None, valid_flag # constants.EXPERIMENT_OUTPUT_INVALID
         elif len(output) == 0:
-            return None, constants.EXPERIMENT_OUTPUT_INVALID
+            return None, valid_flag # constants.EXPERIMENT_OUTPUT_INVALID
         
         if isinstance(output, list):
             if isinstance(output[0], dict):
@@ -126,6 +142,11 @@ def _process_file(file_path):
     date = helpers.convert_YYYYMMDD_to_date(datetime_str.split('_')[0])
     time = helpers.convert_HHMM_to_time(datetime_str.split('_')[1])
 
+    tprefix = f'/{constants.TEMPERATURE_FOLDER_PREFIX}'
+    temperature = float(file_path.split(tprefix)[-1].split('/')[0]) if tprefix in file_path else None
+    model = file_path.split('/config_')[-1].split('/')[0]
+    model = model.replace('-it','').replace('-instant','').replace('-versatile','').replace('-8192','').replace('-32768','')
+
     # content
     try:
         # Replace this with the actual processing logic
@@ -138,23 +159,26 @@ def _process_file(file_path):
     try:
         # IF ERRONEUS
         if 'full_api_response' not in data:
-            llm_model = file_path.split('/config_')[-1].split('/')[0]
             original_message = data.get('error', {}).get('message', None)
             obj = {'date':date,
                    'time':time,
                    'task_name':data['category'],
                    'task_param':data['variable'],
                    'task_attempt':data['attempt'],
-                   'llm_model':llm_model,
+                   'model':model,
+                   'temperature': temperature,
+                   'llm_model': None,
+                   'llm_provider': None,
                    'llm_completion_tokens':None,
                    'llm_prompt_tokens':None,
                    'llm_total_tokens':None,
                    'result_is_valid':False,
-                   'result_valid_flag':constants.EXPERIMENT_OUTPUT_INVALID_SERVER_ERROR if 'internal_server_error' in original_message else constants.EXPERIMENT_OUTPUT_INVALID_RATE_LIMIT if 'rate_limit_exceeded' in original_message else constants.EXPERIMENT_OUTPUT_INVALID,
+                   'result_valid_flag':constants.EXPERIMENT_OUTPUT_INVALID_SERVER_ERROR if 'internal_server_error' in original_message else 
+                                       constants.EXPERIMENT_OUTPUT_INVALID_RATE_LIMIT if 'rate_limit_exceeded' in original_message else 
+                                       constants.EXPERIMENT_OUTPUT_INVALID,
                    'result_original_message': original_message,
                    'result_answer':None,
                    'file_path':file_path,
-                   'model': llm_model.replace('-it','').replace('-instant','').replace('-versatile','').replace('-8192','').replace('-32768',''),
                    }
             return obj
     except Exception as e:
@@ -173,20 +197,31 @@ def _process_file(file_path):
 
         # llm metadata
         _result_api = data.get('full_api_response', None)
-        llm_model = _result_api.get('model', None) if _result_api is not None else None
-        result['llm_model'] = llm_model
+        result['model'] = model
+        result['temperature'] = temperature
+        result['llm_model'] = _result_api.get('model', None)
+        result['llm_provider'] = _result_api.get('provider', None)
+        
 
         _result_usage = _result_api.get('usage', None) if _result_api is not None else None
-        result['llm_completion_tokens'] = _result_usage.get('completion_tokens', None) if _result_usage is not None else None
-        result['llm_prompt_tokens'] = _result_usage.get('prompt_tokens', None) if _result_usage is not None else None
-        result['llm_total_tokens'] = _result_usage.get('total_tokens', None) if _result_usage is not None else None
-        
+        if _result_usage is None:
+            _result_usage = _result_api.get('response', {}).get('usage_metadata',{})
+            result['llm_completion_tokens'] = _result_usage.get('candidates_token_count', None)
+            result['llm_prompt_tokens'] = _result_usage.get('prompt_token_count', None)
+            result['llm_total_tokens'] = _result_usage.get('total_token_count', None)
+        else:
+            result['llm_completion_tokens'] = _result_usage.get('completion_tokens', None) if _result_usage is not None else None
+            result['llm_prompt_tokens'] = _result_usage.get('prompt_tokens', None) if _result_usage is not None else None
+            result['llm_total_tokens'] = _result_usage.get('total_tokens', None) if _result_usage is not None else None
+            
         # results
         _result = data.get('validation_result', None)
         extracted_data, valid_flag = _get_extracted_data(_result_api, _result, file_path)
         is_valid = is_valid_extracted_data(extracted_data)
-        error_msg = _result_api.get('choices', [{}])[0].get('message', {}).get('content', None)
-        result_message = error_msg if valid_flag == constants.EXPERIMENT_OUTPUT_INVALID else _result.get('message', '')
+        
+        
+        full_answer = _result_api.get('choices', [{}])[0].get('message', {}).get('content', None) if _result_api.get('choices', None) is not None else None
+        result_message = full_answer if full_answer is not None and valid_flag in [constants.EXPERIMENT_OUTPUT_INVALID, constants.EXPERIMENT_OUTPUT_PROVIDER_ERROR] else _result.get('message', '')
         result['result_is_valid'] = is_valid
         result['result_valid_flag'] = constants.EXPERIMENT_OUTPUT_INVALID_RATE_LIMIT if 'rate_limit_exceeded' in result_message else valid_flag
         result['result_original_message'] = result_message
@@ -194,7 +229,7 @@ def _process_file(file_path):
 
         # for tracking results
         result['file_path'] = file_path
-        result['model'] = llm_model.replace('-it','').replace('-instant','').replace('-versatile','').replace('-8192','').replace('-32768','')
+        
         return result
     
     except Exception as e:
@@ -203,7 +238,7 @@ def _process_file(file_path):
 
 
 def read_experiments(experiments_dir: str, model: str, max_workers: int = 1):
-    file_paths = io.get_files(experiments_dir, f"config_{model}/run_*_*/*/attempt*_*_*.json")
+    file_paths = io.get_files(experiments_dir, f"temperature_*/config_{model}/run_*_*/*/attempt*_*_*.json")
     io.printf(f"Found {len(file_paths)} files to process.")
 
     results = []
@@ -214,6 +249,8 @@ def read_experiments(experiments_dir: str, model: str, max_workers: int = 1):
             file = future_to_file[future]
             try:
                 result = future.result()
+                if result is None:
+                    continue
                 results.append(result)
             except Exception as e:
                 print(f"Error processing file in parallel {file}: {e}")
