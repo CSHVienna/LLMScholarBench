@@ -60,14 +60,30 @@ def process_results(results):
 
         result_valid_flag = obj['result_valid_flag']
         result_answer = obj['result_answer']
-
+            
         if result_valid_flag in constants.EXPERIMENT_OUTPUT_VALID_FLAGS:  # Only iterate if the answer list is not empty
+            if result_answer is None:
+                continue
+            
             for answer in result_answer:
+
+                if type(answer) == set:
+                    answer = {'Name': list(answer)[0]}
+                    
+                # TODO: here it fails with gemma-3-27b-it    
+                if type(answer) == str:
+                    print('>?>>>>>>>>>>>>', answer)
+                    print(obj['file_path'])
+
                 name = answer.get("Name", None)
-                
-                if name is None or pd.isnull(name) or len(name) >= 100 or name.lower() in constants.EXPERIMENTS_BAD_CONTENT_TEXTS or name == 'None':
-                    io.printf(f"skipping: {obj['date']} | {obj['time']} | {obj['llm_model']} | {obj['temperature']} | {obj['task_name']} | {obj['task_param']} | {obj['task_attempt']}")
+
+                if type(name) == dict:
+                    print(answer)
                     print(name)
+                    print(obj['file_path'])
+
+                if name is None or pd.isnull(name) or len(name) >= 100 or name.lower() in constants.EXPERIMENTS_BAD_CONTENT_TEXTS or name == 'None':
+                    io.printf(f"skipping recommendation (one name): {obj['date']} | {obj['time']} | {obj['model']} | {obj['temperature']} | {obj['task_name']} | {obj['task_param']} | {obj['task_attempt']}")
                     continue
 
                 rows.append({

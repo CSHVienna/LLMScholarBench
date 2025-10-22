@@ -9,6 +9,7 @@ import pandas as pd
 from libs import io
 from libs import helpers
 from libs import constants
+from libs import text
 
 def is_valid_extracted_data(extracted_data):
     if extracted_data is None:
@@ -18,24 +19,54 @@ def is_valid_extracted_data(extracted_data):
     return True
 
 def extract_and_convert_to_dict(result_api, file_path):
-    if result_api.get('choices', None) is None:
-        return None, constants.EXPERIMENT_OUTPUT_PROVIDER_ERROR
+    gemini = result_api.get('model','') in constants.LLMS_GEMINI
 
-    input_string = result_api.get('choices', [{}])[0].get('message', {}).get('content', None)
+    if gemini:
+        input_string = result_api.get('response', None)
+    else:
+        if result_api.get('choices', None) is None:
+            return None, constants.EXPERIMENT_OUTPUT_PROVIDER_ERROR
+        input_string = result_api.get('choices', [{}])[0].get('message', {}).get('content', None)
 
-    error_keywords_lc = ['"error"', 'fatalerror', '.runners(position', 'taba_keydown', 'unable to provide', 'addtogroup', 'onitemclick', 'getinstance', "i'm stuck", '.datasource', 'getclient', 'phone.toolstrip', 'actordatatype', 'baseactivity', 'setcurrent_company', '.clearfest', 'getdata_suffix', '.texture_config', 'translator_concurrent']
-    if input_string in [None, ''] or any(keyword in input_string.lower() for keyword in error_keywords_lc):
+    # TODO: check, this might not be necessary
+    if input_string in [None, ''] or any(keyword in input_string.lower() for keyword in constants.ERROR_KEYWORDS_LC):
         return None, constants.EXPERIMENT_OUTPUT_INVALID
     
     input_string = input_string.replace('\n', ' ').replace('\r', ' ').replace('\t', ' ').replace("\\", '').replace('...', '').replace('```json', ' ')
-    valid_flag = None
     
+    # TODO: check, this might not be necessary
     for bad_content in constants.EXPERIMENTS_BAD_CONTENT_TEXTS:
         if bad_content.lower() in input_string.lower():
             return None, constants.EXPERIMENT_OUTPUT_INVALID   
 
     input_string = input_string.replace('"Years": 2', '"Years": "2').replace('0},', '0"},').replace(".}",'."}')
     
+    valid_flag = None
+
+    if '{"Name": {"Name": "Freeman Dyson", "Years": "1950-1960"}}' in input_string:
+        input_string = input_string.replace('{"Name": {"Name": "Freeman Dyson", "Years": "1950-1960"}}', '{"Name": "Freeman Dyson", "Years": "1950-1960"}')
+
+    if '{"Name": {"Name":' in input_string:
+        input_string = text.flatten_name_str(input_string)
+
+    if ',     {"Name": "Tatiana "Tanya" Evans (astronomer)"},' in input_string:
+        input_string = input_string.split(',     {"Name": "Tatiana "Tanya" Evans (astronomer)"},')[0]
+
+    if '{})  AngiePhraseIn MIN nan--;' in input_string:
+        input_string = input_string.split('{})  AngiePhraseIn MIN nan--;')[0] + '"'
+
+    if '{"Name": "Marie G緎 bite.Job Pamela Gay' in input_string:
+        input_string = input_string.split('{"Name": "Marie G緎 bite.Job Pamela Gay')[0]
+
+    if ',   {"Name": "Sin‑Iou‌లు DörfEchtthank}^{remotepoint.scatter/blob)' in input_string:
+        input_string = input_string.split(',   {"Name": "Sin‑Iou‌లు DörfEchtthank}^{remotepoint.scatter/blob)')[0]
+                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                         
+    if ',   {"Name":"Walter H"}' in input_string:
+        input_string = input_string.split(',   {"Name":"Walter H"}')[0].replace("Kü},  // placeholder accidental", 'Kü"}, ')
+
+    if 'Given the critique' in input_string:
+        input_string = input_string.split('Given the critique')[0]
+
     if 'Note: This response is illustrative' in input_string:
         input_string = input_string.split('Note: This response is illustrative')[0]
         valid_flag = constants.EXPERIMENT_OUTPUT_ILLUSTRATIVE
@@ -82,6 +113,31 @@ def extract_and_convert_to_dict(result_api, file_path):
     if input_string.strip().replace(' ','').endswith("}"):
         input_string = f"{input_string}]"
 
+    if '{"nomyfut": -12.3}' in input_string:
+        input_string = input_string.split(', {"nomyfut": -12.3}')[0]
+
+    if "Namer:  P" in input_string:
+        input_string = input_string.replace("Namer:  P", 'Name": "P')
+
+    if "Name " in input_string:
+        input_string = input_string.replace("Name ", '"Name": ')
+
+    if "NameMaria" in input_string:
+        input_string = input_string.replace("NameMaria", 'Name": "Maria')
+
+    if "NameCharles" in input_string:
+        input_string = input_string.replace("NameCharles", 'Name": "Charles')
+
+    if "NameClaude" in input_string:
+        input_string = input_string.replace("NameClaude", 'Name": "Claude')
+
+    if "NamePhilip" in input_string:
+        input_string = input_string.replace("NamePhilip", 'Name": "Philip')
+
+    # for name in ['{"Robert L. (R. L.)"}']:
+    #     if name in input_string:
+    #         input_string = input_string.replace(name, '{"Name": <name>}').replace('<name>', name.replace('{','').replace('}','')).replace('```','')
+            
     try:
         # Extract substring between "[" and "]"
         start_index = input_string.find("[")
@@ -89,15 +145,32 @@ def extract_and_convert_to_dict(result_api, file_path):
         
         if start_index != -1:  # "[" found
             if end_index != -1:  # "]" found
-                # valid JSON in verbosed response
-                substring = input_string[start_index:end_index+1]
-                valid_flag = constants.EXPERIMENT_OUTPUT_VERBOSED if valid_flag is None else valid_flag
+                
+                
+                try:
+                    # valid JSON in verbosed response
+                    substring = input_string[start_index:end_index+1]
+                    tmp = ast.literal_eval(substring)
+                    if len(tmp) == 0:
+                        # invalid JSON
+                        return None, constants.EXPERIMENT_OUTPUT_INVALID
+                    valid_flag = constants.EXPERIMENT_OUTPUT_VERBOSED if valid_flag is None else valid_flag
+                except Exception as e:
+                    # invalid JSON
+                    return None, constants.EXPERIMENT_OUTPUT_INVALID
+                
+
             else:  # "]" not found
                 last_curly = input_string.rfind("}")
+
                 if last_curly != -1:
-                    # valid JSON after fixing truncated JSON
-                    substring = input_string[start_index:last_curly + 1] + "]"
-                    valid_flag = constants.EXPERIMENT_OUTPUT_FIXED if valid_flag is None else valid_flag
+                    # invalid JSON
+                    if start_index + last_curly > len(input_string):
+                        return None, constants.EXPERIMENT_OUTPUT_INVALID
+                    else:
+                        # valid JSON after fixing truncated JSON
+                        substring = input_string[start_index:last_curly + 1] + "]"
+                        valid_flag = constants.EXPERIMENT_OUTPUT_FIXED if valid_flag is None else valid_flag
                 else:
                     # io.printf(f"\n{input_string}\nNo matching ']' or ')' found.\n")
                     return None, constants.EXPERIMENT_OUTPUT_INVALID
@@ -118,7 +191,14 @@ def extract_and_convert_to_dict(result_api, file_path):
 def _get_extracted_data(result_api, validation_result, file_path):
     is_valid = validation_result.get('is_valid', False)
     original_extracted_data = validation_result.get('extracted_data', None)
+    message = validation_result.get('message', None)
 
+    if not is_valid:
+        if message == constants.LLMCALLER_OUTPUT_NO_JSON:
+            return None, constants.EXPERIMENT_OUTPUT_INVALID
+        if message.startswith(constants.LLMCALLER_OUTPUT_INVALID_JSON):
+            return None, constants.EXPERIMENT_OUTPUT_INVALID
+        
     # if it is not valid (at first) - try to extract the data (if possible)
     if not is_valid:
         output, valid_flag = extract_and_convert_to_dict(result_api, file_path)
@@ -149,7 +229,6 @@ def _process_file(file_path):
 
     # content
     try:
-        # Replace this with the actual processing logic
         data = io.read_json_file(file_path)
         result = {}
     except Exception as e:
@@ -159,7 +238,12 @@ def _process_file(file_path):
     try:
         # IF ERRONEUS
         if 'full_api_response' not in data:
-            original_message = data.get('error', {}).get('message', None)
+            if 'error' in data:
+                if type(data['error']) == dict:
+                    original_message = data.get('error', {}).get('message', None)
+                else:
+                    original_message = data.get('error', None)
+
             obj = {'date':date,
                    'time':time,
                    'task_name':data['category'],
@@ -182,7 +266,7 @@ def _process_file(file_path):
                    }
             return obj
     except Exception as e:
-        io.printf(f"Error processing empty outpu {file_path}: {e}")
+        io.printf(f"Error processing empty output {file_path}: {e}")
         return None
     
     try:
@@ -205,10 +289,34 @@ def _process_file(file_path):
 
         _result_usage = _result_api.get('usage', None) if _result_api is not None else None
         if _result_usage is None:
-            _result_usage = _result_api.get('response', {}).get('usage_metadata',{})
-            result['llm_completion_tokens'] = _result_usage.get('candidates_token_count', None)
-            result['llm_prompt_tokens'] = _result_usage.get('prompt_token_count', None)
-            result['llm_total_tokens'] = _result_usage.get('total_token_count', None)
+            
+            _result_usage = _result_api.get('response', None)
+
+            if type(_result_usage) == str: 
+                _result_usage = _result_usage.split("usage_metadata")[-1].split('model_version')[0].replace(":",'":').replace("prompt_", '"prompt_').replace("candidates_", ', "candidates_').replace("total_", ', "total_')
+                try:
+                    _result_usage = ast.literal_eval(_result_usage)
+                except:
+                    _result_usage = None
+
+            if _result_usage is None:
+                _result_usage = _result_api.get('full_vertex_response', None)
+
+                if type(_result_usage) == str: 
+                    _result_usage = _result_usage.split("usage_metadata")[-1].split('model_version')[0].replace(":",'":').replace("prompt_", '"prompt_').replace("candidates_", ', "candidates_').replace("total_", ', "total_')
+                    try:
+                        _result_usage = ast.literal_eval(_result_usage)
+                    except:
+                        _result_usage = None
+                
+            if _result_usage is None or (type(_result_usage) == list and len(_result_usage) == 0):
+                result['llm_completion_tokens'] = None
+                result['llm_prompt_tokens'] = None
+                result['llm_total_tokens'] = None
+            else:
+                result['llm_completion_tokens'] = _result_usage.get('candidates_token_count', None)
+                result['llm_prompt_tokens'] = _result_usage.get('prompt_token_count', None)
+                result['llm_total_tokens'] = _result_usage.get('total_token_count', None)
         else:
             result['llm_completion_tokens'] = _result_usage.get('completion_tokens', None) if _result_usage is not None else None
             result['llm_prompt_tokens'] = _result_usage.get('prompt_tokens', None) if _result_usage is not None else None
@@ -249,9 +357,8 @@ def read_experiments(experiments_dir: str, model: str, max_workers: int = 1):
             file = future_to_file[future]
             try:
                 result = future.result()
-                if result is None:
-                    continue
-                results.append(result)
+                if result is not None:
+                    results.append(result)
             except Exception as e:
                 print(f"Error processing file in parallel {file}: {e}")
     return results
