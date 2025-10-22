@@ -5,6 +5,12 @@ import pandas as pd
 import jellyfish
 import numpy as np
 
+def flatten_name_str(s: str) -> str:
+     # Match: {"Name":{"Name":"<value>"}}  (works with ' or " and optional spaces)
+    pattern = r'\{\s*(?P<q>"|\')Name(?P=q)\s*:\s*\{\s*(?P=q)Name(?P=q)\s*:\s*(?P=q)(?P<val>[^"\']*?)(?P=q)\s*\}\s*\}'
+    replacement = r'{\g<q>Name\g<q>: \g<q>\g<val>\g<q>}'
+    return re.sub(pattern, replacement, s)
+
 def clean_name(text, lower=True):
     if text is None or pd.isnull(text):
         return None  # Handle None gracefully
