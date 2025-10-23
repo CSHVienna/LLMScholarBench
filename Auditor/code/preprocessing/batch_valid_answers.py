@@ -58,6 +58,7 @@ def _final_validation_response(result_answer):
     new_result_dict = []
     for obj_rec in result_answer:
         
+        # if only a string
         if type(obj_rec) == set:
             # fix
             obj_rec = {'Name': list(obj_rec)[0]}
@@ -77,7 +78,7 @@ def _final_validation_response(result_answer):
             result_valid_flag = constants.EXPERIMENT_OUTPUT_FIXED_TRUNCATED_JSON
 
         # If any key is not valid
-        if any(x not in constants.AUDITOR_RESPONSE_DICT_KEYS for x in obj_rec.keys()):
+        if any(x not in constants.AUDITOR_RESPONSE_DICT_KEYS + ['Reasoning'] for x in obj_rec.keys()):
             # skip
             result_valid_flag = constants.EXPERIMENT_OUTPUT_FIXED_SKIPPED_ITEM
             continue

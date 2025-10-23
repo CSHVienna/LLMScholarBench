@@ -124,6 +124,7 @@ APS_RANKING_METRICS = {'publications':'aps_works_count',
 
 
 ### EXPERIMETS ###
+
 # LLMS = ['llama3-8b', 'llama-3.1-8b', 'gemma2-9b', 'mixtral-8x7b', 'llama3-70b', 'llama-3.1-70b']
 # LLMS = ["deepseek-chat-v3.1", "deepseek-r1-0528",
 #         "gemini-2.5-flash", "gemini-2.5-pro", "gemini-2.5-flash-grounded", "gemini-2.5-pro-grounded",
@@ -142,14 +143,14 @@ LLMS_QWEN3 = ['qwen3-8b', 'qwen3-14b', 'qwen3-32b', 'qwen3-30b-a3b-2507', 'qwen3
 LLMS_MISTRAL = ['mistral-small-3.2-24b', 'mistral-medium-3']
 LLMS_GEMMA = ['gemma-3-12b-it', 'gemma-3-27b-it']
 LLMS_GROK = ['grok-4-fast']
-
 LLMS = LLMS_DEEPSEEK + LLMS_GEMINI + LLMS_GPT + LLMS_LLAMA + LLMS_QWEN3 + LLMS_MISTRAL + LLMS_GEMMA + LLMS_GROK
+LLM_CLASSES = list(set([llm.split('-')[0] for llm in LLMS]))
 
 # deepseek-chat-v3.1 deepseek-r1-0528 gemini-2.5-flash gemini-2.5-pro gemini-2.5-flash-grounded gemini-2.5-pro-grounded gpt-oss-20b gpt-oss-120b llama-3.3-8b llama-3.1-70b llama-3.3-70b llama-3.1-405b llama-4-scout llama-4-mav qwen3-8b qwen3-14b qwen3-32b qwen3-30b-a3b-2507 qwen3-235b-a22b-2507 mistral-small-3.2-24b mistral-medium-3 gemma-3-12b-it gemma-3-27b-it grok-4-fast
 
 EXPERIMENT_OUTPUT_VALID = 'valid'
 EXPERIMENT_OUTPUT_VERBOSED = 'verbose'
-EXPERIMENT_OUTPUT_FIXED_TRUNCATED_JSON = 'tuncated-dict'
+EXPERIMENT_OUTPUT_FIXED_TRUNCATED_JSON = 'truncated-dict'
 EXPERIMENT_OUTPUT_FIXED_SKIPPED_ITEM = 'skipped-item'
 EXPERIMENT_OUTPUT_INVALID = 'invalid'
 EXPERIMENT_OUTPUT_INVALID_RATE_LIMIT = 'rate_limit'
@@ -157,28 +158,29 @@ EXPERIMENT_OUTPUT_INVALID_SERVER_ERROR = 'server_error'
 EXPERIMENT_OUTPUT_PROVIDER_ERROR = 'provider_error'
 EXPERIMENT_OUTPUT_ILLUSTRATIVE = 'illustrative'
 
-LLMCALLER_OUTPUT_INVALID_JSON_EMPTY = 'No JSON-like structure found in the response'
+EXPERIMENT_OUTPUTS_ORDER = [EXPERIMENT_OUTPUT_VALID, EXPERIMENT_OUTPUT_VERBOSED, EXPERIMENT_OUTPUT_FIXED_TRUNCATED_JSON, EXPERIMENT_OUTPUT_PROVIDER_ERROR, EXPERIMENT_OUTPUT_INVALID]
+_colors = ["#1a8a3c", "#0dc343", "#4079a1", "#c04b4b", "#680a0a"]
+EXPERIMENT_OUTPUT_COLORS = {EXPERIMENT_OUTPUTS_ORDER[i]: _colors[i] for i in range(len(EXPERIMENT_OUTPUTS_ORDER))}
 
+LLMCALLER_OUTPUT_INVALID_JSON_EMPTY = 'No JSON-like structure found in the response'
 LLMCALLER_OUTPUT_INVALID_JSON_EXTRA_DATA = 'Invalid JSON format: Extra data'
 LLMCALLER_OUTPUT_INVALID_JSON_MISSING_ATTRIBUTE = "Invalid JSON format: Expecting"
 LLMCALLER_OUTPUT_INVALID_JSON_MISSING_ATTRIBUTE_SEMICOLON = "Invalid JSON format: Expecting ':' delimeter"
 LLMCALLER_OUTPUT_INVALID_JSON_MISSING_ATTRIBUTE_COMMA = "Invalid JSON format: Expecting ','"
 LLMCALLER_OUTPUT_INVALID_JSON_PROPERTY_NAME = 'Invalid JSON format: Expecting property name enclosed in double quotes'
 LLMCALLER_OUTPUT_INVALID_JSON_CHAR = "Invalid JSON format: Invalid"
-
 LLMCALLER_OUTPUT_SCHEMA_FAILED = "Schema validation failed:"
 LLMCALLER_OUTPUT_PARSING_ERROR = "JSCONDecodeError:"
 LLMCALLER_OUTPUT_EXPECTING_VALUE = "Invalid JSON format: Expecting value: "
-
 LLMCALLER_DICT_KEYS = ['Name','Years','DOI','Ethnicity','Career Age']
+
 AUDITOR_RESPONSE_DICT_KEYS = ['date', 'time', 'model', 'temperature', 'llm_provider', 'llm_model', 'task_name', 'task_param', 'task_attempt', 'result_valid_flag'] + LLMCALLER_DICT_KEYS
     
 EXPERIMENTS_BAD_CONTENT_TEXTS_LC = ['no specific scientists found', 'i was unable to', 
                                     'it appears that there is limited publicly available information', 
                                     'no physicists meet the specified criteria',
                                     'no specific scientists identified due to the uniqueness and complexity of the criteria',
-                                    'none'
-                                    ]
+                                    'none']
 
 EXPERIMENT_OUTPUT_VALIDATION_FLAGS = [EXPERIMENT_OUTPUT_VALID,EXPERIMENT_OUTPUT_VERBOSED,
                                       EXPERIMENT_OUTPUT_FIXED_TRUNCATED_JSON, EXPERIMENT_OUTPUT_FIXED_SKIPPED_ITEM,
@@ -200,22 +202,15 @@ EXPERIMENT_OUTPUT_VALID_FLAGS = [EXPERIMENT_OUTPUT_VALID,EXPERIMENT_OUTPUT_VERBO
 #                'llama3-70b':'tab:purple', 
 #                'llama-3.1-70b':'tab:brown'}
 
-LLM_COLOR = {'deepseek': 'tab:blue',
-             'gemini': 'tab:orange',
-             'gpt': 'tab:green',
-             'llama': 'tab:red',
-             'qwen3': 'tab:purple',
-             'mistral': 'tab:brown',
-             'gemma': 'tab:pink',
-             'grok': 'tab:gray'}
-LLMS_COLORS = {LLM_COLOR[llm.split("-")[0]] for llm in LLMS}
-
+_llm_colors = ['tab:blue','tab:orange', 'tab:green', 'tab:red', 'tab:purple', 'tab:brown', 'tab:pink', 'tab:gray']
+LLMS_COLORS = {llmclass[0]: _llm_colors[i % len(_llm_colors)] for i, llmclass in enumerate(LLM_CLASSES)}
 
 EXPERIMENT_TASK_TOPK = 'top_k'
 EXPERIMENT_TASK_FIELD = 'field'
 EXPERIMENT_TASK_EPOCH = 'epoch'
 EXPERIMENT_TASK_SENIORITY = 'seniority'
 EXPERIMENT_TASK_TWINS = 'twins'
+EXPERIMENT_TASK_BIASED_TOP_K = 'biased_top_k'
 EXPERIMENT_TASKS = [EXPERIMENT_TASK_TOPK, EXPERIMENT_TASK_FIELD, EXPERIMENT_TASK_EPOCH, EXPERIMENT_TASK_SENIORITY, EXPERIMENT_TASK_TWINS]
 EXPERIMENT_TASKS_COLORS = {EXPERIMENT_TASK_TOPK:'tab:blue',EXPERIMENT_TASK_FIELD:'tab:orange',EXPERIMENT_TASK_EPOCH:'tab:green',EXPERIMENT_TASK_SENIORITY:'tab:red',EXPERIMENT_TASK_TWINS:'tab:purple'}
 
