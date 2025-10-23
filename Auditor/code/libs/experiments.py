@@ -28,21 +28,26 @@ def extract_and_convert_to_dict(result_api, file_path):
             return None, constants.EXPERIMENT_OUTPUT_PROVIDER_ERROR
         input_string = result_api.get('choices', [{}])[0].get('message', {}).get('content', None)
 
-    # TODO: check, this might not be necessary
-    if input_string in [None, ''] or any(keyword in input_string.lower() for keyword in constants.ERROR_KEYWORDS_LC):
-        return None, constants.EXPERIMENT_OUTPUT_INVALID
+
+    # # TODO: check, this might not be necessary
+    # if input_string in [None, ''] or any(keyword in input_string.lower() for keyword in constants.ERROR_KEYWORDS_LC):
+    #     return None, constants.EXPERIMENT_OUTPUT_INVALID
     
+    ### Decoding 
     input_string = input_string.replace('\n', ' ').replace('\r', ' ').replace('\t', ' ').replace("\\", '').replace('...', '').replace('```json', ' ')
     
-    # TODO: check, this might not be necessary
-    for bad_content in constants.EXPERIMENTS_BAD_CONTENT_TEXTS:
-        if bad_content.lower() in input_string.lower():
-            return None, constants.EXPERIMENT_OUTPUT_INVALID   
+    # # TODO: check, this might not be necessary
+    # for bad_content in constants.EXPERIMENTS_BAD_CONTENT_TEXTS:
+    #     if bad_content.lower() in input_string.lower():
+    #         return None, constants.EXPERIMENT_OUTPUT_INVALID   
 
-    input_string = input_string.replace('"Years": 2', '"Years": "2').replace('0},', '0"},').replace(".}",'."}')
-    
     valid_flag = None
 
+    ### Fixing specific cases (invalid JSON): 
+    
+    input_string = input_string.replace('"Years": 2', '"Years": "2').replace('0},', '0"},').replace(".}",'."}')
+
+    ### FIXING WEIRD CASES
     if '{"Name": {"Name": "Freeman Dyson", "Years": "1950-1960"}}' in input_string:
         input_string = input_string.replace('{"Name": {"Name": "Freeman Dyson", "Years": "1950-1960"}}', '{"Name": "Freeman Dyson", "Years": "1950-1960"}')
 
@@ -63,6 +68,33 @@ def extract_and_convert_to_dict(result_api, file_path):
                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                          
     if ',   {"Name":"Walter H"}' in input_string:
         input_string = input_string.split(',   {"Name":"Walter H"}')[0].replace("Kü},  // placeholder accidental", 'Kü"}, ')
+
+    if ':  {"Name": "' in input_string:
+        input_string = input_string.split(':  {')[-1]
+        input_string = f"[{'{'}{input_string}"
+        
+    if '{"nomyfut": -12.3}' in input_string:
+        input_string = input_string.split(', {"nomyfut": -12.3}')[0]
+
+    if "Namer:  P" in input_string:
+        input_string = input_string.replace("Namer:  P", 'Name": "P')
+
+    if "Name " in input_string:
+        input_string = input_string.replace("Name ", '"Name": ')
+
+    if "NameMaria" in input_string:
+        input_string = input_string.replace("NameMaria", 'Name": "Maria')
+
+    if "NameCharles" in input_string:
+        input_string = input_string.replace("NameCharles", 'Name": "Charles')
+
+    if "NameClaude" in input_string:
+        input_string = input_string.replace("NameClaude", 'Name": "Claude')
+
+    if "NamePhilip" in input_string:
+        input_string = input_string.replace("NamePhilip", 'Name": "Philip')
+
+    ### SPLITTING VERBOSE CONTENT
 
     if 'Given the critique' in input_string:
         input_string = input_string.split('Given the critique')[0]
@@ -97,10 +129,6 @@ def extract_and_convert_to_dict(result_api, file_path):
     if 'is as follows:' in input_string:
         input_string = f"[{input_string.split('is as follows:')[1]}]"
 
-    if ':  {"Name": "' in input_string:
-        input_string = input_string.split(':  {')[-1]
-        input_string = f"[{'{'}{input_string}"
-
     if input_string.startswith("[  [ {"):
         input_string = input_string.replace("[  [ {", "[ {")
 
@@ -113,39 +141,13 @@ def extract_and_convert_to_dict(result_api, file_path):
     if input_string.strip().replace(' ','').endswith("}"):
         input_string = f"{input_string}]"
 
-    if '{"nomyfut": -12.3}' in input_string:
-        input_string = input_string.split(', {"nomyfut": -12.3}')[0]
-
-    if "Namer:  P" in input_string:
-        input_string = input_string.replace("Namer:  P", 'Name": "P')
-
-    if "Name " in input_string:
-        input_string = input_string.replace("Name ", '"Name": ')
-
-    if "NameMaria" in input_string:
-        input_string = input_string.replace("NameMaria", 'Name": "Maria')
-
-    if "NameCharles" in input_string:
-        input_string = input_string.replace("NameCharles", 'Name": "Charles')
-
-    if "NameClaude" in input_string:
-        input_string = input_string.replace("NameClaude", 'Name": "Claude')
-
-    if "NamePhilip" in input_string:
-        input_string = input_string.replace("NamePhilip", 'Name": "Philip')
-
-    # for name in ['{"Robert L. (R. L.)"}']:
-    #     if name in input_string:
-    #         input_string = input_string.replace(name, '{"Name": <name>}').replace('<name>', name.replace('{','').replace('}','')).replace('```','')
-            
     try:
         # Extract substring between "[" and "]"
         start_index = input_string.find("[")
         end_index = input_string.find("]")
         
         if start_index != -1:  # "[" found
-            if end_index != -1:  # "]" found
-                
+            if end_index != -1:  # "]" found 
                 
                 try:
                     # valid JSON in verbosed response
@@ -154,33 +156,30 @@ def extract_and_convert_to_dict(result_api, file_path):
                     if len(tmp) == 0:
                         # invalid JSON
                         return None, constants.EXPERIMENT_OUTPUT_INVALID
-                    valid_flag = constants.EXPERIMENT_OUTPUT_VERBOSED if valid_flag is None else valid_flag
+                    valid_flag = constants.EXPERIMENT_OUTPUT_VALID if start_index == 0 and valid_flag is None else constants.EXPERIMENT_OUTPUT_VERBOSED if valid_flag is None else valid_flag
                 except Exception as e:
                     # invalid JSON
                     return None, constants.EXPERIMENT_OUTPUT_INVALID
-                
 
             else:  # "]" not found
                 last_curly = input_string.rfind("}")
 
-                if last_curly != -1:
+                if last_curly == -1 or (last_curly < start_index) or (start_index + last_curly > len(input_string)):
                     # invalid JSON
-                    if start_index + last_curly > len(input_string):
-                        return None, constants.EXPERIMENT_OUTPUT_INVALID
-                    else:
-                        # valid JSON after fixing truncated JSON
-                        substring = input_string[start_index:last_curly + 1] + "]"
-                        valid_flag = constants.EXPERIMENT_OUTPUT_FIXED if valid_flag is None else valid_flag
-                else:
-                    # io.printf(f"\n{input_string}\nNo matching ']' or ')' found.\n")
                     return None, constants.EXPERIMENT_OUTPUT_INVALID
+                else:
+                    # valid JSON after fixing truncated JSON
+                    substring = input_string[start_index:last_curly + 1] + "]"
+                    valid_flag = constants.EXPERIMENT_OUTPUT_FIXED_TRUNCATED_JSON if valid_flag is None else valid_flag
+                    
         else:
             # io.printf(f"\n{input_string}\nNo '[' found in the string.\n")
             return None, constants.EXPERIMENT_OUTPUT_INVALID
 
-        # Convert the substring to a dictionary
+        ### Convert the substring to a dictionary
         result_dict = ast.literal_eval(substring)
-                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                    
+        
+        ### Return
         return result_dict, valid_flag
     
     except Exception as e:
@@ -193,12 +192,24 @@ def _get_extracted_data(result_api, validation_result, file_path):
     original_extracted_data = validation_result.get('extracted_data', None)
     message = validation_result.get('message', None)
 
+    # If the flag is invalid from the LLMCaller
     if not is_valid:
-        if message == constants.LLMCALLER_OUTPUT_NO_JSON:
+        # INVALID: hard or impossible to parse (or garbage data)
+        if message == constants.LLMCALLER_OUTPUT_INVALID_JSON_EMPTY:
             return None, constants.EXPERIMENT_OUTPUT_INVALID
-        if message.startswith(constants.LLMCALLER_OUTPUT_INVALID_JSON):
+        if message.startswith(constants.LLMCALLER_OUTPUT_INVALID_JSON_EXTRA_DATA) or \
+                message.startswith(constants.LLMCALLER_OUTPUT_INVALID_JSON_PROPERTY_NAME) or \
+                message.startswith(constants.LLMCALLER_OUTPUT_INVALID_JSON_MISSING_ATTRIBUTE) or \
+                message.startswith(constants.LLMCALLER_OUTPUT_INVALID_JSON_CHAR):
             return None, constants.EXPERIMENT_OUTPUT_INVALID
         
+        # SEMI_VALID: potentially reparsable
+        if message.startswith(constants.LLMCALLER_OUTPUT_SCHEMA_FAILED) or \
+                message.startswith(constants.LLMCALLER_OUTPUT_PARSING_ERROR) or \
+                message.startswith(constants.LLMCALLER_OUTPUT_EXPECTING_VALUE):
+            # to be fixed
+            pass
+
     # if it is not valid (at first) - try to extract the data (if possible)
     if not is_valid:
         output, valid_flag = extract_and_convert_to_dict(result_api, file_path)
@@ -284,9 +295,12 @@ def _process_file(file_path):
         result['model'] = model
         result['temperature'] = temperature
         result['llm_model'] = _result_api.get('model', None)
-        result['llm_provider'] = _result_api.get('provider', None)
-        
 
+        llm_provider = _result_api.get('provider', None)
+        llm_provider = _result_api.get('error', {}).get('metadata',{}).get('provider_name',None) if 'error' in _result_api and llm_provider is None else llm_provider
+        result['llm_provider'] = llm_provider
+
+        ### LLM metadata on token usage
         _result_usage = _result_api.get('usage', None) if _result_api is not None else None
         if _result_usage is None:
             
@@ -321,13 +335,15 @@ def _process_file(file_path):
             result['llm_completion_tokens'] = _result_usage.get('completion_tokens', None) if _result_usage is not None else None
             result['llm_prompt_tokens'] = _result_usage.get('prompt_tokens', None) if _result_usage is not None else None
             result['llm_total_tokens'] = _result_usage.get('total_tokens', None) if _result_usage is not None else None
-            
-        # results
+
+
+        ### LLM output processing
         _result = data.get('validation_result', None)
         extracted_data, valid_flag = _get_extracted_data(_result_api, _result, file_path)
         is_valid = is_valid_extracted_data(extracted_data)
         
         
+        ### Finalize result
         full_answer = _result_api.get('choices', [{}])[0].get('message', {}).get('content', None) if _result_api.get('choices', None) is not None else None
         result_message = full_answer if full_answer is not None and valid_flag in [constants.EXPERIMENT_OUTPUT_INVALID, constants.EXPERIMENT_OUTPUT_PROVIDER_ERROR] else _result.get('message', '')
         result['result_is_valid'] = is_valid
@@ -385,10 +401,11 @@ def set_attempt_validity(df):
                 df.loc[tmp_verbosed.index[0], 'valid_attempt'] = True
 
             # choose among the fixed ones
-            if constants.EXPERIMENT_OUTPUT_FIXED in constants.EXPERIMENT_OUTPUT_VALID_FLAGS:
-                tmp_fixed = df.query("model==@row.model and task_name==@row.task_name and task_param==@row.task_param and date==@row.date and time==@row.time and result_valid_flag==@constants.EXPERIMENT_OUTPUT_FIXED").sort_values('task_attempt', ascending=True)
-                if tmp_fixed.shape[0] > 0:
-                    df.loc[tmp_fixed.index[0], 'valid_attempt'] = True
+            for fixed_label in [constants.EXPERIMENT_OUTPUT_FIXED_TRUNCATED_JSON, constants.EXPERIMENT_OUTPUT_FIXED_SKIPPED_ITEM]:
+                if fixed_label in constants.EXPERIMENT_OUTPUT_VALID_FLAGS:
+                    tmp_fixed = df.query("model==@row.model and task_name==@row.task_name and task_param==@row.task_param and date==@row.date and time==@row.time and result_valid_flag==@fixed_label").sort_values('task_attempt', ascending=True)
+                    if tmp_fixed.shape[0] > 0:
+                        df.loc[tmp_fixed.index[0], 'valid_attempt'] = True
                                         
     # Those with more than one valid attempt
     df_to_choose_one = df_valid_attempts.query("count > 1").reset_index(drop=True)
@@ -406,9 +423,10 @@ def set_attempt_validity(df):
                 df.loc[tmp_verbosed.index[0], 'valid_attempt'] = True
 
             # choose among the fixed ones
-            if constants.EXPERIMENT_OUTPUT_FIXED in constants.EXPERIMENT_OUTPUT_VALID_FLAGS:
-                tmp_fixed = df.query("model==@row.model and task_name==@row.task_name and task_param==@row.task_param and date==@row.date and time==@row.time and result_valid_flag==@constants.EXPERIMENT_OUTPUT_FIXED").sort_values('task_attempt', ascending=True)
-                if tmp_fixed.shape[0] > 0:
-                    df.loc[tmp_fixed.index[0], 'valid_attempt'] = True
+            for fixed_label in [constants.EXPERIMENT_OUTPUT_FIXED_TRUNCATED_JSON, constants.EXPERIMENT_OUTPUT_FIXED_SKIPPED_ITEM]:
+                if fixed_label in constants.EXPERIMENT_OUTPUT_VALID_FLAGS:
+                    tmp_fixed = df.query("model==@row.model and task_name==@row.task_name and task_param==@row.task_param and date==@row.date and time==@row.time and result_valid_flag==@fixed_label").sort_values('task_attempt', ascending=True)
+                    if tmp_fixed.shape[0] > 0:
+                        df.loc[tmp_fixed.index[0], 'valid_attempt'] = True
         
     return df
