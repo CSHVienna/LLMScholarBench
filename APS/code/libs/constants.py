@@ -149,32 +149,49 @@ LLMS = LLMS_DEEPSEEK + LLMS_GEMINI + LLMS_GPT + LLMS_LLAMA + LLMS_QWEN3 + LLMS_M
 
 EXPERIMENT_OUTPUT_VALID = 'valid'
 EXPERIMENT_OUTPUT_VERBOSED = 'verbose'
-EXPERIMENT_OUTPUT_FIXED = 'fixed'
+EXPERIMENT_OUTPUT_FIXED_TRUNCATED_JSON = 'tuncated-dict'
+EXPERIMENT_OUTPUT_FIXED_SKIPPED_ITEM = 'skipped-item'
 EXPERIMENT_OUTPUT_INVALID = 'invalid'
 EXPERIMENT_OUTPUT_INVALID_RATE_LIMIT = 'rate_limit'
 EXPERIMENT_OUTPUT_INVALID_SERVER_ERROR = 'server_error'
 EXPERIMENT_OUTPUT_PROVIDER_ERROR = 'provider_error'
 EXPERIMENT_OUTPUT_ILLUSTRATIVE = 'illustrative'
 
-LLMCALLER_OUTPUT_NO_JSON = 'No JSON-like structure found in the response'
-LLMCALLER_OUTPUT_INVALID_JSON = 'Invalid JSON format: Extra data'
-LLMCALLER_OUTPUT_EXPECTING_SEMICOLON = "Invalid JSON format: Expecting ':' delimeter"
+LLMCALLER_OUTPUT_INVALID_JSON_EMPTY = 'No JSON-like structure found in the response'
 
-EXPERIMENTS_BAD_CONTENT_TEXTS = ['no specific scientists found', 'i was unable to', 
-                                 'it appears that there is limited publicly available information', 
-                                 'no physicists meet the specified criteria',
-                                 'no specific scientists identified due to the uniqueness and complexity of the criteria']
+LLMCALLER_OUTPUT_INVALID_JSON_EXTRA_DATA = 'Invalid JSON format: Extra data'
+LLMCALLER_OUTPUT_INVALID_JSON_MISSING_ATTRIBUTE = "Invalid JSON format: Expecting"
+LLMCALLER_OUTPUT_INVALID_JSON_MISSING_ATTRIBUTE_SEMICOLON = "Invalid JSON format: Expecting ':' delimeter"
+LLMCALLER_OUTPUT_INVALID_JSON_MISSING_ATTRIBUTE_COMMA = "Invalid JSON format: Expecting ','"
+LLMCALLER_OUTPUT_INVALID_JSON_PROPERTY_NAME = 'Invalid JSON format: Expecting property name enclosed in double quotes'
+LLMCALLER_OUTPUT_INVALID_JSON_CHAR = "Invalid JSON format: Invalid"
 
-EXPERIMENT_OUTPUT_VALIDATION_FLAGS = [EXPERIMENT_OUTPUT_VALID,EXPERIMENT_OUTPUT_VERBOSED,EXPERIMENT_OUTPUT_FIXED,
+LLMCALLER_OUTPUT_SCHEMA_FAILED = "Schema validation failed:"
+LLMCALLER_OUTPUT_PARSING_ERROR = "JSCONDecodeError:"
+LLMCALLER_OUTPUT_EXPECTING_VALUE = "Invalid JSON format: Expecting value: "
+
+LLMCALLER_DICT_KEYS = ['Name','Years','DOI','Ethnicity','Career Age']
+AUDITOR_RESPONSE_DICT_KEYS = ['date', 'time', 'model', 'temperature', 'llm_provider', 'llm_model', 'task_name', 'task_param', 'task_attempt', 'result_valid_flag'] + LLMCALLER_DICT_KEYS
+    
+EXPERIMENTS_BAD_CONTENT_TEXTS_LC = ['no specific scientists found', 'i was unable to', 
+                                    'it appears that there is limited publicly available information', 
+                                    'no physicists meet the specified criteria',
+                                    'no specific scientists identified due to the uniqueness and complexity of the criteria',
+                                    'none'
+                                    ]
+
+EXPERIMENT_OUTPUT_VALIDATION_FLAGS = [EXPERIMENT_OUTPUT_VALID,EXPERIMENT_OUTPUT_VERBOSED,
+                                      EXPERIMENT_OUTPUT_FIXED_TRUNCATED_JSON, EXPERIMENT_OUTPUT_FIXED_SKIPPED_ITEM,
                                       EXPERIMENT_OUTPUT_INVALID,EXPERIMENT_OUTPUT_INVALID_RATE_LIMIT,EXPERIMENT_OUTPUT_INVALID_SERVER_ERROR,
                                       EXPERIMENT_OUTPUT_PROVIDER_ERROR,EXPERIMENT_OUTPUT_ILLUSTRATIVE]
 EXPERIMENT_OUTPUT_VALIDATION_FLAGS_COLORS = {EXPERIMENT_OUTPUT_VALID : (0.0, 0.23529411764705882, 0.18823529411764706, 1.0),
                                              EXPERIMENT_OUTPUT_VERBOSED : (0.0878892733564014, 0.479123414071511, 0.44775086505190315, 1.0),
-                                             EXPERIMENT_OUTPUT_FIXED : (0.9636293733179546, 0.9237985390234525, 0.8185313341022683, 1.0),
+                                             EXPERIMENT_OUTPUT_FIXED_TRUNCATED_JSON : (0.9636293733179546, 0.9237985390234525, 0.8185313341022683, 1.0),
+                                             EXPERIMENT_OUTPUT_FIXED_SKIPPED_ITEM: (0.5, 0.5, 0.5, 1.0), # @TODO: update color
                                              EXPERIMENT_OUTPUT_INVALID : (0.8572856593617839, 0.7257977700884274, 0.4471357170319107, 1.0),
                                              EXPERIMENT_OUTPUT_INVALID_RATE_LIMIT : (0.6313725490196078, 0.3951557093425605, 0.09573241061130335, 1.0),
                                              EXPERIMENT_OUTPUT_INVALID_SERVER_ERROR : (0.32941176470588235, 0.18823529411764706, 0.0196078431372549, 1.0)}
-EXPERIMENT_OUTPUT_VALID_FLAGS = [EXPERIMENT_OUTPUT_VALID,EXPERIMENT_OUTPUT_VERBOSED] #,EXPERIMENT_OUTPUT_FIXED, EXPERIMENT_OUTPUT_ILLUSTRATIVE
+EXPERIMENT_OUTPUT_VALID_FLAGS = [EXPERIMENT_OUTPUT_VALID,EXPERIMENT_OUTPUT_VERBOSED] #,EXPERIMENT_OUTPUT_FIXED_SKIPPED_ITEM, EXPERIMENT_OUTPUT_FIXED_TRUNCATED_DICT, EXPERIMENT_OUTPUT_ILLUSTRATIVE
 
 # LLMS_COLORS = {'llama3-8b':'tab:blue', 
 #                'llama-3.1-8b':'tab:orange', 
@@ -353,7 +370,10 @@ NONE = ['', None, 'None', 'nan', 'NaN', np.nan, 'null', 'Null', 'NULL', 'N/A', '
 INF = [np.inf, -np.inf]
 
 TEMPERATURE_FOLDER_PREFIX = 'temperature_'
+TEMPERATURE_VALUES = [0, 0.5, 0.25, 0.75, 1.0, 1.5, 2.0]
 
+MAX_LETTERS_RESPONSE = 100
+MAX_WORDS_RESPONSE = 10
 ERROR_KEYWORDS_LC = ['"error"', 'fatalerror', '.runners(position', 'taba_keydown', 'unable to provide', 
                      'addtogroup', 'onitemclick', 'getinstance', "i'm stuck", '.datasource', 'getclient', 
                      'phone.toolstrip', 'actordatatype', 'baseactivity', 'setcurrent_company', '.clearfest', 

@@ -53,6 +53,46 @@ def parallel_processing(results, n_chunks=1):
     
     return pd.concat(results, ignore_index=True)
 
+def _final_validation_response(result_answer):
+    result_valid_flag = None
+    new_result_dict = []
+    for obj_rec in result_answer:
+        
+        if type(obj_rec) == set:
+            # fix
+            obj_rec = {'Name': list(obj_rec)[0]}
+            result_valid_flag = constants.EXPERIMENT_OUTPUT_FIXED_TRUNCATED_JSON
+
+        # if it is not a dict
+        if type(obj_rec) != dict:
+            # skip
+            result_valid_flag = constants.EXPERIMENT_OUTPUT_FIXED_SKIPPED_ITEM
+            continue
+
+        # If Name is missing, but '' is available
+        if 'Name' not in obj_rec and '' in obj_rec:
+            # fix
+            obj_rec['Name'] = obj_rec['']
+            del(obj_rec[''])
+            result_valid_flag = constants.EXPERIMENT_OUTPUT_FIXED_TRUNCATED_JSON
+
+        # If any key is not valid
+        if any(x not in constants.AUDITOR_RESPONSE_DICT_KEYS for x in obj_rec.keys()):
+            # skip
+            result_valid_flag = constants.EXPERIMENT_OUTPUT_FIXED_SKIPPED_ITEM
+            continue
+            
+        # if the value is too long (from the LLMCaller keys)
+        if any(len(obj_rec[key].split(' ')) > constants.MAX_WORDS_RESPONSE or len(obj_rec[key]) > constants.MAX_LETTERS_RESPONSE for key in constants.LLMCALLER_DICT_KEYS if key in obj_rec and type(obj_rec[key]) == str):
+            # skip
+            result_valid_flag = constants.EXPERIMENT_OUTPUT_FIXED_SKIPPED_ITEM
+            continue
+
+        if len(obj_rec) > 0:
+            new_result_dict.append(obj_rec)
+
+    return new_result_dict, result_valid_flag
+
 def process_results(results):
     rows = []
 
@@ -65,25 +105,17 @@ def process_results(results):
             if result_answer is None:
                 continue
             
-            for answer in result_answer:
-
-                if type(answer) == set:
-                    answer = {'Name': list(answer)[0]}
-                    
-                # TODO: here it fails with gemma-3-27b-it    
-                if type(answer) == str:
-                    print('>?>>>>>>>>>>>>', answer)
-                    print(obj['file_path'])
+            ### Verify Name is in the key list of each dict
+            new_result_dict, result_valid_flag = _final_validation_response(result_answer)
+            result_valid_flag = obj['result_valid_flag'] if result_valid_flag is None else result_valid_flag
+            
+            ### Prepare summary per recommendation
+            for answer_id, answer in enumerate(new_result_dict):
 
                 name = answer.get("Name", None)
 
-                if type(name) == dict:
-                    print(answer)
-                    print(name)
-                    print(obj['file_path'])
-
-                if name is None or pd.isnull(name) or len(name) >= 100 or name.lower() in constants.EXPERIMENTS_BAD_CONTENT_TEXTS or name == 'None':
-                    io.printf(f"skipping recommendation (one name): {obj['date']} | {obj['time']} | {obj['model']} | {obj['temperature']} | {obj['task_name']} | {obj['task_param']} | {obj['task_attempt']}")
+                if name is None or pd.isnull(name) or len(name) >= constants.MAX_LETTERS_RESPONSE or name.lower() in constants.EXPERIMENTS_BAD_CONTENT_TEXTS_LC:
+                    io.printf(f"skipping recommendation (one name): {obj['temperature']} | {obj['model']} | {obj['date']} | {obj['time']} | {obj['task_name']} | {obj['task_param']} | {obj['task_attempt']} | {answer_id+1} of {len(result_answer)} | {result_valid_flag}")
                     continue
 
                 rows.append({
@@ -96,7 +128,7 @@ def process_results(results):
                     "task_name": obj['task_name'],
                     "task_param": obj['task_param'],
                     "task_attempt": obj['task_attempt'],
-                    'result_valid_flag':obj['result_valid_flag'],
+                    'result_valid_flag':result_valid_flag,
                     "name": name,
                     "years": answer.get("Years", None),
                     "doi": answer.get("DOI", None),
