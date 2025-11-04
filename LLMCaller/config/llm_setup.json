@@ -7,7 +7,7 @@
   },
   "global": {
     "output_dir": "experiments",
-    "credentials_dir": "/Users/barolo/Desktop/credentials"
+    "credentials_dir": "/code/barolo/credentials"
   },
   "models": {
     "llama-3.3-8b": {
