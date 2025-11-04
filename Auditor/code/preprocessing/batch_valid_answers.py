@@ -22,8 +22,9 @@ def run(experiments_dir: str, model: str, max_workers: int, output_dir: str):
    df_valid_responses.loc[:,'clean_name'] = df_valid_responses.loc[:,'name'].apply(lambda x: text.clean_name(text.replace(x, constants.EXPERIMENT_AUDIT_FACTUALITY_AUTHOR_NAME_REPLACEMENTS)))
 
    # Update responses with valid_attempt that end up invalid
-   col_ids = ['model', 'temperature', 'llm_provider', 'llm_model','date','time','task_name','task_param','task_attempt']
-   df = df.set_index(col_ids)
+   col_ids = ['model', 'temperature', 'grounded', 'llm_provider', 'llm_model','date','time','task_name','task_param','task_attempt']
+   df.loc[:, 'valid_attempt'] = True
+   df.set_index(col_ids, inplace=True)
    tmp = df.join(df_valid_responses[col_ids + ['name']].set_index(col_ids), how='left')
    ids = tmp.query("@io.pd.isnull(name) and result_valid_flag in @constants.EXPERIMENT_OUTPUT_VALID_FLAGS").index
    df.loc[ids, 'result_valid_flag'] = constants.EXPERIMENT_OUTPUT_INVALID
@@ -37,12 +38,14 @@ def run(experiments_dir: str, model: str, max_workers: int, output_dir: str):
    io.validate_path(fn)
    io.save_csv(df, fn, index=False)
 
-   # Add metadata to valid responses 
-   df_valid_responses = df_valid_responses.merge(df[['model','temperature','llm_model','date','time','task_name','task_param','task_attempt','valid_attempt']], on=['model', 'temperature', 'llm_model', 'date','time','task_name','task_param','task_attempt'], how='left')
+   # Add metadata to valid responses
+   col_ids = ['model','temperature','grounded','llm_model','date','time','task_name','task_param','task_attempt']
+   df_valid_responses = df_valid_responses.set_index(col_ids).join(df.set_index(col_ids)[['valid_attempt']], how='left').reset_index()
    df_valid_responses = df_valid_responses.query("valid_attempt == True")
    fn = io.path_join(output_dir, 'valid_responses', f"{model}.csv")
    io.validate_path(fn)
    io.save_csv(df_valid_responses, fn, index=True)
+
 
 def parallel_processing(results, n_chunks=1):
     chunks = [results[i::n_chunks] for i in range(n_chunks)]
@@ -53,47 +56,6 @@ def parallel_processing(results, n_chunks=1):
     
     return pd.concat(results, ignore_index=True)
 
-def _final_validation_response(result_answer):
-    result_valid_flag = None
-    new_result_dict = []
-    for obj_rec in result_answer:
-        
-        # if only a string
-        if type(obj_rec) == set:
-            # fix
-            obj_rec = {'Name': list(obj_rec)[0]}
-            result_valid_flag = constants.EXPERIMENT_OUTPUT_FIXED_TRUNCATED_JSON
-
-        # if it is not a dict
-        if type(obj_rec) != dict:
-            # skip
-            result_valid_flag = constants.EXPERIMENT_OUTPUT_FIXED_SKIPPED_ITEM
-            continue
-
-        # If Name is missing, but '' is available
-        if 'Name' not in obj_rec and '' in obj_rec:
-            # fix
-            obj_rec['Name'] = obj_rec['']
-            del(obj_rec[''])
-            result_valid_flag = constants.EXPERIMENT_OUTPUT_FIXED_TRUNCATED_JSON
-
-        # If any key is not valid
-        if any(x not in constants.AUDITOR_RESPONSE_DICT_KEYS + ['Reasoning'] for x in obj_rec.keys()):
-            # skip
-            result_valid_flag = constants.EXPERIMENT_OUTPUT_FIXED_SKIPPED_ITEM
-            continue
-            
-        # if the value is too long (from the LLMCaller keys)
-        if any(len(obj_rec[key].split(' ')) > constants.MAX_WORDS_RESPONSE or len(obj_rec[key]) > constants.MAX_LETTERS_RESPONSE for key in constants.LLMCALLER_DICT_KEYS if key in obj_rec and type(obj_rec[key]) == str):
-            # skip
-            result_valid_flag = constants.EXPERIMENT_OUTPUT_FIXED_SKIPPED_ITEM
-            continue
-
-        if len(obj_rec) > 0:
-            new_result_dict.append(obj_rec)
-
-    return new_result_dict, result_valid_flag
-
 def process_results(results):
     rows = []
 
@@ -103,15 +65,12 @@ def process_results(results):
         result_answer = obj['result_answer']
             
         if result_valid_flag in constants.EXPERIMENT_OUTPUT_VALID_FLAGS:  # Only iterate if the answer list is not empty
+            
             if result_answer is None:
                 continue
             
-            ### Verify Name is in the key list of each dict
-            new_result_dict, result_valid_flag = _final_validation_response(result_answer)
-            result_valid_flag = obj['result_valid_flag'] if result_valid_flag is None else result_valid_flag
-            
             ### Prepare summary per recommendation
-            for answer_id, answer in enumerate(new_result_dict):
+            for answer_id, answer in enumerate(result_answer):
 
                 name = answer.get("Name", None)
 
@@ -123,6 +82,7 @@ def process_results(results):
                     "date": obj['date'],
                     "time": obj['time'],
                     "model": obj['model'],
+                    "grounded": obj['grounded'],
                     "temperature": obj['temperature'],
                     "llm_provider": obj['llm_provider'],
                     "llm_model": obj['llm_model'],
