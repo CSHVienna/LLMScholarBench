@@ -8,7 +8,7 @@ set -e  # Exit on error
 # Configuration - EDIT THESE PATHS FOR YOUR SERVER
 SCRIPT_DIR="/code/barolo/LLMScholar-Audits/LLMCaller"
 OUTPUT_BASE="/data/datasets/LLMScholar-Audits/LLMCaller/data-temperature/twice_experiments"
-CREDENTIALS_DIR="/home/barolo/credentials"
+CREDENTIALS_DIR="/code/barolo/credentials"
 
 # Temperature values to test
 TEMPERATURES=(0 0.25 0.5 0.75 1 1.5 2)
@@ -21,9 +21,11 @@ log() {
 # Change to script directory
 cd "${SCRIPT_DIR}"
 
-# Activate virtual environment
-log "Activating virtual environment..."
-source ~/.venv/bin/activate
+# Activate conda environment (assuming you have a conda env for this project)
+# If you need to create one first: conda create -n llmscholar python=3.10
+# Then: conda activate llmscholar
+log "Note: Make sure you have activated your conda environment before running this script"
+log "Example: conda activate llmscholar"
 
 # Export credentials path
 export LLMCALLER_CREDENTIALS="${CREDENTIALS_DIR}"
