@@ -42,7 +42,7 @@ log "🔵 STARTING RUN 1"
 log "========================================="
 for temp in "${TEMPERATURES[@]}"; do
     # Format temperature as float with 1 decimal
-    temp_formatted=$(printf "%.1f" "${temp}")
+    temp_formatted=$(printf "%.2f" "${temp}")
     log "🌡️  Run 1 - Temperature: ${temp_formatted}"
 
     # Structure: twice_experiments/run1/temperature_X.X/
