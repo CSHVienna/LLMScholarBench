@@ -74,6 +74,9 @@ def process_results(results):
 
                 name = answer.get("Name", None)
 
+                if type(name) == dict:
+                    name = name['Name']
+
                 if name is None or pd.isnull(name) or len(name) >= constants.MAX_LETTERS_RESPONSE or name.lower() in constants.EXPERIMENTS_BAD_CONTENT_TEXTS_LC:
                     io.printf(f"skipping recommendation (one name): {obj['temperature']} | {obj['model']} | {obj['date']} | {obj['time']} | {obj['task_name']} | {obj['task_param']} | {obj['task_attempt']} | {answer_id+1} of {len(result_answer)} | {result_valid_flag}")
                     continue

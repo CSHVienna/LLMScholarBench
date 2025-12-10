@@ -25,7 +25,7 @@ def get_baselined_from_gt(df_gt, cat_col, cat_order):
 
 
 def get_mean_percentages(df_authors, cat_cols=['gender'], cat_orders=None):
-    main_groups = ['model','task_name']
+    main_groups = ['temperature','model','task_name']
     main_cols = main_groups + ['task_param','date','time']
     dup_cols = ['clean_name']
     cat_cols = [cat_cols] if not isinstance(cat_cols, list) else cat_cols
@@ -46,9 +46,9 @@ def get_mean_percentages(df_authors, cat_cols=['gender'], cat_orders=None):
     grouped['percentage'] = grouped['counts'] / grouped.groupby(level=main_cols, observed=False)['counts'].transform('sum')
     grouped = grouped.reset_index()
 
-    # mean percentage by model and task
-    grouped_model = grouped.groupby(['model'] + cat_cols, observed=False).percentage.agg(['mean','std']).reset_index()
-    grouped_model_tasks = grouped.groupby(['model','task_name'] + cat_cols, observed=False).percentage.agg(['mean','std']).reset_index()
+    # mean percentage by temperature, model and task
+    grouped_model = grouped.groupby(['temperature', 'model'] + cat_cols, observed=False).percentage.agg(['mean','std']).reset_index()
+    grouped_model_tasks = grouped.groupby(['temperature', 'model','task_name'] + cat_cols, observed=False).percentage.agg(['mean','std']).reset_index()
     return grouped_model, grouped_model_tasks
 
 
