@@ -204,7 +204,8 @@ EXPERIMENT_OUTPUT_VALID_FLAGS = [EXPERIMENT_OUTPUT_VALID,EXPERIMENT_OUTPUT_VERBO
 #                'llama-3.1-70b':'tab:brown'}
 
 _llm_colors = ['tab:blue','tab:orange', 'tab:green', 'tab:red', 'tab:purple', 'tab:brown', 'tab:pink', 'tab:gray']
-LLMS_COLORS = {llmclass[0]: _llm_colors[i % len(_llm_colors)] for i, llmclass in enumerate(LLM_CLASSES)}
+LLM_CLASS_COLORS = {llmclass: _llm_colors[i % len(_llm_colors)] for i, llmclass in enumerate(LLM_CLASSES)}
+LLM_COLORS = {llm:LLM_CLASS_COLORS[llm.split('-')[0]] for llm in LLMS}
 
 EXPERIMENT_TASK_TOPK = 'top_k'
 EXPERIMENT_TASK_FIELD = 'field'
