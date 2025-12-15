@@ -3,7 +3,7 @@ import os
 from datetime import datetime
 from config.loader import load_llm_setup, load_category_variables
 from prompts.generator import generate_prompt
-from api.api_factory import create_api_client
+from api.gemini_api import GeminiAPI
 from validation.validator import ResponseValidator
 from storage.saver import save_attempt
 from storage.summarizer import update_summary
@@ -20,7 +20,7 @@ async def run_single_gemini_experiment(model_name, category, variable, run_dir, 
         config['temperature'] = temperature_override
 
     # Create API client
-    api_client = create_api_client(config)
+    api_client = GeminiAPI(config)
 
     # Generate prompt
     prompt = generate_prompt(category, variable)
