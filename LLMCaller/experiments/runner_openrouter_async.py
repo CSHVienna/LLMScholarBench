@@ -1,7 +1,7 @@
 #!/usr/bin/env python3
 """
 Simplified async runner for OpenRouter models (paid tier - no rate limiting).
-Based on the temp_validator.py pattern - runs all models × all experiments in parallel.
+Runs all models × all experiments in parallel.
 """
 
 import asyncio
