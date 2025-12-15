@@ -351,7 +351,7 @@ class OpenRouterAsyncRunner:
         global_logger = self._create_global_logger()
 
         global_logger.info("=" * 80)
-        global_logger.info(f"🚀 Starting async OpenRouter run with {len(models)} models")
+        global_logger.info(f"Starting async OpenRouter run with {len(models)} models")
         global_logger.info(f"   Mode: Full async parallelization (no rate limiting)")
         global_logger.info(f"   Timestamp: {self.global_run_timestamp}")
         global_logger.info(f"   Models: {', '.join(models)}")
@@ -392,7 +392,7 @@ class OpenRouterAsyncRunner:
         failed = len(results) - successful
 
         global_logger.info("=" * 80)
-        global_logger.info(f"🎉 Async OpenRouter run completed!")
+        global_logger.info(f"DONE: Async OpenRouter run completed!")
         global_logger.info(f"   Total experiments: {total_experiments}")
         global_logger.info(f"   Successful: {successful}")
         global_logger.info(f"   Failed: {failed}")
