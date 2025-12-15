@@ -34,5 +34,3 @@ experiments/.DS_Store
 storage/__pycache__/
 storage/.DS_Store
 
-# Other data directories
-usage/
