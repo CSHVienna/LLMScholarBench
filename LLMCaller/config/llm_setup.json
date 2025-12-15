@@ -19,16 +19,16 @@
       "stream": false,
       "system_message_ref": "physics_research_assistant",
       "provider": "openrouter",
-      "sub_provider": "inference-net/fp16",
+      "sub_provider": "deepinfra/bf16",
       "quantization": "fp16",
-      "sub_provider_model_endpoint": "meta-llama/llama-3.1-8b-instruct/fp-16",
-      "latency": "0.47s",
-      "throughput": "49.48tps",
-      "total_context": "16.4K",
+      "sub_provider_model_endpoint": "meta-llama/Meta-Llama-3.1-8B-Instruct",
+      "latency": "0.31s",
+      "throughput": "26.51tps",
+      "total_context": "131.1K",
       "max_output": "16.4K",
       "host_country": "US",
-      "input_price": "0.02",
-      "output_price": "0.03"
+      "input_price": "0.03",
+      "output_price": "0.05"
     },
     "llama-4-scout": {
       "model": "meta-llama/llama-4-scout",
