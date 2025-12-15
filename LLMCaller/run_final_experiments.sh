@@ -24,7 +24,7 @@ cd "${SCRIPT_DIR}"
 # Activate conda (following Mozart guidelines)
 # Source conda setup script directly
 eval "$(conda shell.bash hook)"
-conda activate llmscholar
+conda activate py312-llmcaller
 
 # Export environment variables
 export LLMCALLER_CREDENTIALS="${CREDENTIALS_DIR}"
