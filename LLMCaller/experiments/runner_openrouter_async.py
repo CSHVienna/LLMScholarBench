@@ -178,6 +178,7 @@ class OpenRouterAsyncRunner:
                             "category": category,
                             "variable": variable,
                             "prompt": prompt,
+                            "temperature": config['temperature'],
                             "attempt": validation_attempt,
                             "infrastructure_retries": infra_retry + 1,
                             "infrastructure_errors": infra_errors,  # All errors from all retries
@@ -238,6 +239,7 @@ class OpenRouterAsyncRunner:
                     "category": category,
                     "variable": variable,
                     "prompt": prompt,
+                    "temperature": config['temperature'],
                     "attempt": validation_attempt,
                     "infrastructure_errors": infra_errors,
                     "full_api_response": api_response.model_dump() if hasattr(api_response, 'model_dump') else {"error": api_response.error},
@@ -268,6 +270,7 @@ class OpenRouterAsyncRunner:
                     "category": category,
                     "variable": variable,
                     "prompt": prompt,
+                    "temperature": config['temperature'],
                     "full_api_response": api_response.model_dump(),
                     "validation_result": {
                         "is_valid": is_valid,
@@ -313,6 +316,7 @@ class OpenRouterAsyncRunner:
                     "category": category,
                     "variable": variable,
                     "prompt": prompt,
+                    "temperature": config['temperature'],
                     "attempt": validation_attempt,
                     "full_api_response": api_response.model_dump() if api_response else {},
                     "processing_error": {
