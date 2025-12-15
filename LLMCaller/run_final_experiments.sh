@@ -22,8 +22,8 @@ log() {
 cd "${SCRIPT_DIR}"
 
 # Activate conda (following Mozart guidelines)
-
-source ~/.bashrc
+# Source conda setup script directly
+eval "$(conda shell.bash hook)"
 conda activate llmscholar
 
 # Export environment variables

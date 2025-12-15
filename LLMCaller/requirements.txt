@@ -16,7 +16,6 @@ executing==2.2.1
 git-filter-repo==2.47.0
 google-api-core==2.25.1
 google-auth==2.40.3
-google-cloud-aiplatform==1.115.0
 google-cloud-bigquery==3.38.0
 google-cloud-core==2.4.3
 google-cloud-resource-manager==1.14.2
