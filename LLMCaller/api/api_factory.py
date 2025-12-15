@@ -1,14 +1,11 @@
 from .openrouter_api import OpenRouterAPI
-from .openai_api import OpenAIAPI
 from .gemini_api import GeminiAPI
 
 def create_api_client(config, usage_tracker_path='usage_tracker.json', rate_limit=None):
     """Factory function to create the appropriate API client based on provider"""
     provider = config.get('provider', 'openrouter')  # default to openrouter for backward compatibility
 
-    if provider == 'openai':
-        return OpenAIAPI(config, usage_tracker_path)
-    elif provider == 'openrouter':
+    if provider == 'openrouter':
         if rate_limit is not None:
             return OpenRouterAPI(config, usage_tracker_path, rate_limit=rate_limit)
         return OpenRouterAPI(config, usage_tracker_path)
