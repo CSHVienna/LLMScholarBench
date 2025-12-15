@@ -1,3 +1,0 @@
-2025-09-08 02:15:30,829 - experiment_runner - INFO - Single experiment started for seniority: early_career at 2025-09-08 02:15:30
-2025-09-08 02:15:34,671 - experiment_runner - INFO - Result saved for seniority: early_career - Attempt 1/3 - Path: test_output/config_gpt-4o/run_20250908_021530/seniority_early_career/attempt1_20250908_021534.json
-2025-09-08 02:15:34,671 - experiment_runner - INFO - Summary updated: test_output/config_gpt-4o/run_20250908_021530/experiment_summary.json
