@@ -16,8 +16,6 @@ __pycache__/
 # Logs and temporary files
 logs/
 *.log
-cron_cheatsheat.txt
-*-can-you-check-which-ecron-jobs-i-have-rigth-now.txt
 
 # Usage tracking data
 usage_tracker.json
