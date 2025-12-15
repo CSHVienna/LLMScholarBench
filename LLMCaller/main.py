@@ -38,12 +38,12 @@ if __name__ == "__main__":
     models = get_available_models(provider_filter=args.provider)
 
     if not models:
-        print(f"❌ No models found for provider: {args.provider}")
+        print(f"No models found for provider: {args.provider}")
         exit(1)
 
     # Route to appropriate async execution strategy
     if args.provider == 'gemini':
-        print(f"🧠 Running {len(models)} Gemini models concurrently (async)")
+        print(f"Running {len(models)} Gemini models concurrently (async)")
         if args.temperature is not None:
             print(f"   Temperature override: {args.temperature}")
         asyncio.run(run_gemini_concurrent(models, args.output_dir, args.category, args.variable, args.temperature))
@@ -63,15 +63,15 @@ if __name__ == "__main__":
         async def run_both_providers():
             tasks = []
             if openrouter_models:
-                print(f"📡 OpenRouter: {len(openrouter_models)} models (async)")
+                print(f"OpenRouter: {len(openrouter_models)} models (async)")
                 or_runner = OpenRouterAsyncRunner(args.output_dir, temperature_override=args.temperature)
                 tasks.append(or_runner.run_all_models(openrouter_models, args.category, args.variable))
 
             if gemini_models:
-                print(f"🧠 Gemini: {len(gemini_models)} models (async)")
+                print(f"Gemini: {len(gemini_models)} models (async)")
                 tasks.append(run_gemini_concurrent(gemini_models, args.output_dir, args.category, args.variable, args.temperature))
 
             return await asyncio.gather(*tasks)
 
-        print(f"🌐 Running both providers in parallel ({len(models)} total models)")
+        print(f"Running both providers in parallel ({len(models)} total models)")
         asyncio.run(run_both_providers())
