@@ -5,6 +5,8 @@ import pandas as pd
 import jellyfish
 import numpy as np
 
+from . import constants
+
 def flatten_name_str(s: str) -> str:
      # Match: {"Name":{"Name":"<value>"}}  (works with ' or " and optional spaces)
     pattern = r'\{\s*(?P<q>"|\')Name(?P=q)\s*:\s*\{\s*(?P=q)Name(?P=q)\s*:\s*(?P=q)(?P<val>[^"\']*?)(?P=q)\s*\}\s*\}'
@@ -15,8 +17,12 @@ def clean_name(text, lower=True):
     if text is None or pd.isnull(text):
         return None  # Handle None gracefully
 
+    # remove patterns
+    clean_text = re.sub(r"^(?:Dr|Mr|Mrs|Ms|PhD)\.\s*", "", text)
+    clean_text = re.sub(r"\s*\([^)]*\)", "", clean_text)
+                 
     # Normalize the text to decompose accents and diacritics
-    normalized_text = unicodedata.normalize('NFD', text)
+    normalized_text = unicodedata.normalize('NFD', clean_text)
     # Remove accents by filtering out combining characters
     no_accents = ''.join(char for char in normalized_text if not unicodedata.combining(char))
     # Special case: Replace apostrophes followed by a vowel with an empty string
@@ -25,6 +31,9 @@ def clean_name(text, lower=True):
     clean_text = re.sub(r'[^a-zA-Z0-9\s]', ' ', no_accents)
     # Remove extra spaces
     clean_text = re.sub(r'\s+', ' ', clean_text).strip()
+
+    
+
     return clean_text.lower() if lower else clean_text
 
 
