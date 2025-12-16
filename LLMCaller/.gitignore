@@ -36,3 +36,6 @@ storage/.DS_Store
 
 # try best_temp_results
 best_temperatures_by_factuality.csv
+
+# Environment-specific configuration
+# config/paths.json
