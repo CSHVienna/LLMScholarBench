@@ -189,7 +189,7 @@
     "qwen3-235b-a22b-2507": {
       "model": "qwen/qwen3-235b-a22b-2507",
       "max_attempts": 3,
-      "temperature": 1.5,
+      "temperature": 0.5,
       "max_temperature": 2,
       "stop": null,
       "stream": false,
