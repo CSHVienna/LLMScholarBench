@@ -38,4 +38,4 @@ storage/.DS_Store
 best_temperatures_by_factuality.csv
 
 # Environment-specific configuration
-# config/paths.json
+config/paths.json 
