@@ -34,8 +34,10 @@ experiments/.DS_Store
 storage/__pycache__/
 storage/.DS_Store
 
-# try best_temp_results
+# best_temp_results
 best_temperatures_by_factuality.csv
+# draft notebooks to look at the temp values 
+draft.ipynb
 
 # Environment-specific configuration
 config/paths.json
