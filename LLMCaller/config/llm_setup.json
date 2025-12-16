@@ -2,7 +2,7 @@
   "metadata": {
     "version": "2.0",
     "created": "2025-10-07",
-    "last_updated": "2025-12-15",
+    "last_updated": "2025-12-16",
     "description": "LLM model configurations for LLMScholar audit"
   },
   "models": {
@@ -169,7 +169,7 @@
     "qwen3-30b-a3b-2507": {
       "model": "qwen/qwen3-30b-a3b-instruct-2507",
       "max_attempts": 3,
-      "temperature": 0.25,
+      "temperature": 0.75,
       "max_temperature": 2,
       "stop": null,
       "stream": false,

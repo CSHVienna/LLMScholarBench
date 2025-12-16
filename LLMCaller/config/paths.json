@@ -3,5 +3,5 @@
   "_instructions": "Update these paths for your environment",
 
   "credentials_dir": "/code/barolo/credentials",
-  "output_dir": "/data/datasets/LLMScholar-Audits/LLMCaller/final_runs"
+  "output_dir": "/data/datasets/LLMScholar-Audits/LLMCaller/test_final_experiments"
 }
