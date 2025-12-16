@@ -1214,7 +1214,7 @@ def plot_temperature_consistency(df, fn=None, **kwargs):
         ax.set_xlabel("temperature")
         ax.set_xticks(x)
         ax.set_xticklabels(pivot.index, rotation=0)
-        ax.grid(axis='y', linestyle=':', linewidth=0.6, alpha=0.6)
+        # ax.grid(axis='y', linestyle=':', linewidth=0.6, alpha=0.6)
 
     # put a single legend at the top
     handles, labels = axes[0,0].get_legend_handles_labels()
