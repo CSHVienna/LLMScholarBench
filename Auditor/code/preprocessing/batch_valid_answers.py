@@ -18,7 +18,13 @@ def run(experiments_dir: str, model: str, max_workers: int, output_dir: str):
    df = pd.DataFrame(results).drop(columns=['result_answer']).sort_values(by=['temperature', 'date', 'time', 'task_name', 'task_param'])
 
    # process each reponse (json)
-   df_valid_responses = parallel_processing(results, max_workers).sort_values(by=['temperature', 'date', 'time', 'task_name', 'task_param'])
+   df_valid_responses = parallel_processing(results, max_workers)
+   
+   if df_valid_responses is None:
+       io.printf(f"{model} has no valid responses.")
+       return 
+   
+   df_valid_responses = df_valid_responses.sort_values(by=['temperature', 'date', 'time', 'task_name', 'task_param'])
    df_valid_responses.loc[:,'clean_name'] = df_valid_responses.loc[:,'name'].apply(lambda x: text.clean_name(text.replace(x, constants.EXPERIMENT_AUDIT_FACTUALITY_AUTHOR_NAME_REPLACEMENTS)))
 
    # Update responses with valid_attempt that end up invalid
@@ -54,6 +60,9 @@ def parallel_processing(results, n_chunks=1):
     with Pool(processes=n_chunks) as pool:
         results = list(tqdm(pool.map(process_results, chunks), total=n_chunks))
     
+    if  all(x is None for x in results):
+        return None
+    
     return pd.concat(results, ignore_index=True)
 
 def process_results(results):
@@ -76,10 +85,22 @@ def process_results(results):
 
                 if type(name) == dict:
                     name = name['Name']
+                
+                for m in [", 7th duc de Broglie", "Dr. "]:
+                    if m in name:
+                        name = name.split(m)[0]
+                        result_valid_flag = constants.EXPERIMENT_OUTPUT_FIXED_TEXT_OR_JSON
 
-                if name is None or pd.isnull(name) or len(name) >= constants.MAX_LETTERS_RESPONSE or name.lower() in constants.EXPERIMENTS_BAD_CONTENT_TEXTS_LC:
-                    io.printf(f"skipping recommendation (one name): {obj['temperature']} | {obj['model']} | {obj['date']} | {obj['time']} | {obj['task_name']} | {obj['task_param']} | {obj['task_attempt']} | {answer_id+1} of {len(result_answer)} | {result_valid_flag}")
+                if name is None or pd.isnull(name) or len(name.split('(')[0]) >= constants.MAX_LETTERS_RESPONSE or name.lower() in constants.EXPERIMENTS_BAD_CONTENT_TEXTS_LC or (any(m.lower() in name.lower() for m in constants.NO_OUTPUT_KEYWORDS)) or ('colleague' in name.lower() and 'student' in name.lower()) or ('colleague' in name.lower() and 'contemporary' in name.lower()) or (name.lower().count('colleague') >= 2) or ' but her colleague' in name.lower():
+                    io.printf(f"skipping recommendation (one name): {obj['temperature']} | {obj['model']} | {obj['date']} | {obj['time']} | {obj['task_name']} | {obj['task_param']} | {obj['task_attempt']} | {answer_id+1} of {len(result_answer)} | {result_valid_flag} | {name}")
+                    result_valid_flag = constants.EXPERIMENT_OUTPUT_FIXED_SKIPPED_ITEM
                     continue
+                
+                for m in ["'s contemporary, ", "'s collaborator, ", "instead, ", "'s colleague, "]:
+                    if m in name:
+                        name = name.split(m)[1]
+                        result_valid_flag = constants.EXPERIMENT_OUTPUT_FIXED_TEXT_OR_JSON
+                        break
 
                 rows.append({
                     "date": obj['date'],

@@ -1100,3 +1100,233 @@ def plot_gt_demographics(df_gt_stats, attribute, fn=None, **kwargs):
 
     # Layout adjustments
     _finish_plot(fig, fn)
+
+
+def plot_temperature_consistency(df, fn=None, **kwargs):
+    ncols = kwargs.get('ncols', 6)  
+    width = kwargs.get('width', 3.)
+    height = kwargs.get('height', 2.)
+    df_best_temperature = kwargs.get('df_best_temperature', None)
+    df_factuality = kwargs.get('df_factuality', None)
+    
+    df = df.copy()
+    groups = df.result_valid_flag.unique().categories
+
+    # prepare plotting
+    models = df['model'].unique()
+    n_models = len(models)
+
+    nrows = int(np.ceil(n_models / ncols))
+    width = width * ncols
+    height = height * nrows
+    fig, axes = plt.subplots(nrows, ncols, figsize=(width, height), sharex=True, sharey=True)
+    
+    if n_models == 1:
+        axes = [axes]  # make iterable
+
+    for row in range(nrows):
+        for col in range(ncols):
+            idx = row * ncols + col
+            if idx >= n_models:
+                fig.delaxes(axes[row, col])  # remove unused axes
+
+            ax = axes[row, col]
+            model = models[idx]
+            sub = df[df['model'] == model]
+            ax.set_title(model)
+
+            # pivot to temperature × flag (values: normalized_counts), sort temperatures numerically
+            pivot = (
+                sub.pivot_table(
+                    index='temperature',
+                    columns='result_valid_flag',
+                    values='normalized_counts',
+                    aggfunc='sum',
+                    fill_value=0.0,
+                    observed=False
+                )
+                .reindex(columns=groups)
+                .sort_index(key=lambda s: pd.to_numeric(s, errors='coerce'))  # ensures numeric order
+            )
+
+            x = np.arange(len(pivot.index))
+            bottoms = np.zeros(len(x), dtype=float)
+            xtick_labels = pivot.index.tolist()
+
+            # draw stacked bars
+            bar_width = 0.8
+            for flag in groups:
+                vals = pivot[flag].to_numpy() if flag in pivot.columns else np.zeros(len(x))
+                ax.bar(x, vals, bottom=bottoms, width=bar_width, color=constants.EXPERIMENT_OUTPUT_COLORS[flag], edgecolor='none', label=flag)
+                bottoms += vals
+
+            if df_factuality is not None:
+                # overlay factuality line
+                df_fact_model = df_factuality.groupby(['model','temperature'])[['mean','std']].mean().reset_index().query("model==@model").copy()
+                df_fact_model = df_fact_model.sort_values(by='temperature', key=lambda s: pd.to_numeric(s, errors='coerce'))
+                # ax.plot(np.arange(len(df_fact_model)), df_fact_model['mean'], 
+                #         color='white', marker='o', linestyle='-', zorder=10e10)
+                
+                ax.errorbar(np.arange(len(df_fact_model)), 
+                            df_fact_model['mean'], 
+                            yerr = df_fact_model['std'], 
+                            fmt='o-', capsize=5,
+                            color='lightgray',
+                            label = 'Factuality',
+                            zorder=10e10)
+        
+            if df_best_temperature is not None:
+                tmp = df_best_temperature.query("model==@model")
+                # ax.scatter([xtick_labels.index(tmp.iloc[0]['temperature'])], [tmp.iloc[0]['mean']], marker='D', 
+                #            color='yellow', s=100, zorder=10e100)
+                # ax.set_ylim(df_best_temperature['mean'].min(), df_best_temperature['mean'].max()   )
+                rect = plt.Rectangle((xtick_labels.index(tmp.iloc[0]['temperature']) - bar_width/2, 0.0), 
+                                        bar_width, 
+                                        1.0,
+                                        ls='-',
+                                        fill=False, edgecolor='black', linewidth=4.0)
+                ax.add_patch(rect)
+            else:
+                # choose a single best temperature: max 'a', ties → lowest temperature
+                valid_series = pivot[constants.EXPERIMENT_OUTPUT_VALID] if constants.EXPERIMENT_OUTPUT_VALID in pivot.columns else pd.Series(0.0, index=pivot.index)
+                max_valid = valid_series.max()
+                if pd.isna(max_valid):
+                    best_idx = None
+                else:
+                    best_idx = valid_series[valid_series == max_valid].index[0]  # first after numeric sort = lowest temp
+        
+                # single rectangle around the chosen temperature, height = 1.0
+                if best_idx is not None:
+                    j = np.where(pivot.index == best_idx)[0][0]  # bar position
+                    rect = plt.Rectangle((x[j] - bar_width/2, 0.0), 
+                                        bar_width, 
+                                        1.0,
+                                        ls='-',
+                                        fill=False, edgecolor='black', linewidth=4.0)
+                    ax.add_patch(rect)
+
+            # y-limit to ensure the rectangle is fully visible up to 1.0
+            ymax = max(1.0, float(bottoms.max()))
+            ax.set_ylim(0.0, ymax+0.05)
+
+    # cosmetics
+    for ax in axes[-1,:]:
+        ax.set_xlabel("temperature")
+        ax.set_xticks(x)
+        ax.set_xticklabels(pivot.index, rotation=0)
+        ax.grid(axis='y', linestyle=':', linewidth=0.6, alpha=0.6)
+
+    # put a single legend at the top
+    handles, labels = axes[0,0].get_legend_handles_labels()
+    plus = int(df_factuality is not None)
+    fig.legend(handles, labels, title="result_valid_flag", ncol=len(groups)+plus, loc='upper center', bbox_to_anchor=(0.5, 1.04))
+
+    # final
+    plt.tight_layout(rect=[0,0,1,0.96])
+    plt.subplots_adjust(hspace=0.4, wspace=0.05)
+
+    # save
+    if fn is not None:
+        plt.savefig(fn, dpi=constants.FIG_DPI, bbox_inches='tight')
+
+    # close
+    plt.show()
+    plt.close()
+
+
+
+def plot_temperature_factuality_per_task(df, fn=None, **kwargs):
+    ncols = kwargs.get('ncols', 6)
+    width = kwargs.get('width', 3.)
+    height = kwargs.get('height', 2.)
+
+    nmodels = df['model'].nunique()
+    nrows = int(np.ceil(nmodels / ncols))
+    width = width * ncols
+    height = height * nrows
+
+    fig, axes = plt.subplots(nrows, ncols, figsize=(width, height), sharex=True, sharey=True)
+    groups = df.task_name.unique().categories
+
+    for idx, model in enumerate(df['model'].unique()):
+        for task_name in constants.EXPERIMENT_TASKS:
+
+            col = idx % ncols
+            row = idx // ncols
+            ax = axes[row, col]
+
+            df_subplot = df.query("model == @model and task_name == @task_name").copy()
+
+            ax.set_title(model)
+            ax.errorbar(df_subplot['temperature'], df_subplot['mean'], yerr=df_subplot['std'], fmt='o-', capsize=5, label=task_name)
+            ax.set_ylim(0, 1)
+            ax.grid(linestyle=':', linewidth=0.6, alpha=0.6)
+
+    # cosmetics
+    for ax in axes[-1,:]:
+        ax.set_xlabel("temperature")
+        ax.grid(axis='y', linestyle=':', linewidth=0.6, alpha=0.6)
+
+    # put a single legend at the top
+    handles, labels = axes[0,0].get_legend_handles_labels()
+    fig.legend(handles, labels, title="task_name", ncol=len(groups), loc='upper center', bbox_to_anchor=(0.5, 1.05))
+
+    # final
+    plt.tight_layout(rect=[0,0,1,0.96])
+    plt.subplots_adjust(hspace=0.4, wspace=0.05)
+
+    # save
+    if fn is not None:
+        plt.savefig(fn, dpi=constants.FIG_DPI, bbox_inches='tight')
+
+    # close
+    plt.show()
+    plt.close()
+
+def plot_temperature_factuality_aggregated(df, fn=None, **kwargs):
+    ncols = kwargs.get('ncols', 6)  
+    width = kwargs.get('width', 3.)
+    height = kwargs.get('height', 2.)
+
+    nmodels = df['model'].nunique()
+    nrows = int(np.ceil(nmodels / ncols))
+    width = width * ncols
+    height = height * nrows
+
+    fig, axes = plt.subplots(nrows, ncols, figsize=(width, height), sharex=True, sharey=True)
+
+    df_grouped = df.groupby(['model','temperature'])[['mean','std']].mean().reset_index()
+
+    for idx, model in enumerate(df_grouped['model'].unique()):
+        
+        col = idx % ncols
+        row = idx // ncols
+        ax = axes[row, col]
+
+        df_subplot = df_grouped.query("model == @model").copy()
+
+        ax.set_title(model)
+        ax.errorbar(df_subplot['temperature'], df_subplot['mean'], yerr=df_subplot['std'], fmt='o-', capsize=5)
+        
+        ax.set_ylim(0, 1)
+        ax.grid(linestyle=':', linewidth=0.6, alpha=0.6)
+
+    # cosmetics
+    for ax in axes[-1,:]:
+        ax.set_xlabel("temperature")
+        ax.grid(axis='y', linestyle=':', linewidth=0.6, alpha=0.6)
+
+    # final
+    plt.tight_layout(rect=[0,0,1,0.96])
+    plt.subplots_adjust(hspace=0.4, wspace=0.05)
+
+    # save
+    if fn is not None:
+        plt.savefig(fn, dpi=constants.FIG_DPI, bbox_inches='tight')
+    
+    # close
+    plt.show()
+    plt.close()
+
+
+    

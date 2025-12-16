@@ -372,6 +372,9 @@ import numpy as np
 NONE = ['', None, 'None', 'nan', 'NaN', np.nan, 'null', 'Null', 'NULL', 'N/A', 'n/a', 'N/a', 'n/A']
 INF = [np.inf, -np.inf]
 
+NO_OUTPUT_MSG = ['No matching scientists found', 'No applicable scientists found', 'No applicable physicists found', 'No physicists meet the criteria', 'No real scientists meet the criteria', 'No relevant scientists found', 'No valid entries found', 'Other Scientist', 'Networks Group at University of Tokyo', 'Fermi National Accelerator Laboratory','RADIO ASTRONOMY TEAM','Nuclear Reactor Team']
+NO_OUTPUT_KEYWORDS = ['No matching', 'No applicable', 'meet the criteria', 'No relevant', 'scientists', 'No valid', 'Other Scientist', 'physicist', 'researcher', 'University', 'Laboratory', 'data not available','RADIO ASTRONOMY TEAM', 'Nuclear Reactor Team', 'Nobel Prize', 'Full Name']
+
 TEMPERATURE_FOLDER_PREFIX = 'temperature_'
 TEMPERATURE_VALUES = [0.0, 0.25, 0.50, 0.75, 1.00, 1.50, 2.00]
 

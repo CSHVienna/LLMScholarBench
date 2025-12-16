@@ -171,6 +171,22 @@ def extract_and_convert_to_dict(result_api, file_path):
         input_string = input_string.split("### Output in JSON Array Format: ```")[1].split("```")[0]
         valid_flag = constants.EXPERIMENT_OUTPUT_VERBOSED
 
+    if 'No replacement -  ' in input_string:
+        input_string = input_string.split('No replacement -  ')[1]
+        valid_flag = constants.EXPERIMENT_OUTPUT_VERBOSED
+
+    if "'s colleague:  " in input_string:
+        input_string = input_string.split("'s colleague:  ")[1]
+        valid_flag = constants.EXPERIMENT_OUTPUT_VERBOSED
+
+    if "'s contemporary,  " in input_string:
+        input_string = input_string.split("'s contemporary,  ")[1]
+        valid_flag = constants.EXPERIMENT_OUTPUT_VERBOSED
+
+    if ", replacing with: " in input_string:
+        input_string = input_string.split(", replacing with: ")[1]
+        valid_flag = constants.EXPERIMENT_OUTPUT_VERBOSED
+
     for c in ['[{"Physicists": [', '[{\"Physicists\": [', '{"physicists": [', '{"Physicists": [', '{"Scientists": [']:
         if c in input_string:
             input_string = input_string.replace(c, "[")
@@ -235,7 +251,22 @@ def extract_and_convert_to_dict(result_api, file_path):
                     
         else:
             return None, constants.EXPERIMENT_OUTPUT_INVALID
-            
+
+
+        ### remove prefixes such as Dr. Mr.
+        try:
+            substring = re.sub(r"^(?:Dr|Mr|Mrs|Ms|PhD)\.\s*", "", substring)
+            valid_flag = constants.EXPERIMENT_OUTPUT_VERBOSED
+        except Exception as e:
+            print(e)
+
+        ### remove verbose content in names (eg. reasoning)
+        try:
+            substring = re.sub(r"\s*\([^)]*\)", "", substring)
+            valid_flag = constants.EXPERIMENT_OUTPUT_VERBOSED
+        except Exception as e:
+            print(e)
+
         ### Convert the substring to a dictionary
         try:
             result_dict = ast.literal_eval(substring)
@@ -256,18 +287,6 @@ def _get_extracted_data(result_api, validation_result, file_path):
     original_extracted_data = validation_result.get('extracted_data', None)
     message = validation_result.get('message', None)
         
-    
-    if file_path.endswith('temperature_2.0/config_deepseek-chat-v3.1/run_20251009_200926/epoch_1950s/attempt2_20251009_201134.json'):
-        # print(input_string)
-        # print(input_string.find("["))
-        # print(input_string.find("]"))
-        # print(input_string.rfind("}"))
-        
-        print(is_valid)
-        print(message)
-        print('full_api_response' in result_api)
-
-    
     # If the flag is invalid from the LLMCaller
     if not is_valid and 'full_api_response' in result_api:
         # special case: potentially parsable
@@ -383,7 +402,7 @@ def _process_file(file_path):
     except Exception as e:
         io.printf(f"Error reading file {file_path}: {e}")
         return None
-    
+
     try:
         # IF ERRONEUS
         if 'full_api_response' not in data:
@@ -494,7 +513,6 @@ def _process_file(file_path):
             result['llm_tool_tokens'] = None
             result['llm_thoughts_tokens'] = None
 
-
         ### LLM output processing
         _result = data.get('validation_result', None)
         extracted_data, valid_flag = _get_extracted_data(_result_api, _result, file_path)
@@ -502,6 +520,7 @@ def _process_file(file_path):
         
         ### Finalize result
         full_answer = _result_api.get('choices', [{}])[0].get('message', {}).get('content', None) if _result_api.get('choices', None) is not None else None
+        
         result_message = full_answer if full_answer is not None and valid_flag in [constants.EXPERIMENT_OUTPUT_INVALID, constants.EXPERIMENT_OUTPUT_PROVIDER_ERROR] else _result.get('message', '')
         result['result_is_valid'] = is_valid
         result['result_valid_flag'] = constants.EXPERIMENT_OUTPUT_INVALID_RATE_LIMIT if 'rate_limit_exceeded' in result_message else valid_flag
