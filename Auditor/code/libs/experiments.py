@@ -287,6 +287,9 @@ def _get_extracted_data(result_api, validation_result, file_path):
     original_extracted_data = validation_result.get('extracted_data', None)
     message = validation_result.get('message', None)
         
+    if is_valid and type(original_extracted_data) == list and len(original_extracted_data) == 0:
+        return original_extracted_data, constants.EXPERIMENT_OUTPUT_EMPTY
+    
     # If the flag is invalid from the LLMCaller
     if not is_valid and 'full_api_response' in result_api:
         # special case: potentially parsable
@@ -521,7 +524,7 @@ def _process_file(file_path):
         ### Finalize result
         full_answer = _result_api.get('choices', [{}])[0].get('message', {}).get('content', None) if _result_api.get('choices', None) is not None else None
         
-        result_message = full_answer if full_answer is not None and valid_flag in [constants.EXPERIMENT_OUTPUT_INVALID, constants.EXPERIMENT_OUTPUT_PROVIDER_ERROR] else _result.get('message', '')
+        result_message = full_answer if full_answer is not None and valid_flag in constants.EXPERIMENT_OUTPUT_INVALID_FLAGS else _result.get('message', '')
         result['result_is_valid'] = is_valid
         result['result_valid_flag'] = constants.EXPERIMENT_OUTPUT_INVALID_RATE_LIMIT if 'rate_limit_exceeded' in result_message else valid_flag
         result['result_original_message'] = result_message
