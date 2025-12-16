@@ -17,9 +17,6 @@ def load_llm_setup(model_name, config_file='llm_setup.json'):
     config_path = os.path.join(config_dir, config_file)
     full_config = load_config(config_path)
 
-    # Extract global config first
-    global_section = full_config.get('global', {})
-
     # Handle both formats: models at top level or under "models" key
     all_configs = full_config.get('models', full_config)
 
@@ -27,10 +24,6 @@ def load_llm_setup(model_name, config_file='llm_setup.json'):
         raise ValueError(f"Model '{model_name}' not found in configuration.")
 
     model_config = all_configs[model_name].copy()
-
-    # Add credentials_dir from global config if not in model config
-    if 'credentials_dir' not in model_config and 'credentials_dir' in global_section:
-        model_config['credentials_dir'] = global_section['credentials_dir']
 
     # Resolve system message reference
     if 'system_message_ref' in model_config:
@@ -98,20 +91,24 @@ def get_available_models(provider_filter=None, config_file='llm_setup.json'):
     return models
 
 def get_global_config():
-    """Get global configuration settings with environment variable overrides"""
+    """Load paths from config/paths.json"""
     config_dir = os.path.dirname(os.path.abspath(__file__))
-    config_path = os.path.join(config_dir, 'llm_setup.json')
-    all_configs = load_config(config_path)
-    global_config = all_configs.get('global', {})
+    paths_file = os.path.join(config_dir, 'paths.json')
 
-    # Override with environment variables if they exist
-    if os.getenv('LLMCALLER_CREDENTIALS'):
-        global_config['credentials_dir'] = os.getenv('LLMCALLER_CREDENTIALS')
+    if not os.path.exists(paths_file):
+        raise FileNotFoundError(
+            f"Please create {paths_file} with:\n"
+            '{\n'
+            '  "credentials_dir": "/path/to/credentials",\n'
+            '  "output_dir": "/path/to/output"\n'
+            '}'
+        )
 
-    if os.getenv('LLMCALLER_OUTPUT'):
-        global_config['output_dir'] = os.getenv('LLMCALLER_OUTPUT')
+    with open(paths_file, 'r') as f:
+        config = json.load(f)
 
-    return global_config
+    # Remove comment fields
+    return {k: v for k, v in config.items() if not k.startswith('_')}
 
 def load_twin_scientists_config():
     config_dir = os.path.dirname(os.path.abspath(__file__))
