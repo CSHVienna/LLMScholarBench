@@ -82,3 +82,13 @@ def add_mean_values_rows_columns_of_pivot(df):
     # Append the summary row
     df = pd.concat([df, summary_row], ignore_index=True)
     return df
+
+
+def assign_model_size_class(row):
+    model_name = row.get('model', None)
+
+    if model_name is not None:
+        for size_class, models in constants.LLMS_SIZE_CATEGORIES.items():
+            if model_name in models:
+                return size_class
+    return None

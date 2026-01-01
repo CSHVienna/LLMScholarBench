@@ -1,3 +1,4 @@
+from . import io
 
 APS_OA_AUTHORS_FN = 'authors.csv'
 APS_OA_PUBLICATIONS_FN = 'publications.csv'
@@ -59,7 +60,6 @@ ETHNICITY_LATINO = 'Hispanic or Latino'
 ETHNICITY_MULTIPLE = 'Multiple'
 ETHNICITY_AMERICAN_INDIAN = 'American Indian and Alaska Native'
 ETHNICITY_LIST = [ETHNICITY_BLACK,ETHNICITY_LATINO,ETHNICITY_WHITE,ETHNICITY_ASIAN,UNKNOWN_STR] #,ETHNICITY_MULTIPLE,ETHNICITY_AMERICAN_INDIAN]
-# ETHNICITY_LIST = [ETHNICITY_ASIAN,ETHNICITY_WHITE,ETHNICITY_LATINO,ETHNICITY_BLACK,UNKNOWN_STR] #,ETHNICITY_MULTIPLE,ETHNICITY_AMERICAN_INDIAN]
 ETHNICITY_SHORT_DICT = {ETHNICITY_BLACK:'Black',
                         ETHNICITY_ASIAN:ETHNICITY_ASIAN,
                         ETHNICITY_WHITE:ETHNICITY_WHITE,
@@ -125,16 +125,6 @@ APS_RANKING_METRICS = {'publications':'aps_works_count',
 
 ### EXPERIMETS ###
 
-# LLMS = ['llama3-8b', 'llama-3.1-8b', 'gemma2-9b', 'mixtral-8x7b', 'llama3-70b', 'llama-3.1-70b']
-# LLMS = ["deepseek-chat-v3.1", "deepseek-r1-0528",
-#         "gemini-2.5-flash", "gemini-2.5-pro", "gemini-2.5-flash-grounded", "gemini-2.5-pro-grounded",
-#         "gpt-oss-20b", "gpt-oss-120b",
-#         "llama-3.3-8b", "llama-3.1-70b", "llama-3.3-70b", "llama-3.1-405b", "llama-4-scout", "llama-4-mav",
-#         "qwen3-8b", "qwen3-14b", "qwen3-32b", "qwen3-30b-a3b-2507", "qwen3-235b-a22b-2507", 
-#         "mistral-small-3.2-24b", "mistral-medium-3", 
-#         "gemma-3-12b-it", "gemma-3-27b-it",
-#         "grok-4-fast"]
-
 LLMS_DEEPSEEK = ['deepseek-chat-v3.1', 'deepseek-r1-0528']
 LLMS_GEMINI = ['gemini-2.5-flash', 'gemini-2.5-pro', 'gemini-2.5-flash-grounded', 'gemini-2.5-pro-grounded']
 LLMS_GPT = ['gpt-oss-20b', 'gpt-oss-120b']
@@ -146,11 +136,37 @@ LLMS_GROK = ['grok-4-fast']
 LLMS = LLMS_DEEPSEEK + LLMS_GEMINI + LLMS_GPT + LLMS_LLAMA + LLMS_QWEN3 + LLMS_MISTRAL + LLMS_GEMMA + LLMS_GROK
 LLM_CLASSES = list(set([llm.split('-')[0] for llm in LLMS]))
 
+# LLM by source/provider
+_llm_colors = ['tab:blue','tab:orange', 'tab:green', 'tab:red', 'tab:purple', 'tab:brown', 'tab:pink', 'tab:gray']
+LLM_CLASS_COLORS = {llmclass: _llm_colors[i % len(_llm_colors)] for i, llmclass in enumerate(LLM_CLASSES)}
+LLM_COLORS = {llm:LLM_CLASS_COLORS[llm.split('-')[0]] for llm in LLMS}
+
+# LLM by size category
+_llm_metadata = io.read_json_file('../../LLMCaller/config/llm_setup.json').get('models', {})
+# LLMS_SMALL = [k for k,obj in _llm_metadata.items() if obj.get('class','') == 'S']
+# LLMS_MEDIUM = [k for k,obj in _llm_metadata.items() if obj.get('class','') == 'M']
+# LLMS_LARGE = [k for k,obj in _llm_metadata.items() if obj.get('class','') == 'L']
+# LLMS_EXTRALARGE = [k for k,obj in _llm_metadata.items() if obj.get('class','') == 'XL']
+# LLMS_PROPIETARY = [k for k,obj in _llm_metadata.items() if obj.get('class','').startswith('P (')]
+
 LLMS_SMALL = ['llama-3.3-8b', 'qwen3-8b', 'qwen3-14b', 'gemma-3-12b-it']
 LLMS_MEDIUM = ['llama-4-scout' ,'llama-4-mav' ,'gpt-oss-20b' ,'mistral-small-3.2-24b' ,'gemma-3-27b-it' ,'qwen3-32b' ,'qwen3-30b-a3b-2507']
 LLMS_LARGE = ['llama-3.1-70b', 'llama-3.3-70b', 'gpt-oss-120b', 'qwen3-235b-a22b-2507', 'llama-3.1-405b', 'mistral-medium-3', 'grok-4-fast', 'deepseek-chat-v3.1', 'deepseek-r1-0528']
 LLMS_PROPIETARY = ['gemini-2.5-flash', 'gemini-2.5-flash-grounded', 'gemini-2.5-pro', 'gemini-2.5-pro-grounded']
-LLMS_SIZE_CATEGORIES = {'small': LLMS_SMALL, 'medium': LLMS_MEDIUM, 'large': LLMS_LARGE, 'proprietary': LLMS_PROPIETARY}
+
+
+LLMS_SIZE_CATEGORIES = {'small': LLMS_SMALL, 'medium': LLMS_MEDIUM, 'large': LLMS_LARGE, 
+                        # 'extra-large': LLMS_EXTRALARGE, 
+                        'proprietary': LLMS_PROPIETARY}
+LLMS_SIZE_COLORS = {'small':"#1DA41B", 'medium':'#A9C9FF', 'large':"#4A7DBE", 
+                    # 'extra-large':'#0B3C5D', 
+                    'proprietary':'tab:orange'}
+LLMS_SIZE_ORDER = ['small', 'medium', 'large', 
+                #    'extra-large', 
+                   'proprietary']
+LLMS_SIZE_SHORT_NAMES = {'small':'S', 'medium':'M', 'large':'L', 
+                        #  'extra-large':'XL', 
+                         'proprietary':'P'}
 
 # deepseek-chat-v3.1 deepseek-r1-0528 gemini-2.5-flash gemini-2.5-pro gemini-2.5-flash-grounded gemini-2.5-pro-grounded gpt-oss-20b gpt-oss-120b llama-3.3-8b llama-3.1-70b llama-3.3-70b llama-3.1-405b llama-4-scout llama-4-mav qwen3-8b qwen3-14b qwen3-32b qwen3-30b-a3b-2507 qwen3-235b-a22b-2507 mistral-small-3.2-24b mistral-medium-3 gemma-3-12b-it gemma-3-27b-it grok-4-fast
 
@@ -199,33 +215,8 @@ EXPERIMENTS_BAD_CONTENT_TEXTS_LC = ['no specific scientists found', 'i was unabl
 
 EXPERIMENT_OUTPUT_INVALID_FLAGS = [EXPERIMENT_OUTPUT_INVALID, EXPERIMENT_OUTPUT_INVALID_RATE_LIMIT, EXPERIMENT_OUTPUT_INVALID_SERVER_ERROR, EXPERIMENT_OUTPUT_PROVIDER_ERROR, EXPERIMENT_OUTPUT_ILLUSTRATIVE, EXPERIMENT_OUTPUT_EMPTY]
 
-# EXPERIMENT_OUTPUT_VALIDATION_FLAGS = [EXPERIMENT_OUTPUT_VALID,EXPERIMENT_OUTPUT_VERBOSED,
-#                                       EXPERIMENT_OUTPUT_FIXED_TRUNCATED_JSON, EXPERIMENT_OUTPUT_FIXED_SKIPPED_ITEM,EXPERIMENT_OUTPUT_FIXED_TEXT_OR_JSON,
-#                                       EXPERIMENT_OUTPUT_EMPTY,
-#                                       EXPERIMENT_OUTPUT_INVALID_RATE_LIMIT, EXPERIMENT_OUTPUT_INVALID_SERVER_ERROR, EXPERIMENT_OUTPUT_PROVIDER_ERROR,
-#                                       EXPERIMENT_OUTPUT_ILLUSTRATIVE,EXPERIMENT_OUTPUT_INVALID]
-
-# EXPERIMENT_OUTPUT_VALIDATION_FLAGS_COLORS = {EXPERIMENT_OUTPUT_VALID : (0.0, 0.23529411764705882, 0.18823529411764706, 1.0),
-#                                              EXPERIMENT_OUTPUT_VERBOSED : (0.0878892733564014, 0.479123414071511, 0.44775086505190315, 1.0),
-#                                              EXPERIMENT_OUTPUT_FIXED_TRUNCATED_JSON : (0.9636293733179546, 0.9237985390234525, 0.8185313341022683, 1.0),
-#                                              EXPERIMENT_OUTPUT_FIXED_SKIPPED_ITEM: (0.5, 0.5, 0.5, 1.0), # @TODO: update color
-#                                              EXPERIMENT_OUTPUT_EMPTY : (0.8, 0.8, 0.8, 1.0),
-#                                              EXPERIMENT_OUTPUT_INVALID : (0.8572856593617839, 0.7257977700884274, 0.4471357170319107, 1.0),
-#                                              EXPERIMENT_OUTPUT_INVALID_RATE_LIMIT : (0.6313725490196078, 0.3951557093425605, 0.09573241061130335, 1.0),
-#                                              EXPERIMENT_OUTPUT_INVALID_SERVER_ERROR : (0.32941176470588235, 0.18823529411764706, 0.0196078431372549, 1.0)}
-
 EXPERIMENT_OUTPUT_VALID_FLAGS = [EXPERIMENT_OUTPUT_VALID, EXPERIMENT_OUTPUT_VERBOSED, EXPERIMENT_OUTPUT_FIXED_TEXT_OR_JSON, EXPERIMENT_OUTPUT_FIXED_SKIPPED_ITEM]
 
-# LLMS_COLORS = {'llama3-8b':'tab:blue', 
-#                'llama-3.1-8b':'tab:orange', 
-#                'gemma2-9b':'tab:green', 
-#                'mixtral-8x7b':'tab:red', 
-#                'llama3-70b':'tab:purple', 
-#                'llama-3.1-70b':'tab:brown'}
-
-_llm_colors = ['tab:blue','tab:orange', 'tab:green', 'tab:red', 'tab:purple', 'tab:brown', 'tab:pink', 'tab:gray']
-LLM_CLASS_COLORS = {llmclass: _llm_colors[i % len(_llm_colors)] for i, llmclass in enumerate(LLM_CLASSES)}
-LLM_COLORS = {llm:LLM_CLASS_COLORS[llm.split('-')[0]] for llm in LLMS}
 
 EXPERIMENT_TASK_TOPK = 'top_k'
 EXPERIMENT_TASK_FIELD = 'field'
@@ -277,9 +268,6 @@ FACTUALITY_AUTHOR_APS = 'APS'
 FACTUALITY_AUTHOR_OA = 'OA'
 FACTUALITY_AUTHOR_FACT_CHECKS = [FACTUALITY_AUTHOR_BOTH,FACTUALITY_AUTHOR_OA,FACTUALITY_AUTHOR_APS,FACTUALITY_NONE]
 
-# FACTUALITY_FIELD_CORRECT = 'Correct'
-# FACTUALITY_FIELD_INCORRECT = 'Incorrect'
-# FACTUALITY_FIELD_PARTIAL = 'Partial'
 FACTUALITY_FIELD_DOI = 'DOI'
 FACTUALITY_FIELD_AUTHOR = 'Author'
 FACTUALITY_FIELD_AUTHOR_FIELD = 'Author &\nField'
@@ -293,7 +281,6 @@ FACTUALITY_SENIORITY_ACTIVE = 'Then$_{(txt)}$'
 FACTUALITY_SENIORITY_NOW = 'Now$_{(txt)}$'
 FACTUALITY_SENIORITY_ACTIVE_REQ = 'Then'
 FACTUALITY_SENIORITY_NOW_REQ = 'Now'
-# FACTUALITY_SENIORITY_FACT_CHECKS = [FACTUALITY_SENIORITY_ACTIVE_REQ,FACTUALITY_SENIORITY_NOW_REQ,FACTUALITY_SENIORITY_ACTIVE,FACTUALITY_SENIORITY_NOW,FACTUALITY_NONE]
 FACTUALITY_SENIORITY_FACT_CHECKS = [FACTUALITY_SENIORITY_AUTHOR, FACTUALITY_SENIORITY_ACTIVE_REQ,FACTUALITY_SENIORITY_NOW_REQ, FACTUALITY_SENIORITY_ACTIVE,FACTUALITY_SENIORITY_NOW]
 
 FACTUALITY_EPOCH_AUTHOR = 'Author'
@@ -403,3 +390,52 @@ ERROR_KEYWORDS_LC = ['"error"', 'fatalerror', '.runners(position', 'taba_keydown
                      'temptingordermaker']
 
 FIG_DPI = 600
+
+
+
+
+
+
+# FACTUALITY_SENIORITY_FACT_CHECKS = [FACTUALITY_SENIORITY_ACTIVE_REQ,FACTUALITY_SENIORITY_NOW_REQ,FACTUALITY_SENIORITY_ACTIVE,FACTUALITY_SENIORITY_NOW,FACTUALITY_NONE]
+
+# FACTUALITY_FIELD_CORRECT = 'Correct'
+# FACTUALITY_FIELD_INCORRECT = 'Incorrect'
+# FACTUALITY_FIELD_PARTIAL = 'Partial'
+
+# EXPERIMENT_OUTPUT_VALIDATION_FLAGS = [EXPERIMENT_OUTPUT_VALID,EXPERIMENT_OUTPUT_VERBOSED,
+#                                       EXPERIMENT_OUTPUT_FIXED_TRUNCATED_JSON, EXPERIMENT_OUTPUT_FIXED_SKIPPED_ITEM,EXPERIMENT_OUTPUT_FIXED_TEXT_OR_JSON,
+#                                       EXPERIMENT_OUTPUT_EMPTY,
+#                                       EXPERIMENT_OUTPUT_INVALID_RATE_LIMIT, EXPERIMENT_OUTPUT_INVALID_SERVER_ERROR, EXPERIMENT_OUTPUT_PROVIDER_ERROR,
+#                                       EXPERIMENT_OUTPUT_ILLUSTRATIVE,EXPERIMENT_OUTPUT_INVALID]
+
+# EXPERIMENT_OUTPUT_VALIDATION_FLAGS_COLORS = {EXPERIMENT_OUTPUT_VALID : (0.0, 0.23529411764705882, 0.18823529411764706, 1.0),
+#                                              EXPERIMENT_OUTPUT_VERBOSED : (0.0878892733564014, 0.479123414071511, 0.44775086505190315, 1.0),
+#                                              EXPERIMENT_OUTPUT_FIXED_TRUNCATED_JSON : (0.9636293733179546, 0.9237985390234525, 0.8185313341022683, 1.0),
+#                                              EXPERIMENT_OUTPUT_FIXED_SKIPPED_ITEM: (0.5, 0.5, 0.5, 1.0), # @TODO: update color
+#                                              EXPERIMENT_OUTPUT_EMPTY : (0.8, 0.8, 0.8, 1.0),
+#                                              EXPERIMENT_OUTPUT_INVALID : (0.8572856593617839, 0.7257977700884274, 0.4471357170319107, 1.0),
+#                                              EXPERIMENT_OUTPUT_INVALID_RATE_LIMIT : (0.6313725490196078, 0.3951557093425605, 0.09573241061130335, 1.0),
+#                                              EXPERIMENT_OUTPUT_INVALID_SERVER_ERROR : (0.32941176470588235, 0.18823529411764706, 0.0196078431372549, 1.0)}
+
+
+# LLMS = ['llama3-8b', 'llama-3.1-8b', 'gemma2-9b', 'mixtral-8x7b', 'llama3-70b', 'llama-3.1-70b']
+# LLMS = ["deepseek-chat-v3.1", "deepseek-r1-0528",
+#         "gemini-2.5-flash", "gemini-2.5-pro", "gemini-2.5-flash-grounded", "gemini-2.5-pro-grounded",
+#         "gpt-oss-20b", "gpt-oss-120b",
+#         "llama-3.3-8b", "llama-3.1-70b", "llama-3.3-70b", "llama-3.1-405b", "llama-4-scout", "llama-4-mav",
+#         "qwen3-8b", "qwen3-14b", "qwen3-32b", "qwen3-30b-a3b-2507", "qwen3-235b-a22b-2507", 
+#         "mistral-small-3.2-24b", "mistral-medium-3", 
+#         "gemma-3-12b-it", "gemma-3-27b-it",
+#         "grok-4-fast"]
+# LLMS_COLORS = {'llama3-8b':'tab:blue', 
+#                'llama-3.1-8b':'tab:orange', 
+#                'gemma2-9b':'tab:green', 
+#                'mixtral-8x7b':'tab:red', 
+#                'llama3-70b':'tab:purple', 
+#                'llama-3.1-70b':'tab:brown'}
+
+# LLMS_SMALL = ['llama-3.3-8b', 'qwen3-8b', 'qwen3-14b', 'gemma-3-12b-it']
+# LLMS_MEDIUM = ['llama-4-scout' ,'llama-4-mav' ,'gpt-oss-20b' ,'mistral-small-3.2-24b' ,'gemma-3-27b-it' ,'qwen3-32b' ,'qwen3-30b-a3b-2507']
+# LLMS_LARGE = ['llama-3.1-70b', 'llama-3.3-70b', 'gpt-oss-120b', 'qwen3-235b-a22b-2507', 'llama-3.1-405b', 'mistral-medium-3', 'grok-4-fast', 'deepseek-chat-v3.1', 'deepseek-r1-0528']
+# LLMS_PROPIETARY = ['gemini-2.5-flash', 'gemini-2.5-flash-grounded', 'gemini-2.5-pro', 'gemini-2.5-pro-grounded']
+

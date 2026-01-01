@@ -15,8 +15,6 @@ import seaborn as sns
 import matplotlib.patches as mpatches
 from libs import constants
 
-DPI = 300
-
 def sns_reset():
     sns.reset_orig()
 
@@ -30,7 +28,7 @@ def _finish_plot(fig, fn = None):
     plt.tight_layout()
     
     if fn is not None:
-        fig.savefig(fn, dpi=DPI, bbox_inches='tight')
+        fig.savefig(fn, dpi=constants.FIG_DPI, bbox_inches='tight')
 
     plt.show()
     plt.close()
@@ -1261,11 +1259,14 @@ def plot_temperature_factuality_per_task(df, fn=None, **kwargs):
             ax.errorbar(df_subplot['temperature'], df_subplot['mean'], yerr=df_subplot['std'], fmt='o-', capsize=5, label=task_name)
             ax.set_ylim(0, 1)
             ax.grid(linestyle=':', linewidth=0.6, alpha=0.6)
-
+            
     # cosmetics
     for ax in axes[-1,:]:
         ax.set_xlabel("temperature")
         ax.grid(axis='y', linestyle=':', linewidth=0.6, alpha=0.6)
+
+    for ax in axes[:,0]:
+        ax.set_ylabel("factuality")
 
     # put a single legend at the top
     handles, labels = axes[0,0].get_legend_handles_labels()
@@ -1283,7 +1284,7 @@ def plot_temperature_factuality_per_task(df, fn=None, **kwargs):
     plt.show()
     plt.close()
 
-def plot_temperature_factuality_aggregated(df, fn=None, **kwargs):
+def plot_temperature_factuality_per_model(df, fn=None, **kwargs):
     ncols = kwargs.get('ncols', 6)  
     width = kwargs.get('width', 3.)
     height = kwargs.get('height', 2.)
@@ -1316,6 +1317,9 @@ def plot_temperature_factuality_aggregated(df, fn=None, **kwargs):
         ax.set_xlabel("temperature")
         ax.grid(axis='y', linestyle=':', linewidth=0.6, alpha=0.6)
 
+    for ax in axes[:,0]:
+        ax.set_ylabel("factuality")
+        
     # final
     plt.tight_layout(rect=[0,0,1,0.96])
     plt.subplots_adjust(hspace=0.4, wspace=0.05)
@@ -1329,4 +1333,182 @@ def plot_temperature_factuality_aggregated(df, fn=None, **kwargs):
     plt.close()
 
 
+
+def plot_temperature_by_size(df, fn=None, **kwargs):
+    ngroups = len(constants.LLMS_SIZE_CATEGORIES.keys())
+
+    ncols = 1
+    nrows = 1
+    width = 5. * ncols
+    height = 3 * nrows
+
+    fig, ax = plt.subplots(nrows, ncols, figsize=(width, height), sharex=True, sharey=True)
+
+    for id, (group_size, llms) in enumerate(constants.LLMS_SIZE_CATEGORIES.items()):
+
+        df_subset = df.query("model in @llms").copy()
+        color = constants.LLMS_SIZE_COLORS.get(group_size, None)
+
+        # main: aggregate over models in the group
+        df_grouped = df_subset.groupby(['temperature'])[['mean','std']].mean().reset_index()
+        ax.errorbar(df_grouped['temperature'], df_grouped['mean'], yerr=df_grouped['std'], fmt='o-', 
+                    capsize=5, label=group_size, color=color, linewidth=2.0)
+
+        # # each model
+        # for model, df_subplot in df_subset.groupby('model'):
+        #     ax.errorbar(df_subplot['temperature'], df_subplot['mean'], yerr=df_subplot['std'], fmt='o-', capsize=5, label=model, alpha=0.2, zorder=0)
+            
+        # legend
+        # handles, labels = ax.get_legend_handles_labels()
+        # ax.legend(handles, labels, title="model", loc='upper center', bbox_to_anchor=(0.5, 1.15), ncol=1)
+
+    ax.legend(ncol=2)
+    ax.set_ylabel("factuality")
+        
+    # settings
+    ax.set_ylim(-0.05, 1.05)
+    ax.grid(linestyle=':', linewidth=0.6, alpha=0.6)
+    ax.set_xlabel("temperature")
+    ax.grid(axis='y', linestyle=':', linewidth=0.6, alpha=0.6)
+
+    # final
+    plt.tight_layout(rect=[0,0,1,0.96])
+    plt.subplots_adjust(hspace=0.4, wspace=0.05)
+
+    # save
+    if fn is not None:
+        plt.savefig(fn, dpi=constants.FIG_DPI, bbox_inches='tight')
+        
+    # close
+    plt.show()
+    plt.close()
+
+
+
+def plot_temperature_vs_bias(df_authors, df_all_authors_demographics, cat_col='gender', parity=True, fn=None, **kwargs):
+    from postprocessing import bias
+
+    # data
+    all_colors = constants.GENDER_COLOR_DICT if cat_col == 'gender' else constants.ETHNICITY_COLOR_DICT if cat_col == 'ethnicity' else None
+    all_values = constants.GENDER_LIST if cat_col == 'gender' else constants.ETHNICITY_LIST if cat_col == 'ethnicity' else None
+    df_model_demographic, df_task_demographic = bias.get_mean_percentages(df_authors, cat_col, {cat_col:all_values})
     
+    # setup
+    nmodels = df_model_demographic['model'].nunique()
+    ncols = 6
+    nrows = int(np.ceil(nmodels / ncols))
+    width = 3. * ncols
+    height = 3. * nrows
+
+    # baseliines
+    g_baselines = df_all_authors_demographics.groupby(cat_col).size() / df_all_authors_demographics.shape[0]
+
+    fig, axes = plt.subplots(nrows, ncols, figsize=(width, height), sharex=True, sharey=True)
+    groups = []
+
+    for group, df_data in df_model_demographic.groupby(cat_col, observed=False):
+
+        gcolor = all_colors[group]
+        groups.append(group)
+
+        for idx, model in enumerate(df_data['model'].unique()):
+            
+            col = idx % ncols
+            row = idx // ncols
+            ax = axes[row, col]
+
+            df_subplot = df_data.query("model == @model").copy()
+
+            ax.set_title(model)
+
+            ax.errorbar(df_subplot['temperature'],  df_subplot['mean'] - g_baselines[group] if parity else df_subplot['mean'], 
+                        yerr=df_subplot['std'], fmt='o-', capsize=5, label=group, color=gcolor)
+            ax.hlines(0 if parity else g_baselines[group], 
+                      xmin=df_subplot['temperature'].min(), xmax=df_subplot['temperature'].max(), color='black', linestyle='--', linewidth=1., alpha=0.7, zorder=10e100)
+
+            ax.set_ylim(-0.5, 0.75)
+            ax.grid(linestyle=':', linewidth=0.6, alpha=0.6)
+
+        # cosmetics
+        for ax in axes[-1,:]:
+            ax.set_xlabel("temperature")
+            ax.grid(axis='y', linestyle=':', linewidth=0.6, alpha=0.6)
+
+    # put a single legend at the top
+    handles, labels = axes[0,0].get_legend_handles_labels()
+    fig.legend(handles, labels, title=cat_col, ncol=len(groups), loc='upper center', bbox_to_anchor=(0.5, 1.02))
+
+    # final
+    plt.tight_layout(rect=[0,0,1,0.96])
+    plt.subplots_adjust(hspace=0.4, wspace=0.05)
+
+    # save
+    if fn is not None:
+        plt.savefig(fn, dpi=constants.FIG_DPI, bbox_inches='tight')
+    
+    # final
+    plt.show()
+    plt.close()
+
+
+
+def plot_temperature_vs_bias_by_size(df_authors, df_all_authors_demographics, cat_col='gender', parity=True, fn=None, **kwargs):
+    from postprocessing import bias
+
+    # data
+    all_values = constants.GENDER_LIST if cat_col == 'gender' else constants.ETHNICITY_LIST if cat_col == 'ethnicity' else None
+    df_model_demographic, df_task_demographic = bias.get_mean_percentages(df_authors, cat_col, {cat_col:all_values}, by_size=True)
+    groups = []
+
+    # setup
+    maxcols = min(6, len(all_values))
+    ncols = len(all_values)
+    nrows = int(np.ceil(maxcols / ncols))
+    width = 3. * ncols
+    height = 3. * nrows
+
+    # baseliines
+    g_baselines = df_all_authors_demographics.groupby(cat_col).size() / df_all_authors_demographics.shape[0]
+
+    fig, axes = plt.subplots(nrows, ncols, figsize=(width, height), sharex=True, sharey=True)
+
+    for idx, (group, df_data) in enumerate(df_model_demographic.groupby(cat_col, observed=False)):
+
+        # for each demographic group, plot each model_size in a subplot
+        col = idx % ncols
+        row = idx // ncols
+        ax = axes[row, col] if nrows > 1 else axes[col]
+        ax.set_title(group)
+
+        for size_class in constants.LLMS_SIZE_ORDER:
+            df_subplot = df_data.query("size_class == @size_class").copy()
+            gcolor = constants.LLMS_SIZE_COLORS.get(size_class, None)
+            ax.errorbar(df_subplot['temperature'],  
+                        df_subplot['mean'] - g_baselines[group] if parity else df_subplot['mean'], 
+                        yerr=df_subplot['std'], fmt='o-', capsize=5, label=size_class, color=gcolor)
+            ax.hlines(0 if parity else g_baselines[group], 
+                      xmin=df_subplot['temperature'].min(), xmax=df_subplot['temperature'].max(), 
+                      color='black', linestyle='--', linewidth=1., alpha=0.7, zorder=10e100)
+            groups.append(size_class)
+
+        # cosmetics
+        if row == nrows - 1:
+            ax.set_xlabel("temperature")
+            ax.grid(axis='y', linestyle=':', linewidth=0.6, alpha=0.6)
+
+    # put a single legend at the top
+    handles, labels = ax.get_legend_handles_labels()
+    labels = [constants.LLMS_SIZE_SHORT_NAMES[l] for l in labels if l in groups]
+    fig.legend(handles, labels, title='model_size', ncol=len(labels), loc='upper center', bbox_to_anchor=(0.5, 1.2))
+
+    # final
+    plt.tight_layout(rect=[0,0,1,0.96])
+    plt.subplots_adjust(hspace=0.4, wspace=0.05)
+
+    # save
+    if fn is not None:
+        plt.savefig(fn, dpi=constants.FIG_DPI, bbox_inches='tight')
+    
+    # final
+    plt.show()
+    plt.close()
