@@ -7,6 +7,8 @@ import json
 from io import StringIO
 import gzip
 import datetime
+import zipfile
+
 
 def printf(message):
     # Get the current timestamp in the desired format
@@ -27,6 +29,25 @@ def path_join(*path_segments):
     """
     return os.path.join(*path_segments)
 
+def read_file_from_zip_file_as_dataframe(zip_file_path, target_file_name, **kwargs):
+    """
+    Reads a specific file inside a zip file as a pandas DataFrame.
+
+    Args:
+        zip_path (str): The path to the zip file.
+        target_file_name (str): The name of the file to read within the zip file.
+        **kwargs: Additional arguments to pass to pandas.read_csv().
+
+    Returns:
+        pd.DataFrame: The content of the specified file as a pandas DataFrame.
+    """
+    with zipfile.ZipFile(zip_file_path, 'r') as zip_ref:
+        try:
+            with zip_ref.open(target_file_name) as file:
+                return pd.read_csv(file, **kwargs)
+        except Exception as e:
+            printf(f"Error: {e}")
+            return None 
 
 def read_file_from_tar_gz_as_dataframe(tar_gz_path, target_file_name, **kwargs):
     """

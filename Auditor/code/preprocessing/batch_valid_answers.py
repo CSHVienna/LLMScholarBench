@@ -12,9 +12,9 @@ from libs import io
 from libs import constants
 from libs import text
 
-def run(experiments_dir: str, model: str, max_workers: int, output_dir: str):
+def run(experiments_dir: str, model: str, max_workers: int, temperature_analysis: bool, output_dir: str):
    # process experiments
-   results = experiments.read_experiments(experiments_dir, model, max_workers)
+   results = experiments.read_experiments(experiments_dir, model, max_workers, temperature_analysis)
    df = pd.DataFrame(results).drop(columns=['result_answer']).sort_values(by=['temperature', 'date', 'time', 'task_name', 'task_param'])
 
    # process each reponse (json)
@@ -26,13 +26,14 @@ def run(experiments_dir: str, model: str, max_workers: int, output_dir: str):
    
    df_valid_responses = df_valid_responses.sort_values(by=['temperature', 'date', 'time', 'task_name', 'task_param'])
    df_valid_responses.loc[:,'clean_name'] = df_valid_responses.loc[:,'name'].apply(lambda x: text.clean_name(text.replace(x, constants.EXPERIMENT_AUDIT_FACTUALITY_AUTHOR_NAME_REPLACEMENTS)))
-
+   
    # Update responses with valid_attempt that end up invalid
    col_ids = ['model', 'temperature', 'grounded', 'llm_provider', 'llm_model','date','time','task_name','task_param','task_attempt']
    df.loc[:, 'valid_attempt'] = True
    df.set_index(col_ids, inplace=True)
    tmp = df.join(df_valid_responses[col_ids + ['name']].set_index(col_ids), how='left')
-   ids = tmp.query("@io.pd.isnull(name) and result_valid_flag in @constants.EXPERIMENT_OUTPUT_VALID_FLAGS").index
+
+   ids = tmp.query("@io.pd.isna(name) and result_valid_flag in @constants.EXPERIMENT_OUTPUT_VALID_FLAGS").index
    df.loc[ids, 'result_valid_flag'] = constants.EXPERIMENT_OUTPUT_INVALID
    df.loc[ids, 'result_is_valid'] = False
    df.loc[ids, 'valid_attempt'] = False
@@ -46,7 +47,7 @@ def run(experiments_dir: str, model: str, max_workers: int, output_dir: str):
 
    # Add metadata to valid responses
    col_ids = ['model','temperature','grounded','llm_model','date','time','task_name','task_param','task_attempt']
-   df_valid_responses = df_valid_responses.set_index(col_ids).join(df.set_index(col_ids)[['valid_attempt']], how='left').reset_index()
+   df_valid_responses = df_valid_responses.set_index(col_ids).join(df.set_index(col_ids)[['valid_attempt']], how='left').reset_index()   
    df_valid_responses = df_valid_responses.query("valid_attempt == True")
    fn = io.path_join(output_dir, 'valid_responses', f"{model}.csv")
    io.validate_path(fn)
@@ -84,7 +85,15 @@ def process_results(results):
                 name = answer.get("Name", None)
 
                 if type(name) == dict:
-                    name = name['Name']
+                    if 'Name' not in name:
+
+                        if 'First Name' in name and 'Last Name' in name:
+                            name = f"{name['First Name']} {name['Last Name']}"
+                        else:
+                            print(f"Name not found in {name}")
+                            name = None
+                    else:
+                        name = name['Name']
                 
                 for m in [", 7th duc de Broglie", "Dr. "]:
                     if m in name:
@@ -130,6 +139,7 @@ if __name__ == "__main__":
     parser = argparse.ArgumentParser()
     parser.add_argument("--experiments_dir", required=True, type=str, help="Directory where the experiment data is stored (root of temperature_<value>/)")
     parser.add_argument("--model", required=True, type=str, choices=constants.LLMS, help=f"Model to analyse (ie., {', '.join(constants.LLMS)})")
+    parser.add_argument("--temperature_analysis", action="store_true", default=False, help="Whether to analyze temperature analysis")
     parser.add_argument("--max_workers", type=int, default=1, help="How many jobs to run in parallel maximum")
     parser.add_argument("--output_dir", required=True, type=str, help="Directory where the output files will be saved")
     args = parser.parse_args()
@@ -140,6 +150,6 @@ if __name__ == "__main__":
         print(f"{k}: {v}")
     print('=' * 10)
 
-    run(args.experiments_dir, args.model, args.max_workers, args.output_dir)
+    run(args.experiments_dir, args.model, args.max_workers, args.temperature_analysis, args.output_dir)
 
     

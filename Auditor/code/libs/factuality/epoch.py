@@ -21,34 +21,73 @@ class FactualityEpoch(FactualityCheck):
         self.df_valid_responses[new_cols] = self.df_valid_responses.apply(self._process_row, axis=1)
         
     def _process_row(self, row):
-        llm1, lmm2 = row[self.column_epoch].split("-")
-        return get_overlap_range_metrics(int(row[self.column_task_param].replace('s','')), 
-                                         int(llm1), int(lmm2), 
-                                         row['year_first_publication'], row['year_last_publication'])
 
-def get_overlap_range_metrics(requested_epoch, start1, end1, start2, end2):
+        val = row[self.column_epoch].replace('–','-').lower()
+
+        if 'not active' in val:
+            llm1 = None
+            llm2 = None
+        elif '-' in val:
+            llm1, llm2 = val.split("-")[0], val.split("-")[1]
+
+            if 'present' in llm1:
+                llm1 = '2025'
+            if 'present' in llm2:
+                llm2 = '2025'
+            if 'yyyy' in llm1:
+                llm1 = ''
+            if 'yyyy' in llm2:
+                llm2 = ''
+
+            llm1 = int(llm1.replace('_','').replace('s','').split(':')[0]) if llm1 not in constants.NONE else None
+            llm2 = int(llm2.replace('_','').replace('s','').split(':')[0]) if llm2 not in constants.NONE else llm1 + 10 if llm1 else None
+        elif '-' not in val:
+            try:
+                llm1 = int(val)
+                llm2 = llm1 + 10
+            except:
+                llm1 = None
+                llm2 = None
+
+        return get_overlap_range_metrics(int(row[self.column_task_param].replace('s','')), 
+                                         int(llm1) if llm1 else None, 
+                                         int(llm2) if llm2 else None, 
+                                         row['year_first_publication'],
+                                         row['year_last_publication'])
+
+def get_overlap_range_metrics(requested_epoch, start_llm, end_llm, start_gt, end_gt):
     # 1 llm: start1, end1: start and end year according to LLM response
     # 2 gt : start2, end2: start and end year according to APS GT.
 
     # is_requested_epoch (the author is active in the requested epoch) - no llm answer
     # is_requested_epoch = requested_epoch >= start2 and requested_epoch <= end2 # OLD
     # If either year is NaN, return False; otherwise check overlap
-    is_requested_epoch = pd.notna(start2) and pd.notna(end2) and ~(end2 < requested_epoch or start2 > requested_epoch + 10)
+    is_requested_epoch = pd.notna(start_gt) and pd.notna(end_gt) and ~(end_gt < requested_epoch or start_gt > requested_epoch + 10)
     
-    # Containment
-    r1_in_r2 = start1 >= start2 and end1 <= end2 # llm answer is within gt
-    r2_in_r1 = start2 >= start1 and end2 <= end1 # llm answer is otuside gt
+    if start_llm is None or end_llm is None:
+        llm_in_gt = None
+        gt_in_llm = None
+        overlap = None
+        intersection_length = None
+        union_length = None
+        jaccard_similarity = None
 
-    # Overlap
-    overlap = start1 <= end2 and start2 <= end1 # the two ranges (llm and gt) overlap
+    else:
+        # Containment
+        llm_in_gt = start_llm >= start_gt and end_llm <= end_gt # llm answer is within gt
+        gt_in_llm = start_gt >= start_llm and end_gt <= end_llm # llm answer is otuside gt (gt in llm)
 
-    # Intersection Length
-    intersection_length = max(0, min(end1, end2) - max(start1, start2))
+        # Overlap
+        # overlap = start_llm <= end_gt and start_gt <= end_llm # the two ranges (llm and gt) overlap # old
+        overlap = max(start_llm, start_gt) <= min(end_llm, end_gt)
 
-    # Union Length
-    union_length = max(end1, end2) - min(start1, start2)
+        # Intersection Length
+        intersection_length = max(0, min(end_llm, end_gt) - max(start_llm, start_gt))
 
-    # Jaccard Similarity
-    jaccard_similarity = intersection_length / union_length if union_length > 0 else 0
+        # Union Length
+        union_length = max(end_llm, end_gt) - min(start_llm, start_gt)
 
-    return pd.Series([is_requested_epoch, r1_in_r2, r2_in_r1, overlap, intersection_length, jaccard_similarity])
+        # Jaccard Similarity
+        jaccard_similarity = intersection_length / union_length if union_length > 0 else 0
+
+    return pd.Series([is_requested_epoch, llm_in_gt, gt_in_llm, overlap, intersection_length, jaccard_similarity])

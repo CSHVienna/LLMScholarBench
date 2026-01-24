@@ -14,6 +14,8 @@
 
         parallel -j 6 python preprocessing/batch_valid_answers.py --experiments_dir ../data/experiments --max_workers 10 --output_dir ../results --model {} ::: gemma2-9b llama-3.1-8b llama-3.1-70b llama3-8b llama3-70b mixtral-8x7b
 
+    Note: Remember to pass the `boolean` parameter `--temperature_analysis` if the results contain multiple temperature values per model.
+
 3. Run factuality checks
 
 
@@ -41,7 +43,7 @@
 
     4.1 Run statistics for gender and ethnicity representation by discipline (GT APS-OA)
 
-        python preprocessing/batch_disciplines.py --aps_os_data_tar_gz ../data/final_dataset.tar.gz --aps_data_dir ../data/aps_20240130_2e52fdd7260ea462878821948a2a463ed9acb58a --output ../results
+        python preprocessing/batch_disciplines.py --aps_os_data_tar_gz ../data/final_dataset.tar.gz --aps_data_zip ../data/aps_20240130_2e52fdd7260ea462878821948a2a463ed9acb58a.zip --output ../results
 
 
     4.2 Run statistics for similarity using co-authorship networks, and metadata (demographics, scholarly metrics, and affiliations)
