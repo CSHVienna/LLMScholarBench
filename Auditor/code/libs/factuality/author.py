@@ -98,24 +98,72 @@ class FactualityAuthor(FactualityCheck):
 
 
 def get_seniority(val):
+    original_val = val
 
     if type(val) == str:
-        if '+' in val:
-            val = int(val.replace('+','').strip())
-        elif 'years' in val:
-            val = val.split('years')[0].strip()
-            val = val.replace('Approximately','').replace('Over','').strip()
 
+        val = val.replace('–','-').lower()
+
+        # in text
+        if 'early career' in val.replace('-', ' ').replace('_',' '):
+            return None #constants.FACTUALITY_SENIORITY_EARLY_CAREER
+        elif 'senior' in val:
+            return None #constants.FACTUALITY_SENIORITY_SENIOR_CAREER
+        
+        if val == 'deceased':
+            return None
+
+        # in numbers
+        
+        for key in ['est. ','+','~', 'approximately', 'over', 'approx. ', '(deceased)']:
+            if key in val:
+                val = val.replace(key,'').strip()
+        
+        if 'years' in val:
+            val = val.split('years')[0].strip().split(' ')[-1]
+
+        if 'deceased (' in val and ')' in val:
+            val = val.split('(')[1].strip().replace(')','').strip()
+
+        try:
             if '-' in val:
                 mi, ma = val.split('-')
-                val = (int(mi) + int(ma)) / 2
 
-            val = int(val)
+                try:
+                    mi = int(mi)
+                except:
+                    mi = None
+
+                try:
+                    ma = int(ma)
+                except:
+                    ma = None
+
+                if mi is None and ma is None:
+                    val = None
+                elif ma is None:
+                    val = mi
+                elif mi is None:
+                    val = ma
+                else:
+                    val = (mi + ma) / 2
+
+        except Exception as e:
+            print(f'>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>\n{e}\n{original_val}\n<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<`')
+            
+            import sys
+            sys.exit(1)
         
 
+        try:
+            val = int(val)
+        except:
+            val = None
+
+    # final value
     if type(val) == int:
         if val <= 10:
             return constants.FACTUALITY_SENIORITY_EARLY_CAREER
         elif val >= 20:
             return constants.FACTUALITY_SENIORITY_SENIOR_CAREER
-        return constants.FACTUALITY_SENIORITY_MID_CAREER
+    return None #constants.FACTUALITY_SENIORITY_MID_CAREER

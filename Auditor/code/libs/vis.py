@@ -163,7 +163,6 @@ def plot_barplot(data, x_col, y_col, group_col=None, x_order=None, group_order=N
         groups = group_order if group_order is not None else df[group_col].unique()
         x_positions = np.arange(len(df[x_col].unique()))
 
-        bottom_values = np.zeros(len(x_positions))
         
         for i, group in enumerate(groups):
             group_data = df[df[group_col] == group]
@@ -172,7 +171,8 @@ def plot_barplot(data, x_col, y_col, group_col=None, x_order=None, group_order=N
             group_data = group_data if x_order is None else group_data.sort_values(by=x_col).reset_index(drop=True)
             x_data = group_data.groupby(x_col, observed=False)[y_col].sum()
             err_data = group_data.groupby(x_col, observed=False)[err_col].sum() if err_col else None
-            
+            bottom_values = np.zeros(len(x_data))
+
             ax.bar(
                 x=x_data.index,
                 height=x_data,
@@ -1147,6 +1147,9 @@ def plot_temperature_consistency(df, fn=None, **kwargs):
                 .sort_index(key=lambda s: pd.to_numeric(s, errors='coerce'))  # ensures numeric order
             )
 
+            # reorder columns
+            # pivot = pivot.reindex(columns=constants.EXPERIMENT_OUTPUTS_ORDER)
+
             x = np.arange(len(pivot.index))
             bottoms = np.zeros(len(x), dtype=float)
             xtick_labels = pivot.index.tolist()
@@ -1216,9 +1219,17 @@ def plot_temperature_consistency(df, fn=None, **kwargs):
 
     # put a single legend at the top
     handles, labels = axes[0,0].get_legend_handles_labels()
-    plus = int(df_factuality is not None)
-    fig.legend(handles, labels, title="result_valid_flag", ncol=len(groups)+plus, loc='upper center', bbox_to_anchor=(0.5, 1.04))
+    handles_ordered = []
+    labels_ordered = []
+    for l in constants.EXPERIMENT_OUTPUTS_ORDER:
+        if l in labels:
+            idx = labels.index(l)
+            handles_ordered.append(handles[idx])
+            labels_ordered.append(labels[idx])
 
+    plus = int(df_factuality is not None)
+    fig.legend(handles_ordered, labels_ordered, title="result_valid_flag", ncol=len(groups)+plus, loc='upper center', bbox_to_anchor=(0.5, 1.04))
+    
     # final
     plt.tight_layout(rect=[0,0,1,0.96])
     plt.subplots_adjust(hspace=0.4, wspace=0.05)

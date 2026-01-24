@@ -8,3 +8,4 @@ results
 _backups_
 LLMCaller/_dev
 .keys
+*_backups

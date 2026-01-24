@@ -123,38 +123,46 @@ APS_RANKING_METRICS = {'publications':'aps_works_count',
 
 
 
+# LLM by size category
+try:
+    _llm_metadata = io.read_json_file('../../../LLMCaller/config/llm_setup.json').get('models', {})
+except Exception as e:
+    _llm_metadata = io.read_json_file('../../LLMCaller/config/llm_setup.json').get('models', {})
+LLMS = list(_llm_metadata.keys())
+print(f"Available LLMs: ({len(LLMS)}): {' '.join(LLMS)}")
+
+
 ### EXPERIMETS ###
 
-LLMS_DEEPSEEK = ['deepseek-chat-v3.1', 'deepseek-r1-0528']
-LLMS_GEMINI = ['gemini-2.5-flash', 'gemini-2.5-pro', 'gemini-2.5-flash-grounded', 'gemini-2.5-pro-grounded']
-LLMS_GPT = ['gpt-oss-20b', 'gpt-oss-120b']
-LLMS_LLAMA = ['llama-3.3-8b', 'llama-3.1-70b', 'llama-3.3-70b', 'llama-3.1-405b', 'llama-4-scout', 'llama-4-mav']
-LLMS_QWEN3 = ['qwen3-8b', 'qwen3-14b', 'qwen3-32b', 'qwen3-30b-a3b-2507', 'qwen3-235b-a22b-2507']
-LLMS_MISTRAL = ['mistral-small-3.2-24b', 'mistral-medium-3']
-LLMS_GEMMA = ['gemma-3-12b-it', 'gemma-3-27b-it']
-LLMS_GROK = ['grok-4-fast']
-LLMS = LLMS_DEEPSEEK + LLMS_GEMINI + LLMS_GPT + LLMS_LLAMA + LLMS_QWEN3 + LLMS_MISTRAL + LLMS_GEMMA + LLMS_GROK
-LLM_CLASSES = list(set([llm.split('-')[0] for llm in LLMS]))
+LLMS_DEEPSEEK = [k for k in LLMS if k.startswith('deepseek-')] #['deepseek-chat-v3.1', 'deepseek-r1-0528']
+LLMS_GEMINI = [k for k in LLMS if k.startswith('gemini-')] #['gemini-2.5-flash', 'gemini-2.5-pro', 'gemini-2.5-flash-grounded', 'gemini-2.5-pro-grounded']
+LLMS_GPT = [k for k in LLMS if k.startswith('gpt-')] #['gpt-oss-20b', 'gpt-oss-120b']
+LLMS_LLAMA = [k for k in LLMS if k.startswith('llama-')] #['llama-3.3-8b', 'llama-3.1-70b', 'llama-3.3-70b', 'llama-3.1-405b', 'llama-4-scout', 'llama-4-mav']
+LLMS_QWEN3 = [k for k in LLMS if k.startswith('qwen3-')] #['qwen3-8b', 'qwen3-14b', 'qwen3-32b', 'qwen3-30b-a3b-2507', 'qwen3-235b-a22b-2507']
+LLMS_MISTRAL = [k for k in LLMS if k.startswith('mistral-')] #['mistral-small-3.2-24b', 'mistral-medium-3']
+LLMS_GEMMA = [k for k in LLMS if k.startswith('gemma-')] #['gemma-3-12b', 'gemma-3-27b']
+LLMS_GROK = [k for k in LLMS if k.startswith('grok-')] #['grok-4-fast']
+LLMS_ORDERED = LLMS_DEEPSEEK + LLMS_GEMMA + LLMS_GEMINI + LLMS_GROK + LLMS_GPT + LLMS_LLAMA + LLMS_MISTRAL + LLMS_QWEN3
+LLM_CLASSES = list(set([llm.split('-')[0] for llm in LLMS_ORDERED]))
 
 # LLM by source/provider
 _llm_colors = ['tab:blue','tab:orange', 'tab:green', 'tab:red', 'tab:purple', 'tab:brown', 'tab:pink', 'tab:gray']
 LLM_CLASS_COLORS = {llmclass: _llm_colors[i % len(_llm_colors)] for i, llmclass in enumerate(LLM_CLASSES)}
-LLM_COLORS = {llm:LLM_CLASS_COLORS[llm.split('-')[0]] for llm in LLMS}
+LLM_COLORS = {llm:LLM_CLASS_COLORS[llm.split('-')[0]] for llm in LLMS_ORDERED}
 
-# LLM by size category
-_llm_metadata = io.read_json_file('../../LLMCaller/config/llm_setup.json').get('models', {})
+
 # LLMS_SMALL = [k for k,obj in _llm_metadata.items() if obj.get('class','') == 'S']
 # LLMS_MEDIUM = [k for k,obj in _llm_metadata.items() if obj.get('class','') == 'M']
 # LLMS_LARGE = [k for k,obj in _llm_metadata.items() if obj.get('class','') == 'L']
 # LLMS_EXTRALARGE = [k for k,obj in _llm_metadata.items() if obj.get('class','') == 'XL']
 # LLMS_PROPIETARY = [k for k,obj in _llm_metadata.items() if obj.get('class','').startswith('P (')]
 
-LLMS_SMALL = ['llama-3.3-8b', 'qwen3-8b', 'qwen3-14b', 'gemma-3-12b-it']
-LLMS_MEDIUM = ['llama-4-scout' ,'llama-4-mav' ,'gpt-oss-20b' ,'mistral-small-3.2-24b' ,'gemma-3-27b-it' ,'qwen3-32b' ,'qwen3-30b-a3b-2507']
+LLMS_SMALL = ['llama-3.3-8b', 'qwen3-8b', 'qwen3-14b', 'gemma-3-12b']
+LLMS_MEDIUM = ['llama-4-scout' ,'llama-4-mav' ,'gpt-oss-20b' ,'mistral-small-3.2-24b' ,'gemma-3-27b' ,'qwen3-32b' ,'qwen3-30b-a3b-2507']
 LLMS_LARGE = ['llama-3.1-70b', 'llama-3.3-70b', 'gpt-oss-120b', 'qwen3-235b-a22b-2507', 'llama-3.1-405b', 'mistral-medium-3', 'grok-4-fast', 'deepseek-chat-v3.1', 'deepseek-r1-0528']
 LLMS_PROPIETARY = ['gemini-2.5-flash', 'gemini-2.5-flash-grounded', 'gemini-2.5-pro', 'gemini-2.5-pro-grounded']
 
-
+# LLM by size category
 LLMS_SIZE_CATEGORIES = {'small': LLMS_SMALL, 'medium': LLMS_MEDIUM, 'large': LLMS_LARGE, 
                         # 'extra-large': LLMS_EXTRALARGE, 
                         'proprietary': LLMS_PROPIETARY}
@@ -167,6 +175,16 @@ LLMS_SIZE_ORDER = ['small', 'medium', 'large',
 LLMS_SIZE_SHORT_NAMES = {'small':'S', 'medium':'M', 'large':'L', 
                         #  'extra-large':'XL', 
                          'proprietary':'P'}
+
+LLMS_SIZE_CATEGORIES_INV = {k:obj['class'] for k, obj in _llm_metadata.items()}
+
+# LLM by access category
+LLMS_OPEN = LLMS_SMALL + LLMS_MEDIUM + LLMS_LARGE
+LLM_ACCESS_CATEGORIES = {'open': LLMS_OPEN, 'proprietary': LLMS_PROPIETARY}
+LLM_ACCESS_CATEGORIES_INV = {k:'open' if k in LLMS_OPEN else 'proprietary' for k in LLMS_ORDERED}
+
+# LLM by class category
+LLM_CLASS_CATEGORIES_INV = {k:'reasoning' if obj['reasoning'] else 'non-reasoning' for k, obj in _llm_metadata.items()}
 
 # deepseek-chat-v3.1 deepseek-r1-0528 gemini-2.5-flash gemini-2.5-pro gemini-2.5-flash-grounded gemini-2.5-pro-grounded gpt-oss-20b gpt-oss-120b llama-3.3-8b llama-3.1-70b llama-3.3-70b llama-3.1-405b llama-4-scout llama-4-mav qwen3-8b qwen3-14b qwen3-32b qwen3-30b-a3b-2507 qwen3-235b-a22b-2507 mistral-small-3.2-24b mistral-medium-3 gemma-3-12b-it gemma-3-27b-it grok-4-fast
 
@@ -184,14 +202,42 @@ EXPERIMENT_OUTPUT_ILLUSTRATIVE = 'illustrative'
 
 EXPERIMENT_OUTPUTS_ORDER = [EXPERIMENT_OUTPUT_VALID,
                             EXPERIMENT_OUTPUT_VERBOSED,
-                            EXPERIMENT_OUTPUT_FIXED_TRUNCATED_JSON, EXPERIMENT_OUTPUT_FIXED_SKIPPED_ITEM,EXPERIMENT_OUTPUT_FIXED_TEXT_OR_JSON,
                             EXPERIMENT_OUTPUT_EMPTY,
+                            EXPERIMENT_OUTPUT_FIXED_SKIPPED_ITEM, EXPERIMENT_OUTPUT_FIXED_TRUNCATED_JSON, EXPERIMENT_OUTPUT_FIXED_TEXT_OR_JSON,
                             EXPERIMENT_OUTPUT_INVALID_RATE_LIMIT, EXPERIMENT_OUTPUT_INVALID_SERVER_ERROR, EXPERIMENT_OUTPUT_PROVIDER_ERROR,
-                            EXPERIMENT_OUTPUT_ILLUSTRATIVE,EXPERIMENT_OUTPUT_INVALID]
-_colors = ["#02541b", "#05862c", "#47d872", "#08d445", "#c6f4d4", 
-           "#868383",  
-           "#F79999", "#F00505", "#B34141","#981D1D","#4b0000",]
-EXPERIMENT_OUTPUT_COLORS = {EXPERIMENT_OUTPUTS_ORDER[i]: _colors[i] for i in range(len(EXPERIMENT_OUTPUTS_ORDER))}
+                            EXPERIMENT_OUTPUT_ILLUSTRATIVE, EXPERIMENT_OUTPUT_INVALID]
+# _colors = ["#02541b", "#05862c", 
+#            "#47d872", "#08d445", "#c6f4d4", 
+#            "#868383",  
+#            "#F79999", "#F00505", "#B34141",
+#            "#981D1D","#4b0000",]
+# EXPERIMENT_OUTPUT_COLORS = {EXPERIMENT_OUTPUTS_ORDER[i]: _colors[i] for i in range(len(EXPERIMENT_OUTPUTS_ORDER))}
+
+EXPERIMENT_OUTPUT_COLORS = {EXPERIMENT_OUTPUT_VALID:"#1B5E20",
+                            EXPERIMENT_OUTPUT_VERBOSED:"#66BB6A",
+                            EXPERIMENT_OUTPUT_EMPTY:"#9E9E9E",
+                            EXPERIMENT_OUTPUT_FIXED_TRUNCATED_JSON:"",
+                            EXPERIMENT_OUTPUT_FIXED_SKIPPED_ITEM:"#EF9A9A",
+                            EXPERIMENT_OUTPUT_FIXED_TEXT_OR_JSON:"",
+                            EXPERIMENT_OUTPUT_INVALID_RATE_LIMIT:"",
+                            EXPERIMENT_OUTPUT_INVALID_SERVER_ERROR:"",
+                            EXPERIMENT_OUTPUT_PROVIDER_ERROR:"#E53935",
+                            EXPERIMENT_OUTPUT_ILLUSTRATIVE:"",
+                            EXPERIMENT_OUTPUT_INVALID:"#8E0000",
+                            }
+                            
+EXPERIMENT_OUTPUT_INVALID_FLAGS = [EXPERIMENT_OUTPUT_FIXED_TRUNCATED_JSON,
+                                   EXPERIMENT_OUTPUT_FIXED_TEXT_OR_JSON, 
+                                   EXPERIMENT_OUTPUT_FIXED_SKIPPED_ITEM,
+                                   EXPERIMENT_OUTPUT_INVALID, 
+                                   EXPERIMENT_OUTPUT_INVALID_RATE_LIMIT, 
+                                   EXPERIMENT_OUTPUT_INVALID_SERVER_ERROR, 
+                                   EXPERIMENT_OUTPUT_PROVIDER_ERROR, 
+                                   EXPERIMENT_OUTPUT_ILLUSTRATIVE, 
+                                   EXPERIMENT_OUTPUT_EMPTY]
+
+EXPERIMENT_OUTPUT_VALID_FLAGS = [EXPERIMENT_OUTPUT_VALID, 
+                                 EXPERIMENT_OUTPUT_VERBOSED]
 
 LLMCALLER_OUTPUT_INVALID_JSON_EMPTY = 'No JSON-like structure found in the response'
 LLMCALLER_OUTPUT_INVALID_JSON_EXTRA_DATA = 'Invalid JSON format: Extra data'
@@ -212,11 +258,6 @@ EXPERIMENTS_BAD_CONTENT_TEXTS_LC = ['no specific scientists found', 'i was unabl
                                     'no physicists meet the specified criteria',
                                     'no specific scientists identified due to the uniqueness and complexity of the criteria',
                                     'none']
-
-EXPERIMENT_OUTPUT_INVALID_FLAGS = [EXPERIMENT_OUTPUT_INVALID, EXPERIMENT_OUTPUT_INVALID_RATE_LIMIT, EXPERIMENT_OUTPUT_INVALID_SERVER_ERROR, EXPERIMENT_OUTPUT_PROVIDER_ERROR, EXPERIMENT_OUTPUT_ILLUSTRATIVE, EXPERIMENT_OUTPUT_EMPTY]
-
-EXPERIMENT_OUTPUT_VALID_FLAGS = [EXPERIMENT_OUTPUT_VALID, EXPERIMENT_OUTPUT_VERBOSED, EXPERIMENT_OUTPUT_FIXED_TEXT_OR_JSON, EXPERIMENT_OUTPUT_FIXED_SKIPPED_ITEM]
-
 
 EXPERIMENT_TASK_TOPK = 'top_k'
 EXPERIMENT_TASK_FIELD = 'field'
@@ -370,7 +411,7 @@ METADATA_DIR = 'metadata'
 SIMILARITIES_DIR = 'similarities'
 
 import numpy as np
-NONE = ['', None, 'None', 'nan', 'NaN', np.nan, 'null', 'Null', 'NULL', 'N/A', 'n/a', 'N/a', 'n/A']
+NONE = ['', ' ', None, 'None', 'nan', 'NaN', np.nan, 'null', 'Null', 'NULL', 'N/A', 'n/a', 'N/a', 'n/A']
 INF = [np.inf, -np.inf]
 
 NO_OUTPUT_MSG = ['No matching scientists found', 'No applicable scientists found', 'No applicable physicists found', 'No physicists meet the criteria', 'No real scientists meet the criteria', 'No relevant scientists found', 'No valid entries found', 'Other Scientist', 'Networks Group at University of Tokyo', 'Fermi National Accelerator Laboratory','RADIO ASTRONOMY TEAM','Nuclear Reactor Team']

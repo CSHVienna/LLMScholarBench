@@ -42,7 +42,7 @@ def extract_and_convert_to_dict(result_api, file_path):
         input_string = result_api.get('choices', [{}])[0].get('message', {}).get('content', None)
 
     ### Decoding 
-    input_string = input_string.replace('\n', ' ').replace('\r', ' ').replace('\t', ' ').replace("\\", '').replace('...', '').replace('```json', ' ')
+    input_string = input_string.replace('\n', ' ').replace('\r', ' ').replace('\t', ' ').replace("\\", '').replace('...', '').replace('```json', ' ').replace('```', ' ')
     
     valid_flag = None
 
@@ -406,6 +406,8 @@ def _process_file(file_path):
         io.printf(f"Error reading file {file_path}: {e}")
         return None
 
+    temperature = data.get('temperature', None) if temperature is None else temperature
+
     try:
         # IF ERRONEUS
         if 'full_api_response' not in data:
@@ -540,8 +542,9 @@ def _process_file(file_path):
         return None
 
 
-def read_experiments(experiments_dir: str, model: str, max_workers: int = 1):
-    file_paths = io.get_files(experiments_dir, f"temperature_*/config_{model}/run_*_*/*/attempt*_*_*.json")
+def read_experiments(experiments_dir: str, model: str, max_workers: int = 1, temperature_analysis: bool = False):
+    prefix = f"temperature_*/" if temperature_analysis else ""
+    file_paths = io.get_files(experiments_dir, io.path_join(prefix, f"config_{model}/run_*_*/*/attempt*_*_*.json"))
     io.printf(f"Found {len(file_paths)} files to process.")
 
     results = []
