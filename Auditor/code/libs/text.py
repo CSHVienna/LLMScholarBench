@@ -91,3 +91,11 @@ def compute_similarity_list_of_text(list_of_text):
             sim = jellyfish.jaro_winkler_similarity(name_i, name_j)
             similarities.append(sim)
     return np.mean(similarities) if len(similarities) > 1 else None
+
+
+
+def normalize_text(t):
+    t = t.lower()
+    t = re.sub(r"\s+", " ", t)
+    return t.strip()
+    

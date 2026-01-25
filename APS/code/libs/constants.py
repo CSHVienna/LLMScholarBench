@@ -122,6 +122,54 @@ APS_RANKING_METRICS = {'publications':'aps_works_count',
                        'citation_publication_age':'aps_citations_per_paper_age'}
 
 
+### REFUSAL ###
+
+REFUSAL_TRUE = 1
+REFUSAL_FALSE = 0
+REFUSAL_UNKNOWN = -1
+
+# REFUSAL_KEYWORDS = ["sorry,", "apologize", "unable to", "cannot", "can't", 
+#                     "could not", "couldn't", "don't have access to", 
+#                     "unable to provide", "unable to access",
+#                     "cannot access"]
+
+REFUSAL_KEYWORDS = [
+    # causal / justificatory language
+    r"\bbecause\b",
+    r"\bsince\b",
+    r"\bdue to\b",
+    r"\bas an ai\b",
+    r"\btherefore\b",
+    r"\bso that\b",
+    r"\bsorry\b",
+    r"\bapologize\b",
+
+    # policy / safety / governance
+    r"\bpolicy\b",
+    r"\bguidelines\b",
+    r"\bsafety\b",
+    r"\bprivacy\b",
+    r"\bpersonal data\b",
+    r"\bconfidential\b",
+    r"\bethical\b",
+    r"\brestrictions?\b",
+
+    # capability / access explanations
+    r"\bdon't have access\b",
+    r"\bdo not have access\b",
+    r"\bcannot access\b",
+    r"\bunable to access\b",
+    r"\blimited access\b",
+    r"\bnot able to access\b",
+    r"\bneed access\b",
+
+    # compliance framing
+    r"\bcannot comply\b",
+    r"\bcan't comply\b",
+    r"\bunable to comply\b",
+    r"\bnot permitted\b",
+]
+
 
 # LLM by size category
 try:

@@ -5,6 +5,7 @@ from datetime import datetime
 
 from libs import io
 from libs import constants
+from libs import helpers
 
 def is_none(value):
     return value is None or pd.isna(value)
@@ -92,3 +93,40 @@ def assign_model_size_class(row):
             if model_name in models:
                 return size_class
     return None
+
+def detect_refusal(msg):
+    if type(msg) == str:
+        if any(re.search(p, msg) for p in constants.REFUSAL_KEYWORDS):
+            return constants.REFUSAL_TRUE
+        return constants.REFUSAL_FALSE
+    return constants.REFUSAL_UNKNOWN
+
+def add_quantiles(df, cols_dict={'works_count':'pub', 'cited_by_count':'cit'}):
+    for col, label in cols_dict.items():
+        if col in df.columns:
+            df[f"prominence_{label}"] = io.pd.qcut(
+                                                df[col],
+                                                q=[0, 0.5, 0.8, 0.95, 1.0],
+                                                labels=["low", "mid", "high", "elite"]
+                                            )
+    return df
+                                            
+def add_infrastructure_columns(df):
+    df.loc[:, 'model_access'] = df.model.map(constants.LLM_ACCESS_CATEGORIES_INV)
+    df.loc[:, 'model_size'] = df.model.map(constants.LLMS_SIZE_CATEGORIES_INV)
+    df.loc[:, 'model_class'] = df.model.map(constants.LLM_CLASS_CATEGORIES_INV)
+    df.loc[:, 'model_provider'] = df.model.str.split('-').str[0]
+
+    if 'result_original_message' in df.columns and 'is_refusal' not in df.columns:
+        df.loc[:, 'is_refusal'] = df.result_original_message.apply(lambda msg: helpers.detect_refusal(msg))
+
+    # model size (merging open and proprietary models)
+    df["model_size"] = df["model_size"].str.replace(r"\s*\(.*\)", "", regex=True)
+
+    if 'id_author_oa' in df.columns and 'id_author_aps_list' in df.columns:
+        df.loc[:, 'author_exists'] = df.id_author_oa.notnull() | df.id_author_aps_list.notnull()
+
+    
+    return df
+
+    
