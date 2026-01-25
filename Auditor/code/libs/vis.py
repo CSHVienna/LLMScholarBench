@@ -18,8 +18,8 @@ from libs import constants
 def sns_reset():
     sns.reset_orig()
 
-def sns_paper_style():
-    sns.set_context("paper", font_scale=1.51) #rc={"font.size":8,"axes.titlesize":8,"axes.labelsize":5}) 
+def sns_paper_style(font_scale=1.51):
+    sns.set_context("paper", font_scale=font_scale) #rc={"font.size":8,"axes.titlesize":8,"axes.labelsize":5}) 
     rc('font', family = 'serif')
     mpl.rcParams["axes.spines.right"] = False
     mpl.rcParams["axes.spines.top"] = False
@@ -1521,5 +1521,158 @@ def plot_temperature_vs_bias_by_size(df_authors, df_all_authors_demographics, ca
         plt.savefig(fn, dpi=constants.FIG_DPI, bbox_inches='tight')
     
     # final
+    plt.show()
+    plt.close()
+
+
+
+def boxpanel(ax, df_attempt, df_group, group_col, ycol, order=None, continuous=True, **kwargs):
+    
+    data = df_attempt.copy() if continuous else df_group.copy()
+
+    # Determine category order
+    cats = order if order is not None else list(data[group_col].dropna().unique())
+    
+
+    if not continuous:
+        data = data.set_index(group_col).loc[cats].reset_index()
+
+        x = np.arange(data.shape[0])
+
+        yerr = np.vstack([
+            data["mean"] - data["ci_low"],
+            data["ci_high"] - data["mean"]
+        ])
+
+        ax.bar(
+            x,
+            data["mean"],
+            width=0.6,
+            color="white",
+            edgecolor="black",
+            tick_label=cats
+        )
+
+        ax.errorbar(
+            x,
+            data["mean"],
+            yerr=yerr,
+            fmt="none",
+            color="black",
+            capsize=3
+        )
+
+        ax.set_xticks(x)
+        ax.set_xticklabels(data[group_col])
+    
+    else:
+        data = [data.loc[data[group_col] == c, ycol].dropna().to_numpy() for c in cats]
+        bp = ax.boxplot(
+            data,
+            tick_labels=cats,
+            patch_artist=True, # fill with color
+            showfliers=True, # show outliers
+            widths=0.6, # width of the box  
+            whis=(5, 95) # whiskers at 5% and 95% of the data
+        )
+
+        # set means
+        for i, y in enumerate(data, start=1):
+            ax.plot(i, np.mean(y), marker="o", color="tab:red", markersize=4, zorder=3)
+
+        # Minimal styling; rasterize only the outlier dots for fast rendering/export
+        for box in bp["boxes"]:
+            box.set(facecolor="white", edgecolor="black")
+
+        # set lines (lines, caps, medians)
+        for k in ("whiskers", "caps", "medians"):
+            for line in bp[k]:
+                line.set(color="black", linewidth=1.)
+
+        for line in bp["whiskers"] + bp["caps"]:
+            line.set_linewidth(0.5)
+
+        # set fliers (outliers)
+        for flier in bp["fliers"]:
+            flier.set(marker="o", markersize=1, alpha=0.1, rasterized=True, color="lightgray")
+
+    group_name = group_col.replace('_', ' ').capitalize()
+
+    # title
+    show_title = kwargs.pop('show_title', False)
+
+    if show_title:
+        ax.set_title(group_name)
+    else:
+        ax.set_title(None)
+
+    # set xlabel
+    show_xlabel = kwargs.pop('show_xlabel', False)
+    if show_xlabel:
+        # set xlabel
+        xlabel = kwargs.get('xlabel', None)
+        xlabel = group_name if xlabel is None else xlabel
+        ax.set_xlabel(xlabel)
+    else:
+        ax.set_xlabel(None)
+
+    # set ylabel
+    ylabel = kwargs.get('ylabel', None)
+    if ylabel is not None:
+        if 'entropy_' in ylabel or 'factuality_' in ylabel or 'parity_' in ylabel:
+            k = f"{ylabel.split('_')[0]}_" #'entropy_' if 'entropy_' in ylabel else 'factuality_'
+            v = ylabel.split(k)[-1].replace('prominence_','')
+            ylabel = k.replace('_','').title() + u"$_{" + v + "}$"
+        else:
+            ylabel = ylabel.replace('_pct',' (%)').title()
+        ax.set_ylabel(ylabel)
+
+    # xticks
+    show_xticks = kwargs.pop('show_xticks', False)
+    if not show_xticks:
+        ax.set_xticklabels([])
+
+def plot_infrastructural_conditions(df, fnc_aggregate, fn=None, continuous=True, **kwargs):
+
+    figsize = kwargs.pop('figsize', (10, 2.5))
+    aggregator_kwargs = kwargs.pop('aggregator_kwargs', {})
+
+    fig, axes = plt.subplots(1, 3, figsize=figsize, sharey=True, sharex=False)
+
+    ycol = 'metric'
+    
+    # access
+    ax = axes[0]
+    key = 'model_access'
+    order = ["open", "proprietary"]
+    per_attempt, per_group = fnc_aggregate(df, key, **aggregator_kwargs)
+    boxpanel(ax, per_attempt, per_group, key, ycol, order=order, continuous=continuous, **kwargs)
+
+    # model size
+    ax = axes[1]
+    key = 'model_size'
+    order = [c for c in ['S', 'S (P)', 'M', 'M (P)', 'L', 'XL'] if c in df.model_size.unique()]
+    per_attempt, per_group = fnc_aggregate(df, key, **aggregator_kwargs)
+    boxpanel(ax, per_attempt, per_group, key, ycol, order=order, continuous=continuous, **kwargs)
+    ax.set_ylabel(None)
+
+    # model class
+    ax = axes[2]
+    key = 'model_class'
+    order = ['non-reasoning', 'reasoning']
+    per_attempt, per_group = fnc_aggregate(df, key, **aggregator_kwargs)
+    boxpanel(ax, per_attempt, per_group, key, ycol, order=order, continuous=continuous, **kwargs)
+    ax.set_ylabel(None)
+    
+    ylim = kwargs.pop('ylim', None)
+    if ylim is not None:
+        ax.set_ylim(ylim)
+
+    plt.tight_layout()
+    plt.subplots_adjust(wspace=0.05)
+    
+    if fn is not None:
+        fig.savefig(fn, dpi=constants.FIG_DPI, bbox_inches='tight')
+
     plt.show()
     plt.close()
