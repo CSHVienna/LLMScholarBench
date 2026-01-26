@@ -404,6 +404,10 @@ PLOT_LEGEND_KWARGS_BARPLOT = {'title':None, 'loc': 'lower left', 'ncols':2, 'bbo
 PLOT_LEGEND_KWARGS_PCA = {'title':None, 'loc': 'lower left', 'ncols':6, 'bbox_to_anchor':(0.02,0.92,1,0.2), 'handletextpad':0.4, 'labelspacing':0.} #, 'borderpad':0.5}
 PLOT_LEGEND_KWARGS_BOXPLOT = {'title':None, 'ncols':1, 'loc':'upper right', 'frameon':True, 'borderpad':0.4, 'handlelength':0.6, 'bbox_to_anchor':(0.47,0.4,0.5,0.5), 'fontsize':'small'}
 
+
+# @TODO: the params can be obtained from LLMCaller/config/category_variables.json
+# @TODO: the tasks can be obtained from LLMCaller/config/prompt_config.json 
+
 TASK_TOPK_PARAMS = ['top_5', 'top_100']
 
 TASK_TWINS_GENDER_ORDER = ['female', 'male']
@@ -423,6 +427,20 @@ TASK_PARAMS_BY_TASK = {EXPERIMENT_TASK_TOPK:TASK_TOPK_PARAMS,
                        EXPERIMENT_TASK_EPOCH:TASK_EPOCH_PARAMS,
                        EXPERIMENT_TASK_SENIORITY:TASK_SENIORITY_PARAMS,
                        EXPERIMENT_TASK_TWINS:TASK_TWINS_FAMOUS_PARAMS+TASK_TWINS_RANDOM_PARAMS+TASK_TWINS_POLITIC_PARAMS+TASK_TWINS_MOVIE_PARAMS+TASK_TWINS_FICTICIOUS_PARAMS}
+
+TASK_TOPK_BIASED_PARAMS = ["top_100_bias_diverse",
+                            "top_100_bias_gender_equal",
+                            "top_100_bias_gender_female",
+                            "top_100_bias_gender_male",
+                            "top_100_bias_gender_neutral",
+                            "top_100_bias_ethnicity_equal",
+                            "top_100_bias_ethnicity_asian",
+                            "top_100_bias_ethnicity_black",
+                            "top_100_bias_ethnicity_latino",
+                            "top_100_bias_ethnicity_white",
+                            "top_100_bias_citations_high",
+                            "top_100_bias_citations_low"]
+
 
 NO_LAUREATE = 'None'
 NOBEL_CATEGORIES = ['Physics', 'Chemistry', 'Economics', 'Medicine', 'Peace', 'Literature', NO_LAUREATE]

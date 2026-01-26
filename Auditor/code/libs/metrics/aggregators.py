@@ -80,22 +80,22 @@ def aggregate_per_group(per_attempt, main_col_group, alpha=0.05, is_bernoulli=Fa
 #     return per_attempt, per_group
 
 def aggregate_factuality_author(df_factuality_author):
-    df_factuality_author_clean = df_factuality_author.drop_duplicates(subset=['model','temperature','date','time','task_name','task_param','task_attempt','clean_name']).copy()
+    df_factuality_author_clean = df_factuality_author.drop_duplicates(subset=['model','grounded','temperature','date','time','task_name','task_param','task_attempt','clean_name']).copy()
     df_factuality_author_clean.author_exists = df_factuality_author_clean.author_exists.astype(int)
-    group_cols = ['model','temperature','date','time','task_name','task_param','task_attempt'] 
+    group_cols = ['model','grounded','temperature','date','time','task_name','task_param','task_attempt'] 
     metric_agg  = ("author_exists", "mean")
     per_attempt = aggregate_per_attempt(df_factuality_author_clean, group_cols, metric_agg)
     return per_attempt
 
 def aggregate_validity(df_summary):
-    group_cols = ["model",'temperature', "date", "time", "task_name", "task_param"]
+    group_cols = ["model",'grounded','temperature', "date", "time", "task_name", "task_param"]
     metric_agg  = ("valid_attempt", "any")
     per_attempt = aggregate_per_attempt(df_summary, group_cols, metric_agg)
     per_attempt.metric = per_attempt.metric.astype(float)
     return per_attempt
 
 def aggregate_duplicates(df_factuality_author):
-    group_cols = ['model', 'temperature', 'date', 'time', 'task_name', 'task_param', 'task_attempt']
+    group_cols = ['model','grounded', 'temperature', 'date', 'time', 'task_name', 'task_param', 'task_attempt']
     metric_agg  = {'ntotal':("clean_name", "size"), 'nunique':("clean_name", "nunique")}
     per_attempt = aggregate_per_attempt(df_factuality_author, group_cols, metric_agg)
     return per_attempt
@@ -110,10 +110,10 @@ def aggregate_diversity(df_factuality_author, attribute=None):
         h = -(p * np.log(p)).sum()
         return h / np.log(len(p)) if len(p) > 1 else 0.0
 
-    df_factuality_author_clean = df_factuality_author.drop_duplicates(subset=['model','temperature','date','time','task_name','task_param','task_attempt','clean_name']).copy()
+    df_factuality_author_clean = df_factuality_author.drop_duplicates(subset=['model','grounded','temperature','date','time','task_name','task_param','task_attempt','clean_name']).copy()
     df_factuality_author_clean = df_factuality_author_clean.query("@pd.notna(id_author_oa) and @pd.notnull(id_author_oa) and @pd.notna(@attribute) and @pd.notnull(@attribute)")
 
-    group_cols = ['model', 'temperature', 'date', 'time', 'task_name', 'task_param', 'task_attempt']
+    group_cols = ['model', 'grounded','temperature', 'date', 'time', 'task_name', 'task_param', 'task_attempt']
     
     per_attempt = (
         df_factuality_author_clean
@@ -137,7 +137,7 @@ def aggregate_diversity_prominence_cit(df_factuality_author):
     return aggregate_diversity(df_factuality_author, attribute='prominence_cit')
 
 def aggregate_refusal(df_summary):
-    group_cols = ['model', 'temperature', 'date', 'time', 'task_name', 'task_param', 'task_attempt']
+    group_cols = ['model','grounded', 'temperature', 'date', 'time', 'task_name', 'task_param', 'task_attempt']
     metric_agg  = {'ntotal':("is_refusal", "size"), 'npositive':("is_refusal", lambda s: (s == constants.REFUSAL_TRUE).sum())}
     per_attempt = aggregate_per_attempt(df_summary, group_cols, metric_agg)
     return per_attempt
@@ -155,11 +155,11 @@ def aggregate_consistency(df_factuality_author):
         return float(np.mean(vals))
         
     # remove duplicates per attempt
-    df_factuality_author_clean = df_factuality_author.drop_duplicates(subset=['model','temperature','date','time','task_name','task_param','task_attempt','clean_name']).copy()
+    df_factuality_author_clean = df_factuality_author.drop_duplicates(subset=['model','grounded','temperature','date','time','task_name','task_param','task_attempt','clean_name']).copy()
     df_factuality_author_clean = df_factuality_author_clean.query("@pd.notna(clean_name) and @pd.notnull(clean_name) and clean_name != ''")
 
     # sort by date and time
-    group_cols = ["model", 'temperature', "task_name", "task_param", "date", "time"]
+    group_cols = ["model", 'grounded','temperature', "task_name", "task_param", "date", "time"]
     df_factuality_author_clean = df_factuality_author_clean.sort_values(group_cols)
 
     # name_set per timestamp within each group
@@ -170,7 +170,7 @@ def aggregate_consistency(df_factuality_author):
     )
 
     # final
-    group_cols = ["model", 'temperature', "task_name", "task_param"]
+    group_cols = ["model",'grounded', 'temperature', "task_name", "task_param"]
     metric_agg  = ("name_set",set_transition_stability)
     per_attempt = aggregate_per_attempt(per_time, group_cols, metric_agg)
     per_attempt.metric = per_attempt.metric.astype(float)
@@ -195,9 +195,9 @@ def aggregate_parity(df_factuality_author, attribute=None, **kwargs):
         return 1 - (1/2 * sum(abs(p - p_gt)))
     
     # remove duplicates per attempt
-    df_factuality_author_clean = df_factuality_author.drop_duplicates(subset=['model','temperature','date','time','task_name','task_param','task_attempt','clean_name']).copy()
+    df_factuality_author_clean = df_factuality_author.drop_duplicates(subset=['model','grounded','temperature','date','time','task_name','task_param','task_attempt','clean_name']).copy()
 
-    group_cols = ['model', 'temperature', 'date', 'time', 'task_name', 'task_param', 'task_attempt']
+    group_cols = ['model','grounded', 'temperature', 'date', 'time', 'task_name', 'task_param', 'task_attempt']
     metric_agg  = (attribute, parity)
     per_attempt = aggregate_per_attempt(df_factuality_author_clean, group_cols, metric_agg)
 

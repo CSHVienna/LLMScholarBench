@@ -1714,8 +1714,9 @@ def pointplot(ax, df_group, group_col, hue_order, x_order, **kwargs):
             df_hue["mean"],
             yerr=yerr,
             fmt="none",
-            color="black",
-            capsize=3
+            color=color,
+            capsize=3,
+            linewidth=0.5
         )
 
         ax.set_xticks(x)
@@ -1762,6 +1763,162 @@ def pointplot(ax, df_group, group_col, hue_order, x_order, **kwargs):
         ax.set_xticklabels([])
 
 
+def barplot_diff(ax, df_group, df_group_intervention, group_col, hue_order, x_order, **kwargs):
+
+    data = df_group.copy()
+    data_interventions = df_group_intervention.copy()
+
+    xvar = group_col[0]
+    gvar = group_col[1]
+    width = kwargs.get('width_bar', 2)
+
+    # Load colormaps
+    tab20 = plt.get_cmap("tab20")
+    tab20c = plt.get_cmap("tab20c")
+    colors = {'model_access': [tab20(0), tab20(1)][::-1],
+              'model_size': [tab20c(i) for i in range(8,12)][::-1],
+              'model_class': [tab20(2), tab20(3)][::-1]}
+
+    show_legend = kwargs.pop('show_legend', False)
+
+    # Determine category order (hue)
+    gcats = hue_order if hue_order is not None else list(data[gvar].dropna().unique())
+    xcats = x_order if x_order is not None else list(data_interventions[xvar].dropna().unique())
+    x = np.arange(len(xcats))
+    k = len(gcats)
+
+    ax.axhline(0, color='black', linestyle='--', linewidth=0.5, zorder=10e100)
+    ax.set_xticks(x)
+
+    for i, hue in enumerate(gcats):
+        color = colors[gvar][i]
+
+        df_hue = data.query(f"{gvar} == @hue").copy()
+        df_hue = pd.concat([df_hue]*len(xcats), axis=0).reset_index(drop=True)
+        df_hue.loc[:,xvar] = xcats
+        df_hue = df_hue.set_index(xvar)
+        
+
+        df_hue_interventions = data_interventions.query(f"{gvar} == @hue").reset_index(drop=True).set_index(xvar).copy()
+        
+        df_hue_diff = df_hue_interventions.drop(columns=[gvar]) - df_hue.drop(columns=[gvar])
+
+        # yerr = np.vstack([
+        #     df_hue["mean"] - df_hue["ci_low"],
+        #     df_hue["ci_high"] - df_hue["mean"]
+        # ])
+
+        ax.bar(x + (i - k/2)*width + width/2, df_hue_diff["mean"], width=width, label=hue, color=color)
+
+        # ax.errorbar(
+        #     x,
+        #     df_hue["mean"],
+        #     yerr=yerr,
+        #     fmt="none",
+        #     color=color,
+        #     capsize=3,
+        #     linewidth=0.5
+        # )
+
+        
+    if 'xticklabels_map' in kwargs:
+        xticklabels_map = kwargs.get('xticklabels_map', {})
+        xcat_labels = [xticklabels_map[x] for x in xcats]
+    else:
+        xcat_labels = xcats
+    ax.set_xticklabels(xcat_labels)
+
+    if show_legend:
+        legend_kwargs = kwargs.get('legend_kwargs', {})
+        legend_kwargs['ncol'] = 1 if len(gcats) <= 2 else 2
+        ax.legend(**legend_kwargs)
+
+    group_name = gvar.replace('_', ' ').capitalize()
+
+    # title
+    show_title = kwargs.get('show_title', False)
+
+    if show_title:
+        ax.set_title(group_name)
+    else:
+        ax.set_title(None)
+
+    # set xlabel
+    show_xlabel = kwargs.get('show_xlabel', False)
+    if show_xlabel:
+        # set xlabel
+        ax.set_xlabel(xvar)
+    else:
+        ax.set_xlabel(None)
+
+    # set ylabel
+    ylabel = kwargs.get('ylabel', None)
+    if ylabel is not None:
+        if 'diversity_' in ylabel or 'factuality_' in ylabel or 'parity_' in ylabel:
+            k = f"{ylabel.split('_')[0]}_"
+            v = ylabel.split(k)[-1].replace('prominence_','')
+            ylabel = k.replace('_','').title() + u"$_{" + v + "}$"
+        else:
+            ylabel = ylabel.replace('_pct','').title() # u"$_{" + "ratio" + "}$"
+        ax.set_ylabel(ylabel)
+
+    # xticks
+    show_xticks = kwargs.get('show_xticks', False)
+    if not show_xticks:
+        ax.set_xticklabels([])
+
+
+
+def plot_infrastructural_conditions_comparison_intervention(per_attempt, per_attempt_intervention, intervention_col, fn=None, **kwargs):
+
+    figsize = kwargs.pop('figsize', (10, 2.5))
+    aggregator_kwargs = kwargs.pop('aggregator_kwargs', {})
+
+    fig, axes = plt.subplots(1, 3, figsize=figsize, sharey=True, sharex=False)
+
+    x_order = per_attempt_intervention[intervention_col].unique()
+
+    # access
+    ax = axes[0]
+    key = 'model_access'
+    key_intervention = [intervention_col,key]
+    order = ["open", "proprietary"]
+    per_group = aggregators.aggregate_per_group(per_attempt, key, **aggregator_kwargs)
+    per_group_intervention = aggregators.aggregate_per_group(per_attempt_intervention, key_intervention, **aggregator_kwargs)
+    barplot_diff(ax, per_group, per_group_intervention, key_intervention, hue_order=order, x_order=x_order, **kwargs)
+
+    # model size
+    ax = axes[1]
+    key = 'model_size'
+    key_intervention = [intervention_col,key]
+    order = [c for c in ['S', 'S (P)', 'M', 'M (P)', 'L', 'XL'] if c in per_attempt.model_size.unique()]
+    per_group = aggregators.aggregate_per_group(per_attempt, key, **aggregator_kwargs)
+    per_group_intervention = aggregators.aggregate_per_group(per_attempt_intervention, key_intervention, **aggregator_kwargs)
+    barplot_diff(ax, per_group, per_group_intervention, key_intervention, hue_order=order, x_order=x_order, **kwargs)
+    ax.set_ylabel(None)
+
+    # model class
+    ax = axes[2]
+    key = 'model_class'
+    key_intervention = [intervention_col,key]
+    order = ['non-reasoning', 'reasoning']
+    per_group = aggregators.aggregate_per_group(per_attempt, key, **aggregator_kwargs)
+    per_group_intervention = aggregators.aggregate_per_group(per_attempt_intervention, key_intervention, **aggregator_kwargs)
+    barplot_diff(ax, per_group, per_group_intervention, key_intervention, hue_order=order, x_order=x_order, **kwargs)
+    ax.set_ylabel(None)
+    
+    ylim = kwargs.pop('ylim', None)
+    if ylim is not None:
+        ax.set_ylim(ylim)
+
+    plt.tight_layout()
+    plt.subplots_adjust(wspace=0.05, top=0.80)
+
+    if fn is not None:
+        fig.savefig(fn, dpi=constants.FIG_DPI, bbox_inches='tight')
+
+    plt.show()
+    plt.close()
 
 def plot_infrastructural_conditions_by_intervention(per_attempt, xvar, fn=None, **kwargs):
 

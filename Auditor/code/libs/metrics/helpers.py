@@ -8,13 +8,15 @@ METRICS = ['validity_pct', 'refusal_pct',
            ]
 
 
-def get_plot_fn(metric, path, prefix='infrastructure'):
-    return io.path_join(path, f'{prefix}_{metric}.pdf')
+def get_plot_fn(metric, path, prefix=None):
+    pre = '' if prefix is None else f'{prefix}_'
+    return io.path_join(path, f'{pre}{metric}.pdf')
     
-def get_per_attempt_table_fn(metric, path, prefix='infrastructure'):
-    return io.path_join(path, f'{prefix}_per_attempt_{metric}.csv')
+def get_per_attempt_table_fn(metric, path, prefix=None):
+    pre = '' if prefix is None else f'{prefix}_'
+    return io.path_join(path, f'{pre}per_attempt_{metric}.csv')
 
-def load_per_attempt(metric, df, path, gt=None, prefix='infrastructure'):
+def load_per_attempt(metric, df, path, gt=None, prefix=None):
     if metric not in METRICS:
         raise ValueError(f'Metric {metric} not supported')
 
