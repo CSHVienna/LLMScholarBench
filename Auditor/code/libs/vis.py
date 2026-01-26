@@ -1967,3 +1967,91 @@ def plot_infrastructural_conditions_by_intervention(per_attempt, xvar, fn=None, 
 
     plt.show()
     plt.close()
+
+
+def plot_metric_bars_by_groups(df, x_col='task_name', hue_col="model", metric_col="mean", fn=None, **kwargs):
+    """
+    Plot grouped bar chart:
+    - x-axis: metric
+    - y-axis: mean
+    - hue: model (two bars per metric)
+    """
+
+    figsize = kwargs.pop('figsize', (10, 2.5))
+    bar_width = kwargs.pop('bar_width', 0.35)
+    show_legend = kwargs.pop('show_legend', False)
+    x_order = kwargs.pop('x_order', df[x_col].unique())
+
+    fig, ax = plt.subplots(1, 1, figsize=figsize, sharey=True, sharex=False)
+
+    hue_groups = df[hue_col].unique()
+
+    x = np.arange(len(x_order))
+
+    tab20 = plt.get_cmap("tab20")
+    colors = [tab20(6), tab20(7)][::-1]
+
+    for i, hue in enumerate(hue_groups):
+        values = (
+            df[df[hue_col] == hue]
+            .set_index(x_col)
+            .loc[x_order, metric_col]
+            .values
+        )
+        
+        ax.bar(
+            x + (i - (len(hue_groups)-1)/2) * bar_width,
+            values,
+            width=bar_width,
+            label=hue,
+            color=colors[i]
+        )
+
+    ax.axhline(0, color='black', linestyle='--', linewidth=0.5, zorder=10e100)
+    ax.set_xticks(x)
+
+    if 'xticklabels_map' in kwargs:
+        xticklabels_map = kwargs.get('xticklabels_map', {})
+        xcat_labels = [xticklabels_map[x] for x in x_order]
+    else:
+        xcat_labels = x_order
+    ax.set_xticklabels(xcat_labels)
+
+    if show_legend:
+        legend_kwargs = kwargs.get('legend_kwargs', {})
+        legend_kwargs['ncol'] = 1 if len(hue_groups) <= 2 else 2
+        ax.legend(**legend_kwargs)
+
+    ylim = kwargs.pop('ylim', None)
+    if ylim is not None:
+        ax.set_ylim(ylim)
+
+    # set xlabel
+    show_xlabel = kwargs.get('show_xlabel', False)
+    if show_xlabel:
+        # set xlabel
+        ax.set_xlabel(x_col)
+    else:
+        ax.set_xlabel(None)
+
+    
+    # set ylabel
+    ylabel = kwargs.get('ylabel', None)
+    if ylabel is not None:
+        if 'diversity_' in ylabel or 'factuality_' in ylabel or 'parity_' in ylabel:
+            k = f"{ylabel.split('_')[0]}_"
+            v = ylabel.split(k)[-1].replace('prominence_','')
+            ylabel = k.replace('_','').title() + u"$_{" + v + "}$"
+        else:
+            ylabel = ylabel.replace('_pct','').title() # u"$_{" + "ratio" + "}$"
+        ax.set_ylabel(ylabel)
+
+
+    plt.tight_layout()
+    plt.subplots_adjust(wspace=0.05)
+    
+    if fn is not None:
+        fig.savefig(fn, dpi=constants.FIG_DPI, bbox_inches='tight')
+
+    plt.show()
+    plt.close()
