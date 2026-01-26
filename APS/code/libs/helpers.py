@@ -126,7 +126,6 @@ def add_infrastructure_columns(df):
     if 'id_author_oa' in df.columns and 'id_author_aps_list' in df.columns:
         df.loc[:, 'author_exists'] = df.id_author_oa.notnull() | df.id_author_aps_list.notnull()
 
-    
     return df
 
     

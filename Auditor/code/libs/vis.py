@@ -10,10 +10,11 @@ from pandas.plotting import parallel_coordinates
 from matplotlib.lines import Line2D
 from matplotlib.ticker import ScalarFormatter
 from matplotlib.ticker import LogFormatter
-
 import seaborn as sns
 import matplotlib.patches as mpatches
+
 from libs import constants
+from libs.metrics import aggregators
 
 def sns_reset():
     sns.reset_orig()
@@ -1533,7 +1534,6 @@ def boxpanel(ax, df_attempt, df_group, group_col, ycol, order=None, continuous=T
     # Determine category order
     cats = order if order is not None else list(data[group_col].dropna().unique())
     
-
     if not continuous:
         data = data.set_index(group_col).loc[cats].reset_index()
 
@@ -1619,12 +1619,12 @@ def boxpanel(ax, df_attempt, df_group, group_col, ycol, order=None, continuous=T
     # set ylabel
     ylabel = kwargs.get('ylabel', None)
     if ylabel is not None:
-        if 'entropy_' in ylabel or 'factuality_' in ylabel or 'parity_' in ylabel:
-            k = f"{ylabel.split('_')[0]}_" #'entropy_' if 'entropy_' in ylabel else 'factuality_'
+        if 'diversity_' in ylabel or 'factuality_' in ylabel or 'parity_' in ylabel:
+            k = f"{ylabel.split('_')[0]}_"
             v = ylabel.split(k)[-1].replace('prominence_','')
             ylabel = k.replace('_','').title() + u"$_{" + v + "}$"
         else:
-            ylabel = ylabel.replace('_pct',' (%)').title()
+            ylabel = ylabel.replace('_pct','').title() # u"$_{" + "ratio" + "}$"
         ax.set_ylabel(ylabel)
 
     # xticks
@@ -1632,7 +1632,7 @@ def boxpanel(ax, df_attempt, df_group, group_col, ycol, order=None, continuous=T
     if not show_xticks:
         ax.set_xticklabels([])
 
-def plot_infrastructural_conditions(df, fnc_aggregate, fn=None, continuous=True, **kwargs):
+def plot_infrastructural_conditions(per_attempt, fn=None, continuous=True, **kwargs):
 
     figsize = kwargs.pop('figsize', (10, 2.5))
     aggregator_kwargs = kwargs.pop('aggregator_kwargs', {})
@@ -1645,14 +1645,14 @@ def plot_infrastructural_conditions(df, fnc_aggregate, fn=None, continuous=True,
     ax = axes[0]
     key = 'model_access'
     order = ["open", "proprietary"]
-    per_attempt, per_group = fnc_aggregate(df, key, **aggregator_kwargs)
+    per_group = aggregators.aggregate_per_group(per_attempt, key, **aggregator_kwargs)
     boxpanel(ax, per_attempt, per_group, key, ycol, order=order, continuous=continuous, **kwargs)
 
     # model size
     ax = axes[1]
     key = 'model_size'
-    order = [c for c in ['S', 'S (P)', 'M', 'M (P)', 'L', 'XL'] if c in df.model_size.unique()]
-    per_attempt, per_group = fnc_aggregate(df, key, **aggregator_kwargs)
+    order = [c for c in ['S', 'S (P)', 'M', 'M (P)', 'L', 'XL'] if c in per_attempt.model_size.unique()]
+    per_group = aggregators.aggregate_per_group(per_attempt, key, **aggregator_kwargs)
     boxpanel(ax, per_attempt, per_group, key, ycol, order=order, continuous=continuous, **kwargs)
     ax.set_ylabel(None)
 
@@ -1660,8 +1660,142 @@ def plot_infrastructural_conditions(df, fnc_aggregate, fn=None, continuous=True,
     ax = axes[2]
     key = 'model_class'
     order = ['non-reasoning', 'reasoning']
-    per_attempt, per_group = fnc_aggregate(df, key, **aggregator_kwargs)
+    per_group = aggregators.aggregate_per_group(per_attempt, key, **aggregator_kwargs)
     boxpanel(ax, per_attempt, per_group, key, ycol, order=order, continuous=continuous, **kwargs)
+    ax.set_ylabel(None)
+    
+    ylim = kwargs.pop('ylim', None)
+    if ylim is not None:
+        ax.set_ylim(ylim)
+
+    plt.tight_layout()
+    plt.subplots_adjust(wspace=0.05)
+    
+    if fn is not None:
+        fig.savefig(fn, dpi=constants.FIG_DPI, bbox_inches='tight')
+
+    plt.show()
+    plt.close()
+
+def pointplot(ax, df_group, group_col, hue_order, x_order, **kwargs):
+
+    data = df_group.copy()
+    xvar = group_col[0]
+    gvar = group_col[1]
+
+    # Load colormaps
+    tab20 = plt.get_cmap("tab20")
+    tab20c = plt.get_cmap("tab20c")
+    colors = {'model_access': [tab20(0), tab20(1)][::-1],
+              'model_size': [tab20c(i) for i in range(8,12)][::-1],
+              'model_class': [tab20(2), tab20(3)][::-1]}
+
+    show_legend = kwargs.pop('show_legend', False)
+
+    # Determine category order (hue)
+    gcats = hue_order if hue_order is not None else list(data[gvar].dropna().unique())
+    xcats = x_order if x_order is not None else list(data[xvar].dropna().unique())
+
+    for i, hue in enumerate(gcats):
+        color = colors[gvar][i]
+        df_hue = data.query(f"{gvar} == @hue").copy()
+        df_hue = df_hue.set_index(xvar).loc[xcats].reset_index()
+        x = np.arange(df_hue.shape[0])
+
+        yerr = np.vstack([
+            df_hue["mean"] - df_hue["ci_low"],
+            df_hue["ci_high"] - df_hue["mean"]
+        ])
+
+        ax.plot(x, df_hue["mean"], marker="o", markersize=4, zorder=3, label=hue, color=color)
+
+        ax.errorbar(
+            x,
+            df_hue["mean"],
+            yerr=yerr,
+            fmt="none",
+            color="black",
+            capsize=3
+        )
+
+        ax.set_xticks(x)
+        ax.set_xticklabels(df_hue['temperature'])
+
+        if show_legend:
+            legend_kwargs = kwargs.get('legend_kwargs', {})
+            legend_kwargs['ncol'] = 2 if len(gcats) > 2 else 1
+            ax.legend(**legend_kwargs)
+
+
+    group_name = gvar.replace('_', ' ').capitalize()
+
+    # title
+    show_title = kwargs.pop('show_title', False)
+
+    if show_title:
+        ax.set_title(group_name)
+    else:
+        ax.set_title(None)
+
+    # set xlabel
+    show_xlabel = kwargs.pop('show_xlabel', False)
+    if show_xlabel:
+        # set xlabel
+        ax.set_xlabel(xvar)
+    else:
+        ax.set_xlabel(None)
+
+    # set ylabel
+    ylabel = kwargs.get('ylabel', None)
+    if ylabel is not None:
+        if 'diversity_' in ylabel or 'factuality_' in ylabel or 'parity_' in ylabel:
+            k = f"{ylabel.split('_')[0]}_"
+            v = ylabel.split(k)[-1].replace('prominence_','')
+            ylabel = k.replace('_','').title() + u"$_{" + v + "}$"
+        else:
+            ylabel = ylabel.replace('_pct','').title() # u"$_{" + "ratio" + "}$"
+        ax.set_ylabel(ylabel)
+
+    # xticks
+    show_xticks = kwargs.pop('show_xticks', False)
+    if not show_xticks:
+        ax.set_xticklabels([])
+
+
+
+def plot_infrastructural_conditions_by_intervention(per_attempt, xvar, fn=None, **kwargs):
+
+    figsize = kwargs.pop('figsize', (10, 2.5))
+    aggregator_kwargs = kwargs.pop('aggregator_kwargs', {})
+
+    fig, axes = plt.subplots(1, 3, figsize=figsize, sharey=True, sharex=False)
+
+    x_order = per_attempt[xvar].unique()
+
+    # access
+    ax = axes[0]
+    key = 'model_access'
+    key = [xvar,key]
+    order = ["open", "proprietary"]
+    per_group = aggregators.aggregate_per_group(per_attempt, key, **aggregator_kwargs)
+    pointplot(ax, per_group, key, hue_order=order, x_order=x_order, **kwargs)
+
+    # model size
+    ax = axes[1]
+    key = 'model_size'
+    key = [xvar,key]
+    order = [c for c in ['S', 'S (P)', 'M', 'M (P)', 'L', 'XL'] if c in per_attempt.model_size.unique()]
+    per_group = aggregators.aggregate_per_group(per_attempt, key, **aggregator_kwargs)
+    pointplot(ax, per_group, key, hue_order=order, x_order=x_order, **kwargs)
+    ax.set_ylabel(None)
+
+    # model class
+    ax = axes[2]
+    key = 'model_class'
+    key = [xvar,key]
+    order = ['non-reasoning', 'reasoning']
+    per_group = aggregators.aggregate_per_group(per_attempt, key, **aggregator_kwargs)
+    pointplot(ax, per_group, key, hue_order=order, x_order=x_order, **kwargs)
     ax.set_ylabel(None)
     
     ylim = kwargs.pop('ylim', None)
