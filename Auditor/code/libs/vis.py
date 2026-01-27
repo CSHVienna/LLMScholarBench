@@ -1847,7 +1847,8 @@ def barplot_diff(ax, df_group, df_group_intervention, group_col, hue_order, x_or
     show_xlabel = kwargs.get('show_xlabel', False)
     if show_xlabel:
         # set xlabel
-        ax.set_xlabel(xvar)
+        xlabel = kwargs.get('xlabel', xvar)
+        ax.set_xlabel(xlabel)
     else:
         ax.set_xlabel(None)
 
@@ -2030,7 +2031,8 @@ def plot_metric_bars_by_groups(df, x_col='task_name', hue_col="model", metric_co
     show_xlabel = kwargs.get('show_xlabel', False)
     if show_xlabel:
         # set xlabel
-        ax.set_xlabel(x_col)
+        xlabel = kwargs.get('xlabel', x_col)
+        ax.set_xlabel(xlabel)
     else:
         ax.set_xlabel(None)
 
