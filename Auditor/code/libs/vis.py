@@ -1616,16 +1616,20 @@ def boxpanel(ax, df_attempt, df_group, group_col, ycol, order=None, continuous=T
     else:
         ax.set_xlabel(None)
 
-    # set ylabel
+     # set ylabel
     ylabel = kwargs.get('ylabel', None)
     if ylabel is not None:
         if 'diversity_' in ylabel or 'factuality_' in ylabel or 'parity_' in ylabel:
             k = f"{ylabel.split('_')[0]}_"
             v = ylabel.split(k)[-1].replace('prominence_','')
+
+            k = k.replace('diversity','div.').replace('factuality','fact.') if 'diversity' in ylabel or 'factuality' in ylabel else k
+
             ylabel = k.replace('_','').title() + u"$_{" + v + "}$"
         else:
             ylabel = ylabel.replace('_pct','').title() # u"$_{" + "ratio" + "}$"
         ax.set_ylabel(ylabel)
+        
 
     # xticks
     show_xticks = kwargs.pop('show_xticks', False)
@@ -1752,11 +1756,15 @@ def pointplot(ax, df_group, group_col, hue_order, x_order, **kwargs):
         if 'diversity_' in ylabel or 'factuality_' in ylabel or 'parity_' in ylabel:
             k = f"{ylabel.split('_')[0]}_"
             v = ylabel.split(k)[-1].replace('prominence_','')
+
+            k = k.replace('diversity','div.').replace('factuality','fact.') if 'diversity' in ylabel or 'factuality' in ylabel else k
+
             ylabel = k.replace('_','').title() + u"$_{" + v + "}$"
         else:
             ylabel = ylabel.replace('_pct','').title() # u"$_{" + "ratio" + "}$"
         ax.set_ylabel(ylabel)
 
+        
     # xticks
     show_xticks = kwargs.pop('show_xticks', False)
     if not show_xticks:
@@ -1858,6 +1866,9 @@ def barplot_diff(ax, df_group, df_group_intervention, group_col, hue_order, x_or
         if 'diversity_' in ylabel or 'factuality_' in ylabel or 'parity_' in ylabel:
             k = f"{ylabel.split('_')[0]}_"
             v = ylabel.split(k)[-1].replace('prominence_','')
+
+            k = k.replace('diversity','div.').replace('factuality','fact.') if 'diversity' in ylabel or 'factuality' in ylabel else k
+
             ylabel = k.replace('_','').title() + u"$_{" + v + "}$"
         else:
             ylabel = ylabel.replace('_pct','').title() # u"$_{" + "ratio" + "}$"
@@ -2043,6 +2054,9 @@ def plot_metric_bars_by_groups(df, x_col='task_name', hue_col="model", metric_co
         if 'diversity_' in ylabel or 'factuality_' in ylabel or 'parity_' in ylabel:
             k = f"{ylabel.split('_')[0]}_"
             v = ylabel.split(k)[-1].replace('prominence_','')
+
+            k = k.replace('diversity','div.').replace('factuality','fact.') if 'diversity' in ylabel or 'factuality' in ylabel else k
+
             ylabel = k.replace('_','').title() + u"$_{" + v + "}$"
         else:
             ylabel = ylabel.replace('_pct','').title() # u"$_{" + "ratio" + "}$"

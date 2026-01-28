@@ -2,8 +2,11 @@ import numpy as np
 import pandas as pd
 from scipy.stats import t
 from statsmodels.stats.proportion import proportion_confint
+from tqdm.auto import tqdm
+tqdm.pandas()
 
 from libs import constants
+from libs.network import fragmentation
 
 def aggregate_per_attempt(df, group_cols, metric_agg):
 
@@ -214,3 +217,47 @@ def aggregate_parity_prominence_pub(df_factuality_author, **kwargs):
 
 def aggregate_parity_prominence_cit(df_factuality_author, **kwargs):
     return aggregate_parity(df_factuality_author, attribute='prominence_cit', **kwargs) 
+
+
+
+def aggregate_connectedness(df_factuality_author, **kwargs):
+    df_coauthorships_in_recommendations = kwargs.get('df_coauthorships_in_recommendations', None)
+    if df_coauthorships_in_recommendations is None:
+        raise ValueError("df_coauthorships_in_recommendations must be provided")
+
+    group_cols = ['model','grounded','temperature','date','time','task_name','task_param','task_attempt']
+    results = []
+
+    g = df_factuality_author.groupby(group_cols)
+
+    for group, df in tqdm(g, total=g.ngroups, desc="Processing groups"):
+    
+            rec_ids = df.id_author_oa.dropna().unique()
+
+            connectedness = fragmentation.norm_entropy_R_from_edgelist(rec_ids,
+                                                                    df_coauthorships_in_recommendations,
+                                                                    src_col = "src",
+                                                                    dst_col = "dst")
+
+            obj = {c: group[i] for i, c in enumerate(group_cols)}
+            obj |= {'nrecs': connectedness.n,
+                    'n_components': connectedness.n_components,
+                    'metric': connectedness.norm_entropy,
+                    'n_edges_rows': connectedness.n_edges_rows,
+                    'n_edges_undirected_unique': connectedness.n_edges_undirected_unique
+                    }
+            
+            results.append(obj)
+
+    return pd.DataFrame(results)
+    
+
+def aggregate_scholarly_similarity(df_factuality_author, **kwargs):
+    # similarity:
+    # 1. log-transfor count variables (work_counts, cited_by_counts, h_index), eg. x = log(x + 1)
+    # 2. standardize the variables, eg. z = (x - mean) / std (mean and std are computed on the entire dataset)
+    # 3. compute the PCA of the standardized variables (2 components) - retain components explaining 80%-90% variance
+    # 4. compute the cosine similarity between the PCA components (yi, yj: person i and j) where yi and yj are the PCA components of person i and j
+    # 4. compute the average cosine similarity
+    return None
+
