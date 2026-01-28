@@ -47,6 +47,19 @@ def bold_best_within_groups(df, group_map, higher_better, lower_better):
 
             # apply bold to the original (string) table
             for r in sub.index[mask]:
-                out.loc[r, col] = r"\textbf{" + str(out.loc[r, col]) + "}"
+
+                cell = str(out.loc[r, col])
+
+                if '[' in cell:
+                
+                    mean = cell.split(' ')[0]
+                    ci = ' '.join(cell.split(' ')[1:])
+                    out.loc[r, col] = r"\textbf{" + mean + "} " + ci
+
+                else:
+
+                    out.loc[r, col] = r"\textbf{" + cell + "} "
+
+                # print(r"\textbf{" + mean + " " + ci + "}")
 
     return out
