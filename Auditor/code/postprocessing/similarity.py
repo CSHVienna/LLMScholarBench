@@ -110,6 +110,7 @@ def gini_coefficient(data):
     gini = 1 - (2 / n) * np.sum(cumulative_sum[:-1] * (1 / n + cumulative_sum[1:] - cumulative_sum[:-1]))
     return gini
 
+
 def compute_average_pairwise_cosine_similarity(array):
     '''
     Compute the similarity of numeric data using the cosine similarity metric.
@@ -186,4 +187,7 @@ def get_items_by_author(id_institutions_by_author, df_all, column_item, column_i
             items = items.astype(column_item_cast)
         df_items_by_author = pd.concat([df_items_by_author, pd.DataFrame({'id_author_oa': [id_author_oa], '_items': [items]})], ignore_index=True)
         
+    if df_items_by_author.empty:
+        return None
+    
     return df_items_by_author.set_index('id_author_oa')
