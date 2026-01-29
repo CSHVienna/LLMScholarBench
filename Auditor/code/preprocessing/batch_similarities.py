@@ -29,7 +29,7 @@ def run(aps_os_data_tar_gz: str, valid_responses_dir: str, model: str, task_name
         fact_author.load_valid_responses_with_factuality_check()
         progress_bar.update(1)
 
-        req_cols = ['model', 'task_name', 'task_param', 'date', 'time', 'id_author_oa', 'clean_name']
+        req_cols = ['model', 'grounded', 'temperature', 'task_name', 'task_param', 'task_attempt', 'date', 'time', 'id_author_oa', 'clean_name']
         df_valid_responses = fact_author.df_valid_responses[req_cols].query("task_name == @task_name").copy() # filtering by task_name
 
         # We remove repeated names from the same request to avoid biasing the results
@@ -89,7 +89,7 @@ def run(aps_os_data_tar_gz: str, valid_responses_dir: str, model: str, task_name
     # Output: for every request, similarity of authors (cosine similarity) and stats (mean, std, min, max, median, 25%, 75%)
 
     # stats (scholarly and demographics)
-    cols = ['model', 'task_name', 'task_param', 'date', 'time']
+    cols = ['model', 'grounded', 'temperature', 'task_name', 'task_param', 'task_attempt', 'date', 'time']
     df_request_stats = df_valid_responses_metadata.groupby(cols).progress_apply(lambda row: process_group(row, 
                                                                                                           df_authorships=df_authorships,
                                                                                                           df_institutions=df_institutions,
@@ -116,7 +116,7 @@ def process_group(group, df_authorships, df_institutions):
     n_author_hallucinations = n_unique_names_recommendations - n_unique_author_recommendations
 
     # Compute the similarity of all retrieved names (regardless of factuality)
-    name_similarity = text.compute_similarity_list_of_text(group['clean_name'].drop_duplicates().values)
+    name_similarity = text.compute_similarity_list_of_text(group['clean_name'].dropna().drop_duplicates().values)
 
     if clean_group.empty or n_unique_author_recommendations == 1:
         gender_diversity = None
@@ -152,23 +152,29 @@ def process_group(group, df_authorships, df_institutions):
 
         # shared institutions
         df_institutions_authors = similarity.get_items_by_author(df_authorships_filtered.groupby('id_author_oa').id_institution_oa.unique(), df_institutions, 'id_institution_oa')
-        institutions_share = similarity.compute_average_jaccard_similarity(df_institutions_authors)
+        institutions_share = similarity.compute_average_jaccard_similarity(df_institutions_authors) if df_institutions_authors is not None else None
         
         # shared institutions' countries
         df_countries = similarity.get_items_by_author(df_authorships_filtered.groupby('id_author_oa').id_institution_oa.unique(), df_institutions, 'country_code')
-        country_of_affiliation_share = similarity.compute_average_jaccard_similarity(df_countries)
+        country_of_affiliation_share = similarity.compute_average_jaccard_similarity(df_countries) if df_countries is not None else None
 
         # shared coauthors
         df_coauthors = similarity.get_items_by_author(df_authorships_filtered.groupby('id_author_oa').id_institution_oa.unique(), df_authorships, 'id_author_oa', column_item_cast=int)
-        coauthors_share = similarity.compute_average_jaccard_similarity(df_coauthors)
+        coauthors_share = similarity.compute_average_jaccard_similarity(df_coauthors) if df_coauthors is not None else None
 
         # coauthors among the recommendations
-        df_coauthors_recommended = pd.DataFrame(df_coauthors.apply(lambda row: list(set(row._items).intersection(set(ids)) - set([row.name])), axis=1), columns=['_items'])
-        coauthors_recommended_share = similarity.compute_average_jaccard_similarity(df_coauthors_recommended)
+        if df_coauthors is None:
+            coauthors_recommended_share = None
+        else:
+            df_coauthors_recommended = pd.DataFrame(df_coauthors.apply(lambda row: list(set(row._items).intersection(set(ids)) - set([row.name])), axis=1), columns=['_items'])
+            coauthors_recommended_share = similarity.compute_average_jaccard_similarity(df_coauthors_recommended)
 
         # recommended authors are coauthors
-        all_possible_pairs = len(list(permutations(ids, 2)))
-        recommended_author_pairs_are_coauthors = df_coauthors_recommended._items.apply(lambda x: len(x) > 0).sum() / all_possible_pairs
+        if df_coauthors is None:
+            recommended_author_pairs_are_coauthors = None
+        else:
+            all_possible_pairs = len(list(permutations(ids, 2)))
+            recommended_author_pairs_are_coauthors = df_coauthors_recommended._items.apply(lambda x: len(x) > 0).sum() / all_possible_pairs
         
     # Return a DataFrame with one row and multiple columns
     df = pd.DataFrame({

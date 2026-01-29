@@ -2,11 +2,25 @@ import numpy as np
 import pandas as pd
 from scipy.stats import t
 from statsmodels.stats.proportion import proportion_confint
+from scipy.stats import norm
+
 from tqdm.auto import tqdm
 tqdm.pandas()
 
 from libs import constants
 from libs.network import fragmentation
+
+import numpy as np
+import pandas as pd
+from scipy.stats import t
+from statsmodels.stats.proportion import proportion_confint
+
+# 1) Define which metrics are binary (0/1)
+BINARY_METRICS = {
+    "validity_pct",
+    "refusal_pct",
+}
+
 
 def aggregate_per_attempt(df, group_cols, metric_agg):
 
@@ -49,25 +63,29 @@ def aggregate_per_group(per_attempt, main_col_group, alpha=0.05, is_bernoulli=Fa
         per_attempt
         .groupby(main_col_group)
         .agg(
-            n = (metric_col_name, "count"),
-            mean = (metric_col_name, "mean"),
-            std = (metric_col_name, "std"),
-            median = (metric_col_name, "median"),
-            sum = (metric_col_name, "sum"),
-            )
+            n      =(metric_col_name, "count"),
+            mean   =(metric_col_name, "mean"),
+            std    =(metric_col_name, "std"),
+            median =(metric_col_name, "median"),
+            sum    =(metric_col_name, "sum"),
+        )
     )
 
-    # calculate confidence interval (means margin of error, t-distribution for non-bernoulli distributions)
-    per_group["ci"] = (
-        t.ppf(1 - alpha/2, per_group["n"] - 1) * per_group["std"] / np.sqrt(per_group["n"])
-    )
+    # Initialize
+    per_group["ci"] = np.nan
+    per_group["ci_low"] = np.nan
+    per_group["ci_high"] = np.nan
 
     if is_bernoulli:
         # For bernoulli distributions, use the Wilson score interval (i.e., refusal and validity)
         per_group["ci_low"], per_group["ci_high"] = proportion_confint(count=per_group["sum"],
                                                                         nobs=per_group["n"],
                                                                         method="wilson")
+        per_group["ci"] = (per_group["ci_high"] - per_group["ci_low"]) / 2.0 # half-width of the confidence interval (just for visualization purposes)
+                                                                                
     else:
+        # calculate confidence interval (means margin of error, t-distribution for non-bernoulli distributions)
+        per_group["ci"] = (t.ppf(1 - alpha/2, per_group["n"] - 1) * per_group["std"] / np.sqrt(per_group["n"]))
         per_group["ci_low"] = per_group["mean"] - per_group["ci"]
         per_group["ci_high"] = per_group["mean"] + per_group["ci"]
 
@@ -220,44 +238,48 @@ def aggregate_parity_prominence_cit(df_factuality_author, **kwargs):
 
 
 
-def aggregate_connectedness(df_factuality_author, **kwargs):
-    df_coauthorships_in_recommendations = kwargs.get('df_coauthorships_in_recommendations', None)
-    if df_coauthorships_in_recommendations is None:
-        raise ValueError("df_coauthorships_in_recommendations must be provided")
+def aggregate_similarity(df_factuality_author, **kwargs):
+    df_similarity = kwargs.get('df_similarity', None)
+    metric_similarity = kwargs.get('metric_similarity', None)
 
-    group_cols = ['model','grounded','temperature','date','time','task_name','task_param','task_attempt']
-    results = []
+    if df_similarity is None or metric_similarity is None:
+        raise ValueError("df_similarity and metric_similarity must be provided")
 
-    g = df_factuality_author.groupby(group_cols)
+    group_cols = ['model','grounded','temperature','date','time','task_name','task_param','task_attempt',metric_similarity]
+    df = df_similarity[group_cols].copy()
+    df.rename(columns={metric_similarity: 'metric'}, inplace=True)
+    return df
 
-    for group, df in tqdm(g, total=g.ngroups, desc="Processing groups"):
+    # results = []
+
+    # g = df_factuality_author.groupby(group_cols)
+
+    # for group, df in tqdm(g, total=g.ngroups, desc="Processing groups"):
     
-            rec_ids = df.id_author_oa.dropna().unique()
+    #         rec_ids = df.id_author_oa.dropna().unique()
 
-            connectedness = fragmentation.norm_entropy_R_from_edgelist(rec_ids,
-                                                                    df_coauthorships_in_recommendations,
-                                                                    src_col = "src",
-                                                                    dst_col = "dst")
+    #         connectedness = fragmentation.norm_entropy_R_from_edgelist(rec_ids,
+    #                                                                 df_coauthorships_in_recommendations,
+    #                                                                 src_col = "src",
+    #                                                                 dst_col = "dst")
 
-            obj = {c: group[i] for i, c in enumerate(group_cols)}
-            obj |= {'nrecs': connectedness.n,
-                    'n_components': connectedness.n_components,
-                    'metric': connectedness.norm_entropy,
-                    'n_edges_rows': connectedness.n_edges_rows,
-                    'n_edges_undirected_unique': connectedness.n_edges_undirected_unique
-                    }
+    #         obj = {c: group[i] for i, c in enumerate(group_cols)}
+    #         obj |= {'nrecs': connectedness.n,
+    #                 'n_components': connectedness.n_components,
+    #                 'metric': connectedness.norm_entropy,
+    #                 'n_edges_rows': connectedness.n_edges_rows,
+    #                 'n_edges_undirected_unique': connectedness.n_edges_undirected_unique
+    #                 }
             
-            results.append(obj)
+    #         results.append(obj)
 
-    return pd.DataFrame(results)
+    # return pd.DataFrame(results)
     
 
-def aggregate_scholarly_similarity(df_factuality_author, **kwargs):
+
     # similarity:
     # 1. log-transfor count variables (work_counts, cited_by_counts, h_index), eg. x = log(x + 1)
     # 2. standardize the variables, eg. z = (x - mean) / std (mean and std are computed on the entire dataset)
     # 3. compute the PCA of the standardized variables (2 components) - retain components explaining 80%-90% variance
     # 4. compute the cosine similarity between the PCA components (yi, yj: person i and j) where yi and yj are the PCA components of person i and j
     # 4. compute the average cosine similarity
-    return None
-
