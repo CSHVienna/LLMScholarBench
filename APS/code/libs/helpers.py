@@ -95,7 +95,24 @@ def assign_model_size_class(row):
                 return size_class
     return None
 
-def detect_refusal(msg):
+def get_refusal_text(row):
+    try:
+        msg = row.result_original_output.lower()
+    except:
+        msg = None
+
+    if msg is None:
+        try:
+            msg = row.result_original_message.lower()
+        except:
+            msg = None
+    
+    return msg
+
+
+def detect_refusal(row):
+    msg = get_refusal_text(row)
+
     if type(msg) == str:
         if any(re.search(p, msg) for p in constants.REFUSAL_KEYWORDS):
             return constants.REFUSAL_TRUE
@@ -108,7 +125,7 @@ def add_quantiles(df, cols_dict={'works_count':'pub', 'cited_by_count':'cit'}):
             df[f"prominence_{label}"] = io.pd.qcut(
                                                 df[col],
                                                 q=[0, 0.5, 0.8, 0.95, 1.0],
-                                                labels=["low", "mid", "high", "elite"]
+                                                labels=constants.PROMINENCE_CATEGORIES
                                             )
     return df
                                             
@@ -118,8 +135,8 @@ def add_infrastructure_columns(df):
     df.loc[:, 'model_class'] = df.model.map(constants.LLM_CLASS_CATEGORIES_INV)
     df.loc[:, 'model_provider'] = df.model.str.split('-').str[0]
 
-    if 'result_original_message' in df.columns and 'is_refusal' not in df.columns:
-        df.loc[:, 'is_refusal'] = df.result_original_message.apply(lambda msg: helpers.detect_refusal(msg))
+    if 'result_original_output' in df.columns or 'result_original_message' in df.columns:
+        df.loc[:, 'is_refusal'] = df.apply(lambda row: helpers.detect_refusal(row), axis=1)
 
     # model size (merging open and proprietary models)
     df["model_size"] = df["model_size"].str.replace(r"\s*\(.*\)", "", regex=True)

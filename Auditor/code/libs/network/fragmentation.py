@@ -70,20 +70,11 @@ def norm_entropy_R_from_edgelist(
     rec_ids = np.asarray(rec_ids, dtype=np.int64)
     n = int(rec_ids.size)
 
-    if n == 0:
+    if n <= 1:
         return NormEntropyResult(
-            n=0,
-            n_components=0,
-            component_sizes=np.array([], dtype=int),
-            norm_entropy=None,
-            n_edges_rows=None,
-            n_edges_undirected_unique=None,
-        )
-    if n == 1:
-        return NormEntropyResult(
-            n=1,
-            n_components=1,
-            component_sizes=np.array([1], dtype=int),
+            n=n,
+            n_components=n,
+            component_sizes=np.array([] if n == 0 else [n], dtype=int),
             norm_entropy=None,
             n_edges_rows=None,
             n_edges_undirected_unique=None,
