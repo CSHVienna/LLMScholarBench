@@ -3,28 +3,29 @@ from libs.metrics import aggregators
 from libs import helpers
 from libs import constants
 
-METRICS = ['validity_pct', 'refusal_pct', 
-           'duplicates', 'consistency', 'factuality_author', 
-           'connectedness', 'similarity',
-           'diversity_gender', 'diversity_ethnicity', 'diversity_prominence_pub', 'diversity_prominence_cit', 
-           'parity_gender', 'parity_ethnicity', 'parity_prominence_pub', 'parity_prominence_cit',
-           ]
-
 
 def get_plot_fn(metric, path, prefix=None):
     pre = '' if prefix is None else f'{prefix}_'
     return io.path_join(path, f'{pre}{metric}.pdf')
     
-def get_per_attempt_table_fn(metric, path, prefix=None):
-    pre = '' if prefix is None else f'{prefix}_'
-    return io.path_join(path, f'{pre}per_attempt_{metric}.csv')
+# def get_per_attempt_table_fn(metric, path, prefix=None):
+#     pre = '' if prefix is None else f'{prefix}_'
+#     return io.path_join(path, f'{pre}per_attempt_{metric}.csv')
 
-def load_per_attempt(metric, df, path, prefix=None, **kwargs):
-    if metric not in METRICS:
+def get_per_attempt_fn(model, metric, path, prefix=None):
+    pre_1 = '' if prefix is None else f'{prefix}_'
+    pre_2 = '' if model is None else f'{model}_'
+    pre_3 = '' if metric is None else f'{metric}'
+    fn = f'{pre_1}per_attempt_{pre_2}{pre_3}.csv'.strip()
+    return io.path_join(path, fn)
+
+def load_per_attempt(metric, df, fn, save=False, **kwargs):
+
+    if metric not in constants.BENCHMARK_METRICS:
         raise ValueError(f'Metric {metric} not supported')
 
-    fn = get_per_attempt_table_fn(metric, path, prefix)
-    if io.exists(fn):
+    overwrite = kwargs.pop('overwrite', False)
+    if io.exists(fn) and not overwrite:
         return io.read_csv(fn, index_col=0)
 
     gt = kwargs.get('gt', None)
@@ -42,9 +43,15 @@ def load_per_attempt(metric, df, path, prefix=None, **kwargs):
 
     elif metric == 'factuality_author':
         per_attempt = aggregators.aggregate_factuality_author(df)
-    elif metric == 'connectedness':
+
+    elif metric == 'connectedness_density':
         per_attempt = aggregators.aggregate_similarity(df, df_similarity=df_similarity, metric_similarity=metric_similarity)
-    elif metric == 'similarity':
+    elif metric == 'connectedness_entropy':
+        per_attempt = aggregators.aggregate_similarity(df, df_similarity=df_similarity, metric_similarity=metric_similarity)
+    elif metric == 'connectedness_components':
+        per_attempt = aggregators.aggregate_similarity(df, df_similarity=df_similarity, metric_similarity=metric_similarity)
+    
+    elif metric == 'similarity_pca':
         per_attempt = aggregators.aggregate_similarity(df, df_similarity=df_similarity, metric_similarity=metric_similarity)
 
     elif metric == 'diversity_gender':
@@ -67,7 +74,15 @@ def load_per_attempt(metric, df, path, prefix=None, **kwargs):
     else:
         raise ValueError(f'Metric {metric} not supported')
 
-    io.save_csv(per_attempt, fn)
+    per_attempt.rename(columns={'metric':'metric_value'}, inplace=True)
+    per_attempt.loc[:, 'metric_name'] = metric
+    cols_order = per_attempt.columns.tolist()[:-2] + ['metric_name', 'metric_value']
+    per_attempt = per_attempt[cols_order]
+
+    if save:
+        verbose = kwargs.get('verbose', True)
+        io.save_csv(per_attempt, fn, verbose=verbose)
+        
     return per_attempt
 
 
@@ -81,7 +96,7 @@ def load_infrastructure_data(query, tables_path, prefix='infrastructure', includ
         df_summary_infrastructure_attempt = io.pd.DataFrame()
         df_summary_infrastructure_group = io.pd.DataFrame()
 
-        for metric in METRICS:
+        for metric in constants.BENCHMARK_METRICS:
             # per attempt
             prefix_pa = prefix if prefix == 'temperature' else None
             per_attempt = load_per_attempt(metric, None, tables_path, prefix_pa).query(query)
@@ -97,7 +112,7 @@ def load_infrastructure_data(query, tables_path, prefix='infrastructure', includ
             df_summary_infrastructure_attempt = io.pd.concat([df_summary_infrastructure_attempt, per_attempt], axis=0, ignore_index=True)
             
             
-            for group in ['model_access', 'model_size', 'model_class']:
+            for group in constants.BENCHMARK_MODEL_GROUPS:
             
                 _group = [group] + include_in_group_by if include_in_group_by is not None and type(include_in_group_by) == list and len(include_in_group_by) > 0 else group
 

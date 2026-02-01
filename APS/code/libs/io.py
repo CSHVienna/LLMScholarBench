@@ -174,8 +174,10 @@ def read_csv(fn, **kwargs):
     
 def save_csv(df, fn, **kwargs):
     try:
+        verbose = kwargs.pop('verbose', True)
         df.to_csv(fn, **kwargs)
-        printf(f"Data successfully saved to {fn}")
+        if verbose:
+            printf(f"Data successfully saved to {fn}")
     except Exception as e:
         printf(f"Error: {e}")
 

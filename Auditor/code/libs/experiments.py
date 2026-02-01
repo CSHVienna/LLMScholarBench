@@ -23,26 +23,26 @@ def extract_and_convert_to_dict(result_api, file_path):
 
     if gemini:
         if 'full_api_response' in result_api:
-            input_string = result_api.get('full_api_response', {}).get('candidates', [{}])[0].get('content', {}).get('parts', [None,None,None])
+            input_string_original = result_api.get('full_api_response', {}).get('candidates', [{}])[0].get('content', {}).get('parts', [None,None,None])
 
-            if type(input_string) == list:
-                if len(input_string) == 1:
-                    input_string = input_string[0].get('text', '')
-                    if '"Tsunami":' in str(input_string):
-                        input_string = str(input_string).replace('"Tsunami":', '"Name":')
+            if type(input_string_original) == list:
+                if len(input_string_original) == 1:
+                    input_string_original = input_string_original[0].get('text', '')
+                    if '"Tsunami":' in str(input_string_original):
+                        input_string_original = str(input_string_original).replace('"Tsunami":', '"Name":')
                 else:
-                    input_string = input_string[1 if len(input_string) == 3 else 2 if len(input_string) == 4 else -2].get('text', None)
+                    input_string_original = input_string_original[1 if len(input_string_original) == 3 else 2 if len(input_string_original) == 4 else -2].get('text', None)
             else:
-                input_string = None
+                input_string_original = None
         else:
-            input_string = result_api.get('response', None)
+            input_string_original = result_api.get('response', None)
     else:
         if result_api.get('choices', None) is None:
             return None, constants.EXPERIMENT_OUTPUT_PROVIDER_ERROR
-        input_string = result_api.get('choices', [{}])[0].get('message', {}).get('content', None)
+        input_string_original = result_api.get('choices', [{}])[0].get('message', {}).get('content', None)
 
     ### Decoding 
-    input_string = input_string.replace('\n', ' ').replace('\r', ' ').replace('\t', ' ').replace("\\", '').replace('...', '').replace('```json', ' ').replace('```', ' ')
+    input_string = input_string_original.replace('\n', ' ').replace('\r', ' ').replace('\t', ' ').replace("\\", '').replace('...', '').replace('```json', ' ').replace('```', ' ')
     
     valid_flag = None
 
@@ -286,7 +286,7 @@ def _get_extracted_data(result_api, validation_result, file_path):
     is_valid = validation_result.get('is_valid', False)
     original_extracted_data = validation_result.get('extracted_data', None)
     message = validation_result.get('message', None)
-        
+
     if is_valid and type(original_extracted_data) == list and len(original_extracted_data) == 0:
         return original_extracted_data, constants.EXPERIMENT_OUTPUT_EMPTY
     
@@ -307,6 +307,7 @@ def _get_extracted_data(result_api, validation_result, file_path):
             # INVALID: hard or impossible to parse (or garbage data)
             if message == constants.LLMCALLER_OUTPUT_INVALID_JSON_EMPTY:
                 return None, constants.EXPERIMENT_OUTPUT_INVALID
+                
             # if message.startswith(constants.LLMCALLER_OUTPUT_INVALID_JSON_EXTRA_DATA) or \
             if message.startswith(constants.LLMCALLER_OUTPUT_INVALID_JSON_PROPERTY_NAME) or \
                     message.startswith(constants.LLMCALLER_OUTPUT_INVALID_JSON_MISSING_ATTRIBUTE) or \
@@ -387,6 +388,30 @@ def _final_validation_response(result_answer):
 
     return new_result_dict, result_valid_flag
 
+def _get_original_response(data):
+    try:
+        original_response_gemini = data.get('full_api_response', {}).get('response', None)
+    except Exception as e:
+        original_response_gemini = None
+        
+    try:
+        original_response_reasoning = data.get('full_api_response', {}).get('choices', [{}])[0].get('message', {}).get('reasoning', None)
+    except Exception as e:
+        original_response_reasoning = None
+
+    try:
+        original_response_error = data.get('full_api_response', {}).get('error', {}).get('message', None)
+    except Exception as e:
+        original_response_error = None
+
+    try:
+        original_response_open = data.get('full_api_response', {}).get('choices', [{}])[0].get('message', {}).get('content', None)
+    except Exception as e:
+        original_response_open = None
+
+    original_response_raw = original_response_gemini if original_response_gemini else original_response_reasoning if original_response_reasoning else original_response_error if original_response_error else original_response_open if original_response_open else None
+    return original_response_raw
+    
 def _process_file(file_path):
     # metadata
     datetime_str = file_path.split('/run_')[-1].split('/')[0]
@@ -408,6 +433,9 @@ def _process_file(file_path):
 
     temperature = data.get('temperature', None) if temperature is None else temperature
 
+    # get original response
+    original_response_raw = _get_original_response(data)
+    
     try:
         # IF ERRONEUS
         if 'full_api_response' not in data:
@@ -434,6 +462,7 @@ def _process_file(file_path):
                                        constants.EXPERIMENT_OUTPUT_INVALID_RATE_LIMIT if 'rate_limit_exceeded' in original_message else 
                                        constants.EXPERIMENT_OUTPUT_INVALID,
                    'result_original_message': original_message,
+                   'result_original_output': original_response_raw,
                    'result_answer':None,
                    'file_path':file_path,
                    }
@@ -530,6 +559,7 @@ def _process_file(file_path):
         result['result_is_valid'] = is_valid
         result['result_valid_flag'] = constants.EXPERIMENT_OUTPUT_INVALID_RATE_LIMIT if 'rate_limit_exceeded' in result_message else valid_flag
         result['result_original_message'] = result_message
+        result['result_original_output'] = original_response_raw
         result['result_answer'] = extracted_data
 
         # for tracking results

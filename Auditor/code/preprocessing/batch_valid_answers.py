@@ -33,6 +33,7 @@ def run(experiments_dir: str, model: str, max_workers: int, temperature_analysis
    df.set_index(col_ids, inplace=True)
    tmp = df.join(df_valid_responses[col_ids + ['name']].set_index(col_ids), how='left')
 
+   # responses without a name
    ids = tmp.query("@io.pd.isna(name) and result_valid_flag in @constants.EXPERIMENT_OUTPUT_VALID_FLAGS").index
    df.loc[ids, 'result_valid_flag'] = constants.EXPERIMENT_OUTPUT_INVALID
    df.loc[ids, 'result_is_valid'] = False

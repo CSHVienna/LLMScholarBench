@@ -111,6 +111,38 @@ def gini_coefficient(data):
     return gini
 
 
+def compute_average_pairwise_cosine_pca_similarity(ids, model_pca):
+    '''
+    Compute the similarity of numeric data using the cosine similarity metric.
+    '''
+    ids = list(ids)
+    m = len(ids)
+    if m < 2:
+        return {'mean': None, 'std': None, 'size': 0}
+
+    # map id -> index in embedding_
+    id_to_idx = {sid: i for i, sid in enumerate(model_pca.ids)}
+
+    missing = [sid for sid in ids if sid not in id_to_idx]
+    if missing:
+        raise KeyError(f"IDs not present in model: {missing}")
+
+    idx = np.array([id_to_idx[sid] for sid in ids], dtype=int)
+
+    # rows are already PCA embeddings
+    Z = model_pca.embedding_[idx]
+
+    # cosine similarity matrix (assumes L2-normalized embeddings)
+    S = Z @ Z.T
+
+    tri = np.triu_indices(m, k=1)
+    sims = S[tri].astype(np.float64, copy=False)
+
+    mean = float(sims.mean())
+    std = float(sims.std(ddof=1)) if sims.size > 1 else 0.0
+    return {'mean': mean, 'std': std, 'size': int(sims.size)}
+    
+
 def compute_average_pairwise_cosine_similarity(array):
     '''
     Compute the similarity of numeric data using the cosine similarity metric.
