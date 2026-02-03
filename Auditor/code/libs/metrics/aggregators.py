@@ -218,7 +218,7 @@ def aggregate_consistency(df_factuality_author):
 
     # name_set per timestamp within each group
     per_time = (
-        df_factuality_author_clean.groupby(group_cols, sort=True)["name"]
+        df_factuality_author_clean.groupby(group_cols, sort=True)["clean_name"]
         .agg(lambda s: set(s.dropna().astype(str)))
         .reset_index(name="name_set")
     )

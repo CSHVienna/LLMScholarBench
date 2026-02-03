@@ -258,12 +258,11 @@ except Exception as e:
 LLMS = list(_llm_metadata.keys())
 print(f"Available LLMs: ({len(LLMS)}): {' '.join(LLMS)}")
 
-# @TODO: these should be obtained from the LLMCaller/config/llm_setup.json file
-LLMS_SMALL = ['llama-3.3-8b', 'qwen3-8b', 'qwen3-14b', 'gemma-3-12b']
-LLMS_MEDIUM = ['llama-4-scout' ,'llama-4-mav' ,'gpt-oss-20b' ,'mistral-small-3.2-24b' ,'gemma-3-27b' ,'qwen3-32b' ,'qwen3-30b-a3b-2507']
-LLMS_LARGE = ['llama-3.1-70b', 'llama-3.3-70b', 'gpt-oss-120b', 'qwen3-235b-a22b-2507', 'llama-3.1-405b', 'mistral-medium-3', 'grok-4-fast', 'deepseek-chat-v3.1', 'deepseek-r1-0528']
-LLMS_PROPIETARY = ['gemini-2.5-flash', 'gemini-2.5-flash-grounded', 'gemini-2.5-pro', 'gemini-2.5-pro-grounded']
-
+LLMS_SMALL = [k for k in LLMS if _llm_metadata[k]['class'] == 'S']
+LLMS_MEDIUM = [k for k in LLMS if _llm_metadata[k]['class'] == 'M']
+LLMS_LARGE = [k for k in LLMS if _llm_metadata[k]['class'] == 'L']
+LLMS_EXTRA_LARGE = [k for k in LLMS if _llm_metadata[k]['class'] == 'XL']
+LLMS_PROPIETARY = [k for k in LLMS if _llm_metadata[k]['class'].endswith('(P)')]
 
 # LLM by provider
 LLMS_DEEPSEEK = [k for k in LLMS if k.startswith('deepseek-')] #['deepseek-chat-v3.1', 'deepseek-r1-0528']
@@ -279,7 +278,7 @@ LLM_CLASSES = list(set([llm.split('-')[0] for llm in LLMS_ORDERED]))
 
 
 # LLM by access category @TODO: these should be obtained from the LLMCaller/config/llm_setup.json file
-LLMS_OPEN = LLMS_SMALL + LLMS_MEDIUM + LLMS_LARGE
+LLMS_OPEN = LLMS_SMALL + LLMS_MEDIUM + LLMS_LARGE + LLMS_EXTRA_LARGE
 LLM_ACCESS_CATEGORIES = {'open': LLMS_OPEN, 'proprietary': LLMS_PROPIETARY}
 LLM_ACCESS_CATEGORIES_INV = {k:'open' if k in LLMS_OPEN else 'proprietary' for k in LLMS_ORDERED}
 
@@ -450,6 +449,11 @@ TASK_TOPK_BIASED_PARAMS = ["top_100_bias_diverse",
                             "top_100_bias_citations_high",
                             "top_100_bias_citations_low"]
 
+TASK_TOPK_BIASED_PARAMS_GENDER = [t for t in TASK_TOPK_BIASED_PARAMS if '_gender_' in t]
+TASK_TOPK_BIASED_PARAMS_ETHNICITY = [t for t in TASK_TOPK_BIASED_PARAMS if '_ethnicity_' in t]
+TASK_TOPK_BIASED_PARAMS_CITATIONS = [t for t in TASK_TOPK_BIASED_PARAMS if '_citations_' in t]
+TASK_TOPK_BIASED_PARAMS_DIVERSE = [t for t in TASK_TOPK_BIASED_PARAMS if t.endswith('_diverse')]
+
 
 EXPERIMENT_TASK_PARAMS_ORDER_EXPANDED = [item for sublist in TASK_PARAMS_BY_TASK.values() for item in sublist]
 
@@ -461,6 +465,7 @@ EXPERIMENT_TASK_PARAMS_ORDER_EXPANDED = [item for sublist in TASK_PARAMS_BY_TASK
 # Plot constants
 ################################################################################################################
 FIG_DPI = 600
+FONT_SCALE = 1.55
 
 PLOT_FIGSIZE = (5,2.2) #(5,2.4)
 PLOT_FIGSIZE_SPIDER = (5,5)
@@ -542,13 +547,15 @@ DEMOGRAPHIC_ATTRIBUTE_LABELS_COLOR = {DEMOGRAPHIC_ATTRIBUTE_GENDER: GENDER_COLOR
 
 TEMPERATURE_VALUES = [0.0, 0.25, 0.50, 0.75, 1.00, 1.50, 2.00]
 
-BENCHMARK_METRICS = ['validity_pct', 'refusal_pct', 
+BENCHMARK_METRICS = ['refusal_pct', 'validity_pct', 
                     'duplicates', 'consistency', 'factuality_author', 
-                    'connectedness_density', 'connectedness_entropy', 'connectedness_components',
+                    'connectedness', 'connectedness_density', 'connectedness_norm_entropy', 'connectedness_ncomponents',
                     'similarity_pca',
                     'diversity_gender', 'diversity_ethnicity', 'diversity_prominence_pub', 'diversity_prominence_cit', 
                     'parity_gender', 'parity_ethnicity', 'parity_prominence_pub', 'parity_prominence_cit',
                     ]
+
+BENCHMARK_METRICS_PLOT_ORDER = ['refusal_pct', 'validity_pct', 'duplicates', 'consistency', 'factuality_author', 'connectedness', 'similarity_pca', 'diversity_gender',  'parity_gender']
 
 BENCHMARK_BINARY_METRICS = {
     "validity_pct",
@@ -557,17 +564,19 @@ BENCHMARK_BINARY_METRICS = {
 
 BENCHMARK_PARITY_METRICS = {m for m in BENCHMARK_METRICS if m.startswith('parity_')}
 
-BENCHMARK_SIMILARITY_METRICS = {m for m in BENCHMARK_METRICS if m.startswith('connectedness_') or m.startswith('similarity_')}
+BENCHMARK_SIMILARITY_METRICS = {m for m in BENCHMARK_METRICS if m.startswith('connectedness') or m.startswith('similarity_')}
 
-BENCHMARK_SIMILARITY_METRICS_MAP = {'connectedness_density': 'recommended_author_pairs_are_coauthors', 
-                                    'connectedness_entropy': 'normalized_component_entropy', 
-                                    'connectedness_components': 'normalized_n_components', 
+BENCHMARK_SIMILARITY_METRICS_MAP = {'connectedness': 'connectedness_entropy',
+                                    'connectedness_density': 'recommended_author_pairs_are_coauthors', 
+                                    'connectedness_norm_entropy': 'normalized_component_entropy', 
+                                    'connectedness_ncomponents': 'normalized_n_components',
                                     'similarity_pca': 'scholarly_pca_similarity_mean'}
 
 BENCHMARK_SOCIAL_METRICS = [
+    "connectedness",
     "connectedness_density",
-    "connectedness_entropy",
-    "connectedness_components",
+    "connectedness_norm_entropy",
+    "connectedness_ncomponents",
     "similarity_pca",
     "diversity_gender",
     "diversity_ethnicity",
@@ -580,12 +589,30 @@ BENCHMARK_SOCIAL_METRICS = [
 ]
 
 BENCHMARK_TECHNICAL_METRICS = [
-    "validity_pct",
     "refusal_pct",
+    "validity_pct",
     "duplicates",
     "consistency",
     "factuality_author",
 ]
+
+BENCHMARK_METRICS_LABEL_MAP = {
+    "refusal_pct": "Refusal",
+    "validity_pct": r"Validity$\uparrow$",
+    "duplicates": r"Duplicates$\downarrow$",
+    "consistency": "Consistency",
+    "factuality_author": r"Factuality$\uparrow$",
+    "connectedness": "Connectedness",
+    "similarity_pca": "Similarity",
+    "diversity_gender": "Diversity",
+    "parity_gender": r"Parity$\uparrow$",
+    "diversity_ethnicity": "Diversity",
+    "parity_ethnicity": r"Parity$\uparrow$",
+    "diversity_prominence_pub": "Diversity",
+    "parity_prominence_pub": r"Parity$\uparrow$",
+    "diversity_prominence_cit": "Diversity",
+    "parity_prominence_cit": r"Parity$\uparrow$",
+}
 
 BENCHMARK_DEMOGRAPHIC_ATTRIBUTES = ['gender', 'ethnicity', 'prominence_pub', 'prominence_cit']
 

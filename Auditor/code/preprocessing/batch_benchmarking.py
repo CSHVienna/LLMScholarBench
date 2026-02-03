@@ -38,6 +38,8 @@ def run(results_dir: str, model: str, metric: str, aps_oa_data_tar_gz: str, is_t
 
     prefix = 'temperature' if is_temperature_analysis else None
     output_dir = io.path_join(output_dir, 'benchmarks')
+    io.validate_path(output_dir)
+    
     fn_results = helpers_metrics.get_per_attempt_fn(model, metric, output_dir, prefix=prefix)
     if io.exists(fn_results) and not overwrite:
         return io.read_csv(fn_results, index_col=0), None
