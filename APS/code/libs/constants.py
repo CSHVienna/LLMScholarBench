@@ -286,6 +286,14 @@ LLM_ACCESS_CATEGORIES_INV = {k:'open' if k in LLMS_OPEN else 'proprietary' for k
 # LLM by class category
 LLM_CLASS_CATEGORIES_INV = {k:'reasoning' if obj['reasoning'] else 'non-reasoning' for k, obj in _llm_metadata.items()}
 
+# GEMINI CLASS
+LLM_GEMINI_VERSION_LABEL_MAPPING = {
+    'gemini-2.5-flash': 'Flash',
+    'gemini-2.5-pro': 'Pro',
+}
+
+
+
 ################################################################################################################
 # Experiment constants
 ################################################################################################################
@@ -337,6 +345,7 @@ EXPERIMENT_TASK_SENIORITY = 'seniority'
 EXPERIMENT_TASK_TWINS = 'twins'
 EXPERIMENT_TASK_BIASED_TOP_K = 'biased_top_k'
 EXPERIMENT_TASKS = [EXPERIMENT_TASK_TOPK, EXPERIMENT_TASK_FIELD, EXPERIMENT_TASK_EPOCH, EXPERIMENT_TASK_SENIORITY, EXPERIMENT_TASK_TWINS]
+EXPERIMENT_TASKS_2TWINS = [EXPERIMENT_TASK_TOPK, EXPERIMENT_TASK_FIELD, EXPERIMENT_TASK_EPOCH, EXPERIMENT_TASK_SENIORITY, f"{EXPERIMENT_TASK_TWINS}-real", f"{EXPERIMENT_TASK_TWINS}-fake"]
 EXPERIMENT_TASKS_COLORS = {EXPERIMENT_TASK_TOPK:'tab:blue',EXPERIMENT_TASK_FIELD:'tab:orange',EXPERIMENT_TASK_EPOCH:'tab:green',EXPERIMENT_TASK_SENIORITY:'tab:red',EXPERIMENT_TASK_TWINS:'tab:purple'}
 
 EXPERIMENT_AUDIT_FACTUALITY = 'factuality'

@@ -1,7 +1,7 @@
 
 from matplotlib import pyplot as plt
 from libs.visuals.grid import PanelSpec
-from libs.constants import EXPERIMENT_TASKS
+from libs.constants import EXPERIMENT_TASKS, EXPERIMENT_TASKS_2TWINS
 from libs.constants import TASK_PARAMS_BY_TASK
 
 # Define your panel order and labels
@@ -33,7 +33,7 @@ PANELS_METRICS = [
 ]
 
 
-ylim=(-0.05, 1.05)
+ylim=(-0.1, 1.1)
 yticks=[0, .25, .5, .75, 1.0]
 PANELS_METRICS_BEFORE_AFTER = [
     PanelSpec("refusal_pct", r"Refusal", ylim=ylim, yticks=yticks, draw_ci=True),
@@ -66,6 +66,7 @@ BIASED_PROMPT_GENDER_COLORS = {
 
 tab10 = plt.get_cmap("tab10")
 TASK_COLORS = {c: tab10(i) for i, c in enumerate(EXPERIMENT_TASKS)}
+TASK_COLORS_2TWINS = {c: tab10(i + (1 if i==len(EXPERIMENT_TASKS_2TWINS)-1 else 0)) for i, c in enumerate(EXPERIMENT_TASKS_2TWINS)}
 
 tab20 = plt.get_cmap("tab20")
 TASK_PARAM_COLORS = {(task_name, task_param):tab20((i*2) + j) for i, (task_name, task_params) in enumerate(TASK_PARAMS_BY_TASK.items()) for j, task_param in enumerate(task_params)}

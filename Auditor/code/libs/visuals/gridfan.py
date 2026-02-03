@@ -216,6 +216,10 @@ def plot_metric_grid_fan_from_pivot(
     legend_ncol: Optional[int] = None,
     legend_kwargs: Optional[Mapping[str, Any]] = None,
 
+    # reference lines / internal y labels
+    ytick_line_kwargs: Optional[Mapping[str, Any]] = None,
+    yticks_override: Optional[Sequence[Number]] = None,
+
     # for single index
     single_index_as_ylabel: bool = True,
 ) -> plt.Figure:
@@ -338,6 +342,11 @@ def plot_metric_grid_fan_from_pivot(
                 if have_b_ci:
                     b_lo = b_lo.reindex(b.index)
                     b_hi = b_hi.reindex(b.index)
+
+
+    hline_k = {"lw": style.hline_lw, "alpha": style.hline_alpha, "linestyle": style.hline_style, "color": "grey", "zorder": 1}
+    if ytick_line_kwargs:
+        hline_k.update(dict(ytick_line_kwargs))
 
     row_index = b.index
     nrows = len(row_index)
@@ -481,12 +490,10 @@ def plot_metric_grid_fan_from_pivot(
             else:
                 ax.set_yticks([])
 
-            
-
             # internal y labels + horizontal guide lines
             if p.yticks is not None and style.draw_y_hlines:
                 for yy in p.yticks:
-                    ax.axhline(yy, color="grey", alpha=style.hline_alpha, linestyle=style.hline_style,
+                    ax.hlines(yy, 0.0, 1.0, color="grey", alpha=style.hline_alpha, linestyle=style.hline_style,
                                linewidth=style.hline_lw, zorder=0)
                     if style.show_internal_y_labels:
                         ax.text(
@@ -558,9 +565,9 @@ def plot_metric_grid_fan_from_pivot(
 
             # show category labels only on bottom row
             if i == nrows - 1 and x_labels != ("", ""):
-                ax.text(x_before, -0.18, x_labels[0], transform=ax.get_xaxis_transform(),
+                ax.text(x_before, -0.18+style.tick_pad, x_labels[0], transform=ax.get_xaxis_transform(),
                         ha="center", va="top", fontsize=style.tick_fontsize)
-                ax.text(x_after, -0.18, x_labels[1], transform=ax.get_xaxis_transform(),
+                ax.text(x_after, -0.18+style.tick_pad, x_labels[1], transform=ax.get_xaxis_transform(),
                         ha="center", va="top", fontsize=style.tick_fontsize)
 
             # hide y ticks except first metric column to reduce clutter
