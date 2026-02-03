@@ -8,7 +8,7 @@ from libs.constants import TASK_PARAMS_BY_TASK
 PANELS_METRICS_GROUPS = [
     PanelSpec("refusal_pct", r"Refusal", xlim=(0, 1), xticks=[0, 0.5, 1.0], draw_ci=True),
     PanelSpec("validity_pct", r"Validity $\uparrow$", xlim=(0, 1), xticks=[0, 0.5, 1.0], draw_ci=True),
-    PanelSpec("duplicates", r"Duplicate $\downarrow$", xlim=(0, 1), xticks=[0, 0.5, 1.0], draw_ci=False),
+    PanelSpec("duplicates", r"Duplicate $\downarrow$", xlim=(0, 1), xticks=[0, 0.5, 1.0], draw_ci=True),
     PanelSpec("consistency", r"Consistency", xlim=(0, 1), xticks=[0, 0.5, 1.0], draw_ci=True),
     PanelSpec("factuality_author", r"Factuality $\uparrow$", xlim=(0, 1), xticks=[0, 0.5, 1.0], draw_ci=True),
     PanelSpec("connectedness", r"Connectedness", xlim=(0, 1), xticks=[0, 0.5, 1.0], draw_ci=True),
@@ -23,7 +23,7 @@ xticks_t = [0, 0.5, 1.0, 1.5, 2.0]
 PANELS_METRICS = [
     PanelSpec("refusal_pct", r"Refusal", ylim=ylim_t, xlim=xlim_t, xticks=xticks_t, draw_ci=True),
     PanelSpec("validity_pct", r"Validity $\uparrow$", ylim=ylim_t, xlim=xlim_t, xticks=xticks_t, draw_ci=True),
-    PanelSpec("duplicates", r"Duplicate $\downarrow$", ylim=ylim_t, xlim=xlim_t, xticks=xticks_t, draw_ci=False),
+    PanelSpec("duplicates", r"Duplicate $\downarrow$", ylim=ylim_t, xlim=xlim_t, xticks=xticks_t, draw_ci=True),
     PanelSpec("consistency", r"Consistency", ylim=ylim_t, xlim=xlim_t, xticks=xticks_t, draw_ci=True),
     PanelSpec("factuality_author", r"Factuality $\uparrow$", ylim=ylim_t, xlim=xlim_t, xticks=xticks_t, draw_ci=True),
     PanelSpec("connectedness", r"Connectedness", ylim=ylim_t, xlim=xlim_t, xticks=xticks_t, draw_ci=True),
@@ -33,16 +33,18 @@ PANELS_METRICS = [
 ]
 
 
+ylim=(-0.05, 1.05)
+yticks=[0, .25, .5, .75, 1.0]
 PANELS_METRICS_BEFORE_AFTER = [
-    PanelSpec("refusal_pct", r"Refusal", draw_ci=True),
-    PanelSpec("validity_pct", r"Validity $\uparrow$", draw_ci=True),
-    PanelSpec("duplicates", r"Duplicate $\downarrow$", draw_ci=False),
-    PanelSpec("consistency", r"Consistency", draw_ci=True),
-    PanelSpec("factuality_author", r"Factuality $\uparrow$", draw_ci=True),
-    # PanelSpec("connectedness", r"Connectedness", draw_ci=True),
-    # PanelSpec("similarity_pca", r"Similarity", draw_ci=True),
-    PanelSpec("diversity_gender", r"Diversity", draw_ci=True),
-    PanelSpec("parity_gender", r"Parity $\uparrow$", draw_ci=True),
+    PanelSpec("refusal_pct", r"Refusal", ylim=ylim, yticks=yticks, draw_ci=True),
+    PanelSpec("validity_pct", r"Validity $\uparrow$", ylim=ylim, yticks=yticks, draw_ci=True),
+    PanelSpec("duplicates", r"Duplicate $\downarrow$", ylim=ylim, yticks=yticks, draw_ci=True),
+    PanelSpec("consistency", r"Consistency", ylim=ylim, yticks=yticks, draw_ci=True),
+    PanelSpec("factuality_author", r"Factuality $\uparrow$", ylim=ylim, yticks=yticks, draw_ci=True),
+    PanelSpec("connectedness", r"Connectedness", ylim=ylim, yticks=yticks, draw_ci=True),
+    PanelSpec("similarity_pca", r"Similarity", ylim=ylim, yticks=yticks, draw_ci=True),
+    PanelSpec("diversity_gender", r"Diversity", ylim=ylim, yticks=yticks, draw_ci=True),
+    PanelSpec("parity_gender", r"Parity $\uparrow$", ylim=ylim, yticks=yticks, draw_ci=True),
 ]
 
 
@@ -53,6 +55,13 @@ GROUP_COLORS = {
     "model_access": [tab20(0), tab20(1)][::-1],
     "model_size": [tab20c(i) for i in range(8, 12)][::-1],
     "model_class": [tab20(2), tab20(3)][::-1],
+}
+
+BIASED_PROMPT_GENDER_COLORS = {
+    "top_100_bias_gender_equal": "tab:green",
+    "top_100_bias_gender_female": "tab:red",
+    "top_100_bias_gender_male": "tab:blue",
+    "top_100_bias_gender_neutral": "tab:grey",
 }
 
 tab10 = plt.get_cmap("tab10")

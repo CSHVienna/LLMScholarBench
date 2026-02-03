@@ -50,7 +50,6 @@ def plot_metric_grid_from_pivot(
     # layout/style
     layout: LayoutSpec = LayoutSpec(),
     style: StyleSpec = StyleSpec(),
-    width_ratios: Optional[Sequence[float]] = None,
     # axis overrides
     xlim: Optional[Tuple[Number, Number]] = None,
     xticks: Optional[Sequence[Number]] = None,
@@ -126,6 +125,8 @@ def plot_metric_grid_from_pivot(
         default_color=default_row_color,
     )
 
+    width_ratios = [layout.label_ratio] + [layout.panel_ratio] * len(panels) if layout.width_ratios is None else layout.width_ratios
+
     # Build figure grid
     fig, ax_lbl, axes, y = grid._build_grid_from_index(
         nrows=len(v),
@@ -136,7 +137,6 @@ def plot_metric_grid_from_pivot(
         metric_label_map=metric_label_map,
         layout=layout,
         style=style,
-        width_ratios=width_ratios,
         row_labels_for_first_panel=row_labels if (nlevels == 1 and single_index_as_ylabel) else None,
     )
 

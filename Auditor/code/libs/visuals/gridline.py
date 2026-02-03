@@ -88,7 +88,7 @@ def plot_metric_grid_temperature_from_pivot(
         label_col_offset = 1
     else:
         ncols = n_metric_cols
-        width_ratios = [layout.panel_ratio] * n_metric_cols
+        width_ratios = [layout.panel_ratio] * ncols
         label_col_offset = 0
 
     fig = plt.figure(figsize=layout.figsize)
