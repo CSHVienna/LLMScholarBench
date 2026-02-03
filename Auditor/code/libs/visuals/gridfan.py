@@ -1,491 +1,586 @@
+
+"""
+gridfan.py
+
+Grid renderer for a two-position "fan" plot (before vs after) with one axis per
+(subgroup row × metric panel) cell.
+
+This corrects the failure mode where all subgroup rows were overlaid inside a single
+axis per metric. Here, each subgroup row gets its own small axis, matching the user's
+"subgroups × metrics" grid expectation.
+
+Per-cell plot
+-------------
+- X axis is categorical and fixed: before at x=0, after at x=1.
+- Y axis is the metric value.
+- One baseline point at x=0, one or more intervention points at x=1 (hue lines).
+- Connectors from before to each after.
+- Confidence intervals rendered as vertical error bars for both before and after.
+
+Index alignment rule (critical)
+-------------------------------
+Let before have B index levels, after have A index levels.
+
+Shared key used to match before rows to after rows:
+1) If A == B + 1:
+   shared levels = all B levels of before, hue = last level of after.
+
+2) If A == B:
+   - If B == 1: shared = the single level, no hue (single after series).
+   - If B >= 2: shared = all levels except the last, hue = last level of after.
+     This supports the common case:
+        before index: (group, kind, fixed_slice) e.g. (..., ..., "top_100")
+        after  index: (group, kind, intervention) e.g. (..., ..., "rag")
+
+Left label area
+---------------
+- If MultiIndex with >=2 levels: level 0 is the group label shown once per block.
+  Remaining varying levels (excluding constant levels) are shown per row.
+- If single Index: row label is placed as ylabel-like text aligned to each row.
+
+This module uses PanelSpec / LayoutSpec / StyleSpec from libs.visuals.grid.
+"""
+
 from __future__ import annotations
 
-from dataclasses import dataclass
-from typing import Dict, List, Mapping, Optional, Sequence, Tuple
+from typing import Any, Hashable, Mapping, Optional, Sequence, Tuple, Union, List
 
 import numpy as np
 import pandas as pd
 import matplotlib.pyplot as plt
-from matplotlib.lines import Line2D
 from matplotlib.gridspec import GridSpec
+from matplotlib.lines import Line2D
+
+from libs.visuals.grid import PanelSpec, LayoutSpec, StyleSpec, Number  # type: ignore
+from libs.visuals import grid
+
+Color = Any
 
 
-# ----------------------------
-# Configuration dataclasses
-# ----------------------------
-@dataclass
-class PanelSpec:
-    row_levels: Tuple[str, str] = ("model_group", "model_kind")
-    row_order: Optional[List[Tuple[str, str]]] = None
-    group_label_map: Optional[Mapping[str, str]] = None
-    kind_label_map: Optional[Mapping[str, str]] = None
-    figsize: Optional[Tuple[float, float]] = None  # moved here
-    wspace: float = 0.35
-    hspace: float = 0.35
-    group_separators: bool = True
-    group_sep_lw: float = 0.8
-    group_sep_alpha: float = 0.35
-    group_sep_color: str = "black"
-    group_sep_pad: float = 0.00  # + moves line slightly up, - slightly down
-    
-
-@dataclass
-class HueSpec:
-    hue_level: str = "task_param"
-    hue_order: Optional[List[str]] = None
-    legend_label_map: Optional[Mapping[str, str]] = None
-    color_map: Optional[Mapping[str, str]] = None
-    line_alpha: float = 0.9
-    line_width: float = 1.6
-    endpoint_size: float = 18
-    baseline_size: float = 26
+# -----------------------------
+# Index helpers
+# -----------------------------
+def _nlevels(idx: pd.Index) -> int:
+    return idx.nlevels if isinstance(idx, pd.MultiIndex) else 1
 
 
-@dataclass
-class StyleSpec:
-    # shared x for all cells
-    x_before: float = 0.0
-    x_after: float = 1.0
-    xlabel_before: str = "Before"
-    xlabel_after: str = "After"
-    rails_lw: float = 1.2
+def _infer_shared_and_hue(before_index: pd.Index, after_index: pd.Index) -> Tuple[int, Optional[int], bool]:
+    b = _nlevels(before_index)
+    a = _nlevels(after_index)
 
-    # global shared y for all cells (set if you want to override)
-    global_ylim: Optional[Tuple[float, float]] = None
+    if a == b + 1:
+        return b, a - 1, False
 
-    # middle "tick-like" labels
-    mid_ticks: Optional[List[float]] = None
-    mid_tick_fmt: str = "{:.1f}"
-    mid_tick_fontsize: float = 8.5
-    mid_tick_alpha: float = 1.0
-    mid_tick_mark: bool = True
-    mid_tick_mark_frac: float = 0.10  # tick length fraction of rail distance
+    if a == b:
+        if b == 1:
+            return 1, None, False
+        return b - 1, a - 1, True
+
+    raise ValueError(
+        "Unsupported index shapes: after must have the same number of levels as before, "
+        "or exactly one more level."
+    )
 
 
-@dataclass
-class LegendSpec:
-    enabled: bool = True
-    title: Optional[str] = None
-    loc: str = "upper center"
-    bbox_to_anchor: Tuple[float, float] = (0.5, 0.985)  # closer to the plot
-    ncol: Optional[int] = None  # default: len(hues)
-    frameon: bool = False
-    fontsize: Optional[float] = None
-    handlelength: float = 2.2
-    columnspacing: float = 1.6
-    # Reserve space at top for legend (fraction of figure height)
-    top: float = 0.92
+def _shared_key_from_before(row_key: Hashable, *, k_shared_levels: int, drop_before_last: bool) -> Tuple:
+    if isinstance(row_key, tuple):
+        t = row_key
+    else:
+        t = (row_key,)
+    if drop_before_last and len(t) >= 2:
+        return t[:k_shared_levels]
+    return t[:k_shared_levels]
 
 
+def _select_after_block(
+    after_df: pd.DataFrame,
+    shared_key: Tuple,
+    *,
+    k_shared_levels: int,
+    hue_level_pos: Optional[int],
+) -> pd.DataFrame:
+    if hue_level_pos is None:
+        if isinstance(after_df.index, pd.MultiIndex):
+            return after_df.loc[[shared_key], :]
+        return after_df.loc[[shared_key[0]], :]
 
-# ----------------------------
-# Helpers
-# ----------------------------
-def _ensure_index_levels(df: pd.DataFrame, required: Sequence[str]) -> None:
-    if not isinstance(df.index, pd.MultiIndex):
-        raise ValueError("Expected df.index to be a MultiIndex.")
-    missing = [lvl for lvl in required if lvl not in df.index.names]
-    if missing:
-        raise ValueError(f"Missing index levels: {missing}. Found: {df.index.names}")
+    if not isinstance(after_df.index, pd.MultiIndex):
+        raise ValueError("after_df must be MultiIndex when hue is present.")
 
+    names = list(after_df.index.names)
+    shared_names = names[:k_shared_levels]
 
-def _get_rows(
-    pivot_before: pd.DataFrame,
-    pivot_after: pd.DataFrame,
-    panel: PanelSpec,
-) -> List[Tuple[str, str]]:
-    lvl_g, lvl_k = panel.row_levels
-
-    def rows_from(df: pd.DataFrame) -> set:
-        keep = (lvl_g, lvl_k)
-        drop = [n for n in df.index.names if n not in keep]
-        idx = df.index.droplevel(drop) if drop else df.index
-        return set(idx.unique().tolist())
-
-    rows = list(rows_from(pivot_before).union(rows_from(pivot_after)))
-
-    out: List[Tuple[str, str]] = []
-    for r in rows:
-        if not isinstance(r, tuple) or len(r) != 2:
-            raise ValueError("Row tuples must be (model_group, model_kind).")
-        out.append((str(r[0]), str(r[1])))
-
-    if panel.row_order is not None:
-        present = set(out)
-        ordered = [t for t in panel.row_order if t in present]
-        leftovers = sorted(list(present.difference(ordered)))
-        return ordered + leftovers
-
-    return sorted(out)
-
-
-def _get_hues(pivot_after: pd.DataFrame, hue: HueSpec) -> List[str]:
-    vals = pivot_after.index.get_level_values(hue.hue_level).unique().tolist()
-    vals = [str(v) for v in vals]
-    if hue.hue_order is not None:
-        ordered = [h for h in hue.hue_order if h in vals]
-        extras = [h for h in vals if h not in ordered]
-        return ordered + sorted(extras)
-    return sorted(vals)
-
-
-def _compute_global_ylim(
-    pivot_before: pd.DataFrame,
-    pivot_after: pd.DataFrame,
-    metrics: List[str],
-) -> Tuple[float, float]:
-    vals = []
-    for m in metrics:
-        if m in pivot_before.columns:
-            vals.append(pivot_before[m].to_numpy(dtype=float))
-        if m in pivot_after.columns:
-            vals.append(pivot_after[m].to_numpy(dtype=float))
-
-    allv = np.concatenate(vals) if vals else np.array([0.0])
-    finite = allv[np.isfinite(allv)]
-    if finite.size == 0:
-        return (0.0, 1.0)
-
-    ymin = float(np.min(finite))
-    ymax = float(np.max(finite))
-    if ymin == ymax:
-        ymin -= 0.5
-        ymax += 0.5
-    pad = 0.05 * (ymax - ymin)
-    return (ymin - pad, ymax + pad)
-
-
-def _default_mid_ticks(global_ylim: Tuple[float, float]) -> List[float]:
-    ymin, ymax = global_ylim
-    if ymin <= 0.0 and ymax >= 1.0 and (ymax - ymin) <= 2.0:
-        return [round(x, 1) for x in np.arange(0.0, 1.0001, 0.1)]
-    ticks = np.linspace(ymin, ymax, 5)
-    return [float(t) for t in ticks]
-
-
-def _draw_fan_cell(
-    ax: plt.Axes,
-    y0: float,
-    after_values: Dict[str, float],
-    colors: Dict[str, str],
-    global_ylim: Tuple[float, float],
-    style: StyleSpec,
-    hue: HueSpec,
-):
-    ymin, ymax = global_ylim
-    rng = (ymax - ymin) if (ymax != ymin) else 1.0
-
-    def norm(y: float) -> float:
-        return (y - ymin) / rng
-
-    # blank canvas
-    ax.set_xlim(-0.15, 1.15)
-    ax.set_ylim(0.0, 1.0)
-    ax.axis("off")
-
-    # rails (shared x)
-    ax.plot([style.x_before, style.x_before], [0, 1], lw=style.rails_lw, color="black")
-    ax.plot([style.x_after, style.x_after], [0, 1], lw=style.rails_lw, color="black")
-
-    # middle ticks (shared y)
-    tick_vals = style.mid_ticks if style.mid_ticks is not None else _default_mid_ticks(global_ylim)
-    xm = 0.5
-    tick_len = style.mid_tick_mark_frac * (style.x_after - style.x_before)
-
-    for tv in tick_vals:
-        if not np.isfinite(tv):
-            continue
-        yn = norm(float(tv))
-        if yn < 0.0 or yn > 1.0:
-            continue
-        if style.mid_tick_mark:
-            ax.plot(
-                [0,1],
-                [yn, yn],
-                lw=0.9,
-                color="grey",
-                alpha=0.3,
-                zorder=0,
-                ls="--",
-            )
-        ax.text(
-            xm,
-            yn,
-            style.mid_tick_fmt.format(float(tv)),
-            ha="center",
-            va="center",
-            fontsize=style.mid_tick_fontsize,
-            alpha=style.mid_tick_alpha,
-            color="grey",
-            zorder=1,
-            bbox=dict(facecolor="white", edgecolor="none", pad=0.2),
+    block = after_df.xs(shared_key, level=shared_names, drop_level=True)
+    if isinstance(block.index, pd.MultiIndex):
+        raise ValueError(
+            "after index has more than one remaining level after dropping shared levels; "
+            f"expected only hue, got {block.index.names}."
         )
-
-    # baseline
-    if not np.isfinite(y0):
-        return
-    y0n = norm(float(y0))
-    ax.scatter([style.x_before], [y0n], s=hue.baseline_size, color="black", zorder=3)
-
-    # fan lines
-    for h, y1 in after_values.items():
-        if not np.isfinite(y1):
-            continue
-        y1n = norm(float(y1))
-        ax.plot(
-            [style.x_before, style.x_after],
-            [y0n, y1n],
-            color=colors[h],
-            lw=hue.line_width,
-            alpha=hue.line_alpha,
-            zorder=2,
-        )
-        ax.scatter([style.x_after], [y1n], s=hue.endpoint_size, color=colors[h], zorder=3)
+    return block
 
 
-# ----------------------------
-# Main function
-# ----------------------------
-def fanplot(
-    pivot_before: pd.DataFrame,
-    pivot_after: pd.DataFrame,
-    metrics: Optional[Sequence[str]] = None,
-    panel: PanelSpec = PanelSpec(),
-    hue: HueSpec = HueSpec(),
-    style: StyleSpec = StyleSpec(),
-    metric_order: Optional[List[str]] = None,
+# -----------------------------
+# Label drawing
+# -----------------------------
+def _map_level_value(level: int, v: Hashable, index_label_maps: Optional[Mapping[int, Mapping[Hashable, str]]]) -> str:
+    if index_label_maps and (level in index_label_maps) and (v in index_label_maps[level]):
+        return index_label_maps[level][v]
+    return str(v)
+
+
+def _compute_group_bounds(index: pd.Index) -> List[Tuple[Hashable, int, int]]:
+    """(group_value, start_row_inclusive, end_row_exclusive) for level 0 groups."""
+    if not isinstance(index, pd.MultiIndex) or index.nlevels < 2:
+        return []
+    lvl0 = pd.Index(index.get_level_values(0))
+    bounds: List[Tuple[Hashable, int, int]] = []
+    start = 0
+    cur = lvl0[0]
+    for i in range(1, len(lvl0)):
+        if lvl0[i] != cur:
+            bounds.append((cur, start, i))
+            cur = lvl0[i]
+            start = i
+    bounds.append((cur, start, len(lvl0)))
+    return bounds
+
+
+def _within_row_label(
+    row_key: Hashable,
+    *,
+    index: pd.Index,
+    index_label_maps: Optional[Mapping[int, Mapping[Hashable, str]]],
+) -> str:
+    """Per-row label excluding group level 0 and dropping constant levels."""
+    if not isinstance(index, pd.MultiIndex) or index.nlevels < 2:
+        return _map_level_value(0, row_key, index_label_maps)
+
+    nlv = index.nlevels
+    if not isinstance(row_key, tuple):
+        row_key = (row_key,)
+
+    # keep only varying levels among 1..n-1
+    varying = []
+    for lv in range(1, nlv):
+        try:
+            nunique = pd.Index(index.get_level_values(lv)).nunique()
+        except Exception:
+            nunique = 2
+        if nunique > 1:
+            varying.append(lv)
+
+    parts = [_map_level_value(lv, row_key[lv], index_label_maps) for lv in varying]
+    return " | ".join(parts) if parts else ""
+
+
+# -----------------------------
+# Main plotter
+# -----------------------------
+def plot_metric_grid_fan_from_pivot(
+    before: Mapping[str, pd.DataFrame],
+    after: Mapping[str, pd.DataFrame],
+    *,
+    panels: Sequence[PanelSpec],
+
+    # ordering
+    index_order: Optional[Sequence[Hashable]] = None,
+    group_order: Optional[Sequence[Hashable]] = None,
+    within_group_order: Optional[Mapping[Hashable, Sequence[Hashable]]] = None,
+    hue_order: Optional[Sequence[Hashable]] = None,
+
+    # labeling
+    index_label_maps: Optional[Mapping[int, Mapping[Hashable, str]]] = None,
+    group_label_map: Optional[Mapping[Hashable, str]] = None,
     metric_label_map: Optional[Mapping[str, str]] = None,
-    metric_suffix_map: Optional[Mapping[str, str]] = None,
-    legendspec: LegendSpec = LegendSpec(),
-    savepath: Optional[str] = None,
-    dpi: int = 200,
-):
-    lvl_g, lvl_k = panel.row_levels
-
-    _ensure_index_levels(pivot_after, [lvl_g, lvl_k, hue.hue_level])
-    _ensure_index_levels(pivot_before, [lvl_g, lvl_k])
-
-    # metrics
-    if metrics is None:
-        metrics = [c for c in pivot_before.columns if c in pivot_after.columns]
-    metrics = list(metrics)
-
-    if metric_order is not None:
-        metrics = [m for m in metric_order if m in metrics] + [m for m in metrics if m not in metric_order]
-    if not metrics:
-        raise ValueError("No metrics to plot.")
-
-    rows = _get_rows(pivot_before, pivot_after, panel)
-    hues = _get_hues(pivot_after, hue)
+    hue_label_map: Optional[Mapping[Hashable, str]] = None,
 
     # colors
-    if hue.color_map is not None:
-        color_for = {str(k): v for k, v in hue.color_map.items()}
-    else:
-        cycle = plt.rcParams["axes.prop_cycle"].by_key().get("color", [])
-        color_for = {h: cycle[i % max(1, len(cycle))] for i, h in enumerate(hues)}
+    hue_color_map: Optional[Mapping[Hashable, Color]] = None,
+    default_hue_color: Color = "#1f77b4",
+    before_color: Color = "black",
 
-    # shared global ylim (all grid cells)
-    global_ylim = style.global_ylim if style.global_ylim is not None else _compute_global_ylim(
-        pivot_before, pivot_after, metrics
-    )
+    # style / layout
+    layout: LayoutSpec = LayoutSpec(),
+    style: StyleSpec = StyleSpec(),
 
-    n_rows = len(rows)
-    n_cols = len(metrics)
+    # x labels
+    x_labels: Tuple[str, str] = ("before", "after"),
 
-    # figsize comes from PanelSpec
-    if panel.figsize is None:
-        figsize = (2.2 * n_cols + 3.2, 1.2 * n_rows + 1.6)
-    else:
-        figsize = panel.figsize
-
-    fig = plt.figure(figsize=figsize)
-
-    # header row for column titles
-    gs = GridSpec(
-        nrows=n_rows + 1,
-        ncols=n_cols + 1,
-        figure=fig,
-        height_ratios=[0.6] + [1.0] * n_rows,
-        width_ratios=[1.35] + [1.0] * n_cols,
-        wspace=panel.wspace,
-        hspace=panel.hspace,
-    )
-
-    # column titles
-    ax_corner = fig.add_subplot(gs[0, 0])
-    ax_corner.axis("off")
-    for c_i, m in enumerate(metrics):
-        ax_t = fig.add_subplot(gs[0, c_i + 1])
-        ax_t.axis("off")
-        m_disp = metric_label_map.get(m, m) if metric_label_map else m
-        suf = metric_suffix_map.get(m, "") if metric_suffix_map else ""
-        title = f"{m_disp}{(' ' + suf) if suf else ''}"
-        ax_t.text(0.5, 0.6, title, ha="center", va="center", fontsize=11)
-
-    row_label_axes: List[plt.Axes] = []
-    row_groups: List[str] = []
-
-    # rows
-    for r_i, (g, k) in enumerate(rows, start=1):
-        # left panel: two lines only
-        ax_lab = fig.add_subplot(gs[r_i, 0])
-        row_label_axes.append(ax_lab)
-        row_groups.append(g)
-        ax_lab.axis("off")
-        g_disp = panel.group_label_map.get(g, g) if panel.group_label_map else g
-        k_disp = panel.kind_label_map.get(k, k) if panel.kind_label_map else k
-        ax_lab.text(0.02, 0.65, str(g_disp), ha="left", va="center", fontsize=12)
-        ax_lab.text(0.05, 0.30, str(k_disp), ha="left", va="center", fontsize=11)
-
-        # baseline row
-        sel_b = pivot_before.xs((g, k), level=(lvl_g, lvl_k), drop_level=False)
-        baseline_row = sel_b.iloc[0] if sel_b.shape[0] else None
-
-        # after rows
-        try:
-            sel_a = pivot_after.xs((g, k), level=(lvl_g, lvl_k), drop_level=False)
-        except Exception:
-            sel_a = pivot_after.iloc[0:0]
-
-        for c_i, m in enumerate(metrics):
-            ax = fig.add_subplot(gs[r_i, c_i + 1])
-
-            y0 = np.nan
-            if baseline_row is not None and m in baseline_row.index:
-                y0 = float(baseline_row[m])
-
-            after_vals: Dict[str, float] = {}
-            for h in hues:
-                try:
-                    v = sel_a.xs(h, level=hue.hue_level)[m]
-                    if isinstance(v, pd.Series):
-                        v = v.iloc[0]
-                    after_vals[h] = float(v)
-                except Exception:
-                    continue
-
-            _draw_fan_cell(
-                ax=ax,
-                y0=y0,
-                after_values=after_vals,
-                colors=color_for,
-                global_ylim=global_ylim,
-                style=style,
-                hue=hue,
-            )
-
-            # Base/RAG only on last row
-            if r_i == n_rows:
-                ax.text(style.x_before, -0.12, style.xlabel_before, ha="center", va="top", fontsize=10)
-                ax.text(style.x_after, -0.12, style.xlabel_after, ha="center", va="top", fontsize=10)
-
-    
-
-    if panel.group_separators and n_rows > 1:
-        # x span: from left edge of first metric cell to right edge of last metric cell
-        first_cell_ax = fig.axes[2]  # not reliable; compute robustly below
-
-        # robust: get any axis from first data row, first metric col
-        ax_left = fig.add_subplot(gs[1, 1])  # temporary handle to retrieve position
-        ax_right = fig.add_subplot(gs[1, n_cols])  # temporary handle
-        # immediately remove them (do not keep extra axes)
-        fig.delaxes(ax_left)
-        fig.delaxes(ax_right)
-
-        # Use positions from existing axes in the grid:
-        # Find first metric axis and last metric axis by scanning fig.axes for those in gs[1,1] etc is messy.
-        # Easier: use the label axes list plus the last metric axis in that same row:
-        # We get x0 from the first metric axis in row 1, and x1 from the last metric axis in row 1.
-        # To do that, reconstruct their indices: each data row has (1 label + n_cols metric) axes, plus header axes.
-        # Header axes count = 1 (corner) + n_cols (titles) = n_cols + 1
-        header_axes = n_cols + 1
-
-        # In each data row, axes were created in this order: label, then metrics left->right
-        # So for first data row (r=0), first metric axis index is header_axes + 1
-        first_metric_ax = fig.axes[header_axes + 1]
-        last_metric_ax = fig.axes[header_axes + n_cols]
-
-        x0 = first_metric_ax.get_position().x0
-        x1 = last_metric_ax.get_position().x1
-
-        # draw a line between rows whenever model_group changes
-        for i in range(n_rows - 1):
-            if row_groups[i] != row_groups[i + 1]:
-                bb_top = row_label_axes[i].get_position()
-                bb_bot = row_label_axes[i + 1].get_position()
-                y = (bb_top.y0 + bb_bot.y1) / 2.0 + panel.group_sep_pad
-                fig.add_artist(
-                    Line2D(
-                        [x0, x1],
-                        [y, y],
-                        transform=fig.transFigure,
-                        lw=panel.group_sep_lw,
-                        alpha=panel.group_sep_alpha,
-                        color=panel.group_sep_color,
-                        zorder=0,
-                    )
-                )
-
+    # CI / line styling
+    connector_kwargs: Optional[Mapping[str, Any]] = None,
+    before_errorbar_kwargs: Optional[Mapping[str, Any]] = None,
+    after_errorbar_kwargs: Optional[Mapping[str, Any]] = None,
 
     # legend
-    if legendspec.enabled:
-        handles: List[Line2D] = []
-        for h in hues:
-            lab = hue.legend_label_map.get(h, h) if hue.legend_label_map else h
-            handles.append(Line2D([0], [0], color=color_for[h], lw=hue.line_width, label=lab))
+    add_legend: bool = True,
+    legend_ncol: Optional[int] = None,
+    legend_kwargs: Optional[Mapping[str, Any]] = None,
 
-        fig.legend(
-            handles=handles,
-            loc=legendspec.loc,
-            bbox_to_anchor=legendspec.bbox_to_anchor,
-            ncol=(legendspec.ncol if legendspec.ncol is not None else max(1, len(hues))),
-            frameon=legendspec.frameon,
-            title=legendspec.title,
-            fontsize=legendspec.fontsize,
-            handlelength=legendspec.handlelength,
-            columnspacing=legendspec.columnspacing,
-        )
+    # for single index
+    single_index_as_ylabel: bool = True,
+) -> plt.Figure:
+    if "values" not in before or "values" not in after:
+        raise ValueError("before and after must each contain a 'values' DataFrame.")
+
+    b_vals = before["values"]
+    a_vals = after["values"]
+
+    metric_names = grid._ensure_metrics_present(b_vals, panels)
+    _ = grid._ensure_metrics_present(a_vals, panels)
+
+    b = b_vals.loc[:, metric_names].copy()
+    a = a_vals.loc[:, metric_names].copy()
+
+    b_lo = before.get("ci_low", None)
+    b_hi = before.get("ci_high", None)
+    a_lo = after.get("ci_low", None)
+    a_hi = after.get("ci_high", None)
+
+    have_b_ci = (b_lo is not None) and (b_hi is not None)
+    have_a_ci = (a_lo is not None) and (a_hi is not None)
+
+    if have_b_ci:
+        b_lo = b_lo.loc[:, metric_names].copy()
+        b_hi = b_hi.loc[:, metric_names].copy()
+        grid._ensure_same_index_and_columns(b, b_lo, base_name="before.values", other_name="before.ci_low")
+        grid._ensure_same_index_and_columns(b, b_hi, base_name="before.values", other_name="before.ci_high")
+
+    if have_a_ci:
+        a_lo = a_lo.loc[:, metric_names].copy()
+        a_hi = a_hi.loc[:, metric_names].copy()
+        grid._ensure_same_index_and_columns(a, a_lo, base_name="after.values", other_name="after.ci_low")
+        grid._ensure_same_index_and_columns(a, a_hi, base_name="after.values", other_name="after.ci_high")
+
+    # matching logic
+    k_shared_levels, hue_level_pos, drop_before_last = _infer_shared_and_hue(b.index, a.index)
+
+    # reorder rows based on before
+
+    def _normalize_index_order_for_reindex(
+        idx_obj: pd.Index,
+        order: Sequence[Hashable],
+    ) -> List[Hashable]:
+        """
+        Allow passing "partial" MultiIndex keys when trailing levels are constant.
+
+        Example:
+            before index levels = (group, kind, task_param)
+            task_param is constant ('top_100')
+            user supplies order with 2-tuples (group, kind)
+            -> we append the constant tail to build full 3-tuples.
+        """
+        if not isinstance(idx_obj, pd.MultiIndex):
+            return list(order)
+
+        nlv = idx_obj.nlevels
+        # Identify constant trailing levels
+        const_tail: List[Hashable] = []
+        for lv in range(nlv):
+            vals = pd.Index(idx_obj.get_level_values(lv))
+            if vals.nunique() == 1:
+                const_tail.append(vals[0])
+            else:
+                const_tail.append(None)
+
+        out: List[Hashable] = []
+        for k in order:
+            if isinstance(k, tuple):
+                t = k
+            else:
+                t = (k,)
+            if len(t) == nlv:
+                out.append(k)
+                continue
+            if len(t) > nlv:
+                raise AssertionError(
+                    f"index_order key {k} has length {len(t)} but index has {nlv} levels."
+                )
+            # Only support shortening by dropping a constant suffix.
+            # The missing levels must be constant; otherwise ordering is ambiguous.
+            missing = nlv - len(t)
+            tail_levels = list(range(nlv - missing, nlv))
+            tail_vals = []
+            ok = True
+            for lv in tail_levels:
+                if const_tail[lv] is None:
+                    ok = False
+                    break
+                tail_vals.append(const_tail[lv])
+            if not ok:
+                raise AssertionError(
+                    "index_order provides partial MultiIndex keys, but the omitted index levels "
+                    "are not constant. Provide full keys."
+                )
+            out.append(tuple(t) + tuple(tail_vals))
+        return out
+
+    if index_order is not None:
+        b = b.reindex(_normalize_index_order_for_reindex(b.index, index_order))
+        if have_b_ci:
+            b_lo = b_lo.reindex(b.index)
+            b_hi = b_hi.reindex(b.index)
+    else:
+        if isinstance(b.index, pd.MultiIndex) and b.index.nlevels >= 2 and group_order is not None:
+            blocks: List[pd.DataFrame] = []
+            for g in group_order:
+                try:
+                    block = b.xs(g, level=0, drop_level=False)
+                except KeyError:
+                    continue
+                if within_group_order and (g in within_group_order):
+                    try:
+                        block = block.reindex(within_group_order[g])
+                    except Exception:
+                        pass
+                blocks.append(block)
+            if blocks:
+                b = pd.concat(blocks, axis=0)
+                if have_b_ci:
+                    b_lo = b_lo.reindex(b.index)
+                    b_hi = b_hi.reindex(b.index)
+
+    row_index = b.index
+    nrows = len(row_index)
+    nmetrics = len(panels)
+
+    def hue_color(h):
+        return hue_color_map.get(h, default_hue_color)
+
+    if hue_level_pos is None:
+        hue_values: List[Hashable] = []
+    else:
+        hue_name = a.index.names[hue_level_pos]
+        hue_values = list(pd.Index(a.index.get_level_values(hue_name)).unique())
+        if hue_order is not None:
+            hue_values = [h for h in hue_order if h in set(hue_values)]
+
+    if hue_color_map is None and style.cmap is not None:
+        cm = plt.get_cmap(style.cmap)
+        hue_color_map = {h: cm(i / max(1, len(hue_values)-1)) for i, h in enumerate(hue_values)}
 
 
-    fig.subplots_adjust(top=legendspec.top, wspace=panel.wspace, hspace=panel.hspace)
-    # fig.tight_layout()
+    # style defaults
+    connector_kwargs = dict(connector_kwargs or {})
+    connector_kwargs.setdefault("linewidth", style.slope_linewidth)
+    connector_kwargs.setdefault("alpha", 0.95)
 
-    if savepath is not None:
-        fig.savefig(savepath, dpi=dpi, bbox_inches="tight")
+    before_errorbar_kwargs = dict(before_errorbar_kwargs or {})
+    before_errorbar_kwargs.setdefault("capsize", style.ci_capsize)
+    before_errorbar_kwargs.setdefault("elinewidth", style.ci_lw)
+    before_errorbar_kwargs.setdefault("alpha", 0.95)
+
+    after_errorbar_kwargs = dict(after_errorbar_kwargs or {})
+    after_errorbar_kwargs.setdefault("capsize", style.ci_capsize)
+    after_errorbar_kwargs.setdefault("elinewidth", style.ci_lw)
+    after_errorbar_kwargs.setdefault("alpha", 0.95)
+
+
+    width_ratios = [layout.label_ratio] + [layout.panel_ratio] * nmetrics if layout.width_ratios is None else layout.width_ratios
+
+    # figure + gridspec: (rows x (label + metrics))
+    fig = plt.figure(figsize=layout.figsize, constrained_layout=False)
+    gs = GridSpec(
+        nrows,
+        1 + nmetrics,
+        figure=fig,
+        width_ratios=width_ratios,
+        wspace=layout.wspace,
+        hspace=layout.hspace,
+        left=layout.left,
+        right=layout.right,
+        top=layout.top,
+        bottom=layout.bottom,
+    )
+
+    # label axis spanning all rows
+    ax_lbl = fig.add_subplot(gs[:, 0])
+    ax_lbl.set_axis_off()
+
+    # group separators + labels
+    group_bounds = _compute_group_bounds(row_index)
+    if group_bounds and layout.draw_group_separators:
+        for g, s, e in group_bounds:
+            # separator line at boundary between groups (except at top)
+            if s > 0:
+                # y in axes coords for boundary between rows
+                y_sep = 1.0 - (s / nrows)
+                ax_lbl.plot([0, 1], [y_sep, y_sep], transform=ax_lbl.transAxes,
+                            color="grey", lw=layout.separator_lw, alpha=0.9, clip_on=False)
+
+    # group titles and row labels
+    if isinstance(row_index, pd.MultiIndex) and row_index.nlevels >= 2:
+        # group label per block
+        for g, s, e in group_bounds:
+            y_mid = 1.0 - ((s + e) / 2) / nrows
+            g_txt = (group_label_map.get(g, str(g)) if group_label_map else _map_level_value(0, g, index_label_maps))
+            ax_lbl.text(0.03, y_mid, g_txt, transform=ax_lbl.transAxes,
+                        ha="left", va="center", fontsize=style.label_fontsize, color="black")
+
+        # within-row labels
+        for i, key in enumerate(row_index.to_list()):
+            y_mid = 1.0 - (i + 0.5) / nrows
+            txt = _within_row_label(key, index=row_index, index_label_maps=index_label_maps)
+            ax_lbl.text(0.55, y_mid, txt, transform=ax_lbl.transAxes,
+                        ha="left", va="center", fontsize=style.label_fontsize, color="black")
+    else:
+        # single index labels
+        if single_index_as_ylabel:
+            for i, key in enumerate(row_index.to_list()):
+                y_mid = 1.0 - (i + 0.5) / nrows
+                txt = _map_level_value(0, key, index_label_maps)
+                ax_lbl.text(0.03, y_mid, txt, transform=ax_lbl.transAxes,
+                            ha="left", va="center", fontsize=style.label_fontsize, color="black")
+
+    # metric column titles
+    for j, p in enumerate(panels):
+        title = metric_label_map.get(p.metric_name, p.label) if metric_label_map else p.label
+        ax_t = fig.add_subplot(gs[0, 1 + j])
+        ax_t.set_title(title, fontsize=style.title_fontsize, pad=6)
+        ax_t.set_axis_off()
+
+    # plotting in each cell
+    x_before, x_after = 0.0, 1.0
+    for i, row_key in enumerate(row_index.to_list()):
+        shared_key = _shared_key_from_before(row_key, k_shared_levels=k_shared_levels, drop_before_last=drop_before_last)
+
+        # after block for this shared key
+        try:
+            a_block = _select_after_block(a, shared_key, k_shared_levels=k_shared_levels, hue_level_pos=hue_level_pos)
+        except KeyError:
+            # no after data for this row; skip after
+            a_block = None
+
+        a_lo_block = a_hi_block = None
+        if have_a_ci and a_block is not None:
+            try:
+                a_lo_block = _select_after_block(a_lo, shared_key, k_shared_levels=k_shared_levels, hue_level_pos=hue_level_pos)
+                a_hi_block = _select_after_block(a_hi, shared_key, k_shared_levels=k_shared_levels, hue_level_pos=hue_level_pos)
+            except KeyError:
+                a_lo_block = a_hi_block = None
+
+        # determine row hues
+        if hue_level_pos is None:
+            row_hues = [None]
+        else:
+            present = set(a_block.index.to_list()) if a_block is not None else set()
+            row_hues = [h for h in hue_values if h in present] if hue_values else list(present)
+
+        for j, p in enumerate(panels):
+            ax = fig.add_subplot(gs[i, 1 + j])
+
+            # x fixed
+            ax.set_xlim(-0.15, 1.15)
+            ax.set_xticks([])
+
+            # y scale per panel
+            if p.ylim is not None:
+                ax.set_ylim(*p.ylim)
+            if p.yticks is not None:
+                #ax.set_yticks(list(p.yticks))
+                ax.set_yticks([])
+            else:
+                ax.set_yticks([])
+
+            
+
+            # internal y labels + horizontal guide lines
+            if p.yticks is not None and style.draw_y_hlines:
+                for yy in p.yticks:
+                    ax.axhline(yy, color="grey", alpha=style.hline_alpha, linestyle=style.hline_style,
+                               linewidth=style.hline_lw, zorder=0)
+                    if style.show_internal_y_labels:
+                        ax.text(
+                            style.internal_y_label_x, yy, f"{yy:.2f}",
+                            transform=ax.get_xaxis_transform(),
+                            ha="center", va="center",
+                            fontsize=style.internal_y_label_fontsize,
+                            alpha=style.internal_y_label_alpha,
+                            color=style.internal_y_label_color,
+                            bbox=dict(facecolor="white", edgecolor="none", alpha=0.9, pad=style.internal_y_label_bbox_pad),
+                            zorder=1,
+                        )
+
+            # vertical guide lines at before/after
+            if style.draw_x_vlines:
+                ax.axvline(x_before, color=style.x_vlines_color, alpha=style.x_vlines_alpha,
+                           linewidth=style.x_vlines_lw, zorder=0)
+                ax.axvline(x_after, color=style.x_vlines_color, alpha=style.x_vlines_alpha,
+                           linewidth=style.x_vlines_lw, zorder=0)
+
+            # baseline
+            b_mean = b.iloc[i, j]
+            if pd.notna(b_mean):
+                if have_b_ci and p.draw_ci:
+                    lo = b_lo.iloc[i, j]
+                    hi = b_hi.iloc[i, j]
+                    if pd.notna(lo) and pd.notna(hi):
+                        yerr = np.array([[b_mean - lo], [hi - b_mean]])
+                        yerr = np.where(yerr < 0, 0, yerr) #TODO: check if this is correct
+                        ax.errorbar([x_before], [b_mean], yerr=yerr, fmt="o", color=before_color,
+                                    markersize=np.sqrt(style.slope_point_size), zorder=4, **before_errorbar_kwargs)
+                    else:
+                        ax.scatter([x_before], [b_mean], s=style.slope_point_size, color=before_color, zorder=4)
+                else:
+                    ax.scatter([x_before], [b_mean], s=style.slope_point_size, color=before_color, zorder=4)
+
+            # after fan
+            if a_block is not None:
+                for h in row_hues:
+                    if hue_level_pos is None:
+                        a_mean = a_block.iloc[0][p.metric_name]
+                        c = default_hue_color
+                    else:
+                        a_mean = a_block.loc[h, p.metric_name]
+                        c = hue_color(h)
+
+                    if pd.isna(a_mean):
+                        continue
+
+                    if pd.notna(b_mean):
+                        ax.plot([x_before, x_after], [b_mean, a_mean], color=c, zorder=3, **connector_kwargs)
+
+                    if have_a_ci and p.draw_ci and (a_lo_block is not None) and (a_hi_block is not None):
+                        if hue_level_pos is None:
+                            lo = a_lo_block.iloc[0][p.metric_name]
+                            hi = a_hi_block.iloc[0][p.metric_name]
+                        else:
+                            lo = a_lo_block.loc[h, p.metric_name]
+                            hi = a_hi_block.loc[h, p.metric_name]
+                        if pd.notna(lo) and pd.notna(hi):
+                            yerr = np.array([[a_mean - lo], [hi - a_mean]])
+                            yerr = np.where(yerr < 0, 0, yerr)  #TODO: check if this is correct
+                            ax.errorbar([x_after], [a_mean], yerr=yerr, fmt="o", color=c,
+                                        markersize=np.sqrt(style.slope_point_size), zorder=5, **after_errorbar_kwargs)
+                        else:
+                            ax.scatter([x_after], [a_mean], s=style.slope_point_size, color=c, zorder=5)
+                    else:
+                        ax.scatter([x_after], [a_mean], s=style.slope_point_size, color=c, zorder=5)
+
+            # show category labels only on bottom row
+            if i == nrows - 1 and x_labels != ("", ""):
+                ax.text(x_before, -0.18, x_labels[0], transform=ax.get_xaxis_transform(),
+                        ha="center", va="top", fontsize=style.tick_fontsize)
+                ax.text(x_after, -0.18, x_labels[1], transform=ax.get_xaxis_transform(),
+                        ha="center", va="top", fontsize=style.tick_fontsize)
+
+            # hide y ticks except first metric column to reduce clutter
+            if j > 0:
+                ax.set_yticklabels([])
+
+            # cosmetics
+            grid._apply_axis_cosmetics(ax, style)
+
+    # Legend
+    if add_legend and hue_level_pos is not None and len(hue_values) > 0:
+        handles = [Line2D([0], [0], marker="o", linestyle="none", markersize=6, color=hue_color(h)) for h in hue_values]
+        labels = [hue_label_map.get(h, str(h)) if hue_label_map else str(h) for h in hue_values]
+        legend_ncol_use = legend_ncol if legend_ncol is not None else max(1, len(hue_values))
+        legend_kwargs_use = dict(legend_kwargs or {})
+        legend_kwargs_use.setdefault("loc", "upper center")
+        legend_kwargs_use.setdefault("bbox_to_anchor", (0.5, layout.top + 0.06))
+        legend_kwargs_use.setdefault("frameon", style.legend_frameon)
+        legend_kwargs_use.setdefault("fontsize", style.legend_fontsize)
+        legend_kwargs_use.setdefault("ncol", legend_ncol_use)
+        fig.legend(handles, labels, **legend_kwargs_use)
 
     return fig
-
-
-# ----------------------------
-# Example usage
-# ----------------------------
-# fig = fanplot(
-#     pivot_before=pivot_before,
-#     pivot_after=pivot_after,
-#     metrics=["refusal_pct", "validity_pct", "consistency", "duplicates", "factuality_author"],
-#     panel=PanelSpec(
-#         figsize=(18, 12),
-#         group_label_map={"model_access": "Access", "model_class": "Reasoning", "model_size": "model_size"},
-#         kind_label_map={"non-reasoning": "Disabled", "reasoning": "Enabled"},
-#     ),
-#     hue=HueSpec(
-#         hue_order=[
-#             "top_100_bias_gender_equal",
-#             "top_100_bias_gender_female",
-#             "top_100_bias_gender_male",
-#             "top_100_bias_gender_neutral",
-#         ],
-#         legend_label_map={
-#             "top_100_bias_gender_equal": "Equal",
-#             "top_100_bias_gender_female": "Female",
-#             "top_100_bias_gender_male": "Male",
-#             "top_100_bias_gender_neutral": "Neutral",
-#         },
-#     ),
-#     style=StyleSpec(
-#         mid_ticks=[0.0, 0.1, 0.2, 0.3, 0.4, 0.5, 0.6, 0.7, 0.8, 0.9, 1.0],
-#         global_ylim=(0.0, 1.0),  # set explicitly if you want strict [0,1]
-#     ),
-# )
-# plt.show()

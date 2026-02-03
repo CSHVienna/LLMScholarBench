@@ -38,6 +38,7 @@ class PanelSpec:
     # Value label format (bar plot)
     value_fmt: str = "{:.2f}"
 
+    
 
 @dataclass(frozen=True)
 class LayoutSpec:
@@ -64,6 +65,7 @@ class LayoutSpec:
     label_ratio_1: float = 0.12
     label_ratio_2: float = 0.12
     panel_ratio: float = 0.30
+    width_ratios: Optional[Sequence[float]] = None
 
 
 @dataclass(frozen=True)
@@ -144,6 +146,8 @@ class StyleSpec:
     # legend frame (white background)
     legend_frame: bool = True
     legend_frame_alpha: float = 0.85
+
+    cmap: Optional[str] = None
 
 
 
@@ -329,7 +333,6 @@ def _build_grid_from_index(
     metric_label_map: Optional[Mapping[str, str]] = None,
     layout: LayoutSpec = LayoutSpec(),
     style: StyleSpec = StyleSpec(),
-    width_ratios: Optional[Sequence[float]] = None,
     row_labels_for_first_panel: Optional[Sequence[str]] = None,
 ) -> Tuple[plt.Figure, Optional[plt.Axes], List[plt.Axes], np.ndarray]:
     """
@@ -350,15 +353,15 @@ def _build_grid_from_index(
 
     if use_label_axis:
         ncols = 1 + len(panels)
-        if width_ratios is None:
-            width_ratios = [layout.label_ratio] + [layout.panel_ratio] * len(panels)
-        if len(width_ratios) != ncols:
-            raise ValueError(f"width_ratios must have length {ncols}.")
+        if layout.width_ratios is None:
+            layout.width_ratios = [layout.label_ratio] + [layout.panel_ratio] * len(panels)
+        if len(layout.width_ratios) != ncols:
+            raise ValueError(f"layout.width_ratios must have length {ncols}.")
 
         gs = GridSpec(
             1, ncols,
             figure=fig,
-            width_ratios=width_ratios,
+            width_ratios=layout.width_ratios,
             wspace=layout.wspace
         )
 
@@ -393,15 +396,15 @@ def _build_grid_from_index(
         ref_ax = ax_lbl
     else:
         ncols = len(panels)
-        if width_ratios is None:
-            width_ratios = [layout.panel_ratio] * len(panels)
-        if len(width_ratios) != ncols:
-            raise ValueError(f"width_ratios must have length {ncols}.")
+        if layout.width_ratios is None:
+            layout.width_ratios = [layout.panel_ratio] * len(panels)
+        if len(layout.width_ratios) != ncols:
+            raise ValueError(f"layout.width_ratios must have length {ncols}.")
 
         gs = GridSpec(
             1, ncols,
             figure=fig,
-            width_ratios=width_ratios,
+            width_ratios=layout.width_ratios,
             wspace=layout.wspace
         )
         fig.subplots_adjust(left=layout.left, right=layout.right, top=layout.top, bottom=layout.bottom)
