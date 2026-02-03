@@ -67,7 +67,6 @@ class LayoutSpec:
     panel_ratio: float = 0.30
     width_ratios: Optional[Sequence[float]] = None
 
-
 @dataclass(frozen=True)
 class StyleSpec:
     title_fontsize: int = 11
@@ -148,7 +147,8 @@ class StyleSpec:
     legend_frame_alpha: float = 0.85
 
     cmap: Optional[str] = None
-
+    tick_pad: float = 0.0
+    
 
 
 @dataclass(frozen=True)
