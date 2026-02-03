@@ -25,7 +25,7 @@ def load_per_attempt(metric, df, fn, save=False, **kwargs):
         raise ValueError(f'Metric {metric} not supported')
 
     overwrite = kwargs.pop('overwrite', False)
-    if io.exists(fn) and not overwrite:
+    if fn is not None and (io.exists(fn) and not overwrite):
         return io.read_csv(fn, index_col=0)
 
     gt = kwargs.get('gt', None)
@@ -44,11 +44,7 @@ def load_per_attempt(metric, df, fn, save=False, **kwargs):
     elif metric == 'factuality_author':
         per_attempt = aggregators.aggregate_factuality_author(df)
 
-    elif metric == 'connectedness_density':
-        per_attempt = aggregators.aggregate_similarity(df, df_similarity=df_similarity, metric_similarity=metric_similarity)
-    elif metric == 'connectedness_entropy':
-        per_attempt = aggregators.aggregate_similarity(df, df_similarity=df_similarity, metric_similarity=metric_similarity)
-    elif metric == 'connectedness_components':
+    elif metric in ['connectedness', 'connectedness_density', 'connectedness_norm_entropy', 'connectedness_ncomponents']:
         per_attempt = aggregators.aggregate_similarity(df, df_similarity=df_similarity, metric_similarity=metric_similarity)
     
     elif metric == 'similarity_pca':
