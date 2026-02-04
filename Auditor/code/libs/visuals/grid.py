@@ -11,6 +11,7 @@ from matplotlib.gridspec import GridSpec
 from matplotlib.lines import Line2D
 from typing import Any, Callable
 
+
 Number = Union[int, float]
 
 

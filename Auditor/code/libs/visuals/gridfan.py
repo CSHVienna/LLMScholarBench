@@ -508,7 +508,7 @@ def plot_metric_grid_fan_from_pivot(
                     if style.show_internal_y_labels:
                         ax.text(
                             style.internal_y_label_x, yy, f"{yy:.2f}",
-                            transform=ax.get_xaxis_transform(),
+                            # transform=ax.get_xaxis_transform(),
                             ha="center", va="center",
                             fontsize=style.internal_y_label_fontsize,
                             alpha=style.internal_y_label_alpha,
@@ -516,6 +516,7 @@ def plot_metric_grid_fan_from_pivot(
                             bbox=dict(facecolor="white", edgecolor="none", alpha=0.9, pad=style.internal_y_label_bbox_pad),
                             zorder=1,
                         )
+
 
             # vertical guide lines at before/after
             if style.draw_x_vlines:

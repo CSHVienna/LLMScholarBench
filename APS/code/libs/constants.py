@@ -274,7 +274,7 @@ LLMS_MISTRAL = [k for k in LLMS if k.startswith('mistral-')] #['mistral-small-3.
 LLMS_GEMMA = [k for k in LLMS if k.startswith('gemma-')] #['gemma-3-12b', 'gemma-3-27b']
 LLMS_GROK = [k for k in LLMS if k.startswith('grok-')] #['grok-4-fast']
 LLMS_ORDERED = LLMS_DEEPSEEK + LLMS_GEMMA + LLMS_GEMINI + LLMS_GROK + LLMS_GPT + LLMS_LLAMA + LLMS_MISTRAL + LLMS_QWEN3
-LLM_CLASSES = list(set([llm.split('-')[0] for llm in LLMS_ORDERED]))
+LLM_CLASSES = list(dict.fromkeys([llm.split('-')[0] for llm in LLMS_ORDERED]))
 
 
 # LLM by access category @TODO: these should be obtained from the LLMCaller/config/llm_setup.json file
