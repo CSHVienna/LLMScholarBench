@@ -148,7 +148,7 @@ class StyleSpec:
 
     cmap: Optional[str] = None
     tick_pad: float = 0.0
-    
+    title_pad: float = 0
 
 
 @dataclass(frozen=True)
