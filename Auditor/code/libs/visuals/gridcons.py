@@ -47,6 +47,20 @@ PANELS_METRICS_BEFORE_AFTER = [
     PanelSpec("parity_gender", r"Parity $\uparrow$", ylim=ylim, yticks=yticks, draw_ci=True),
 ]
 
+PANELS_METRICS_BEFORE_AFTER_FULLER = [
+    PanelSpec("refusal_pct", r"Refusal", ylim=ylim, yticks=yticks, draw_ci=True),
+    PanelSpec("validity_pct", r"Validity $\uparrow$", ylim=ylim, yticks=yticks, draw_ci=True),
+    PanelSpec("duplicates", r"Duplicate $\downarrow$", ylim=ylim, yticks=yticks, draw_ci=True),
+    PanelSpec("consistency", r"Consistency", ylim=ylim, yticks=yticks, draw_ci=True),
+    PanelSpec("factuality_author", r"Factuality $\uparrow$", ylim=ylim, yticks=yticks, draw_ci=True),
+    PanelSpec("connectedness", r"Connectedness", ylim=ylim, yticks=yticks, draw_ci=True),
+    PanelSpec("similarity_pca", r"Similarity", ylim=ylim, yticks=yticks, draw_ci=True),
+    PanelSpec("diversity_gender", r"Diversity$_{gender}$", ylim=ylim, yticks=yticks, draw_ci=True),
+    PanelSpec("diversity_ethnicity", r"Diversity$_{ethnicity}$", ylim=ylim, yticks=yticks, draw_ci=True),
+    PanelSpec("parity_gender", r"Parity$_{gender}$ $\uparrow$", ylim=ylim, yticks=yticks, draw_ci=True),
+    PanelSpec("parity_ethnicity", r"Parity$_{ethnicity}$ $\uparrow$", ylim=ylim, yticks=yticks, draw_ci=True),
+]
+
 
 # Color palettes per group (your scheme)
 tab20 = plt.get_cmap("tab20")

@@ -68,6 +68,18 @@ def _infer_shared_and_hue(before_index: pd.Index, after_index: pd.Index) -> Tupl
     b = _nlevels(before_index)
     a = _nlevels(after_index)
 
+    # Special case: "no row index" fan plot.
+    # before has a single row keyed by a fixed slice (e.g., 'top_100') while after index is only hue values.
+    # We match on an empty shared key and treat the sole after index level as hue.
+    if b == 1 and a == 1:
+        if len(before_index) == 1 and len(after_index) >= 1:
+            b_key = before_index[0]
+            # If keys do not overlap, it is almost certainly (fixed slice) vs (hue-only).
+            if b_key not in set(after_index):
+                return 0, 0, False
+        # Otherwise: same-depth, single series (no hue)
+        return 1, None, False
+
     if a == b + 1:
         return b, a - 1, False
 
@@ -87,6 +99,8 @@ def _shared_key_from_before(row_key: Hashable, *, k_shared_levels: int, drop_bef
         t = row_key
     else:
         t = (row_key,)
+    if k_shared_levels == 0:
+        return tuple()
     if drop_before_last and len(t) >= 2:
         return t[:k_shared_levels]
     return t[:k_shared_levels]
@@ -99,6 +113,9 @@ def _select_after_block(
     k_shared_levels: int,
     hue_level_pos: Optional[int],
 ) -> pd.DataFrame:
+    # If there are no shared levels, the entire after_df corresponds to this (singleton) row.
+    if k_shared_levels == 0:
+        return after_df
     if hue_level_pos is None:
         if isinstance(after_df.index, pd.MultiIndex):
             return after_df.loc[[shared_key], :]
@@ -215,10 +232,6 @@ def plot_metric_grid_fan_from_pivot(
     add_legend: bool = True,
     legend_ncol: Optional[int] = None,
     legend_kwargs: Optional[Mapping[str, Any]] = None,
-
-    # reference lines / internal y labels
-    ytick_line_kwargs: Optional[Mapping[str, Any]] = None,
-    yticks_override: Optional[Sequence[Number]] = None,
 
     # for single index
     single_index_as_ylabel: bool = True,
@@ -343,14 +356,12 @@ def plot_metric_grid_fan_from_pivot(
                     b_lo = b_lo.reindex(b.index)
                     b_hi = b_hi.reindex(b.index)
 
-
-    hline_k = {"lw": style.hline_lw, "alpha": style.hline_alpha, "linestyle": style.hline_style, "color": "grey", "zorder": 1}
-    if ytick_line_kwargs:
-        hline_k.update(dict(ytick_line_kwargs))
-
     row_index = b.index
     nrows = len(row_index)
     nmetrics = len(panels)
+
+    # hue sets
+    hue_color_map = dict(hue_color_map or {})
 
     def hue_color(h):
         return hue_color_map.get(h, default_hue_color)
@@ -362,11 +373,6 @@ def plot_metric_grid_fan_from_pivot(
         hue_values = list(pd.Index(a.index.get_level_values(hue_name)).unique())
         if hue_order is not None:
             hue_values = [h for h in hue_order if h in set(hue_values)]
-
-    if hue_color_map is None and style.cmap is not None:
-        cm = plt.get_cmap(style.cmap)
-        hue_color_map = {h: cm(i / max(1, len(hue_values)-1)) for i, h in enumerate(hue_values)}
-
 
     # style defaults
     connector_kwargs = dict(connector_kwargs or {})
@@ -384,7 +390,8 @@ def plot_metric_grid_fan_from_pivot(
     after_errorbar_kwargs.setdefault("alpha", 0.95)
 
 
-    width_ratios = [layout.label_ratio] + [layout.panel_ratio] * nmetrics if layout.width_ratios is None else layout.width_ratios
+    if layout.width_ratios is None:
+        layout.width_ratios = [layout.label_ratio] + [layout.panel_ratio] * nmetrics
 
     # figure + gridspec: (rows x (label + metrics))
     fig = plt.figure(figsize=layout.figsize, constrained_layout=False)
@@ -392,7 +399,7 @@ def plot_metric_grid_fan_from_pivot(
         nrows,
         1 + nmetrics,
         figure=fig,
-        width_ratios=width_ratios,
+        width_ratios=layout.width_ratios,
         wspace=layout.wspace,
         hspace=layout.hspace,
         left=layout.left,
@@ -444,7 +451,7 @@ def plot_metric_grid_fan_from_pivot(
     for j, p in enumerate(panels):
         title = metric_label_map.get(p.metric_name, p.label) if metric_label_map else p.label
         ax_t = fig.add_subplot(gs[0, 1 + j])
-        ax_t.set_title(title, fontsize=style.title_fontsize, pad=6)
+        ax_t.set_title(title, fontsize=style.title_fontsize, pad=style.title_pad, zorder=5)
         ax_t.set_axis_off()
 
     # plotting in each cell
@@ -489,6 +496,9 @@ def plot_metric_grid_fan_from_pivot(
                 ax.set_yticks([])
             else:
                 ax.set_yticks([])
+
+            # cosmetics
+            grid._apply_axis_cosmetics(ax, style)
 
             # internal y labels + horizontal guide lines
             if p.yticks is not None and style.draw_y_hlines:
@@ -555,7 +565,7 @@ def plot_metric_grid_fan_from_pivot(
                             hi = a_hi_block.loc[h, p.metric_name]
                         if pd.notna(lo) and pd.notna(hi):
                             yerr = np.array([[a_mean - lo], [hi - a_mean]])
-                            yerr = np.where(yerr < 0, 0, yerr)  #TODO: check if this is correct
+                            yerr = np.where(yerr < 0, 0, yerr) #TODO: check if this is correct
                             ax.errorbar([x_after], [a_mean], yerr=yerr, fmt="o", color=c,
                                         markersize=np.sqrt(style.slope_point_size), zorder=5, **after_errorbar_kwargs)
                         else:
@@ -573,9 +583,6 @@ def plot_metric_grid_fan_from_pivot(
             # hide y ticks except first metric column to reduce clutter
             if j > 0:
                 ax.set_yticklabels([])
-
-            # cosmetics
-            grid._apply_axis_cosmetics(ax, style)
 
     # Legend
     if add_legend and hue_level_pos is not None and len(hue_values) > 0:
