@@ -28,6 +28,7 @@ def plot_metric_grid_temperature_from_pivot(
     add_legend: bool = True,
     legend_panel: Optional[Sequence[Tuple[int, int]]] = None,
     legend_kwargs: Optional[Sequence[dict]] = None,
+    single_index_as_ylabel: bool = True,
 ) -> plt.Figure:
     """
     Figure 3 style renderer using pivoted inputs.
@@ -79,7 +80,7 @@ def plot_metric_grid_temperature_from_pivot(
     nrows = len(facet_index)
 
     
-    use_label_col = (len(left_group_cols) >= 2)
+    use_label_col = (len(left_group_cols) >= 2) or (not single_index_as_ylabel)
     n_metric_cols = len(panels)
 
     if use_label_col:
@@ -95,7 +96,7 @@ def plot_metric_grid_temperature_from_pivot(
     gs = GridSpec(
         nrows=nrows, ncols=ncols, figure=fig,
         width_ratios=width_ratios,
-        wspace=layout.wspace, hspace=layout.hspace
+        wspace=layout.wspace, hspace=layout.hspace,
     )
 
     row_maps_level = grid._apply_row_label_maps_from_cols(facet_index, row_label_maps=row_label_maps)
@@ -142,8 +143,8 @@ def plot_metric_grid_temperature_from_pivot(
             axes[i][0] = ax_label
             ax_label.axis("off")
             ax_label.text(
-                1.0, 0.5, row_labels[i],
-                ha="right", va="center",
+                0.0, 0.5, row_labels[i],
+                ha="left", va="center",
                 fontsize=style.ylabel_fontsize,
                 transform=ax_label.transAxes,
             )
