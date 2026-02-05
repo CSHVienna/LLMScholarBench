@@ -90,8 +90,9 @@ class StyleSpec:
     point_size: float = 28.0
 
     # CI errorbar style (bars)
-    ci_capsize: float = 2.5
-    ci_lw: float = 1.0
+    ci_capsize: float = 2.
+    ci_lw: float = 0.5
+    ci_color: str = "black"
 
     # Slope plot
     slope_linewidth: float = 2.0
@@ -354,15 +355,14 @@ def _build_grid_from_index(
 
     if use_label_axis:
         ncols = 1 + len(panels)
-        if layout.width_ratios is None:
-            layout.width_ratios = [layout.label_ratio] + [layout.panel_ratio] * len(panels)
-        if len(layout.width_ratios) != ncols:
-            raise ValueError(f"layout.width_ratios must have length {ncols}.")
+        width_ratios = [layout.label_ratio] + [layout.panel_ratio] * len(panels) if layout.width_ratios is None else layout.width_ratios
+        if len(width_ratios) != ncols:
+            raise ValueError(f"width_ratios must have length {ncols}.")
 
         gs = GridSpec(
             1, ncols,
             figure=fig,
-            width_ratios=layout.width_ratios,
+            width_ratios=width_ratios,
             wspace=layout.wspace
         )
 
@@ -397,15 +397,14 @@ def _build_grid_from_index(
         ref_ax = ax_lbl
     else:
         ncols = len(panels)
-        if layout.width_ratios is None:
-            layout.width_ratios = [layout.panel_ratio] * len(panels)
-        if len(layout.width_ratios) != ncols:
-            raise ValueError(f"layout.width_ratios must have length {ncols}.")
+        width_ratios = [layout.panel_ratio] * len(panels) if layout.width_ratios is None else layout.width_ratios
+        if len(width_ratios) != ncols:
+            raise ValueError(f"width_ratios must have length {ncols}.")
 
         gs = GridSpec(
             1, ncols,
             figure=fig,
-            width_ratios=layout.width_ratios,
+            width_ratios=width_ratios,
             wspace=layout.wspace
         )
         fig.subplots_adjust(left=layout.left, right=layout.right, top=layout.top, bottom=layout.bottom)

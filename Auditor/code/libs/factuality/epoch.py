@@ -19,7 +19,8 @@ class FactualityEpoch(FactualityCheck):
         # 2. Check years with years of activity (df_valid_responses already has the author metadata)
         new_cols = ['fact_epoch_requested', 'fact_epoch_llm_in_gt', 'fact_epoch_gt_in_llm', 'fact_epoch_overlap', 'fact_epoch_intersection_length', 'fact_epoch_jaccard_sim']
         self.df_valid_responses[new_cols] = self.df_valid_responses.apply(self._process_row, axis=1)
-        
+        print(self.df_valid_responses['fact_epoch_requested'].value_counts())
+
     def _process_row(self, row):
 
         val = row[self.column_epoch].replace('–','-').lower()
@@ -52,8 +53,8 @@ class FactualityEpoch(FactualityCheck):
         return get_overlap_range_metrics(int(row[self.column_task_param].replace('s','')), 
                                          int(llm1) if llm1 else None, 
                                          int(llm2) if llm2 else None, 
-                                         row['year_first_publication'],
-                                         row['year_last_publication'])
+                                         int(row['year_first_publication']) if pd.notna(row['year_first_publication']) else None,
+                                         int(row['year_last_publication']) if pd.notna(row['year_last_publication']) else None)
 
 def get_overlap_range_metrics(requested_epoch, start_llm, end_llm, start_gt, end_gt):
     # 1 llm: start1, end1: start and end year according to LLM response
@@ -62,9 +63,18 @@ def get_overlap_range_metrics(requested_epoch, start_llm, end_llm, start_gt, end
     # is_requested_epoch (the author is active in the requested epoch) - no llm answer
     # is_requested_epoch = requested_epoch >= start2 and requested_epoch <= end2 # OLD
     # If either year is NaN, return False; otherwise check overlap
-    is_requested_epoch = pd.notna(start_gt) and pd.notna(end_gt) and ~(end_gt < requested_epoch or start_gt > requested_epoch + 10)
+    available_gt = (pd.notna(start_gt) and pd.notna(end_gt))
+    if not available_gt:
+        is_requested_epoch = None
+        real_overlap = None
+    else:
+        real_overlap = not (end_gt < requested_epoch or start_gt > (requested_epoch + 10))
+        is_requested_epoch = available_gt and real_overlap
+
+    #print(f"is_requested_epoch: {is_requested_epoch} | available_gt: {available_gt} | real_overlap: {real_overlap} | start_gt {start_gt} ({pd.notna(start_gt)}) |  end_gt: {end_gt} ({pd.notna(end_gt)}) | requested_epoch: {requested_epoch} | (requested_epoch + 10): {requested_epoch + 10}")
     
-    if start_llm is None or end_llm is None:
+
+    if not available_gt or start_llm is None or end_llm is None:
         llm_in_gt = None
         gt_in_llm = None
         overlap = None

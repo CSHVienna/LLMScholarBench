@@ -81,7 +81,7 @@ class FactualityField(FactualityCheck):
                             'subfield_name':'subfield_name_list'}, inplace=True)
 
 
-        # @NOTE: The following hasn't been run yet (2025-02-02)
+        
 
         # Check the topics of publications
         self.df_valid_responses = self.df_valid_responses.merge(tmp[['id_publication_oa','subfield_name_list']], on=['id_publication_oa'], how='left')

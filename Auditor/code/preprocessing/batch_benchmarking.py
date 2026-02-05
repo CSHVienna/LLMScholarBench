@@ -34,7 +34,7 @@ def get_gt(aps_oa_data_tar_gz: str):
     del df_all_authors_stats
     return df_gt
 
-def run(results_dir: str, model: str, metric: str, aps_oa_data_tar_gz: str, is_temperature_analysis: bool, output_dir: str, overwrite: bool):
+def run(results_dir: str, model: str, metric: str, aps_oa_data_tar_gz: str, is_temperature_analysis: bool, output_dir: str, dont_save: bool, overwrite: bool):
 
     prefix = 'temperature' if is_temperature_analysis else None
     output_dir = io.path_join(output_dir, 'benchmarks')
@@ -45,7 +45,9 @@ def run(results_dir: str, model: str, metric: str, aps_oa_data_tar_gz: str, is_t
         return io.read_csv(fn_results, index_col=0), None
     
     # Initialize tqdm progress bar
-    total_steps = 9
+    is_factuality_metric = metric in constants.BENCHMARK_FACTUALITY_METRICS and metric != 'factuality_author'
+    total_steps = 9 + (1 if is_factuality_metric else 0)
+
     progress_bar = tqdm(total=total_steps, desc="Loading data")
 
     # 1. process pre-processed data
@@ -55,9 +57,15 @@ def run(results_dir: str, model: str, metric: str, aps_oa_data_tar_gz: str, is_t
     df_valid_responses_all = io.read_csv(io.path_join(results_dir, 'valid_responses', f"{model}.csv"), index_col=0, low_memory=False)
     progress_bar.update(1)
     
-    df_factuality_all = io.read_csv(io.path_join(results_dir, 'factuality', f"{model}_author.csv"), index_col=0, low_memory=False)
+    df_factuality_author_all = io.read_csv(io.path_join(results_dir, 'factuality', f"{model}_author.csv"), index_col=0, low_memory=False)
     progress_bar.update(1)
 
+    df_factuality_task_all = None
+    if is_factuality_metric:
+        experiment_task = metric.split('_')[-1]
+        df_factuality_task_all = io.read_csv(io.path_join(results_dir, 'factuality', f"{model}_{experiment_task}.csv"), index_col=0, low_memory=False)
+        progress_bar.update(1)
+        
     files = io.get_files(io.path_join(results_dir, 'similarities'), f"{model}_*.csv")
     df_similarity_all = io.pd.DataFrame()
     for fn in files:
@@ -70,12 +78,14 @@ def run(results_dir: str, model: str, metric: str, aps_oa_data_tar_gz: str, is_t
     if is_temperature_analysis:
         df_summaries = df_summaries_all.copy()
         df_valid_responses = df_valid_responses_all.copy()
-        df_factuality = df_factuality_all.copy()
+        df_factuality_author = df_factuality_author_all.copy()
+        df_factuality_task = df_factuality_task_all.copy() if df_factuality_task_all is not None else None
         df_similarity = df_similarity_all.copy()
     else:
         df_summaries = df_summaries_all.query(constants.INTERVENTION_PERIOD_QUERY).copy()
         df_valid_responses = df_valid_responses_all.query(constants.INTERVENTION_PERIOD_QUERY).copy()
-        df_factuality = df_factuality_all.query(constants.INTERVENTION_PERIOD_QUERY).copy()
+        df_factuality_author = df_factuality_author_all.query(constants.INTERVENTION_PERIOD_QUERY).copy()
+        df_factuality_task = df_factuality_task_all.query(constants.INTERVENTION_PERIOD_QUERY).copy() if df_factuality_task_all is not None else None
         df_similarity = df_similarity_all.query(constants.INTERVENTION_PERIOD_QUERY).copy()
     progress_bar.update(1)
 
@@ -86,12 +96,13 @@ def run(results_dir: str, model: str, metric: str, aps_oa_data_tar_gz: str, is_t
     progress_bar.update(1)
 
     # adding prominence metrics to recommended authors
-    df_factuality = df_factuality.merge(df_gt[['id_author_oa', 'prominence_pub', 'prominence_cit']], on='id_author_oa', how='left')
+    df_factuality_author = df_factuality_author.merge(df_gt[['id_author_oa', 'prominence_pub', 'prominence_cit']], on='id_author_oa', how='left')
     progress_bar.update(1)
 
     # adding infrastructure metadata
     df_summaries = helpers.add_infrastructure_columns(df_summaries)
-    df_factuality = helpers.add_infrastructure_columns(df_factuality)
+    df_factuality_author = helpers.add_infrastructure_columns(df_factuality_author)
+    df_factuality_task = helpers.add_infrastructure_columns(df_factuality_task) if df_factuality_task is not None else None
     df_similarity = helpers.add_infrastructure_columns(df_similarity)
     df_valid_responses = helpers.add_infrastructure_columns(df_valid_responses)
     progress_bar.update(1)
@@ -99,16 +110,19 @@ def run(results_dir: str, model: str, metric: str, aps_oa_data_tar_gz: str, is_t
     # 4. summarize metrics per attempt
     # computes the metric per attempt for ALL requests
 
-    df = df_summaries if metric in constants.BENCHMARK_BINARY_METRICS else df_factuality
+    df = df_summaries if metric in constants.BENCHMARK_BINARY_METRICS else df_factuality_author
     gt = df_gt if metric in constants.BENCHMARK_PARITY_METRICS else None
     df_sim = df_similarity if metric in constants.BENCHMARK_SIMILARITY_METRICS else None
     metric_similarity = constants.BENCHMARK_SIMILARITY_METRICS_MAP.get(metric, None)
 
+    print(f"Loaded {df_factuality_task.shape[0]} rows for {experiment_task} factuality")
+
     # aggregate metrics per attempt
     df_per_attempt = helpers_metrics.load_per_attempt(metric, df, fn_results,
-                                                      save=True,
+                                                      save=not dont_save,
                                                       gt=gt, 
                                                       df_similarity=df_sim, 
+                                                      df_factuality_task=df_factuality_task,
                                                       metric_similarity=metric_similarity,
                                                       overwrite=overwrite,
                                                       verbose=False)
@@ -124,6 +138,7 @@ if __name__ == "__main__":
     parser.add_argument('--temperature_analysis', action='store_true', default=False, help="Whether the data is from the temperature analysis")
     parser.add_argument("--output_dir", required=True, type=str, help="Directory where the output files will be saved (e.g., results/benchmarks)")
     parser.add_argument("--overwrite", action='store_true', default=False, help="Whether to overwrite the existing output files")
+    parser.add_argument("--dont_save", action='store_true', default=False, help="Whether to not save the output files")
     args = parser.parse_args()
 
     print('=' * 10)
@@ -133,7 +148,7 @@ if __name__ == "__main__":
     print('=' * 10)
 
     io.validate_path(args.output_dir)
-    df_per_attempt, fn = run(args.results_dir, args.model, args.metric, args.aps_oa_data_tar_gz, args.temperature_analysis, args.output_dir, args.overwrite)
+    df_per_attempt, fn = run(args.results_dir, args.model, args.metric, args.aps_oa_data_tar_gz, args.temperature_analysis, args.output_dir, args.dont_save, args.overwrite)
 
     print(f"Data successfully saved to {fn}" if fn is not None else "Data already exists.") 
     print(f"Metric {args.metric} successfully processed for model {args.model}: {df_per_attempt.shape[0]} attempts")
