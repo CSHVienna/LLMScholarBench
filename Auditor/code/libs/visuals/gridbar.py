@@ -239,6 +239,8 @@ def plot_metric_grid_from_pivot(
                     fmt="none",
                     capsize=style.ci_capsize,
                     linewidth=style.ci_lw,
+                    zorder=10,
+                    color=style.ci_color,
                 )
             elif p.ci_style == "vertical":
                 # Not typical for barh, but supported if you use y as a numeric scale
@@ -249,6 +251,8 @@ def plot_metric_grid_from_pivot(
                     fmt="none",
                     capsize=style.ci_capsize,
                     linewidth=style.ci_lw,
+                    color=style.ci_color,
+                    zorder=10,
                 )
             else:
                 raise ValueError(f"Invalid ci_style: {p.ci_style}")

@@ -557,7 +557,8 @@ DEMOGRAPHIC_ATTRIBUTE_LABELS_COLOR = {DEMOGRAPHIC_ATTRIBUTE_GENDER: GENDER_COLOR
 TEMPERATURE_VALUES = [0.0, 0.25, 0.50, 0.75, 1.00, 1.50, 2.00]
 
 BENCHMARK_METRICS = ['refusal_pct', 'validity_pct', 
-                    'duplicates', 'consistency', 'factuality_author', 
+                    'duplicates', 'consistency', 
+                    'factuality_author', 'factuality_field', 'factuality_epoch', 'factuality_seniority',
                     'connectedness', 'connectedness_density', 'connectedness_norm_entropy', 'connectedness_ncomponents',
                     'similarity_pca',
                     'diversity_gender', 'diversity_ethnicity', 'diversity_prominence_pub', 'diversity_prominence_cit', 
@@ -566,10 +567,22 @@ BENCHMARK_METRICS = ['refusal_pct', 'validity_pct',
 
 BENCHMARK_METRICS_PLOT_ORDER = ['refusal_pct', 'validity_pct', 'duplicates', 'consistency', 'factuality_author', 'connectedness', 'similarity_pca', 'diversity_gender',  'parity_gender']
 
-BENCHMARK_BINARY_METRICS = {
+BENCHMARK_BINARY_METRICS = { # BOOLEANS PER REQUEST/ATTEMPT
     "validity_pct",
     "refusal_pct",
 }
+
+BENCHMARK_FACTUALITY_METRICS = {
+    "factuality_author",
+    "factuality_field",
+    "factuality_epoch",
+    "factuality_seniority",
+}
+
+BENCHMARK_FACTUALITY_FIELD_METRICS_MAP = {'factuality_field': 'fact_author_field',
+                                          'factuality_epoch': 'fact_epoch_requested', 
+                                          'factuality_seniority': 'fact_seniority_now_requested'}
+
 
 BENCHMARK_PARITY_METRICS = {m for m in BENCHMARK_METRICS if m.startswith('parity_')}
 
@@ -580,6 +593,7 @@ BENCHMARK_SIMILARITY_METRICS_MAP = {'connectedness': 'connectedness_entropy',
                                     'connectedness_norm_entropy': 'normalized_component_entropy', 
                                     'connectedness_ncomponents': 'normalized_n_components',
                                     'similarity_pca': 'scholarly_pca_similarity_mean'}
+
 
 BENCHMARK_SOCIAL_METRICS = [
     "connectedness",
@@ -597,12 +611,19 @@ BENCHMARK_SOCIAL_METRICS = [
     "parity_prominence_cit",
 ]
 
+
+BENCHMARK_PARITY_METRICS = [m for m in BENCHMARK_SOCIAL_METRICS if m.startswith('parity_')]
+
+
 BENCHMARK_TECHNICAL_METRICS = [
     "refusal_pct",
     "validity_pct",
     "duplicates",
     "consistency",
     "factuality_author",
+    "factuality_field",
+    "factuality_epoch",
+    "factuality_seniority",
 ]
 
 BENCHMARK_METRICS_LABEL_MAP = {
@@ -611,6 +632,9 @@ BENCHMARK_METRICS_LABEL_MAP = {
     "duplicates": r"Duplicates$\downarrow$",
     "consistency": "Consistency",
     "factuality_author": r"Factuality$\uparrow$",
+    "factuality_field": r"Factuality$_{field}\uparrow$",
+    "factuality_epoch": r"Factuality$_{epoch}\uparrow$",
+    "factuality_seniority": r"Factuality$_{seniority}\uparrow$",
     "connectedness": "Connectedness",
     "similarity_pca": "Similarity",
     "diversity_gender": "Diversity",
@@ -649,5 +673,11 @@ BENCHMARK_METRIC_HIGHLIGHT_RULES = {
     "validity_pct": "max",
     "duplicates": "min",
     "factuality_author": "max",
+    "factuality_field": "max",
+    "factuality_epoch": "max",
+    "factuality_seniority": "max",
     "parity_gender": "max",
+    "parity_ethnicity": "max",
+    "parity_prominence_pub": "max",
+    "parity_prominence_cit": "max"
 }
