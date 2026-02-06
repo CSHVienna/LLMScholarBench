@@ -33,10 +33,10 @@ PANELS_DIVERSITY_GROUPS = [
 ]
 
 PANELS_PARITY_GROUPS = [
-    PanelSpec("parity_gender", r"Parity$_{gender}$", xlim=(0, 1), xticks=[0, 0.5, 1.0], draw_ci=True),
-    PanelSpec("parity_ethnicity", r"Parity$_{ethnicity}$", xlim=(0, 1), xticks=[0, 0.5, 1.0], draw_ci=True),
-    PanelSpec("parity_prominence_pub", r"Parity$_{pub}$", xlim=(0, 1), xticks=[0, 0.5, 1.0], draw_ci=True),
-    PanelSpec("parity_prominence_cit", r"Parity$_{cit}$", xlim=(0, 1), xticks=[0, 0.5, 1.0], draw_ci=True),
+    PanelSpec("parity_gender", r"Parity$_{gender}\uparrow$", xlim=(0, 1), xticks=[0, 0.5, 1.0], draw_ci=True),
+    PanelSpec("parity_ethnicity", r"Parity$_{ethnicity}\uparrow$", xlim=(0, 1), xticks=[0, 0.5, 1.0], draw_ci=True),
+    PanelSpec("parity_prominence_pub", r"Parity$_{pub}\uparrow$", xlim=(0, 1), xticks=[0, 0.5, 1.0], draw_ci=True),
+    PanelSpec("parity_prominence_cit", r"Parity$_{cit}\uparrow$", xlim=(0, 1), xticks=[0, 0.5, 1.0], draw_ci=True),
 ]
 
 
@@ -84,24 +84,24 @@ PANELS_METRICS_BEFORE_AFTER_FULLER = [
     PanelSpec("factuality_author", r"Factuality$\uparrow$", ylim=ylim, yticks=yticks, draw_ci=True),
     PanelSpec("connectedness", r"Connectedness", ylim=ylim, yticks=yticks, draw_ci=True),
     PanelSpec("similarity_pca", r"Similarity", ylim=ylim, yticks=yticks, draw_ci=True),
-    PanelSpec("diversity_gender", r"Diversity$_{gender}$", ylim=ylim, yticks=yticks, draw_ci=True),
-    PanelSpec("diversity_ethnicity", r"Diversity$_{ethnicity}$", ylim=ylim, yticks=yticks, draw_ci=True),
-    PanelSpec("parity_gender", r"Parity$_{gender}$$\uparrow$", ylim=ylim, yticks=yticks, draw_ci=True),
-    PanelSpec("parity_ethnicity", r"Parity$_{ethnicity}$$\uparrow$", ylim=ylim, yticks=yticks, draw_ci=True),
+    PanelSpec("diversity_gender", r"Diversity$_{gen.}$", ylim=ylim, yticks=yticks, draw_ci=True),
+    PanelSpec("diversity_ethnicity", r"Diversity$_{eth.}$", ylim=ylim, yticks=yticks, draw_ci=True),
+    PanelSpec("parity_gender", r"Parity$_{gen.}\uparrow$", ylim=ylim, yticks=yticks, draw_ci=True),
+    PanelSpec("parity_ethnicity", r"Parity$_{eth.}\uparrow$", ylim=ylim, yticks=yticks, draw_ci=True),
 ]
 
 PANELS_METRICS_BEFORE_AFTER_DIVERSITY = [
     PanelSpec("factuality_author", r"Factuality$\uparrow$", ylim=ylim, yticks=yticks, draw_ci=True),
     PanelSpec("connectedness", r"Connectedness", ylim=ylim, yticks=yticks, draw_ci=True),
     PanelSpec("similarity_pca", r"Similarity", ylim=ylim, yticks=yticks, draw_ci=True),
-    PanelSpec("diversity_gender", r"Diversity$_{gender}$", ylim=ylim, yticks=yticks, draw_ci=True),
-    PanelSpec("diversity_ethnicity", r"Diversity$_{ethnicity}$", ylim=ylim, yticks=yticks, draw_ci=True),
-    PanelSpec("diversity_prominence_pub", r"Diversity$_{pub}$", ylim=ylim, yticks=yticks, draw_ci=True),
-    PanelSpec("diversity_prominence_cit", r"Diversity$_{cit}$", ylim=ylim, yticks=yticks, draw_ci=True),
-    PanelSpec("parity_gender", r"Parity$_{gender}\uparrow$", ylim=ylim, yticks=yticks, draw_ci=True),
-    PanelSpec("parity_ethnicity", r"Parity$_{ethnicity}\uparrow$", ylim=ylim, yticks=yticks, draw_ci=True),
-    PanelSpec("parity_prominence_pub", r"Parity$_{pub}\uparrow$", ylim=ylim, yticks=yticks, draw_ci=True),
-    PanelSpec("parity_prominence_cit", r"Parity$_{cit}\uparrow$", ylim=ylim, yticks=yticks, draw_ci=True),
+    PanelSpec("diversity_gender", r"Diversity$_{gen.}$", ylim=ylim, yticks=yticks, draw_ci=True),
+    PanelSpec("diversity_ethnicity", r"Diversity$_{eth.}$", ylim=ylim, yticks=yticks, draw_ci=True),
+    PanelSpec("diversity_prominence_pub", r"Diversity$_{pub.}$", ylim=ylim, yticks=yticks, draw_ci=True),
+    PanelSpec("diversity_prominence_cit", r"Diversity$_{cit.}$", ylim=ylim, yticks=yticks, draw_ci=True),
+    PanelSpec("parity_gender", r"Parity$_{gen.}\uparrow$", ylim=ylim, yticks=yticks, draw_ci=True),
+    PanelSpec("parity_ethnicity", r"Parity$_{eth.}\uparrow$", ylim=ylim, yticks=yticks, draw_ci=True),
+    PanelSpec("parity_prominence_pub", r"Parity$_{pub.}\uparrow$", ylim=ylim, yticks=yticks, draw_ci=True),
+    PanelSpec("parity_prominence_cit", r"Parity$_{cit.}\uparrow$", ylim=ylim, yticks=yticks, draw_ci=True),
 ]
 
 
@@ -145,3 +145,11 @@ TASK_COLORS_2TWINS = {c: tab10(i + (1 if i==len(EXPERIMENT_TASKS_2TWINS)-1 else 
 tab20 = plt.get_cmap("tab20")
 TASK_PARAM_COLORS = {(task_name, task_param):tab20((i*2) + j) for i, (task_name, task_params) in enumerate(TASK_PARAMS_BY_TASK.items()) for j, task_param in enumerate(task_params)}
 
+TITLE_FONT_SIZE = 15
+TICK_FONT_SIZE = 8
+TICK_FONT_COLOR = '#828282'
+LABEL_PANEL_FONT_SIZE = 11
+SPINE_LW = 0.3
+BEFORE_AFTER_X_LABELS = ("B", "A") #(r"$\times$", r"$\checkmark$")
+BEFORE_AFTER_TICK_FONT_SIZE = 10
+YLABEL_FONT_SIZE = 13

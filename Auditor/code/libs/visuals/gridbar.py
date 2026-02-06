@@ -203,8 +203,13 @@ def plot_metric_grid_from_pivot(
             ax.set_xlim(*ax_xlim)
         if ax_xticks is not None:
             ax.set_xticks(list(ax_xticks))
+            
 
-        ax.tick_params(axis="x", labelsize=style.tick_fontsize)
+        # styling spines:
+        ax.spines['bottom'].set_linewidth(style.spine_lw) 
+        ax.tick_params(axis='x', width=style.spine_lw)
+
+        ax.tick_params(axis="x", labelsize=style.tick_fontsize, labelcolor=style.tick_font_color)
 
         if style.grid_x:
             ax.grid(True, axis="x", linewidth=0.6, alpha=style.grid_alpha)
@@ -296,6 +301,7 @@ def plot_metric_grid_from_pivot(
         # Kept for compatibility with your multi-row layout plans.
         if style.show_xticklabels_only_bottom:
             ax.tick_params(axis="x", labelbottom=True)
+            ax.xaxis.label.set_color(style.tick_font_color)
 
     return fig
 
