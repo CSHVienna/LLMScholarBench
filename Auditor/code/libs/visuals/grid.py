@@ -151,6 +151,8 @@ class StyleSpec:
     cmap: Optional[str] = None
     tick_pad: float = 0.0
     title_pad: float = 0
+    spine_lw: float = 1.0
+    tick_font_color: str = "#000000"
 
 
 @dataclass(frozen=True)

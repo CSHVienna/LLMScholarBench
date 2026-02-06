@@ -232,6 +232,12 @@ def plot_metric_grid_temperature_from_pivot(
                 ax.set_yticklabels([])
                 ax.set_ylabel("")
 
+            if style.spine_lw:
+                ax.spines['bottom'].set_linewidth(style.spine_lw) 
+                ax.spines['left'].set_linewidth(style.spine_lw) 
+                ax.tick_params(axis='x', width=style.spine_lw)
+                ax.tick_params(axis='y', width=style.spine_lw)
+
             ax.tick_params(labelsize=style.tick_fontsize)
 
 
