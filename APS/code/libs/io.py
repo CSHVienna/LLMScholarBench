@@ -144,6 +144,21 @@ def read_list_of_dicts(file_path):
         printf(f"Error reading list of dicts from {file_path}: {e}")
         return None
 
+def save_json_file(data, file_path):
+    """
+    Save a dictionary to a JSON file.
+
+    Parameters:
+        data (dict): The dictionary to save.
+        file_path (str): The path to the JSON file.
+    """
+    try:
+        with open(file_path, 'w') as file:
+            json.dump(data, file, indent=4)
+    except Exception as e:
+        printf(f"Error saving JSON file: {e}")
+
+
 def read_json_file(file_path):
     """
     Read a JSON file and return its content.
