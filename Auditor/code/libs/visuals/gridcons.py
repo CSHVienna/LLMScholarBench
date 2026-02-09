@@ -141,6 +141,7 @@ BIASED_PROMPT_DIVERSE_COLORS = {
 tab10 = plt.get_cmap("tab10")
 TASK_COLORS = {c: tab10(i) for i, c in enumerate(EXPERIMENT_TASKS)}
 TASK_COLORS_2TWINS = {c: tab10(i + (1 if i==len(EXPERIMENT_TASKS_2TWINS)-1 else 0)) for i, c in enumerate(EXPERIMENT_TASKS_2TWINS)}
+TASK_COLORS_2TWIN_BIAS_TOP_K = TASK_COLORS_2TWINS | {EXPERIMENT_TASK_BIASED_TOP_K: tab10(len(EXPERIMENT_TASKS_2TWINS)+1)}
 
 tab20 = plt.get_cmap("tab20")
 TASK_PARAM_COLORS = {(task_name, task_param):tab20((i*2) + j) for i, (task_name, task_params) in enumerate(TASK_PARAMS_BY_TASK.items()) for j, task_param in enumerate(task_params)}

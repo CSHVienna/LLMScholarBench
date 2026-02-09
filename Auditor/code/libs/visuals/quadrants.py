@@ -19,6 +19,7 @@ class SpaceSpec:
     id_col: str = "model"               # for labels (optional)
     hue: Optional[str] = None           # optional grouping column
     size: Optional[str] = None          # optional size column
+    hue_colors: Optional[Dict[str, str]] = None
 
     # thresholds
     x_thr_mode: ThresholdMode = "median"
@@ -35,7 +36,8 @@ class SpaceSpec:
 
     legend_bbox_to_anchor: Optional[Tuple[float, float]] = (0.5, 1.10)
     figsize: Optional[Tuple[float, float]] = (7.5, 6.0)
-
+    annotation_pad: float = 0.01
+    legend_kwargs: Optional[Mapping] = None
 
 def _compute_threshold(s: pd.Series, mode: ThresholdMode, *, value: Optional[float], q: float) -> float:
     s = s.dropna()
@@ -175,7 +177,7 @@ def plot_quality_social_space(
         for key, sub in d.groupby(spec.hue, dropna=False):
             sizes = marker_size if spec.size is None else _size_from_col(sub[spec.size], base=marker_size)
             # sizes = marker_size if spec.size is None else size_from_raw(sub[spec.size], default=marker_size, scale=1.0)
-            ax.scatter(sub[spec.x], sub[spec.y], s=sizes, alpha=alpha, label=str(key))
+            ax.scatter(sub[spec.x], sub[spec.y], s=sizes, alpha=alpha, label=str(key), color=spec.hue_colors[key])
 
     # quadrant lines
     ax.axvline(x_thr, linewidth=1.2, color='grey', lw=1.0, ls='--')
@@ -195,7 +197,7 @@ def plot_quality_social_space(
             kw.update(dict(label_kwargs))
         for _, r in d.iterrows():
             if pd.notna(r[spec.x]) and pd.notna(r[spec.y]):
-                ax.text(float(r[spec.x]), float(r[spec.y]), str(r[spec.id_col]), **kw)
+                ax.text(float(r[spec.x]) + spec.annotation_pad, float(r[spec.y]), str(r[spec.id_col]), **kw)
 
     # quadrant counts overlay
     if show_quadrant_counts:
@@ -228,8 +230,10 @@ def plot_quality_social_space(
                 ha="right", va="bottom", bbox=kw)
 
     if spec.hue is not None and legend:
-        ax.legend(loc="upper center", 
-        bbox_to_anchor=spec.legend_bbox_to_anchor, ncol=_best_ncol(d[spec.hue]))
+        if spec.legend_kwargs is None:
+            ax.legend(loc="upper center", bbox_to_anchor=spec.legend_bbox_to_anchor, ncol=_best_ncol(d[spec.hue]))
+        else:
+            ax.legend(**spec.legend_kwargs)
 
     return fig, ax, quad_counts
 
