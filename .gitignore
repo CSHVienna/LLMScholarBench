@@ -7,7 +7,9 @@ organised_data/
 _backups_
 *_backups
 .keys
+.deprecated
+_dev
 LLMCaller/_dev/.keys
 LLMCaller/_dev
-Auditor/notebooks/dev/
+Auditor/notebooks/_dev/
 
