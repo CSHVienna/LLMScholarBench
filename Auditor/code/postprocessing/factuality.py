@@ -4,19 +4,19 @@ from libs import constants
 from libs import io
 
 def get_factuality_authors_either_OA_APS(df_authors, by_task_param=False):
-    df_fact_authors = df_authors.drop_duplicates(subset=['model','task_name','task_param','date','time','task_attempt', 'clean_name']).copy()       # we remove duplicated answers in the same request
-    df_fact_authors = df_authors[['model','task_name','task_param','date','time','task_attempt','id_author_oa','id_author_aps_list']].copy()        # keeping necesary columns
+    df_fact_authors = df_authors.drop_duplicates(subset=['model','temperature','task_name','task_param','date','time','task_attempt', 'clean_name']).copy()       # we remove duplicated answers in the same request
+    df_fact_authors = df_authors[['model','temperature','task_name','task_param','date','time','task_attempt','id_author_oa','id_author_aps_list']].copy()        # keeping necesary columns
     df_fact_authors.loc[:,constants.FACTUALITY_AUTHOR_OA] = df_fact_authors['id_author_oa'].notnull()                                               # adding column with boolean value if author is in oa
     df_fact_authors.loc[:,constants.FACTUALITY_AUTHOR_APS] = df_fact_authors['id_author_aps_list'].notnull()                                        # adding column with boolean value if author is in aps
     df_fact_authors.loc[:,'factuality_author'] = df_fact_authors.apply(lambda x: constants.FACTUALITY_AUTHOR_EXISTS if x[constants.FACTUALITY_AUTHOR_OA] or x[constants.FACTUALITY_AUTHOR_APS] else constants.FACTUALITY_NONE, axis=1)
     df_fact_authors.drop(columns=['id_author_oa','id_author_aps_list','task_attempt', constants.FACTUALITY_AUTHOR_OA, constants.FACTUALITY_AUTHOR_APS], inplace=True)                                               # removing unnecessary columns
-    df_fact_authors = df_fact_authors.groupby(['model','task_name', 'task_param','date','time', 'factuality_author'], observed=False).size().reset_index(name='counts').sort_values(by='counts', ascending=False)    # grouping per instance how many authhors are real
-    grouped = df_fact_authors.groupby(['model','task_name','task_param','date','time','factuality_author'], observed=False).sum()                                                                                    # summing to compute percentage between real and doesn't exist authors
-    grouped['percentage'] = grouped['counts'] / grouped.groupby(level=['model','task_name','task_param','date','time'], observed=False)['counts'].transform('sum')                                                    # computing percentage 
+    df_fact_authors = df_fact_authors.groupby(['model','temperature','task_name', 'task_param','date','time', 'factuality_author'], observed=False).size().reset_index(name='counts').sort_values(by='counts', ascending=False)    # grouping per instance how many authhors are real
+    grouped = df_fact_authors.groupby(['model','temperature','task_name','task_param','date','time','factuality_author'], observed=False).sum()                                                                                    # summing to compute percentage between real and doesn't exist authors
+    grouped['percentage'] = grouped['counts'] / grouped.groupby(level=['model','temperature','task_name','task_param','date','time'], observed=False)['counts'].transform('sum')                                                    # computing percentage 
     if by_task_param:
-        df_fact_authors_either = grouped.query("factuality_author == @constants.FACTUALITY_AUTHOR_EXISTS").groupby(['model','task_name','task_param'], observed=False)['percentage'].agg(['mean','std']).reset_index()                        # getting mean and std of percentage of real authors per task and model
+        df_fact_authors_either = grouped.query("factuality_author == @constants.FACTUALITY_AUTHOR_EXISTS").groupby(['model','temperature','task_name','task_param'], observed=False)['percentage'].agg(['mean','std']).reset_index()           # getting mean and std of percentage of real authors per task and model
     else:
-        df_fact_authors_either = grouped.query("factuality_author == @constants.FACTUALITY_AUTHOR_EXISTS").groupby(['model','task_name'], observed=False)['percentage'].agg(['mean','std']).reset_index()                        # getting mean and std of percentage of real authors per task and model
+        df_fact_authors_either = grouped.query("factuality_author == @constants.FACTUALITY_AUTHOR_EXISTS").groupby(['model','temperature','task_name'], observed=False)['percentage'].agg(['mean','std']).reset_index()                        # getting mean and std of percentage of real authors per task and model
     return df_fact_authors_either
 
 

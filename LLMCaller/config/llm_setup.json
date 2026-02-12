@@ -1,8 +1,15 @@
 {
   "metadata": {
+<<<<<<< HEAD
     "version": "2.0",
     "created": "2025-10-07",
     "last_updated": "2025-12-16",
+=======
+    "version": "2.1",
+    "created": "2025-10-07",
+    "last_updated": "2025-12-26",
+    "last_update_comment": "by LEEN (adding reasoning and class)",
+>>>>>>> master
     "description": "LLM model configurations for LLMScholar audit"
   },
   "models": {
@@ -24,7 +31,13 @@
       "max_output": "16.4K",
       "host_country": "US",
       "input_price": "0.03",
+<<<<<<< HEAD
       "output_price": "0.05"
+=======
+      "output_price": "0.05",
+      "reasoning": false,
+      "class": "S"
+>>>>>>> master
     },
     "llama-4-scout": {
       "model": "meta-llama/llama-4-scout",
@@ -44,7 +57,13 @@
       "max_output": "16.4K",
       "host_country": "US",
       "input_price": "0.08",
+<<<<<<< HEAD
       "output_price": "0.30"
+=======
+      "output_price": "0.30",
+      "reasoning": false,
+      "class": "L"
+>>>>>>> master
     },
     "llama-4-mav": {
       "model": "meta-llama/llama-4-maverick",
@@ -64,7 +83,14 @@
       "max_output": "16.4K",
       "host_country": "US",
       "input_price": "0.15",
+<<<<<<< HEAD
       "output_price": "0.60"
+=======
+      "output_price": "0.60",
+      "reasoning": false,
+      "class1": "L",
+      "class": "XL"
+>>>>>>> master
     },
     "gpt-oss-20b": {
       "model": "openai/gpt-oss-20b",
@@ -84,7 +110,13 @@
       "max_output": "131.1K",
       "host_country": "US",
       "input_price": "0.04",
+<<<<<<< HEAD
       "output_price": "0.15"
+=======
+      "output_price": "0.15",
+      "reasoning": true,
+      "class": "M"
+>>>>>>> master
     },
     "gpt-oss-120b": {
       "model": "openai/gpt-oss-120b",
@@ -104,7 +136,13 @@
       "max_output": "131K",
       "host_country": "US",
       "input_price": "0.05",
+<<<<<<< HEAD
       "output_price": "0.28"
+=======
+      "output_price": "0.28",
+      "reasoning": true,
+      "class": "L"
+>>>>>>> master
     },
     "qwen3-8b": {
       "model": "qwen/qwen3-8b",
@@ -124,7 +162,13 @@
       "max_output": "20K",
       "host_country": "US",
       "input_price": "0.035",
+<<<<<<< HEAD
       "output_price": "0.138"
+=======
+      "output_price": "0.138",
+      "reasoning": true,
+      "class": "S"
+>>>>>>> master
     },
     "qwen3-14b": {
       "model": "qwen/qwen3-14b",
@@ -144,7 +188,13 @@
       "max_output": "41.0K",
       "host_country": "US",
       "input_price": "0.06",
+<<<<<<< HEAD
       "output_price": "0.24"
+=======
+      "output_price": "0.24",
+      "reasoning": true,
+      "class": "M"
+>>>>>>> master
     },
     "qwen3-32b": {
       "model": "qwen/qwen3-32b",
@@ -164,7 +214,13 @@
       "max_output": "41.0K",
       "host_country": "US",
       "input_price": "0.10",
+<<<<<<< HEAD
       "output_price": "0.28"
+=======
+      "output_price": "0.28",
+      "reasoning": true,
+      "class": "M"
+>>>>>>> master
     },
     "qwen3-30b-a3b-2507": {
       "model": "qwen/qwen3-30b-a3b-instruct-2507",
@@ -184,7 +240,13 @@
       "max_output": "131.1K",
       "host_country": "US",
       "input_price": "0.09",
+<<<<<<< HEAD
       "output_price": "0.45"
+=======
+      "output_price": "0.45",
+      "reasoning": false,
+      "class": "M"
+>>>>>>> master
     },
     "qwen3-235b-a22b-2507": {
       "model": "qwen/qwen3-235b-a22b-2507",
@@ -204,7 +266,13 @@
       "max_output": "262.1K",
       "host_country": "US",
       "input_price": "0.10",
+<<<<<<< HEAD
       "output_price": "0.10"
+=======
+      "output_price": "0.10",
+      "reasoning": false,
+      "class": "L"
+>>>>>>> master
     },
     "gemma-3-12b": {
       "model": "google/gemma-3-12b-it",
@@ -224,7 +292,13 @@
       "max_output": "8.2K",
       "host_country": "US",
       "input_price": "0.05",
+<<<<<<< HEAD
       "output_price": "0.10"
+=======
+      "output_price": "0.10",
+      "reasoning": false,
+      "class": "M"
+>>>>>>> master
     },
     "gemma-3-27b": {
       "model": "google/gemma-3-27b-it",
@@ -244,7 +318,13 @@
       "max_output": "16.4K",
       "host_country": "US",
       "input_price": "0.09",
+<<<<<<< HEAD
       "output_price": "0.16"
+=======
+      "output_price": "0.16",
+      "reasoning": false,
+      "class": "M"
+>>>>>>> master
     },
     "mistral-small-3.2-24b": {
       "model": "mistralai/mistral-small-3.2-24b-instruct",
@@ -264,7 +344,13 @@
       "max_output": "131.1K",
       "host_country": "FR",
       "input_price": "0.10",
+<<<<<<< HEAD
       "output_price": "0.30"
+=======
+      "output_price": "0.30",
+      "reasoning": false,
+      "class": "M"
+>>>>>>> master
     },
     "mistral-medium-3": {
       "model": "mistralai/mistral-medium-3",
@@ -284,7 +370,13 @@
       "max_output": "131.1K",
       "host_country": "FR",
       "input_price": "0.40",
+<<<<<<< HEAD
       "output_price": "2"
+=======
+      "output_price": "2",
+      "reasoning": false,
+      "class": "L"
+>>>>>>> master
     },
     "llama-3.1-70b": {
       "model": "meta-llama/llama-3.1-70b-instruct",
@@ -304,7 +396,13 @@
       "max_output": "131.1K",
       "host_country": "US",
       "input_price": "0.40",
+<<<<<<< HEAD
       "output_price": "0.40"
+=======
+      "output_price": "0.40",
+      "reasoning": false,
+      "class": "L"
+>>>>>>> master
     },
     "llama-3.3-70b": {
       "model": "meta-llama/llama-3.3-70b-instruct",
@@ -324,7 +422,13 @@
       "max_output": "120K",
       "host_country": "US",
       "input_price": "0.13",
+<<<<<<< HEAD
       "output_price": "0.39"
+=======
+      "output_price": "0.39",
+      "reasoning": false,
+      "class": "L"
+>>>>>>> master
     },
     "llama-3.1-405b": {
       "model": "meta-llama/llama-3.1-405b-instruct",
@@ -344,7 +448,14 @@
       "max_output": "130.8K",
       "host_country": "US",
       "input_price": "3.50",
+<<<<<<< HEAD
       "output_price": "3.50"
+=======
+      "output_price": "3.50",
+      "reasoning": false,
+      "class1": "L",
+      "class": "XL"
+>>>>>>> master
     },
     "grok-4-fast": {
       "model": "x-ai/grok-4-fast",
@@ -364,7 +475,13 @@
       "max_output": "30K",
       "host_country": "US",
       "input_price": "0.40",
+<<<<<<< HEAD
       "output_price": "1"
+=======
+      "output_price": "1",
+      "reasoning": true,
+      "class": "S"
+>>>>>>> master
     },
     "deepseek-chat-v3.1": {
       "model": "deepseek/deepseek-chat-v3.1",
@@ -384,7 +501,14 @@
       "max_output": "163.8K",
       "host_country": "",
       "input_price": "0.27",
+<<<<<<< HEAD
       "output_price": "1"
+=======
+      "output_price": "1",
+      "reasoning": true,
+      "class1": "L",
+      "class": "XL"
+>>>>>>> master
     },
     "deepseek-r1-0528": {
       "model": "deepseek/deepseek-r1-0528",
@@ -404,7 +528,14 @@
       "max_output": "163.8K",
       "host_country": "",
       "input_price": "0.50",
+<<<<<<< HEAD
       "output_price": "2.18"
+=======
+      "output_price": "2.18",
+      "reasoning": false,
+      "class1": "L",
+      "class": "XL"
+>>>>>>> master
     },
     "gemini-2.5-flash": {
       "model": "gemini-2.5-flash",
@@ -413,7 +544,13 @@
       "max_temperature": 2,
       "grounded": false,
       "provider": "gemini",
+<<<<<<< HEAD
       "system_message_ref": "physics_research_assistant"
+=======
+      "system_message_ref": "physics_research_assistant",
+      "reasoning": true,
+      "class": "S (P)"
+>>>>>>> master
     },
     "gemini-2.5-flash-grounded": {
       "model": "gemini-2.5-flash",
@@ -422,7 +559,13 @@
       "max_temperature": 2,
       "grounded": true,
       "provider": "gemini",
+<<<<<<< HEAD
       "system_message_ref": "physics_research_assistant"
+=======
+      "system_message_ref": "physics_research_assistant",
+      "reasoning": true,
+      "class": "S (P)"
+>>>>>>> master
     },
     "gemini-2.5-pro": {
       "model": "gemini-2.5-pro",
@@ -431,7 +574,13 @@
       "max_temperature": 2,
       "grounded": false,
       "provider": "gemini",
+<<<<<<< HEAD
       "system_message_ref": "physics_research_assistant"
+=======
+      "system_message_ref": "physics_research_assistant",
+      "reasoning": true,
+      "class": "M (P)"
+>>>>>>> master
     },
     "gemini-2.5-pro-grounded": {
       "model": "gemini-2.5-pro",
@@ -440,7 +589,13 @@
       "max_temperature": 2,
       "grounded": true,
       "provider": "gemini",
+<<<<<<< HEAD
       "system_message_ref": "physics_research_assistant"
+=======
+      "system_message_ref": "physics_research_assistant",
+      "reasoning": true,
+      "class": "M (P)"
+>>>>>>> master
     }
   }
 }

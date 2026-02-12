@@ -1,10 +1,13 @@
 __pycache__
-experiments/
-experiments_validation_results/
-organised_data/
 *.DS_Store
 data
 results
+experiments_validation_results/
+organised_data/
 _backups_
-Auditor/notebooks/dev/
+*_backups
+.keys
 LLMCaller/_dev/.keys
+LLMCaller/_dev
+Auditor/notebooks/dev/
+

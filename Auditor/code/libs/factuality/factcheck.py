@@ -73,7 +73,7 @@ class FactualityCheck(object):
         return
     
     def _assign_ids(self, column_names):
-        unique_values = self.df_valid_responses[column_names].unique()
+        unique_values = self.df_valid_responses[column_names].dropna().unique()
         df_unique_values = io.pd.DataFrame(sorted(unique_values), columns=[column_names], index=range(1, len(unique_values)+1))
         return df_unique_values
 

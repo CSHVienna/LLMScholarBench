@@ -12,14 +12,17 @@ from libs import constants
 from libs import text
 from libs.factuality.author import FactualityAuthor
 from libs import helpers
+from libs.pca_similarity import PCASimilarityModel
+
+from libs.network import fragmentation
 
 tqdm.pandas() 
 
-def run(aps_os_data_tar_gz: str, valid_responses_dir: str, model: str, task_name: str, max_workers: int, output_dir: str):
+def run(aps_os_data_tar_gz: str, valid_responses_dir: str, coauthorships_csv: str, pca_similarity_model_fn: str, model: str, task_name: str, max_workers: int, output_dir: str):
     
     
     # Initialize tqdm progress bar
-    total_steps = 9
+    total_steps = 11
     progress_bar = tqdm(total=total_steps, desc="Loading data")
 
     ### LLM valid answers
@@ -29,11 +32,19 @@ def run(aps_os_data_tar_gz: str, valid_responses_dir: str, model: str, task_name
         fact_author.load_valid_responses_with_factuality_check()
         progress_bar.update(1)
 
-        req_cols = ['model', 'task_name', 'task_param', 'date', 'time', 'id_author_oa', 'clean_name']
+        req_cols = ['model', 'grounded', 'temperature', 'task_name', 'task_param', 'task_attempt', 'date', 'time', 'id_author_oa', 'clean_name']
         df_valid_responses = fact_author.df_valid_responses[req_cols].query("task_name == @task_name").copy() # filtering by task_name
 
         # We remove repeated names from the same request to avoid biasing the results
         df_valid_responses = df_valid_responses.drop_duplicates(subset=req_cols).copy()
+        progress_bar.update(1)
+
+        # We load coauthorships
+        df_coauthorships = io.read_csv(coauthorships_csv, index_col=None)
+        progress_bar.update(1)
+
+        # We load pca similarity model
+        model_pca = PCASimilarityModel.load(pca_similarity_model_fn)
         progress_bar.update(1)
         
     else:
@@ -89,10 +100,12 @@ def run(aps_os_data_tar_gz: str, valid_responses_dir: str, model: str, task_name
     # Output: for every request, similarity of authors (cosine similarity) and stats (mean, std, min, max, median, 25%, 75%)
 
     # stats (scholarly and demographics)
-    cols = ['model', 'task_name', 'task_param', 'date', 'time']
+    cols = ['model', 'grounded', 'temperature', 'task_name', 'task_param', 'task_attempt', 'date', 'time']
     df_request_stats = df_valid_responses_metadata.groupby(cols).progress_apply(lambda row: process_group(row, 
                                                                                                           df_authorships=df_authorships,
                                                                                                           df_institutions=df_institutions,
+                                                                                                          df_coauthorships=df_coauthorships,
+                                                                                                          model_pca=model_pca
                                                                                                           )).reset_index()
 
     print(df_request_stats.head(2))
@@ -104,7 +117,8 @@ def run(aps_os_data_tar_gz: str, valid_responses_dir: str, model: str, task_name
     
 
     
-def process_group(group, df_authorships, df_institutions):
+def process_group(group, df_authorships, df_institutions, df_coauthorships, model_pca):
+    # One group is one request (model, task_name, task_param, date, time)
 
     # Remove rows with missing author ids
     clean_group = group.dropna(subset=['id_author_oa'])
@@ -112,18 +126,21 @@ def process_group(group, df_authorships, df_institutions):
     # Compute the number of name recommendations and author hallucinations
     n_name_recommendations = group.shape[0]
     n_unique_names_recommendations = group.clean_name.nunique()
-    n_unique_author_recommendations = clean_group.id_author_oa.nunique()
+    ids = clean_group.id_author_oa.dropna().unique()
+    n_unique_author_recommendations = len(ids)
     n_author_hallucinations = n_unique_names_recommendations - n_unique_author_recommendations
 
     # Compute the similarity of all retrieved names (regardless of factuality)
-    name_similarity = text.compute_similarity_list_of_text(group['clean_name'].drop_duplicates().values)
+    name_similarity = text.compute_similarity_list_of_text(group['clean_name'].dropna().drop_duplicates().values)
 
-    if clean_group.empty or n_unique_author_recommendations == 1:
+    
+    if clean_group.empty or n_unique_author_recommendations <= 1:
         gender_diversity = None
         ethnicity_diversity = None
         scholarly_similarity = None
         aps_similarity = None
         oa_similarity = None
+        scholarly_pca_similarity = {'mean': None, 'std': None, 'size': 0}
         aps_career_age_similarity = None
         oa_career_age_similarity = None
         institutions_share = None
@@ -131,45 +148,78 @@ def process_group(group, df_authorships, df_institutions):
         country_of_affiliation_share = None
         coauthors_recommended_share = None
         recommended_author_pairs_are_coauthors = None
+        normalized_component_entropy = None
+        normalized_n_components = None
+        n_components = 0
+        connectedness_entropy = None
 
     else:
         
-        # Compute the similarity of the exisitng unique recommended authors
+
+        # Compute the similarity scores:
+        
+        # 1. categorical: gender, ethnicity, country of affiliation, institutions, coauthors
         gender_diversity = similarity.compute_simpson_diversity(clean_group[constants.DEMOGRAPHIC_ATTRIBUTE_GENDER])
         ethnicity_diversity = similarity.compute_simpson_diversity(clean_group[constants.DEMOGRAPHIC_ATTRIBUTE_ETHNICITY])
 
+        # 2. numerical: scholarly metrics, career age
         scholarly_similarity = similarity.compute_average_pairwise_cosine_similarity(clean_group[constants.ALL_PRESTIGE_METRICS_COL])
         aps_similarity = similarity.compute_average_pairwise_cosine_similarity(clean_group[constants.APS_PRESTIGE_METRICS_COL])
         oa_similarity = similarity.compute_average_pairwise_cosine_similarity(clean_group[constants.OA_PRESTIGE_METRICS_COL])
+        scholarly_pca_similarity = similarity.compute_average_pairwise_cosine_pca_similarity(ids, model_pca)
 
+
+        # 3. career age
         aps_career_age_similarity = similarity.gini_coefficient(clean_group[constants.APS_CAREER_AGE_COL])
         oa_career_age_similarity = similarity.gini_coefficient(clean_group[constants.OA_CAREER_AGE_COL])
         
-        # insitutions and coauthors in common
+        # 4. institutions in common
 
-        ids = clean_group.id_author_oa.dropna().unique()
+        # insitutions and coauthors in common
+        
         df_authorships_filtered = df_authorships.query('id_author_oa in @ids').dropna(subset=['id_institution_oa'])
 
         # shared institutions
         df_institutions_authors = similarity.get_items_by_author(df_authorships_filtered.groupby('id_author_oa').id_institution_oa.unique(), df_institutions, 'id_institution_oa')
-        institutions_share = similarity.compute_average_jaccard_similarity(df_institutions_authors)
+        institutions_share = similarity.compute_average_jaccard_similarity(df_institutions_authors) if df_institutions_authors is not None else None
         
         # shared institutions' countries
         df_countries = similarity.get_items_by_author(df_authorships_filtered.groupby('id_author_oa').id_institution_oa.unique(), df_institutions, 'country_code')
-        country_of_affiliation_share = similarity.compute_average_jaccard_similarity(df_countries)
+        country_of_affiliation_share = similarity.compute_average_jaccard_similarity(df_countries) if df_countries is not None else None
+
+        # 5. coauthors in common
 
         # shared coauthors
         df_coauthors = similarity.get_items_by_author(df_authorships_filtered.groupby('id_author_oa').id_institution_oa.unique(), df_authorships, 'id_author_oa', column_item_cast=int)
-        coauthors_share = similarity.compute_average_jaccard_similarity(df_coauthors)
+        coauthors_share = similarity.compute_average_jaccard_similarity(df_coauthors) if df_coauthors is not None else None
 
         # coauthors among the recommendations
-        df_coauthors_recommended = pd.DataFrame(df_coauthors.apply(lambda row: list(set(row._items).intersection(set(ids)) - set([row.name])), axis=1), columns=['_items'])
-        coauthors_recommended_share = similarity.compute_average_jaccard_similarity(df_coauthors_recommended)
+        if df_coauthors is None:
+            coauthors_recommended_share = None
+        else:
+            df_coauthors_recommended = pd.DataFrame(df_coauthors.apply(lambda row: list(set(row._items).intersection(set(ids)) - set([row.name])), axis=1), columns=['_items'])
+            coauthors_recommended_share = similarity.compute_average_jaccard_similarity(df_coauthors_recommended)
 
-        # recommended authors are coauthors
-        all_possible_pairs = len(list(permutations(ids, 2)))
-        recommended_author_pairs_are_coauthors = df_coauthors_recommended._items.apply(lambda x: len(x) > 0).sum() / all_possible_pairs
+
+        # 5. connectedness
+
+        # 5. 1. recommended authors are coauthors (internal density)
+        if df_coauthors is None:
+            recommended_author_pairs_are_coauthors = None
+        else:
+            all_possible_pairs = len(list(permutations(ids, 2)))
+            recommended_author_pairs_are_coauthors = df_coauthors_recommended._items.apply(lambda x: len(x) > 0).sum() / all_possible_pairs
         
+
+        # 5.2 Normalized component entropy
+        df_coauthorships_in_recommendations = df_coauthorships.query('src in @ids and dst in @ids')
+        ner = fragmentation.norm_entropy_R_from_edgelist(ids, df_coauthorships_in_recommendations, src_col='src', dst_col='dst')
+        normalized_component_entropy = ner.norm_entropy
+        n_components = ner.n_components
+        normalized_n_components = n_components / len(ids)
+        connectedness_entropy = 1 - normalized_component_entropy if normalized_component_entropy is not None else None
+
+
     # Return a DataFrame with one row and multiple columns
     df = pd.DataFrame({
         'n_name_recommendations': [n_name_recommendations],
@@ -184,6 +234,8 @@ def process_group(group, df_authorships, df_institutions):
         'aps_scholarly_similarity': [aps_similarity],
         'oa_scholarly_similarity': [oa_similarity],
         'scholarly_similarity': [scholarly_similarity],
+        'scholarly_pca_similarity_mean': [scholarly_pca_similarity['mean']],
+        'scholarly_pca_similarity_std': [scholarly_pca_similarity['std']],
 
         'aps_career_age_similarity': [aps_career_age_similarity],
         'oa_career_age_similarity': [oa_career_age_similarity],
@@ -193,7 +245,11 @@ def process_group(group, df_authorships, df_institutions):
         'country_of_affiliation_share': [country_of_affiliation_share],
         'coauthors_share': [coauthors_share],
         'coauthors_recommended_share': [coauthors_recommended_share],
-        'recommended_author_pairs_are_coauthors': [recommended_author_pairs_are_coauthors],
+        'recommended_author_pairs_are_coauthors': [recommended_author_pairs_are_coauthors], # internal density
+        'normalized_component_entropy': [normalized_component_entropy],
+        'connectedness_entropy': [connectedness_entropy],
+        'n_components': [n_components] ,
+        'normalized_n_components': [normalized_n_components] ,
 
     })
     return df
@@ -203,8 +259,10 @@ if __name__ == "__main__":
     parser = argparse.ArgumentParser()
     parser.add_argument("--aps_os_data_tar_gz", required=True, type=str, help="final_dataset.tar.gz")
     parser.add_argument("--valid_responses_dir", required=True, type=str, help="Directory where the valid responses are stored")
+    parser.add_argument("--coauthorships_csv", required=True, type=str, help="Path to the coauthorships csv file")
+    parser.add_argument("--pca_similarity_model_fn", required=True, type=str, help="Path to the pca similarity model file")
     parser.add_argument("--model", type=str, required=True, choices=constants.LLMS, help="Model to analyse (i.e., gemma2-9b llama-3.1-8b llama-3.1-70b llama3-8b llama3-70b mixtral-8x7b)")
-    parser.add_argument("--task_name", type=str, choices=constants.EXPERIMENT_TASKS, help="Tasks to analyse (i.e., top_k field epoch seniority twins)")
+    parser.add_argument("--task_name", type=str, choices=constants.EXPERIMENT_TASKS + [constants.EXPERIMENT_TASK_BIASED_TOP_K], help="Tasks to analyse (i.e., top_k field epoch seniority twins biased_top_k)")
     parser.add_argument("--max_workers", type=int, default=1, help="How many jobs to run in parallel maximum")
     parser.add_argument("--output_dir", required=True, type=str, help="Directory where the output files will be saved")
     args = parser.parse_args()
@@ -215,7 +273,7 @@ if __name__ == "__main__":
         print(f"{k}: {v}")
     print('=' * 10)
 
-    run(args.aps_os_data_tar_gz, args.valid_responses_dir, args.model, args.task_name, args.max_workers, args.output_dir)
+    run(args.aps_os_data_tar_gz, args.valid_responses_dir, args.coauthorships_csv, args.pca_similarity_model_fn, args.model, args.task_name, args.max_workers, args.output_dir)
     io.printf("Done!")
     
 
