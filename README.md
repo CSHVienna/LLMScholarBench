@@ -46,7 +46,7 @@ Module to **standardize ground-truth data** so analyses can be run with any comp
 1. Clone the repository and use Python 3.11.11:
 
    ```bash
-   git clone https://github.com/<org>/LLMScholarBench.git
+   git clone https://github.com/CSHVienna/LLMScholarBench.git
    cd LLMScholarBench
    # Use Python 3.11.11 (e.g. pyenv local 3.11.11)
    ```
@@ -58,7 +58,7 @@ Module to **standardize ground-truth data** so analyses can be run with any comp
    # Install Auditor/GTBuilder deps as required by their scripts/notebooks
    ```
 
-3. Configure and run each module according to its README (`LLMCaller/`, `Auditor/`, `GTBuilder/`).
+3. Configure and run each module according to its README (`LLMCaller/`, `Auditor/`, `GTBuilder/*/`).
 
 
 
