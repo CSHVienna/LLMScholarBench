@@ -1,15 +1,26 @@
+# Python
 __pycache__
-*.DS_Store
+
+# OS
+.DS_Store
+
+# Data
 data
 results
 experiments_validation_results/
 organised_data/
+
+# Backups
 _backups_
-*_backups
+_backups
+
+# Private (internal) files / folders
 .keys
 .deprecated
+
+# Development folders
 _dev
 LLMCaller/_dev/.keys
-LLMCaller/_dev
+LLMCaller/_dev/
 Auditor/notebooks/_dev/
-
+GTBuilder/APS/notebooks/_dev/
