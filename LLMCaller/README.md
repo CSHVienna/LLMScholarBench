@@ -6,16 +6,16 @@ An automated framework for collecting data with multiple Large Language Models o
 
 ```
 LLMCaller/
-├── main.py                    # Entry point
-├── api/                       # OpenRouter & Gemini async clients
-├── config/                    # Model configs, experiment definitions, schemas
-│   ├── llm_setup.json        # 14+ model definitions
+├── main.py                      # Entry point
+├── api/                         # OpenRouter & Gemini async clients
+├── config/                      # Model configs, experiment definitions, schemas
+│   ├── llm_setup.json           # 24 model definitions
 │   ├── category_variables.json  # 6 categories, 40+ variables
-│   └── paths.json            # Credentials & output paths
-├── prompts/                   # Dynamic prompt generation
-├── validation/                # JSON schema validation
-├── storage/                   # Result persistence & summaries
-└── experiments/               # Async runners for OpenRouter/Gemini
+│   └── paths.json               # Credentials & output paths
+├── prompts/                     # Dynamic prompt generation
+├── validation/                  # JSON schema validation
+├── storage/                     # Result persistence & summaries
+└── experiments/                 # Async runners for OpenRouter/Gemini
 ```
 
 ## Setup

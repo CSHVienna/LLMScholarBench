@@ -1,0 +1,18 @@
+# CLI & progress
+tqdm>=4.62
+
+# Data & I/O
+pandas>=2.0
+
+# HTTP (batch_missing_institutions.py — OpenAlex API)
+requests>=2.26
+
+# Demographics — gender (libs/gender.py)
+gender-guesser>=0.4
+
+ethnicolr>=0.15
+
+# Demographics — ethnicity (libs/ethnicity.py)
+# demographicx: not on PyPI; install from GitHub
+git+https://github.com/sciosci/demographicx.git
+
