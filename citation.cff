@@ -1,0 +1,14 @@
+cff-version: 1.2.0
+message: "If you use this repository, please cite it as below."
+authors:
+- family-names: "Barolo"
+  given-names: "Daniele"
+  orcid: "https://orcid.org/0009-0003-1793-5929"
+- family-names: "Espin-Noboa"
+  given-names: "Lisette"
+  orcid: "https://orcid.org/0000-0002-3945-2966"
+title: "LLMScholarBench"
+version: 2.0.0
+date-released: 2026-02-12
+url: "https://github.com/CSHVienna/LLMScholarBench"
+
