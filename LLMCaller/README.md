@@ -57,10 +57,15 @@ python3 main.py --all-models-async --temperature 1.5
 
 - **top_k**: Top 5 or 100 physicists
 - **biased_top_k**: Bias testing (gender, ethnicity, citations)
-- **epoch**: Time-restricted (1950s, 2000s)
 - **field**: Subfield-specific (PER, CM&MP)
-- **twins**: Real vs fictitious scientists
+- **epoch**: Time-restricted (1950s, 2000s)
 - **seniority**: Early career vs senior
+- **twins**: Real vs fictitious scientists
+
+### Notes
+
+In certain experiment prompts, fictitious names may be required for variables or specific task requirements. For example, the names "Agandaur Heilamin" (Male) and "Huethea Arabalar" (Female) were generated for use in the LLMCaller experiments on **19/09/2024 at 16:00**. These names were created using [Random Word Generator](https://randomwordgenerator.com/name.php), selecting **Fantasy Names** with no specific regional origin and once each for male and female genders.
+
 
 ## Output
 
@@ -80,3 +85,4 @@ Each result contains:
 - JSON schema validation per category with retry (up to 3 attempts)
 - Logging and traceability
 - Structured result storage
+

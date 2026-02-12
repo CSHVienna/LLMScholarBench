@@ -110,6 +110,39 @@ def gini_coefficient(data):
     gini = 1 - (2 / n) * np.sum(cumulative_sum[:-1] * (1 / n + cumulative_sum[1:] - cumulative_sum[:-1]))
     return gini
 
+
+def compute_average_pairwise_cosine_pca_similarity(ids, model_pca):
+    '''
+    Compute the similarity of numeric data using the cosine similarity metric.
+    '''
+    ids = list(ids)
+    m = len(ids)
+    if m < 2:
+        return {'mean': None, 'std': None, 'size': 0}
+
+    # map id -> index in embedding_
+    id_to_idx = {sid: i for i, sid in enumerate(model_pca.ids)}
+
+    missing = [sid for sid in ids if sid not in id_to_idx]
+    if missing:
+        raise KeyError(f"IDs not present in model: {missing}")
+
+    idx = np.array([id_to_idx[sid] for sid in ids], dtype=int)
+
+    # rows are already PCA embeddings
+    Z = model_pca.embedding_[idx]
+
+    # cosine similarity matrix (assumes L2-normalized embeddings)
+    S = Z @ Z.T
+
+    tri = np.triu_indices(m, k=1)
+    sims = S[tri].astype(np.float64, copy=False)
+
+    mean = float(sims.mean())
+    std = float(sims.std(ddof=1)) if sims.size > 1 else 0.0
+    return {'mean': mean, 'std': std, 'size': int(sims.size)}
+    
+
 def compute_average_pairwise_cosine_similarity(array):
     '''
     Compute the similarity of numeric data using the cosine similarity metric.
@@ -186,4 +219,7 @@ def get_items_by_author(id_institutions_by_author, df_all, column_item, column_i
             items = items.astype(column_item_cast)
         df_items_by_author = pd.concat([df_items_by_author, pd.DataFrame({'id_author_oa': [id_author_oa], '_items': [items]})], ignore_index=True)
         
+    if df_items_by_author.empty:
+        return None
+    
     return df_items_by_author.set_index('id_author_oa')

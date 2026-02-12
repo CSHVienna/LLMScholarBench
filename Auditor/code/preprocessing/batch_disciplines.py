@@ -12,13 +12,18 @@ from libs import io
 from libs import constants
 from libs import text
 
-def run(aps_os_data_tar_gz: str, aps_data_dir: str, output_dir: str):
+def run(aps_os_data_tar_gz: str, aps_data_zip: str, output_dir: str):
     # APS data
-    df_publication_topic = io.read_csv(io.path_join(aps_data_dir, constants.APS_PUBLICTION_TOPICS))
-    df_disciplines = io.read_csv(io.path_join(aps_data_dir, constants.APS_DISCIPLINES_FN))
-    #df_topic_types = io.read_csv(io.path_join(aps_data_dir, constants.APS_TOPIC_TYPES_FN))
-    df_authorships = io.read_csv(io.path_join(aps_data_dir, constants.APS_AUTHORSHIPS_FN))
-    df_author_names = io.read_csv(io.path_join(aps_data_dir, constants.APS_AUTHOR_NAMES_FN))
+    df_publication_topic = io.read_file_from_zip_file_as_dataframe(aps_data_zip, constants.APS_PUBLICTION_TOPICS)
+    df_disciplines = io.read_file_from_zip_file_as_dataframe(aps_data_zip, constants.APS_DISCIPLINES_FN)
+    df_authorships = io.read_file_from_zip_file_as_dataframe(aps_data_zip, constants.APS_AUTHORSHIPS_FN)
+    df_author_names = io.read_file_from_zip_file_as_dataframe(aps_data_zip, constants.APS_AUTHOR_NAMES_FN)
+
+    # df_publication_topic = io.read_csv(io.path_join(aps_data_dir, constants.APS_PUBLICTION_TOPICS))
+    # df_disciplines = io.read_file_from_zip_file_as_dataframe(aps_data_zip_file, constants.APS_DISCIPLINES_FN)
+    #### df_topic_types = io.read_file_from_zip_file_as_dataframe(aps_data_zip_file, constants.APS_TOPIC_TYPES_FN)
+    # df_authorships = io.read_file_from_zip_file_as_dataframe(aps_data_zip_file, constants.APS_AUTHORSHIPS_FN)
+    # df_author_names = io.read_file_from_zip_file_as_dataframe(aps_data_zip_file, constants.APS_AUTHOR_NAMES_FN)
     print("1a. df_authorships: ", df_authorships.shape, df_authorships.id_author_name.nunique())
 
     # APS OA data
@@ -122,7 +127,7 @@ def calculate_stats_by_discipline(df):
 if __name__ == "__main__":
     parser = argparse.ArgumentParser()
     parser.add_argument("--aps_os_data_tar_gz", required=True, type=str, help="final_dataset.tar.gz")
-    parser.add_argument("--aps_data_dir", required=True, type=str, help="Directory to APS original data")
+    parser.add_argument("--aps_data_zip", required=True, type=str, help="aps_data.zip")
     parser.add_argument("--output_dir", required=True, type=str, help="Directory where the output files will be saved")
     args = parser.parse_args()
 
@@ -132,6 +137,6 @@ if __name__ == "__main__":
         print(f"{k}: {v}")
     print('=' * 10)
 
-    run(args.aps_os_data_tar_gz, args.aps_data_dir, args.output_dir)
+    run(args.aps_os_data_tar_gz, args.aps_data_zip, args.output_dir)
 
     

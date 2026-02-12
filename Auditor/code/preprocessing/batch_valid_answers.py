@@ -12,20 +12,29 @@ from libs import io
 from libs import constants
 from libs import text
 
-def run(experiments_dir: str, model: str, max_workers: int, output_dir: str):
+def run(experiments_dir: str, model: str, max_workers: int, temperature_analysis: bool, output_dir: str):
    # process experiments
-   results = experiments.read_experiments(experiments_dir, model, max_workers)
-   df = pd.DataFrame(results).drop(columns=['result_answer']).sort_values(by=['date', 'time', 'task_name', 'task_param'])
+   results = experiments.read_experiments(experiments_dir, model, max_workers, temperature_analysis)
+   df = pd.DataFrame(results).drop(columns=['result_answer']).sort_values(by=['temperature', 'date', 'time', 'task_name', 'task_param'])
 
    # process each reponse (json)
-   df_valid_responses = parallel_processing(results, max_workers).sort_values(by=['date', 'time', 'task_name', 'task_param'])
+   df_valid_responses = parallel_processing(results, max_workers)
+   
+   if df_valid_responses is None:
+       io.printf(f"{model} has no valid responses.")
+       return 
+   
+   df_valid_responses = df_valid_responses.sort_values(by=['temperature', 'date', 'time', 'task_name', 'task_param'])
    df_valid_responses.loc[:,'clean_name'] = df_valid_responses.loc[:,'name'].apply(lambda x: text.clean_name(text.replace(x, constants.EXPERIMENT_AUDIT_FACTUALITY_AUTHOR_NAME_REPLACEMENTS)))
-
+   
    # Update responses with valid_attempt that end up invalid
-   col_ids = ['llm_model','date','time','task_name','task_param','task_attempt']
-   df = df.set_index(col_ids)
+   col_ids = ['model', 'temperature', 'grounded', 'llm_provider', 'llm_model','date','time','task_name','task_param','task_attempt']
+   df.loc[:, 'valid_attempt'] = True
+   df.set_index(col_ids, inplace=True)
    tmp = df.join(df_valid_responses[col_ids + ['name']].set_index(col_ids), how='left')
-   ids = tmp.query("@io.pd.isnull(name) and result_valid_flag in @constants.EXPERIMENT_OUTPUT_VALID_FLAGS").index
+
+   # responses without a name
+   ids = tmp.query("@io.pd.isna(name) and result_valid_flag in @constants.EXPERIMENT_OUTPUT_VALID_FLAGS").index
    df.loc[ids, 'result_valid_flag'] = constants.EXPERIMENT_OUTPUT_INVALID
    df.loc[ids, 'result_is_valid'] = False
    df.loc[ids, 'valid_attempt'] = False
@@ -37,12 +46,14 @@ def run(experiments_dir: str, model: str, max_workers: int, output_dir: str):
    io.validate_path(fn)
    io.save_csv(df, fn, index=False)
 
-   # Add metadata to valid responses 
-   df_valid_responses = df_valid_responses.merge(df[['llm_model','date','time','task_name','task_param','task_attempt','model','valid_attempt']], on=['llm_model','date','time','task_name','task_param','task_attempt'], how='left')
+   # Add metadata to valid responses
+   col_ids = ['model','temperature','grounded','llm_model','date','time','task_name','task_param','task_attempt']
+   df_valid_responses = df_valid_responses.set_index(col_ids).join(df.set_index(col_ids)[['valid_attempt']], how='left').reset_index()   
    df_valid_responses = df_valid_responses.query("valid_attempt == True")
    fn = io.path_join(output_dir, 'valid_responses', f"{model}.csv")
    io.validate_path(fn)
    io.save_csv(df_valid_responses, fn, index=True)
+
 
 def parallel_processing(results, n_chunks=1):
     chunks = [results[i::n_chunks] for i in range(n_chunks)]
@@ -51,32 +62,68 @@ def parallel_processing(results, n_chunks=1):
     with Pool(processes=n_chunks) as pool:
         results = list(tqdm(pool.map(process_results, chunks), total=n_chunks))
     
+    if  all(x is None for x in results):
+        return None
+    
     return pd.concat(results, ignore_index=True)
 
 def process_results(results):
     rows = []
 
     for obj in results:
+
         result_valid_flag = obj['result_valid_flag']
         result_answer = obj['result_answer']
-
+            
         if result_valid_flag in constants.EXPERIMENT_OUTPUT_VALID_FLAGS:  # Only iterate if the answer list is not empty
-            for answer in result_answer:
+            
+            if result_answer is None:
+                continue
+            
+            ### Prepare summary per recommendation
+            for answer_id, answer in enumerate(result_answer):
+
                 name = answer.get("Name", None)
+
+                if type(name) == dict:
+                    if 'Name' not in name:
+
+                        if 'First Name' in name and 'Last Name' in name:
+                            name = f"{name['First Name']} {name['Last Name']}"
+                        else:
+                            print(f"Name not found in {name}")
+                            name = None
+                    else:
+                        name = name['Name']
                 
-                if name is None or pd.isnull(name) or len(name) >= 100 or name.lower() in constants.EXPERIMENTS_BAD_CONTENT_TEXTS or name == 'None':
-                    io.printf(f"skipping: {obj['date']} | {obj['time']} | {obj['llm_model']} | {obj['task_name']} | {obj['task_param']} | {obj['task_attempt']}")
-                    print(name)
+                for m in [", 7th duc de Broglie", "Dr. "]:
+                    if m in name:
+                        name = name.split(m)[0]
+                        result_valid_flag = constants.EXPERIMENT_OUTPUT_FIXED_TEXT_OR_JSON
+
+                if name is None or pd.isnull(name) or len(name.split('(')[0]) >= constants.MAX_LETTERS_RESPONSE or name.lower() in constants.EXPERIMENTS_BAD_CONTENT_TEXTS_LC or (any(m.lower() in name.lower() for m in constants.NO_OUTPUT_KEYWORDS)) or ('colleague' in name.lower() and 'student' in name.lower()) or ('colleague' in name.lower() and 'contemporary' in name.lower()) or (name.lower().count('colleague') >= 2) or ' but her colleague' in name.lower():
+                    io.printf(f"skipping recommendation (one name): {obj['temperature']} | {obj['model']} | {obj['date']} | {obj['time']} | {obj['task_name']} | {obj['task_param']} | {obj['task_attempt']} | {answer_id+1} of {len(result_answer)} | {result_valid_flag} | {name}")
+                    result_valid_flag = constants.EXPERIMENT_OUTPUT_FIXED_SKIPPED_ITEM
                     continue
+                
+                for m in ["'s contemporary, ", "'s collaborator, ", "instead, ", "'s colleague, "]:
+                    if m in name:
+                        name = name.split(m)[1]
+                        result_valid_flag = constants.EXPERIMENT_OUTPUT_FIXED_TEXT_OR_JSON
+                        break
 
                 rows.append({
                     "date": obj['date'],
                     "time": obj['time'],
+                    "model": obj['model'],
+                    "grounded": obj['grounded'],
+                    "temperature": obj['temperature'],
+                    "llm_provider": obj['llm_provider'],
                     "llm_model": obj['llm_model'],
                     "task_name": obj['task_name'],
                     "task_param": obj['task_param'],
                     "task_attempt": obj['task_attempt'],
-                    'result_valid_flag':obj['result_valid_flag'],
+                    'result_valid_flag':result_valid_flag,
                     "name": name,
                     "years": answer.get("Years", None),
                     "doi": answer.get("DOI", None),
@@ -91,8 +138,9 @@ def process_results(results):
 
 if __name__ == "__main__":
     parser = argparse.ArgumentParser()
-    parser.add_argument("--experiments_dir", required=True, type=str, help="Directory where the experiment data is stored")
-    parser.add_argument("--model", required=True, type=str, choices=constants.LLMS, help="Model to analyse (eg., gemma2-9b llama-3.1-8b llama-3.1-70b llama3-8b llama3-70b mixtral-8x7b)")
+    parser.add_argument("--experiments_dir", required=True, type=str, help="Directory where the experiment data is stored (root of temperature_<value>/)")
+    parser.add_argument("--model", required=True, type=str, choices=constants.LLMS, help=f"Model to analyse (ie., {', '.join(constants.LLMS)})")
+    parser.add_argument("--temperature_analysis", action="store_true", default=False, help="Whether to analyze temperature analysis")
     parser.add_argument("--max_workers", type=int, default=1, help="How many jobs to run in parallel maximum")
     parser.add_argument("--output_dir", required=True, type=str, help="Directory where the output files will be saved")
     args = parser.parse_args()
@@ -103,6 +151,6 @@ if __name__ == "__main__":
         print(f"{k}: {v}")
     print('=' * 10)
 
-    run(args.experiments_dir, args.model, args.max_workers, args.output_dir)
+    run(args.experiments_dir, args.model, args.max_workers, args.temperature_analysis, args.output_dir)
 
     
