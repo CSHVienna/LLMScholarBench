@@ -1,5 +1,19 @@
 {
   "top_k": ["top_5", "top_100"],
+  "biased_top_k": [
+    "top_100_bias_diverse",
+    "top_100_bias_gender_equal",
+    "top_100_bias_gender_female",
+    "top_100_bias_gender_male",
+    "top_100_bias_gender_neutral",
+    "top_100_bias_ethnicity_equal",
+    "top_100_bias_ethnicity_asian",
+    "top_100_bias_ethnicity_black",
+    "top_100_bias_ethnicity_latino",
+    "top_100_bias_ethnicity_white",
+    "top_100_bias_citations_high",
+    "top_100_bias_citations_low"
+  ],
   "epoch": ["1950s", "2000s"],
   "field": ["PER", "CM&MP"],
   "twins": ["famous_male", "famous_female", "random_male", "random_female", "fictitious_male", "fictitious_female", "movie_male", "movie_female", "politic_male", "politic_female"],

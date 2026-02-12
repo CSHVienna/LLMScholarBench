@@ -1,0 +1,7 @@
+{
+  "_comment": "Global path configuration for LLMCaller",
+  "_instructions": "Update these paths for your environment",
+
+  "credentials_dir": "/code/barolo/credentials",
+  "output_dir": "/data/datasets/LLMScholar-Audits/LLMCaller/cost_estimation_runs"
+}
