@@ -1,6 +1,5 @@
 import pandas as pd
 
-from libs import text
 from libs import constants
 from libs.factuality.factcheck import FactualityCheck
 

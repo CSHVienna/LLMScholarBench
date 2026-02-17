@@ -1,5 +1,3 @@
-from operator import le
-import attr
 import seaborn as sns
 import matplotlib.pyplot as plt
 from matplotlib import rc
@@ -8,8 +6,6 @@ import pandas as pd
 import numpy as np
 from pandas.plotting import parallel_coordinates
 from matplotlib.lines import Line2D
-from matplotlib.ticker import ScalarFormatter
-from matplotlib.ticker import LogFormatter
 import seaborn as sns
 import matplotlib.patches as mpatches
 
@@ -1149,7 +1145,8 @@ def plot_temperature_consistency(df, fn=None, **kwargs):
             )
 
             # reorder columns
-            # pivot = pivot.reindex(columns=constants.EXPERIMENT_OUTPUTS_ORDER)
+            order_cols = [c for c in constants.EXPERIMENT_OUTPUTS_ORDER if c in pivot.columns]
+            pivot = pivot.reindex(columns=order_cols)
 
             x = np.arange(len(pivot.index))
             bottoms = np.zeros(len(x), dtype=float)

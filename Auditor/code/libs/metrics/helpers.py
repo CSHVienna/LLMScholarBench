@@ -57,19 +57,23 @@ def load_per_attempt(metric, df, fn, save=False, **kwargs):
     elif metric == 'consistency':
         per_attempt = aggregators.aggregate_consistency(df)
 
+
     # FACTUALITY
     elif metric == 'factuality_author':
         per_attempt = aggregators.aggregate_factuality_author(df)
     elif metric in constants.BENCHMARK_FACTUALITY_FIELD_METRICS_MAP.keys():
         per_attempt = aggregators.aggregate_factuality_task(df_factuality_task, metric)
-    
+
+
     # SOCIAL REPRESENTATION: NETWORK
     elif metric in ['connectedness', 'connectedness_density', 'connectedness_norm_entropy', 'connectedness_ncomponents']:
         per_attempt = aggregators.aggregate_similarity(df, df_similarity=df_similarity, metric_similarity=metric_similarity)
 
+
     # SOCIAL REPRESENTATION: BIBLIOMETRICS SIMILARITY
     elif metric == 'similarity_pca':
         per_attempt = aggregators.aggregate_similarity(df, df_similarity=df_similarity, metric_similarity=metric_similarity)
+
 
     # SOCIAL REPRESENTATION: DEMOGRAPHIC DIVERSITY
     elif metric == 'diversity_gender':
@@ -80,6 +84,7 @@ def load_per_attempt(metric, df, fn, save=False, **kwargs):
         per_attempt = aggregators.aggregate_diversity_prominence_pub(df)
     elif metric == 'diversity_prominence_cit':
         per_attempt = aggregators.aggregate_diversity_prominence_cit(df)
+
 
     # SOCIAL REPRESENTATION: DEMOGRAPHIC PARITY
     elif metric == 'parity_gender':
@@ -92,6 +97,9 @@ def load_per_attempt(metric, df, fn, save=False, **kwargs):
         per_attempt = aggregators.aggregate_parity_prominence_cit(df, gt=gt)
     else:
         raise ValueError(f'Metric {metric} not supported')
+
+
+
 
     # ORDERING COLUMNS
     per_attempt.rename(columns={'metric':'metric_value'}, inplace=True)

@@ -9,7 +9,7 @@ def read_responses(valid_responses_dir: str, model: str, task: str) -> pd.DataFr
     """
     try:
         fn = io.get_files(io.path_join(valid_responses_dir), f"{model}.csv")[0]
-        df = io.read_csv(fn, index_col=0)
+        df = io.read_csv(fn, index_col=0, low_memory=False)
         if task is not None and task != constants.FACTUALITY_AUTHOR:
             df = df.query("task_name == @task")
         

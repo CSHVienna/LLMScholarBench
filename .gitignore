@@ -5,10 +5,10 @@ __pycache__
 .DS_Store
 
 # Data
-data
-results
-experiments_validation_results/
-organised_data/
+*data
+*results
+*experiments_validation_results
+*organised_data
 
 # Backups
 _backups_
@@ -19,8 +19,8 @@ _backups
 .deprecated
 
 # Development folders
-_dev
-LLMCaller/_dev/.keys
-LLMCaller/_dev/
-Auditor/notebooks/_dev/
-GTBuilder/APS/notebooks/_dev/
+*_dev
+
+
+# Other
+TODO

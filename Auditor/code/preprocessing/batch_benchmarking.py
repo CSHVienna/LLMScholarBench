@@ -9,7 +9,6 @@
 
 import argparse
 from tqdm import tqdm
-import pandas as pd
 
 from libs import io
 from libs import constants
@@ -81,6 +80,7 @@ def run(results_dir: str, model: str, metric: str, aps_oa_data_tar_gz: str, is_t
         df_factuality_author = df_factuality_author_all.copy()
         df_factuality_task = df_factuality_task_all.copy() if df_factuality_task_all is not None else None
         df_similarity = df_similarity_all.copy()
+
     else:
         df_summaries = df_summaries_all.query(constants.INTERVENTION_PERIOD_QUERY).copy()
         df_valid_responses = df_valid_responses_all.query(constants.INTERVENTION_PERIOD_QUERY).copy()
@@ -114,8 +114,6 @@ def run(results_dir: str, model: str, metric: str, aps_oa_data_tar_gz: str, is_t
     gt = df_gt if metric in constants.BENCHMARK_PARITY_METRICS else None
     df_sim = df_similarity if metric in constants.BENCHMARK_SIMILARITY_METRICS else None
     metric_similarity = constants.BENCHMARK_SIMILARITY_METRICS_MAP.get(metric, None)
-
-    print(f"Loaded {df_factuality_task.shape[0]} rows for {experiment_task} factuality")
 
     # aggregate metrics per attempt
     df_per_attempt = helpers_metrics.load_per_attempt(metric, df, fn_results,

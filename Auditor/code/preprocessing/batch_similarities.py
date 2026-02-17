@@ -9,10 +9,9 @@ from itertools import permutations
 from postprocessing import similarity
 from libs import io
 from libs import constants
-from libs import text
+from libs.text import helpers as text
 from libs.factuality.author import FactualityAuthor
-from libs import helpers
-from libs.pca_similarity import PCASimilarityModel
+from libs.metrics.pca_similarity import PCASimilarityModel
 
 from libs.network import fragmentation
 
@@ -44,7 +43,7 @@ def run(aps_os_data_tar_gz: str, valid_responses_dir: str, coauthorships_csv: st
         progress_bar.update(1)
 
         # We load pca similarity model
-        model_pca = PCASimilarityModel.load(pca_similarity_model_fn)
+        model_pca = PCASimilarityModel.load_h5(pca_similarity_model_fn)
         progress_bar.update(1)
         
     else:

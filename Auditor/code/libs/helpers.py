@@ -135,8 +135,9 @@ def add_infrastructure_columns(df):
     df.loc[:, 'model_class'] = df.model.map(constants.LLM_CLASS_CATEGORIES_INV)
     df.loc[:, 'model_provider'] = df.model.str.split('-').str[0]
 
-    if 'result_original_output' in df.columns or 'result_original_message' in df.columns:
+    if 'result_original_output' in df.columns or 'result_original_message' in df.columns and 'is_refusal' not in df.columns:
         df.loc[:, 'is_refusal'] = df.apply(lambda row: helpers.detect_refusal(row), axis=1)
+        io.printf("[INFO] Added is_refusal column to dataframe")
 
     # model size (merging open and proprietary models)
     df["model_size"] = df["model_size"].str.replace(r"\s*\(.*\)", "", regex=True)

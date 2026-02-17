@@ -1,18 +1,11 @@
 # export PYTHONPATH="${PYTHONPATH}:."
 
 import argparse
-from tqdm import tqdm
-import pandas as pd
-# from multiprocessing import Pool
-# from functools import partial
 
 from libs.factuality.author import FactualityAuthor
-from libs.factuality.topk import FactualityTopK
 from libs.factuality.field import FactualityField
 from libs.factuality.epoch import FactualityEpoch
 from libs.factuality.seniority import FactualitySeniority
-from libs.factuality.twins import FactualityTwins
-from libs import io
 from libs import constants
 
 def run(aps_os_data_tar_gz: str, valid_responses_dir: str, model: str, task_name: str|None,  max_workers: int, output_dir: str):

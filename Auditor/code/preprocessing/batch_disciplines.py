@@ -1,16 +1,9 @@
 # export PYTHONPATH="${PYTHONPATH}:."
 
 import argparse
-from operator import index
-from tqdm import tqdm
-import pandas as pd
-from multiprocessing import Pool
-from functools import partial
 
-from libs import experiments
 from libs import io
 from libs import constants
-from libs import text
 
 def run(aps_os_data_tar_gz: str, aps_data_zip: str, output_dir: str):
     # APS data
@@ -18,12 +11,6 @@ def run(aps_os_data_tar_gz: str, aps_data_zip: str, output_dir: str):
     df_disciplines = io.read_file_from_zip_file_as_dataframe(aps_data_zip, constants.APS_DISCIPLINES_FN)
     df_authorships = io.read_file_from_zip_file_as_dataframe(aps_data_zip, constants.APS_AUTHORSHIPS_FN)
     df_author_names = io.read_file_from_zip_file_as_dataframe(aps_data_zip, constants.APS_AUTHOR_NAMES_FN)
-
-    # df_publication_topic = io.read_csv(io.path_join(aps_data_dir, constants.APS_PUBLICTION_TOPICS))
-    # df_disciplines = io.read_file_from_zip_file_as_dataframe(aps_data_zip_file, constants.APS_DISCIPLINES_FN)
-    #### df_topic_types = io.read_file_from_zip_file_as_dataframe(aps_data_zip_file, constants.APS_TOPIC_TYPES_FN)
-    # df_authorships = io.read_file_from_zip_file_as_dataframe(aps_data_zip_file, constants.APS_AUTHORSHIPS_FN)
-    # df_author_names = io.read_file_from_zip_file_as_dataframe(aps_data_zip_file, constants.APS_AUTHOR_NAMES_FN)
     print("1a. df_authorships: ", df_authorships.shape, df_authorships.id_author_name.nunique())
 
     # APS OA data

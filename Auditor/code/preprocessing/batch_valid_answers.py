@@ -1,16 +1,15 @@
 # export PYTHONPATH="${PYTHONPATH}:."
 
 import argparse
-from operator import index
 from tqdm import tqdm
 import pandas as pd
 from multiprocessing import Pool
-from functools import partial
 
 from libs import experiments
 from libs import io
 from libs import constants
-from libs import text
+from libs.text import helpers as text
+from libs import helpers
 
 def run(experiments_dir: str, model: str, max_workers: int, temperature_analysis: bool, output_dir: str):
    # process experiments
@@ -40,8 +39,14 @@ def run(experiments_dir: str, model: str, max_workers: int, temperature_analysis
    df.loc[ids, 'valid_attempt'] = False
    df = df.reset_index()
 
-   # store summary (csv)
+   # keep only the first valid attempt
    df = experiments.set_attempt_validity(df)
+
+   # label refusals
+   df.loc[:, 'is_refusal'] = df.apply(lambda row: helpers.detect_refusal(row), axis=1)
+   io.printf(f"Number of refusals: \n{df.groupby('valid_attempt').is_refusal.value_counts()}")
+   
+   # store summary (csv)
    fn = io.path_join(output_dir, 'summaries', f"experiments_{model}.csv")
    io.validate_path(fn)
    io.save_csv(df, fn, index=False)
