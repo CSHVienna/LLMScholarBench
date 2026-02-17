@@ -1,5 +1,4 @@
 
-from operator import index
 from libs import io
 from libs import constants
 from libs import responses
@@ -40,7 +39,7 @@ class FactualityCheck(object):
         """
         Load the valid responses with the factuality check
         """
-        self.df_valid_responses = io.read_csv(self.fn_valid_with_fact_check, index_col=0)
+        self.df_valid_responses = io.read_csv(self.fn_valid_with_fact_check, index_col=0, low_memory=False)
 
     def save_valid_responses_with_factuality_check(self):
         """

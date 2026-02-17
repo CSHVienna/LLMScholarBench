@@ -17,17 +17,20 @@ from __future__ import annotations
 from dataclasses import dataclass
 from typing import Iterable, Optional, Tuple, Union, List
 
+import json
+import h5py
+import joblib
 import numpy as np
 import pandas as pd
-import joblib
+from pathlib import Path
+from sklearn.decomposition import PCA
+from sklearn.pipeline import Pipeline
 
 from sklearn.base import BaseEstimator, TransformerMixin
 from sklearn.compose import ColumnTransformer
-from sklearn.decomposition import PCA
 from sklearn.impute import SimpleImputer
 from sklearn.metrics.pairwise import cosine_similarity
 from sklearn.neighbors import NearestNeighbors
-from sklearn.pipeline import Pipeline
 from sklearn.preprocessing import StandardScaler, normalize
 
 
@@ -102,12 +105,73 @@ class PCASimilarityModel:
     # If True, embedding_ has been L2-normalized (good for cosine)
     embedding_l2_normalized_: bool = True
 
-    def save(self, path: str) -> None:
-        joblib.dump(self, path)
+    # -------------------------
+    # HDF5 SAVE
+    # -------------------------
+    def save_h5(self, path: str) -> None:
+        path = Path(path)
 
-    @staticmethod
-    def load(path: str) -> "PCASimilarityModel":
-        return joblib.load(path)
+        with h5py.File(path, "w") as f:
+            # arrays
+            f.create_dataset("ids", data=self.ids)
+            f.create_dataset("embedding_", data=self.embedding_)
+            f.create_dataset("explained_variance_ratio_", data=self.explained_variance_ratio_)
+
+            # PCA internals
+            pca = self.pipeline.named_steps["pca"]
+            f.create_dataset("pca/components_", data=pca.components_)
+            f.create_dataset("pca/mean_", data=pca.mean_)
+
+            # metadata
+            meta = {
+                "feature_cols": list(self.feature_cols),
+                "n_components_": int(self.n_components_),
+                "rbf_sigma_": self.rbf_sigma_,
+                "embedding_l2_normalized_": self.embedding_l2_normalized_,
+            }
+
+            f.attrs["meta_json"] = json.dumps(meta)
+
+    # -------------------------
+    # HDF5 LOAD
+    # -------------------------
+    @classmethod
+    def load_h5(cls, path: str) -> "PCASimilarityModel":
+        path = Path(path)
+
+        with h5py.File(path, "r") as f:
+            ids = f["ids"][()]
+            embedding_ = f["embedding_"][()]
+            evr = f["explained_variance_ratio_"][()]
+            components = f["pca/components_"][()]
+            mean = f["pca/mean_"][()]
+            meta = json.loads(f.attrs["meta_json"])
+
+        # rebuild PCA
+        pca = PCA(n_components=meta["n_components_"])
+        pca.components_ = components
+        pca.mean_ = mean
+        pca.explained_variance_ratio_ = evr
+
+        pipeline = Pipeline([("pca", pca)])
+
+        return cls(
+            pipeline=pipeline,
+            ids=ids,
+            embedding_=embedding_,
+            feature_cols=tuple(meta["feature_cols"]),
+            n_components_=meta["n_components_"],
+            explained_variance_ratio_=evr,
+            rbf_sigma_=meta["rbf_sigma_"],
+            embedding_l2_normalized_=meta["embedding_l2_normalized_"],
+        )
+
+    # def save(self, path: str) -> None:
+    #     joblib.dump(self, path)
+
+    # @staticmethod
+    # def load(path: str) -> "PCASimilarityModel":
+    #     return joblib.load(path)
 
     def index_of(self, scientist_id: ScientistID) -> int:
         matches = np.where(self.ids == scientist_id)[0]

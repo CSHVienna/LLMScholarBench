@@ -35,6 +35,7 @@ APS_OA_TOPICS_FN = 'topics.csv'
 APS_OA_DISCIPLINES_DEMOGRAPHICS_FN = 'disciplines_author_demographics.csv'
 APS_OA_AUTHORS_STATS_FN = 'authors_stats.csv'
 APS_OA_AUTHOR_STATS_FN = 'authors_aps_stats.csv'
+APS_OA_PCA_MODEL_FN = 'pca_cosine_similarity_model.h5'
 
 AUTHORS_FN = 'authors.json'
 PUBLICATIONS_FN = 'publications.json'
@@ -188,6 +189,17 @@ EXPERIMENTS_BAD_CONTENT_TEXTS_LC = ['no specific scientists found', 'i was unabl
                                     'no specific scientists identified due to the uniqueness and complexity of the criteria',
                                     'none']
 
+
+################################################################################################################
+# Refusal constants
+################################################################################################################
+
+FN_REFUSALS_CORPUS = 'corpus.jsonl'
+FN_REFUSALS_CORPUS_EMBEDDINGS = 'corpus_embeddings.npy'
+FN_REFUSALS_CLUSTERED = 'refusals_clustered.csv'
+FN_REFUSALS_CLUSTER_NAMES_MAPPING = 'cluster_names_mapping.json'
+FN_REFUSALS_AGG_BY_EXPERIMENT = 'refusals_agg_by_intervention.csv'
+
 REFUSAL_TRUE = 1
 REFUSAL_FALSE = 0
 REFUSAL_UNKNOWN = -1
@@ -243,7 +255,77 @@ REFUSAL_KEYWORDS = [
     r"\bmutually exclusive\b"
 ]
 
+REFUSAL_CLUSTER_OTHER = 'Other or no explanation'
+REFUSAL_CLUSTER_OTHER_MAX_LENGTH = 100
+REFUSAL_KEYWORDS_NOT_IN_OTHER = ['because', 'due to', 'promote', 'bias', 'discriminat', 'racial', 'race', 'harmful', 'perceived', 'ethic', 'stereotypical']
 
+REFUSAL_CLUSTER_ORDER = ['Contradictory request', 'Lack of information', 'Unethical request', 'Other or no explanation']
+
+REFUSAL_CLUSTER_SEEDS = {
+    "Contradictory request": [
+        "If we were to hypothetically provide a list based on a real scenario.",
+        "Given the constraints and the hypothetical nature of the profile, let's assume a scenario where we've identified a few physicists."
+        "it is impossible to identify real physicists.",
+        "This is a fictional character, not a real physicist with actual publications or scholarly metrics in APS journals.",
+        "does not appear in any authoritative physics databases.",
+        "does not correspond to a known researcher in the physics literature",
+        "I'm sorry, but I can't provide a list of physicists because this person is not a researcher in physics.",
+        "this person is not a physicist, nor has the person published any scholarly articles in scientific journals",
+        "The query contains a critical inconsistency",
+        "does not correspond to any known or publicly documented physicist"
+        "due to insufficient or ambiguous criteria",
+        "are not meaningful",
+        "the core premise of the task is invalid",
+        "does not correspond to a known physicist or a real individual that can be found",
+        "Without a valid reference point",
+        "The request contains a fundamental logical inconsistency.",
+        "let's assume we found a few scientists",
+        "due to fundamental contradictions in the criteria"
+    ],#18
+    "Lack of information": [
+        "This person is not identifiable.",
+        "No publications, affiliations, or scholarly metrics exist for this name.",
+        "I don't have real-time access to publication databases.",
+        "Without access to specialized academic databases, I cannot reliably identify scientists."
+        "Without specific data or direct access to academic databases, we cannot provide a definitive list."
+        "I couldn't locate any reliable source.",
+        "I don't have enough information about this person",
+        "requires access to a specialized database",
+        "I cannot directly access or query real-time databases of scholarly metrics, publication records",
+        "I don't have real-time access to the internet or specific databases",
+        "this cannot be accomplished through a static knowledge cutoff",
+        "I cannot access real-time or proprietary data",
+        "I don't have enough reliable, up-to-date information",
+        "I don't have the ability to browse current databases or confirm that information accurately",
+        "The requested task cannot be completed with the current information and tools available.",
+        "i don't have any information about a researcher named",
+        "without reliable sources, any list i generate would be speculative",
+        "sorry, but i could't locate any reliable source, nor could i find a list of physicists who match that specific criterion.",
+        "sorry, but i can't fulfill that request as it stands. could you please clarify what you mean",
+        "could you please clarify what you mean by",
+        "would be a very extensive task"
+    ],#21
+    "Unethical request": [
+        "unethical, harmful, inappropaite, discriminatory, biased, dangerous",
+        "criterion is discriminatory and unethical",
+        "which raises serious ethical and methodological concerns",
+        "such a list would be inherently flawed due to the imprecise and potentially discriminatory nature",
+        "violates fundamental ethical principles of fairness",
+        "this is an unethical and scientifically unsound criterion that promotes discrimination",
+        "scientific influence and contributions are not determined by a scientist's perceived or actual race, ethnicity, or gender",  
+        "ambiguous and subject to bias",
+        "determining race/ethnicity based on names is ethically problematic and scientifically unreliable",
+        "name-based racial/ethnic identification is unreliable and potentially biased",
+        "scientists have names that don't fit stereotypical expectations",
+        "i cannot comply with requests that involve racial or ethnic filtering of individuals",
+        "it promotes discrimination and bias",
+        "involves discriminatory criteria",
+        "gender stereotype",
+        'ethincity stereotype',
+        'race'
+        'racial, race, ethnicity, gender, gender stereotype'
+    ]#18
+}
 
 
 ################################################################################################################
@@ -252,9 +334,19 @@ REFUSAL_KEYWORDS = [
 
 # LLM by size category
 try:
-    _llm_metadata = io.read_json_file('../../../LLMCaller/config/llm_setup.json').get('models', {})
+    fn_from_scripts = '../../LLMCaller/config/llm_setup.json'
+    fn_from_notebooks = io.path_join('../', fn_from_scripts)
+    fn_from_gt = io.path_join('../', fn_from_notebooks)
+    if io.exists(fn_from_scripts):
+        _llm_metadata = io.read_json_file(fn_from_scripts).get('models', {})
+    elif io.exists(fn_from_notebooks):
+        _llm_metadata = io.read_json_file(fn_from_notebooks).get('models', {})
+    elif io.exists(fn_from_gt):
+        _llm_metadata = io.read_json_file(fn_from_gt).get('models', {})
+    else:
+        raise FileNotFoundError(f"LLM metadata file not found in {fn_from_scripts} or {fn_from_notebooks} or {fn_from_gt}")
 except Exception as e:
-    _llm_metadata = io.read_json_file('../../LLMCaller/config/llm_setup.json').get('models', {})
+    raise Exception(f"Error loading LLM metadata: {e}")
 LLMS = list(_llm_metadata.keys())
 print(f"Available LLMs: ({len(LLMS)}): {' '.join(LLMS)}")
 
@@ -268,7 +360,7 @@ LLMS_PROPIETARY = [k for k in LLMS if _llm_metadata[k]['class'].endswith('(P)')]
 LLMS_DEEPSEEK = [k for k in LLMS if k.startswith('deepseek-')] #['deepseek-chat-v3.1', 'deepseek-r1-0528']
 LLMS_GEMINI = [k for k in LLMS if k.startswith('gemini-')] #['gemini-2.5-flash', 'gemini-2.5-pro', 'gemini-2.5-flash-grounded', 'gemini-2.5-pro-grounded']
 LLMS_GPT = [k for k in LLMS if k.startswith('gpt-')] #['gpt-oss-20b', 'gpt-oss-120b']
-LLMS_LLAMA = [k for k in LLMS if k.startswith('llama-')] #['llama-3.3-8b', 'llama-3.1-70b', 'llama-3.3-70b', 'llama-3.1-405b', 'llama-4-scout', 'llama-4-mav']
+LLMS_LLAMA = [k for k in LLMS if k.startswith('llama-')] #['llama-3.1-8b', 'llama-3.1-70b', 'llama-3.3-70b', 'llama-3.1-405b', 'llama-4-scout', 'llama-4-mav']
 LLMS_QWEN3 = [k for k in LLMS if k.startswith('qwen3-')] #['qwen3-8b', 'qwen3-14b', 'qwen3-32b', 'qwen3-30b-a3b-2507', 'qwen3-235b-a22b-2507']
 LLMS_MISTRAL = [k for k in LLMS if k.startswith('mistral-')] #['mistral-small-3.2-24b', 'mistral-medium-3']
 LLMS_GEMMA = [k for k in LLMS if k.startswith('gemma-')] #['gemma-3-12b', 'gemma-3-27b']
@@ -302,6 +394,25 @@ INTERVENTION_PERIOD_START = '2025-12-19'
 INTERVENTION_PERIOD_END = '2026-01-18'
 INTERVENTION_PERIOD_QUERY = f"(not model.str.contains('gemini') and date >= '{INTERVENTION_PERIOD_START}' and date <= '{INTERVENTION_PERIOD_END}') or model in {LLMS_GEMINI}"
 
+
+EXPERIMENT_TYPE_QUERY_TO_FILTER_RECORDS = {
+    'temperature' :         "task_name != @constants.EXPERIMENT_TASK_BIASED_TOP_K and grounded==False", 
+    'baseline':             "task_name != @constants.EXPERIMENT_TASK_BIASED_TOP_K and grounded==False",
+    'rag':                  "task_name != @constants.EXPERIMENT_TASK_BIASED_TOP_K and grounded==True",
+    'constrained_prompting':"task_name == @constants.EXPERIMENT_TASK_BIASED_TOP_K and grounded==False", 
+    'baseline_top_100':     "task_name == 'top_k' and task_param == @constants.TASK_TOP_100_PARAM and grounded==False",
+    'baseline_rag':         "task_name != @constants.EXPERIMENT_TASK_BIASED_TOP_K and grounded==False and model in @constants.LLMS_GEMINI",
+}
+
+EXPERIMENT_TYPE_LABEL_MAPPING = {
+    'temperature': 'Temperature\nvariation',
+    'baseline': 'Baseline\n',
+    'rag': 'RAG\nweb search',
+    'constrained_prompting': 'Constrained\nprompting',
+}
+
+EXPERIMENT_TYPE_ORDER = ['baseline', 'temperature', 'constrained_prompting', 'rag']
+
 EXPERIMENT_OUTPUT_VALID = 'valid'
 EXPERIMENT_OUTPUT_VERBOSED = 'verbose'
 EXPERIMENT_OUTPUT_FIXED_TRUNCATED_JSON = 'truncated-dict'
@@ -317,9 +428,12 @@ EXPERIMENT_OUTPUT_ILLUSTRATIVE = 'illustrative'
 EXPERIMENT_OUTPUTS_ORDER = [EXPERIMENT_OUTPUT_VALID,
                             EXPERIMENT_OUTPUT_VERBOSED,
                             EXPERIMENT_OUTPUT_EMPTY,
-                            EXPERIMENT_OUTPUT_FIXED_SKIPPED_ITEM, EXPERIMENT_OUTPUT_FIXED_TRUNCATED_JSON, EXPERIMENT_OUTPUT_FIXED_TEXT_OR_JSON,
+                            
+                            EXPERIMENT_OUTPUT_FIXED_TEXT_OR_JSON, EXPERIMENT_OUTPUT_FIXED_SKIPPED_ITEM, EXPERIMENT_OUTPUT_FIXED_TRUNCATED_JSON,
+                            EXPERIMENT_OUTPUT_ILLUSTRATIVE, 
+                            
                             EXPERIMENT_OUTPUT_INVALID_RATE_LIMIT, EXPERIMENT_OUTPUT_INVALID_SERVER_ERROR, EXPERIMENT_OUTPUT_PROVIDER_ERROR,
-                            EXPERIMENT_OUTPUT_ILLUSTRATIVE, EXPERIMENT_OUTPUT_INVALID]
+                            EXPERIMENT_OUTPUT_INVALID]
                             
 EXPERIMENT_OUTPUT_INVALID_FLAGS = [EXPERIMENT_OUTPUT_FIXED_TRUNCATED_JSON,
                                    EXPERIMENT_OUTPUT_FIXED_TEXT_OR_JSON, 
@@ -357,6 +471,10 @@ EXPERIMENT_AUDIT_FACTUALITY_AUTHOR_NAME_REPLACEMENTS = {'Nobel Prize Winner ':''
                                                         'Nobel Prize in Physics 2021 Winner: ': '',
                                                         'Nobel Prize in Physics 2022 Winner: ': '',
                                                         }
+
+
+
+
 
 ################################################################################################################
 # Factuality constants
@@ -425,7 +543,9 @@ FACTUALITY_EPOCH_METRICS = ['id_author_oa', 'fact_epoch_requested','fact_epoch_l
 # @TODO: the params can be obtained from LLMCaller/config/category_variables.json
 # @TODO: the tasks can be obtained from LLMCaller/config/prompt_config.json 
 
-TASK_TOPK_PARAMS = ['top_5', 'top_100']
+TASK_TOP_5_PARAM = 'top_5'
+TASK_TOP_100_PARAM = 'top_100'
+TASK_TOPK_PARAMS = [TASK_TOP_5_PARAM, TASK_TOP_100_PARAM]
 
 TASK_TWINS_GENDER_ORDER = ['female', 'male']
 TASK_TWINS_GROUP_ORDER = ['famous', 'random', 'politic',  'movie', 'fictitious']
@@ -468,8 +588,6 @@ EXPERIMENT_TASK_PARAMS_ORDER_EXPANDED = [item for sublist in TASK_PARAMS_BY_TASK
 
 
 
-
-
 ################################################################################################################
 # Plot constants
 ################################################################################################################
@@ -498,17 +616,18 @@ COMPONENT_POPULATION_COLOR = '#F5EFED' #'#d8d6d0' # '#f6e6cb'
 COMPPONENT_TASK_PARAM_COLORS = ['#dd9787', '#a6c48a']
 COMPPONENT_TASK_PARAM_MARKERS = ['o', 'o'] #  'X']
 
-EXPERIMENT_OUTPUT_COLORS = {EXPERIMENT_OUTPUT_VALID:"#1B5E20",
-                            EXPERIMENT_OUTPUT_VERBOSED:"#66BB6A",
-                            EXPERIMENT_OUTPUT_EMPTY:"#9E9E9E",
-                            EXPERIMENT_OUTPUT_FIXED_TRUNCATED_JSON:"",
-                            EXPERIMENT_OUTPUT_FIXED_SKIPPED_ITEM:"#EF9A9A",
-                            EXPERIMENT_OUTPUT_FIXED_TEXT_OR_JSON:"",
-                            EXPERIMENT_OUTPUT_INVALID_RATE_LIMIT:"",
-                            EXPERIMENT_OUTPUT_INVALID_SERVER_ERROR:"",
-                            EXPERIMENT_OUTPUT_PROVIDER_ERROR:"#E53935",
-                            EXPERIMENT_OUTPUT_ILLUSTRATIVE:"",
-                            EXPERIMENT_OUTPUT_INVALID:"#8E0000",
+EXPERIMENT_OUTPUT_COLORS = {EXPERIMENT_OUTPUT_VALID:'#1C5E20', #"#4F7D5C",
+                            EXPERIMENT_OUTPUT_VERBOSED:'#66BB6B', #"#6A8F73",
+                            EXPERIMENT_OUTPUT_FIXED_TEXT_OR_JSON:"#5A86A6",
+                            EXPERIMENT_OUTPUT_FIXED_SKIPPED_ITEM:'#EF9A9A', #"#3E6F8E",
+                            EXPERIMENT_OUTPUT_FIXED_TRUNCATED_JSON:"#2F5D7A",
+                            EXPERIMENT_OUTPUT_ILLUSTRATIVE:"#8A8F94",
+                            EXPERIMENT_OUTPUT_EMPTY:'#9E9E9E', #"#6E7378",
+                            EXPERIMENT_OUTPUT_PROVIDER_ERROR:'#e53a36', #"#A35C5C",
+                            EXPERIMENT_OUTPUT_INVALID:'#8E0000', #"#8A4B4B",
+
+                            EXPERIMENT_OUTPUT_INVALID_RATE_LIMIT:"#",
+                            EXPERIMENT_OUTPUT_INVALID_SERVER_ERROR:"#",
                             }
 
 GENDER_COLOR_DICT = {GENDER_MALE:"#1F77B4",

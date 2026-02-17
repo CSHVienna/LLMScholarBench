@@ -1,7 +1,6 @@
 import pandas as pd
-from pyparsing import col
 
-from libs import text
+from libs.text import helpers as text
 from libs import constants
 from libs.factuality.factcheck import FactualityCheck
 

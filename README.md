@@ -18,15 +18,15 @@ The repository is organized into three main modules:
 
 ### 1. LLMCaller
 
-Code to **query LLMs** and collect scholar-recommendation responses. It supports multiple providers (e.g. OpenRouter, Gemini), configurable prompts and schemas, and structured storage of outputs for downstream auditing.
+Code to **query LLMs** and collect scholar-recommendation responses. It supports multiple providers (e.g. OpenRouter, Gemini, Groq), configurable prompts and schemas, and structured storage of outputs for downstream auditing.
 
 - **Location**: `LLMCaller/`
-- **Features**: Async execution across many models, JSON schema validation, experiment categories (top-k experts, field/epoch/seniority, bias tests, twins), and configurable temperatures.
+- **Features**: Async execution across many models, JSON schema validation, experiment categories (top-k experts, field/epoch/seniority, twins), and configurable temperatures.
 - **Setup**: See `LLMCaller/README.md` for credentials, `config/paths.json`, and installation (e.g. `pip install -r LLMCaller/requirements.txt`).
 
 ### 2. Auditor
 
-Code to **analyze LLM outputs** against ground truth. It runs preprocessing pipelines (valid answers, factuality, disciplines, similarities) and provides notebooks for consistency, factuality, demographics, prestige, and similarity analyses.
+Code to **analyze LLM outputs** against ground truth. It runs preprocessing pipelines (valid answers, factuality, similarities) and provides notebooks for consistency, factuality, demographics, prestige, and similarity analyses.
 
 - **Location**: `Auditor/`
 - **Features**: Batch preprocessing scripts, factuality checks (author, field, epoch, seniority), demographic and similarity metrics, and visualization notebooks.
@@ -34,11 +34,11 @@ Code to **analyze LLM outputs** against ground truth. It runs preprocessing pipe
 
 ### 3. GTBuilder
 
-Module to **standardize ground-truth data** so analyses can be run with any compatible GT source. It defines pipelines and schemas to build comparable scholar benchmarks. Currently implemented for **American Physical Society (APS)** publications (physics domain), with OpenAlex used for author/institution metadata.
+Module to **prepare ground-truth data** for downstream analyses. Currently implemented for **American Physical Society (APS)** publications (physics domain), with OpenAlex used for author/institution metadata.
 
 - **Location**: `GTBuilder/`
 - **Contents**:
-  - **APS**: Scripts and notebooks to build author stats, demographics, affiliations, coauthorship networks, disciplines, and publication classes from APS + OpenAlex.
+  - **APS**: Scripts to build author stats, demographics, affiliations, coauthorship networks, disciplines, and publication classes from APS + OpenAlex.
   - **OpenAlex API Pipeline**: Scripts to fetch publications, authors, and institutions from the OpenAlex API (used by the APS pipeline).
 
 ## Installation
@@ -51,12 +51,15 @@ Module to **standardize ground-truth data** so analyses can be run with any comp
    # Use Python 3.11.11 (e.g. pyenv local 3.11.11)
    ```
 
-2. Install dependencies per module (each has its own `requirements.txt` if needed):
+2. Install dependencies for the modules you plan to use (each has its own `requirements.txt`):
 
    ```bash
    pip install -r LLMCaller/requirements.txt
-   # Install Auditor/GTBuilder deps as required by their scripts/notebooks
+   pip install -r Auditor/requirements.txt
+   pip install -r GTBuilder/APS/requirements.txt
+   pip install -r GTBuilder/OpenAlex_API_Pipeline/requirements.txt
    ```
+   Install only the lines for the modules you need.
 
 3. Configure and run each module according to its README (`LLMCaller/`, `Auditor/`, `GTBuilder/*/`).
 
@@ -75,7 +78,7 @@ Module to **standardize ground-truth data** so analyses can be run with any comp
 
 If you use LLMScholarBench in your work, please cite the benchmark and/or the relevant paper(s) below.
 
-**BibTeX (v2.0):**
+**BibTeX (v2.0.0):**
 
 ```bibtex
 @article{espinnoboa2026llmscholarbench,
@@ -84,11 +87,11 @@ If you use LLMScholarBench in your work, please cite the benchmark and/or the re
   journal   = {arXiv preprint},
   year      = {2026},
   url       = {https://arxiv.org/abs/2602.08873},
-  note      = {v2.0, under review}
+  note      = {v2.0.0, under-review}
 }
 ```
 
-**BibTeX (v1.0):**
+**BibTeX (v1.0.0):**
 
 ```bibtex
 @article{barolo2025llmscholaraudits,
@@ -97,14 +100,16 @@ If you use LLMScholarBench in your work, please cite the benchmark and/or the re
   journal   = {arXiv preprint},
   year      = {2025},
   url       = {https://arxiv.org/abs/2506.00074},
-  note      = {v1.0, under review}
+  note      = {v1.0.0, under-review}
 }
 ```
 
 ## Contributors
 
-- [**lisette-espin**](https://github.com/lisette-espin)
-- [**DanieleBarolo**](https://github.com/DanieleBarolo)
+| Contributor | Contributed to |
+|-------------|----------------|
+| [**DanieleBarolo**](https://github.com/DanieleBarolo) | LLMCaller, GTBuilder/OpenAlex_API_Pipeline |
+| [**lisette-espin**](https://github.com/lisette-espin) | Auditor, GTBuilder/APS |
 
 
 ## License

@@ -1,0 +1,7 @@
+source init.sh
+
+# TEMPERATURE ANALYSIS
+nice -n 10 parallel -j 10 python ../code/preprocessing/batch_factuality.py --aps_os_data_tar_gz ../../GTBuilder/APS/data/final_dataset.tar.gz --valid_responses_dir ../results/temperature_analysis/valid_responses/ --max_workers 10 --output_dir ../results/temperature_analysis/ --model {1} --task_name {2} ::: llama-3.1-8b llama-4-scout llama-4-mav gpt-oss-20b gpt-oss-120b qwen3-8b qwen3-14b qwen3-32b qwen3-30b-a3b-2507 qwen3-235b-a22b-2507 gemma-3-12b gemma-3-27b mistral-small-3.2-24b mistral-medium-3 llama-3.1-70b llama-3.3-70b llama-3.1-405b grok-4-fast deepseek-chat-v3.1 deepseek-r1-0528 gemini-2.5-flash gemini-2.5-flash-grounded gemini-2.5-pro gemini-2.5-pro-grounded ::: field epoch seniority
+
+# INTERVENTIONS
+nice -n 10 parallel -j 10 python ../code/preprocessing/batch_factuality.py --aps_os_data_tar_gz ../../GTBuilder/APS/data/final_dataset.tar.gz --valid_responses_dir ../results/interventions/valid_responses/ --max_workers 10 --output_dir ../results/interventions/ --model {1} --task_name {2} ::: llama-3.1-8b llama-4-scout llama-4-mav gpt-oss-20b gpt-oss-120b qwen3-8b qwen3-14b qwen3-32b qwen3-30b-a3b-2507 qwen3-235b-a22b-2507 gemma-3-12b gemma-3-27b mistral-small-3.2-24b mistral-medium-3 llama-3.1-70b llama-3.3-70b llama-3.1-405b grok-4-fast deepseek-chat-v3.1 deepseek-r1-0528 gemini-2.5-flash gemini-2.5-flash-grounded gemini-2.5-pro gemini-2.5-pro-grounded ::: field epoch seniority

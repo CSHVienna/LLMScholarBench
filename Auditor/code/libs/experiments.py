@@ -1,15 +1,11 @@
 import re
 import ast
-from ssl import OP_NO_RENEGOTIATION
-import time
 import concurrent.futures
-from datetime import datetime
-import pandas as pd
 
 from libs import io
 from libs import helpers
 from libs import constants
-from libs import text
+from libs.text import helpers as text
 
 def is_valid_extracted_data(extracted_data):
     if extracted_data is None:
@@ -231,10 +227,12 @@ def extract_and_convert_to_dict(result_api, file_path):
                     substring = input_string[start_index:end_index+1]
                     tmp = ast.literal_eval(substring)
                     if len(tmp) == 0:
+
                         # invalid JSON
                         return None, constants.EXPERIMENT_OUTPUT_INVALID
                     valid_flag = constants.EXPERIMENT_OUTPUT_VALID if start_index == 0 and valid_flag is None else constants.EXPERIMENT_OUTPUT_VERBOSED if valid_flag is None else valid_flag
                 except Exception as e:
+
                     # invalid JSON
                     return None, constants.EXPERIMENT_OUTPUT_INVALID
 
@@ -245,9 +243,11 @@ def extract_and_convert_to_dict(result_api, file_path):
                     # invalid JSON
                     return None, constants.EXPERIMENT_OUTPUT_INVALID
                 else:
+
                     # valid JSON after fixing truncated JSON
                     substring = input_string[start_index:last_curly + 1] + "]"
                     valid_flag = constants.EXPERIMENT_OUTPUT_FIXED_TRUNCATED_JSON if valid_flag is None else valid_flag
+
                     
         else:
             return None, constants.EXPERIMENT_OUTPUT_INVALID
@@ -260,7 +260,7 @@ def extract_and_convert_to_dict(result_api, file_path):
         except Exception as e:
             print(e)
 
-        ### remove verbose content in names (eg. reasoning)
+        ### remove verbose content in names (parentheses)
         try:
             substring = re.sub(r"\s*\([^)]*\)", "", substring)
             valid_flag = constants.EXPERIMENT_OUTPUT_VERBOSED

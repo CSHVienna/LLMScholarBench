@@ -1,13 +1,9 @@
-from ast import mod
-from operator import add
 import pandas as pd
 import numpy as np
 from sklearn.decomposition import PCA
-import matplotlib.pyplot as plt
 from sklearn.preprocessing import StandardScaler
 from collections import Counter
 from sklearn.metrics.pairwise import cosine_similarity
-from itertools import combinations
 
 def get_components_by_model(df_responses_sample, df_author_population, label_population, metrics_col, include_task_param=False, n_components=2):
 

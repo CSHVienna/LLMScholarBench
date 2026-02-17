@@ -5,7 +5,6 @@ import pandas as pd
 import jellyfish
 import numpy as np
 
-from . import constants
 
 def flatten_name_str(s: str) -> str:
      # Match: {"Name":{"Name":"<value>"}}  (works with ' or " and optional spaces)

@@ -1,5 +1,4 @@
 import os
-import sys
 import glob
 import tarfile
 import pandas as pd
@@ -8,7 +7,7 @@ from io import StringIO
 import gzip
 import datetime
 import zipfile
-
+import numpy as np
 
 def printf(message):
     # Get the current timestamp in the desired format
@@ -222,5 +221,14 @@ def validate_path(path):
 
 
 def save_text(text, fn):
-    with open(fn, "w", encoding="utf-8") as f:
-        f.write(text)
+    try:
+        with open(fn, "w", encoding="utf-8") as f:
+            f.write(text)
+    except Exception as e:
+        printf(f"Error: {e}")
+        
+def save_numpy_array(array, fn):
+    try:
+        np.save(fn, array)
+    except Exception as e:
+        printf(f"Error: {e}")

@@ -1,8 +1,5 @@
-import pandas as pd
-import numpy as np
-
 from libs.factuality.factcheck import FactualityCheck
-from libs import text
+from libs.text import helpers as text
 from libs import constants
 
 class FactualityAuthor(FactualityCheck):
@@ -51,8 +48,6 @@ class FactualityAuthor(FactualityCheck):
 
     def _get_factual_mapping(self, df_unique_names, threshold=5):
 
-        #@TODO: double check why Oppenheimer is not picked up as within the APS
-        
         super()._get_factual_mapping(df_unique_names, threshold)
 
         # Load author metadata
@@ -109,7 +104,9 @@ def get_seniority(val):
             return None #constants.FACTUALITY_SENIORITY_EARLY_CAREER
         elif 'senior' in val:
             return None #constants.FACTUALITY_SENIORITY_SENIOR_CAREER
-        
+        elif 'mid career' in val.replace('-', ' ').replace('_',' '):
+            return None #constants.FACTUALITY_SENIORITY_MID_CAREER
+
         if val == 'deceased':
             return None
 
@@ -165,4 +162,6 @@ def get_seniority(val):
             return constants.FACTUALITY_SENIORITY_EARLY_CAREER
         elif val >= 20:
             return constants.FACTUALITY_SENIORITY_SENIOR_CAREER
-    return None #constants.FACTUALITY_SENIORITY_MID_CAREER
+        # else:
+            #return constants.FACTUALITY_SENIORITY_MID_CAREER
+    return None 

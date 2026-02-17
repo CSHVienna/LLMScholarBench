@@ -2,13 +2,11 @@ import numpy as np
 import pandas as pd
 from scipy.stats import t
 from statsmodels.stats.proportion import proportion_confint
-from scipy.stats import norm
 
 from tqdm.auto import tqdm
 tqdm.pandas()
 
 from libs import constants
-from libs.network import fragmentation
 
 import numpy as np
 import pandas as pd
