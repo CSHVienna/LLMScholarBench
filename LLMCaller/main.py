@@ -1,53 +1,77 @@
 import argparse
 import os
 import json
-from experiments.runner import ExperimentRunner
-from config.loader import load_llm_setup
+import asyncio
+from experiments.runner_openrouter_async import OpenRouterAsyncRunner
+from config.loader import load_llm_setup, get_available_models
+from run_gemini_concurrent import run_gemini_concurrent
 from datetime import datetime
 
-def read_text(fn):
-    txt = None
-    try:
-        with open(fn, 'r') as f:
-            txt = f.readline()
-    except Exception as ex:
-        print(ex)
-    print(f'key:{txt}')
-    return txt
-
-def create_experiment_config(model_name):
-    config = load_llm_setup(model_name)
-    
-    # Create a base directory for this model configuration if it doesn't exist
-    base_config_dir = f"experiments/config_{model_name}"
-    os.makedirs(base_config_dir, exist_ok=True)
-    
-    # Copy the configuration file to the base directory
-    config_file_path = os.path.join(base_config_dir, "llm_setup.json")
-    if not os.path.exists(config_file_path):
-        with open(config_file_path, 'w') as f:
-            json.dump(config, f, indent=2)
-    
-    # Create a new directory for this run
-    timestamp = datetime.now().strftime("%Y%m%d_%H%M%S")
-    run_dir = os.path.join(base_config_dir, f"run_{timestamp}")
-    os.makedirs(run_dir, exist_ok=True)
-    
-    return run_dir, config
-
-def run_experiment(model_name, groq_api_fn):
-    run_dir, config = create_experiment_config(model_name)
-    api_key = read_text(groq_api_fn)
-    runner = ExperimentRunner(run_dir, config, api_key)
-    runner.run_experiment()
-    print(f"Experiment completed. Results saved in {run_dir}")
+# Old functions removed - use --all-models-async instead
 
 if __name__ == "__main__":
+    available_models = get_available_models()
     parser = argparse.ArgumentParser(description="Run LLM experiments")
-    parser.add_argument("--model", type=str, required=True, choices=["gemma2-9b", "llama3-70b", "llama3-8b", "mixtral-8x7b", "llama-3.1-8b", "llama-3.1-70b"],
-                        help="Specify the model to use for the experiment")
-    parser.add_argument("--groqapi", type=str, required=True,
-                                    help="Specify the file where the GROQ API key is located (e.g., keys/groq_api_key.txt")
+    parser.add_argument("--all-models-async", action="store_true",
+                        required=True,
+                        help="Run experiments fully async (no rate limiting)")
+    parser.add_argument("--output-dir", type=str, 
+                        help="Override output directory (default from config)")
+    parser.add_argument("--category", type=str,
+                        choices=["top_k", "biased_top_k", "epoch", "field", "twins", "seniority"],
+                        help="Run single category experiment")
+    parser.add_argument("--variable", type=str,
+                        help="Run single variable experiment (requires --category)")
+    parser.add_argument("--provider", type=str,
+                        choices=["openrouter", "gemini"],
+                        help="Filter models by provider (openrouter or gemini)")
+    parser.add_argument("--temperature", type=float,
+                        help="Override temperature for all models (0.0-2.0)")
+
     args = parser.parse_args()
 
-    run_experiment(args.model, args.groqapi)
+    # Validation
+    if args.variable and not args.category:
+        parser.error("--variable requires --category")
+
+    # Run async experiments (always - it's the only mode now)
+    models = get_available_models(provider_filter=args.provider)
+
+    if not models:
+        print(f"No models found for provider: {args.provider}")
+        exit(1)
+
+    # Route to appropriate async execution strategy
+    if args.provider == 'gemini':
+        print(f"Running {len(models)} Gemini models concurrently (async)")
+        if args.temperature is not None:
+            print(f"   Temperature override: {args.temperature}")
+        asyncio.run(run_gemini_concurrent(models, args.output_dir, args.category, args.variable, args.temperature))
+
+    elif args.provider == 'openrouter':
+        print(f"🚀 Running {len(models)} OpenRouter models fully async (no rate limiting)")
+        if args.temperature is not None:
+            print(f"   Temperature override: {args.temperature}")
+        runner = OpenRouterAsyncRunner(args.output_dir, temperature_override=args.temperature)
+        asyncio.run(runner.run_all_models(models, args.category, args.variable))
+
+    else:
+        # No provider specified - run both in parallel
+        openrouter_models = get_available_models(provider_filter='openrouter')
+        gemini_models = get_available_models(provider_filter='gemini')
+
+        async def run_both_providers():
+            tasks = []
+            if openrouter_models:
+                print(f"OpenRouter: {len(openrouter_models)} models (async)")
+                or_runner = OpenRouterAsyncRunner(args.output_dir, temperature_override=args.temperature)
+                tasks.append(or_runner.run_all_models(openrouter_models, args.category, args.variable))
+
+            if gemini_models:
+                print(f"Gemini: {len(gemini_models)} models (async)")
+                tasks.append(run_gemini_concurrent(gemini_models, args.output_dir, args.category, args.variable, args.temperature))
+
+            return await asyncio.gather(*tasks)
+
+        print(f"Running both providers in parallel ({len(models)} total models)")
+        asyncio.run(run_both_providers())

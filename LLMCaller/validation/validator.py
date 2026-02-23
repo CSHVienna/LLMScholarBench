@@ -4,7 +4,11 @@ import os
 from jsonschema import validate, ValidationError
 
 class ResponseValidator:
-    def __init__(self, schema_dir='config/schemas'):
+    def __init__(self, schema_dir=None):
+        if schema_dir is None:
+            # Use absolute path relative to this file's directory
+            current_dir = os.path.dirname(os.path.abspath(__file__))
+            schema_dir = os.path.join(os.path.dirname(current_dir), 'config', 'schemas')
         self.schemas = self.load_schemas(schema_dir)
 
     def load_schemas(self, schema_dir):
@@ -22,7 +26,7 @@ class ResponseValidator:
             return json_match.group()
         return None
 
-    def validate_response(self, response_content):
+    def validate_response(self, response_content, category=None):
         json_content = self.extract_json(response_content)
         if not json_content:
             return False, "No JSON-like structure found in the response", None
@@ -30,8 +34,9 @@ class ResponseValidator:
         try:
             data = json.loads(json_content)
             
-            # Determine the category based on the structure of the data
-            category = self.determine_category(data)
+            # Use provided category or determine from data structure (for backward compatibility)
+            if category is None:
+                category = self.determine_category(data)
             
             # Validate against the schema
             validate(instance=data, schema=self.schemas[category])
@@ -42,7 +47,7 @@ class ResponseValidator:
         except ValidationError as e:
             return False, f"Schema validation failed: {e.message}", None
         except KeyError:
-            return False, f"No schema found for the response structure", None
+            return False, f"No schema found for category '{category}'", None
         except Exception as e:
             return False, f"Validation error: {str(e)}", None
 

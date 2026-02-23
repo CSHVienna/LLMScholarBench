@@ -1,5 +1,4 @@
 
-from operator import index
 from libs import io
 from libs import constants
 from libs import responses
@@ -40,7 +39,7 @@ class FactualityCheck(object):
         """
         Load the valid responses with the factuality check
         """
-        self.df_valid_responses = io.read_csv(self.fn_valid_with_fact_check, index_col=0)
+        self.df_valid_responses = io.read_csv(self.fn_valid_with_fact_check, index_col=0, low_memory=False)
 
     def save_valid_responses_with_factuality_check(self):
         """
@@ -73,7 +72,7 @@ class FactualityCheck(object):
         return
     
     def _assign_ids(self, column_names):
-        unique_values = self.df_valid_responses[column_names].unique()
+        unique_values = self.df_valid_responses[column_names].dropna().unique()
         df_unique_values = io.pd.DataFrame(sorted(unique_values), columns=[column_names], index=range(1, len(unique_values)+1))
         return df_unique_values
 
@@ -116,31 +115,38 @@ class FactualityCheck(object):
     def get_minority_baselines(attribute, df_gt_stats, df_all_authors_demographics, df_all_authors_stats):
         from libs.factuality import author
 
-        minority = constants.GENDER_FEMALE if attribute == 'gender' else constants.ETHNICITY_BLACK
+        # minority = constants.GENDER_FEMALE if attribute == 'gender' else constants.ETHNICITY_BLACK
+        groups = constants.GENDER_LIST if attribute == 'gender' else constants.ETHNICITY_LIST
 
         # Field
-        baseline_field = df_gt_stats.query("label in ['Condensed Matter & Materials Physics', 'Physics Education Research']")[f'{attribute}_fractions'][minority]
+        baseline_field = df_gt_stats.query("label in ['Condensed Matter & Materials Physics', 'Physics Education Research']")[f'{attribute}_fractions'][groups]
         baseline_field.rename(index={'Condensed Matter & Materials Physics':'CMMP', 'Physics Education Research':'PER'}, inplace=True)
 
         # Epoch
         df_periods = df_all_authors_stats.set_index('id_author_oa').join(df_all_authors_demographics[['id_author','gender', 'ethnicity']].set_index('id_author'))
         df_periods = df_periods[['min_year', 'max_year', 'career_age', 'gender', 'ethnicity']]
         decades = [1950, 2000]
-        fvalues = []
+
+        baseline_epoch = author.pd.DataFrame()
         for decade in decades:
             k = f"s{decade}s"
             df_periods.loc[:,k] = df_periods.apply(lambda row: not ((row.max_year < decade) or (row.min_year > decade + 10)) , axis=1)
             tmp = df_periods.query(f"{k} == True")
-            f = tmp.query(f"{attribute}=='{minority}'").shape[0] / tmp.shape[0]
-            fvalues.append(f)
-        baseline_epoch = io.pd.Series(fvalues, index=decades)
+            normalized_counts = author.pd.DataFrame(
+                tmp.groupby(attribute)
+                .size()
+                .div(len(tmp))  # divide by total rows
+            ).T
+            normalized_counts.loc[:, 'decade'] = decade
+            baseline_epoch = author.pd.concat([baseline_epoch, normalized_counts])
+        baseline_epoch.set_index('decade', inplace=True)
 
         # Seniority
         df_periods.loc[:, 'seniority'] = df_periods.career_age.apply(lambda v: author.get_seniority(v))
         counts = df_periods.groupby(['seniority', attribute]).size().reset_index(name='count')
         counts['fraction'] = counts['count'] / counts.groupby('seniority')['count'].transform('sum')
         result = counts.pivot(index='seniority', columns=attribute, values='fraction')
-        baseline_seniority = result.loc[constants.TASK_SENIORITY_PARAMS, minority]
+        baseline_seniority = result.loc[constants.TASK_SENIORITY_PARAMS, groups]
 
         return {constants.EXPERIMENT_TASK_FIELD: baseline_field, 
                 constants.EXPERIMENT_TASK_EPOCH: baseline_epoch,

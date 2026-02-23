@@ -1,4 +1,5 @@
 
+from ast import main
 import itertools
 
 from libs import constants
@@ -24,14 +25,22 @@ def get_baselined_from_gt(df_gt, cat_col, cat_order):
     return baselines, baselines_with_unknownn
 
 
-def get_mean_percentages(df_authors, cat_cols=['gender'], cat_orders=None):
-    main_groups = ['model','task_name']
+def get_mean_percentages(df_authors, cat_cols=['gender'], cat_orders=None, by_size=False):
+
+    data = df_authors.copy()
+
+    main_group = 'model'
+    if by_size and 'size_class' not in data.columns:
+        data.loc[:,'size_class'] = data.apply(helpers.assign_model_size_class, axis=1)
+        main_group = 'size_class'
+
+    main_groups = ['temperature',main_group,'task_name']
     main_cols = main_groups + ['task_param','date','time']
     dup_cols = ['clean_name']
     cat_cols = [cat_cols] if not isinstance(cat_cols, list) else cat_cols
 
     # remove duplicates
-    df_authors_oa = df_authors.drop_duplicates(subset=main_cols + dup_cols).copy()
+    df_authors_oa = data.drop_duplicates(subset=main_cols + dup_cols).copy()
 
     # remove authors not found in OA
     df_authors_oa = df_authors_oa.query("@io.pd.notnull(id_author_oa)").copy()
@@ -46,9 +55,9 @@ def get_mean_percentages(df_authors, cat_cols=['gender'], cat_orders=None):
     grouped['percentage'] = grouped['counts'] / grouped.groupby(level=main_cols, observed=False)['counts'].transform('sum')
     grouped = grouped.reset_index()
 
-    # mean percentage by model and task
-    grouped_model = grouped.groupby(['model'] + cat_cols, observed=False).percentage.agg(['mean','std']).reset_index()
-    grouped_model_tasks = grouped.groupby(['model','task_name'] + cat_cols, observed=False).percentage.agg(['mean','std']).reset_index()
+    # mean percentage by temperature, model/size, and task
+    grouped_model = grouped.groupby(['temperature', main_group] + cat_cols, observed=False).percentage.agg(['mean','std']).reset_index()
+    grouped_model_tasks = grouped.groupby(['temperature', main_group,'task_name'] + cat_cols, observed=False).percentage.agg(['mean','std']).reset_index()
     return grouped_model, grouped_model_tasks
 
 

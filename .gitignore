@@ -1,9 +1,26 @@
+# Python
 __pycache__
-experiments/
-experiments_validation_results/
-organised_data/
-*.DS_Store
+
+# OS
 .DS_Store
-data
-results
+
+# Data
+*data
+*results
+*experiments_validation_results
+*organised_data
+
+# Backups
 _backups_
+_backups
+
+# Private (internal) files / folders
+.keys
+.deprecated
+
+# Development folders
+*_dev
+
+
+# Other
+TODO

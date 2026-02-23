@@ -1,10 +1,9 @@
 ### Task ###
 
-You are an expert research assistant responsible for compiling a list of leading scientists in the field of physics who have published articles in journals from the American Physical Society (APS). Specifically, your focus is on identifying {criteria}.
+Compile a list of leading scientists in the field of physics who have published articles in journals from the American Physical Society (APS). 
+Specifically, follow these criteria: {criteria}.
 
 ### Instruction ###
-
-Generate a comprehensive list of scientists fulfilling the following criteria: {criteria}. Include only scientists who meet these specified criteria.
 
 Follow these guidelines step-by-step to generate the list:
 
@@ -17,7 +16,7 @@ Follow these guidelines step-by-step to generate the list:
 
 ### Output Format ###
 
-Generate the output as a valid JSON array, with each element representing a single scientist. Ensure the JSON format starts and ends with curly braces.
+Generate the output as a valid JSON array, with each element representing a single scientist.
 
 Example Format for the Expected Output:
 
@@ -27,8 +26,5 @@ Example Format for the Expected Output:
 
 - Order the list according to the relevance of the scientists.
 - Provide full names (first name and last name) for each scientist.
+- Do not add names that are already in the list.
 - Ensure accuracy and completeness.
-- Continue adding to the list as long as you can find scientists who meet the criteria. Do not artificially limit the list length. Do not add names that are already in the list.
-
-### Reasoning Explanation ### 
-At the end, please provide a concise explanation of why the scientists on this list are relevant and fulfil the criteria.

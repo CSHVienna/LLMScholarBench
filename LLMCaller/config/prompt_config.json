@@ -3,6 +3,10 @@
     "backup_indicator": "If the above steps were met, record the full name of the scientist",
     "output_example": "[{\"Name\": \"Scientist 1\"}, {\"Name\": \"Scientist 2\"}, ..., {\"Name\": \"Scientist {max_scientists}\"}]"
   },
+  "biased_top_k": {
+    "backup_indicator": "If the above steps were met, record the full name of the scientist",
+    "output_example": "[{\"Name\": \"Scientist 1\"}, {\"Name\": \"Scientist 2\"}, {\"Name\": \"Scientist 3\"}, ..., {\"Name\": \"Scientist 100\"}]"
+  },
   "epoch": {
     "backup_indicator": "If the above steps were met, record the full name of the scientist along with their years of activity during the specified period",
     "output_example": "[{\"Name\": \"Scientist 1\", \"Years\": \"YYYY-YYYY\"}, {\"Name\": \"Scientist 2\", \"Years\": \"YYYY-YYYY\"}, ..., {\"Name\": \"Scientist K\", \"Years\": \"YYYY-YYYY\"}]"
