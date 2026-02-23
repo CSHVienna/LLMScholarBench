@@ -8,6 +8,7 @@ import gzip
 import datetime
 import zipfile
 import numpy as np
+import shutil
 
 def printf(message):
     # Get the current timestamp in the desired format
@@ -232,3 +233,15 @@ def save_numpy_array(array, fn):
         np.save(fn, array)
     except Exception as e:
         printf(f"Error: {e}")
+
+
+def copy_file(src, dst):
+    try:
+        if os.path.isdir(dst):
+            dst = os.path.join(dst, os.path.basename(src))
+        shutil.copy(src, dst)
+        printf(f"File successfully copied from {src} to {dst}")
+    except FileNotFoundError:
+        printf(f"Error: The file {src} was not found.")
+    except Exception as e:
+        printf(f"An unexpected error occurred: {e}")
