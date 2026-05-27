@@ -1,5 +1,7 @@
 # LLMScholarBench
 
+[![DOI](https://zenodo.org/badge/859395262.svg)](https://doi.org/10.5281/zenodo.20415692) [![DOI](https://img.shields.io/badge/OSF-Dataset-orange)](https://doi.org/10.17605/OSF.IO/AP5QW)
+
 **LLMScholarBench** is a benchmark for auditing large language models (LLMs) in LLM-based scholar recommendations. It provides a framework to collect model outputs, standardize ground-truth data, and analyze recommendations along dimensions such as consistency, factuality, demographics, prestige, and similarity.
 
 ## Requirements
