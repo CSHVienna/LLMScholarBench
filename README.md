@@ -69,8 +69,8 @@ Module to **prepare ground-truth data** for downstream analyses. Currently imple
 
 | Version | Description | Link |
 |--------|-------------|------|
-| **v2.0** | Whose Name Comes Up? Benchmarking and Intervention-Based Auditing of LLM-Based Scholar Recommendation | [arXiv:2602.08873](https://arxiv.org/abs/2602.08873) *(under review)* |
-| **v1.0** | Whose Name Comes Up? Auditing LLM-Based Scholar Recommendations | [arXiv:2506.00074](https://arxiv.org/abs/2506.00074) *(under review)* |
+| **v2.0** | Whose Name Comes Up? II: Benchmarking and Intervention-Based Auditing of LLM-Based Scholar Recommendation | [arXiv:2602.08873](https://arxiv.org/abs/2602.08873) (KDD'26) |
+| **v1.0** | Whose Name Comes Up? I:  Auditing LLM-Based Scholar Recommendations | [arXiv:2506.00074](https://arxiv.org/abs/2506.00074) *(under review)* |
 
 
 
@@ -82,12 +82,14 @@ If you use LLMScholarBench in your work, please cite the benchmark and/or the re
 
 ```bibtex
 @article{espinnoboa2026llmscholarbench,
-  author    = {Espín-Noboa, Lisette and Méndez, Gonzalo G.},
-  title     = {Whose Name Comes Up? Benchmarking and Intervention-Based Auditing of LLM-Based Scholar Recommendation},
-  journal   = {arXiv preprint},
-  year      = {2026},
-  url       = {https://arxiv.org/abs/2602.08873},
-  note      = {v2.0.0, under-review}
+  author      = {Esp\'{i}n-Noboa, Lisette and M\'{e}ndez, Gonzalo G.},
+  title       = {Whose Name Comes Up? II: Benchmarking and Intervention-Based Auditing of LLM-Based Scholar Recommendation},
+  booktitle   = {The 32nd ACM SIGKDD Conference on Knowledge Discovery and Data Mining},
+  year        = {2026},
+  publisher   = {Association for Computing Machinery},
+  address     = {Jeju, Korea},
+  doi         = {10.1145/3770855.3817543},
+  note        = {v2.0.0}
 }
 ```
 
@@ -95,8 +97,8 @@ If you use LLMScholarBench in your work, please cite the benchmark and/or the re
 
 ```bibtex
 @article{barolo2025llmscholaraudits,
-  author    = {Barolo, Daniele and Valentin, Chiara and Karimi, Fariba and Galárraga, Luis and Méndez, Gonzalo G. and Espín-Noboa, Lisette},
-  title     = {Whose Name Comes Up? Auditing LLM-Based Scholar Recommendations},
+  author    = {Barolo, Daniele and Valentin, Chiara and Karimi, Fariba and Gal\'{a}rraga, Luis and M\'{e}ndez, Gonzalo G. and Esp\'{i}n-Noboa, Lisette},
+  title     = {Whose Name Comes Up? I: Auditing LLM-Based Scholar Recommendations},
   journal   = {arXiv preprint},
   year      = {2025},
   url       = {https://arxiv.org/abs/2506.00074},
