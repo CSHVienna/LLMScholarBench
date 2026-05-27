@@ -404,6 +404,17 @@ EXPERIMENT_TYPE_QUERY_TO_FILTER_RECORDS = {
     'baseline_rag':         "task_name != @constants.EXPERIMENT_TASK_BIASED_TOP_K and grounded==False and model in @constants.LLMS_GEMINI",
 }
 
+# Especial cases (only gemini)
+# case 1: top-100 vs. biased top-100 (baseline: baseline_rag_constrained_top_100)
+# case 2: top-100 vs. rag_biased_top-100 (baseline: baseline_rag_constrained_top_100)
+EXPERIMENT_TYPE_QUERY_TO_FILTER_RECORDS_GEMINI = {
+    'baseline_top_100_rag_constrained': "task_name == 'top_k' and task_param == @constants.TASK_TOP_100_PARAM and grounded==False and model in @constants.LLMS_GEMINI",
+    'rag_top_100':                      "task_name == 'top_k' and task_param == @constants.TASK_TOP_100_PARAM and grounded==True and model in @constants.LLMS_GEMINI",
+    'constrained_top_100':              "task_name == @constants.EXPERIMENT_TASK_BIASED_TOP_K and grounded==False and model in @constants.LLMS_GEMINI",
+    'constrained_rag_top_100':          "task_name == @constants.EXPERIMENT_TASK_BIASED_TOP_K and grounded==True and model in @constants.LLMS_GEMINI",
+}
+EXPERIMENT_TYPE_QUERY_TO_FILTER_RECORDS.update(EXPERIMENT_TYPE_QUERY_TO_FILTER_RECORDS_GEMINI)
+
 EXPERIMENT_TYPE_LABEL_MAPPING = {
     'temperature': 'Temperature\nvariation',
     'baseline': 'Baseline\n',
@@ -461,6 +472,7 @@ EXPERIMENT_TASK_BIASED_TOP_K = 'biased_top_k'
 EXPERIMENT_TASKS = [EXPERIMENT_TASK_TOPK, EXPERIMENT_TASK_FIELD, EXPERIMENT_TASK_EPOCH, EXPERIMENT_TASK_SENIORITY, EXPERIMENT_TASK_TWINS]
 EXPERIMENT_TASKS_2TWINS = [EXPERIMENT_TASK_TOPK, EXPERIMENT_TASK_FIELD, EXPERIMENT_TASK_EPOCH, EXPERIMENT_TASK_SENIORITY, f"{EXPERIMENT_TASK_TWINS}-real", f"{EXPERIMENT_TASK_TWINS}-fake"]
 EXPERIMENT_TASKS_COLORS = {EXPERIMENT_TASK_TOPK:'tab:blue',EXPERIMENT_TASK_FIELD:'tab:orange',EXPERIMENT_TASK_EPOCH:'tab:green',EXPERIMENT_TASK_SENIORITY:'tab:red',EXPERIMENT_TASK_TWINS:'tab:purple'}
+
 
 EXPERIMENT_AUDIT_FACTUALITY = 'factuality'
 EXPERIMENT_AUDIT_FACTUALITY_AUTHOR_NAME_REPLACEMENTS = {'Nobel Prize Winner ':'',
@@ -583,6 +595,10 @@ TASK_TOPK_BIASED_PARAMS_ETHNICITY = [t for t in TASK_TOPK_BIASED_PARAMS if '_eth
 TASK_TOPK_BIASED_PARAMS_CITATIONS = [t for t in TASK_TOPK_BIASED_PARAMS if '_citations_' in t]
 TASK_TOPK_BIASED_PARAMS_DIVERSE = [t for t in TASK_TOPK_BIASED_PARAMS if t.endswith('_diverse')]
 
+def _extract_biased_task_category(task_param):
+    return "_".join([w for i,w in enumerate(task_param.split('_')) if i in [2,3]])
+
+TASK_TOPK_BIASED_PARAMS_CATEGORIES = set([_extract_biased_task_category(c) for c in TASK_TOPK_BIASED_PARAMS])
 
 EXPERIMENT_TASK_PARAMS_ORDER_EXPANDED = [item for sublist in TASK_PARAMS_BY_TASK.values() for item in sublist]
 
@@ -735,8 +751,8 @@ BENCHMARK_PARITY_METRICS = [m for m in BENCHMARK_SOCIAL_METRICS if m.startswith(
 
 
 BENCHMARK_TECHNICAL_METRICS = [
-    "refusal_pct",
     "validity_pct",
+    "refusal_pct",
     "duplicates",
     "consistency",
     "factuality_author",
