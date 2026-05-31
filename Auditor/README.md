@@ -210,9 +210,10 @@ Notebooks live in `notebooks/benchmark_interventions/`.
 | `2_temperature.ipynb` | Effect of temperature on validity, factuality, and diversity. |
 | `3_infrastructure.ipynb` | Model infrastructure: size, access (open/proprietary), reasoning vs non-reasoning, and related summaries. |
 | `4_inter_temperature.ipynb` | Temperature intervention: comparing behavior across temperature settings. |
-| `5_inter_biased_prompt.ipynb` | Biased-prompt intervention: effect of prompt framing on diversity and factuality. |
+| `5_inter_biased_prompt.ipynb` | Constrained-prompt intervention: effect of prompt framing on diversity and factuality. |
 | `6_inter_rag.ipynb` | RAG intervention: effect of retrieval-augmented prompts on outputs. |
-| `7_quadrants.ipynb` | Quadrant views: technical performance (validity, factuality, uniqueness) vs diversity/parity. |
+| `7_inter_biased_prompt_rag.ipynb` | Comparing Constrained-prompting with RAG |
+| `8_quadrants.ipynb` | Quadrant views: technical performance (validity, factuality, uniqueness) vs diversity/parity. |
 
 ### base_audits (v1.0.0)
 
