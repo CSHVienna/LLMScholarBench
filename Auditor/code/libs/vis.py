@@ -1100,3 +1100,88 @@ def plot_gt_demographics(df_gt_stats, attribute, fn=None, **kwargs):
 
     # Layout adjustments
     _finish_plot(fig, fn)
+
+
+
+###################################################
+### New bar plots function for Figure 4,5 and 6 ###
+###################################################
+
+
+def plot_grouped_bars(df, hue, hue_order, hue_colors, df_err=None, fn=None, **kwargs):
+    """
+    Same inputs: `df` and `df_err` are the wide frames returned by
+    helpers.pivot_model_tasks (one row per `hue` value, one column per task).
+ 
+    kwargs (all optional):
+      figsize, legend_kwargs, legend, ylabel, ylim, xlabel_rotation   -> as in _polish_plot
+      err_kind  : 'sd' (default) | None        -> draw whiskers or not
+      clip      : (lo, hi) or None (default)   -> clip whiskers to a valid range, e.g. (0,1) for pct
+      separate  : list of column names to draw in their own panel, e.g. ['all']
+                  (the aggregate should not sit on the same axis as its parts)
+      bar_width : total width of a task group, default 0.8
+      baselines : same dict as plot_parallel_coords ({name: {'values': Series indexed by category,
+                  'color', 'ls'}}); drawn as a short horizontal reference mark per category
+      axhline, xticklabels_rename : passed through to _polish_plot as before
+    """
+    figsize = kwargs.pop('figsize', (10, 5))
+    err_kind = kwargs.pop('err_kind', 'sd')
+    clip = kwargs.pop('clip', None)
+    separate = kwargs.pop('separate', None) or []
+    group_w = kwargs.pop('bar_width', 0.8)
+    baselines = kwargs.pop('baselines', None) or {}
+ 
+    tasks_all = [c for c in df.columns if c != hue]
+    tasks_main = [t for t in tasks_all if t not in separate]
+    tasks_sep = [t for t in tasks_all if t in separate]
+    hues = [h for h in hue_order if h in df[hue].unique()]
+    n = len(hues)
+    w = group_w / n
+ 
+    vals = df.set_index(hue)
+    errs = df_err.set_index(hue) if (df_err is not None and err_kind) else None
+ 
+    if tasks_sep:
+        fig, axes = plt.subplots(1, 2, figsize=figsize, sharey=True,
+                                 gridspec_kw={'width_ratios': [len(tasks_main), len(tasks_sep)], 'wspace': 0.08})
+        panels = [(axes[0], tasks_main), (axes[1], tasks_sep)]
+        ax = axes[0]
+    else:
+        fig, ax = plt.subplots(1, 1, figsize=figsize)
+        panels = [(ax, tasks_main)]
+ 
+    for pax, tasks in panels:
+        x = np.arange(len(tasks), dtype=float)
+        for i, h in enumerate(hues):
+            m = vals.loc[h, tasks].values.astype(float)
+            yerr = None
+            if errs is not None:
+                s = np.nan_to_num(errs.loc[h, tasks].values.astype(float))
+                lo, hi = m - s, m + s
+                if clip is not None:
+                    lo, hi = np.clip(lo, *clip), np.clip(hi, *clip)
+                yerr = np.vstack([m - lo, hi - m])
+            pax.bar(x + (i - (n - 1) / 2) * w, m, w * 0.9, yerr=yerr,
+                    color=hue_colors[h], label=h if pax is ax else None, linewidth=0,
+                    error_kw=dict(elinewidth=0.8, capsize=1.5, capthick=0.8, ecolor='0.3'), zorder=3)
+        for bname, obj in baselines.items():
+            bl = obj['values']
+            y = [float(bl[t]) if t in bl.index else np.nan for t in tasks]
+            pax.hlines(y, x - group_w / 2, x + group_w / 2, color=obj.get('color', 'black'),
+                       linestyle=obj.get('ls', '--'), lw=1.4, zorder=4,
+                       label=bname if pax is ax else None)
+        pax.set_xticks(x)
+        pax.set_xticklabels(tasks)
+        pax.set_xlim(-0.5, len(tasks) - 0.5)
+        pax.yaxis.grid(True, color='0.88', lw=0.6)
+        pax.set_axisbelow(True)
+        if pax is not ax:
+            pax.tick_params(axis='y', length=0)
+            pax.spines['left'].set_visible(False)
+ 
+    kwargs.setdefault('xlabel', None)
+    kwargs.setdefault('xscale', None)   # _polish_plot's set_xscale('linear') would reset the tick labels
+    _polish_plot(fig, ax, x_col=None, group_col=hue, group_order=hue_order, x_order=None, **kwargs)
+    if 'ylim' not in kwargs:
+        ax.set_ylim(bottom=0)
+    _finish_plot(fig, fn)
