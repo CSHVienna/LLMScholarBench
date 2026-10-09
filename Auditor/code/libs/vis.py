@@ -697,7 +697,7 @@ def plot_task_param_comparison_bars(df_result, metric, all_labels, model, color_
             axes[2].barh(
                 task_names,
                 pivoted[(task_param2, label)],
-                label=label.replace('Unisex','Neutral').replace(constants.ETHNICITY_BLACK,'Black').replace(constants.ETHNICITY_LATINO,'Latino'),
+                label=label.replace('Unisex','Neutral').replace(constants.ETHNICITY_BLACK,'Black').replace(constants.ETHNICITY_LATINO,'Hispanic'),
                 left=bottom,  # Add previous stacks
                 alpha=0.7,
                 color=color_map_attribute[label]
@@ -867,7 +867,7 @@ def plot_model_comparison_bars(df_result, metric, all_labels, task_name, color_m
             ax.barh(
                 row_names,
                 pivoted[(task_param2, label)],
-                label=label.replace('Unisex','Neutral').replace(constants.ETHNICITY_BLACK,'Black').replace(constants.ETHNICITY_LATINO,'Latino'),
+                label=label.replace('Unisex','Neutral').replace(constants.ETHNICITY_BLACK,'Black').replace(constants.ETHNICITY_LATINO,'Hispanic'),
                 left=bottom,  # Add previous stacks
                 alpha=0.7,
                 color=color_map_attribute[label]
@@ -1079,7 +1079,7 @@ def plot_gt_demographics(df_gt_stats, attribute, fn=None, **kwargs):
         "Black or African American": "Black",
         "Asian": "Asian",
         "White": "White",
-        "Hispanic or Latino": "Latino",
+        "Hispanic or Latino": "Hispanic",
         "Unknown": "Unknown",
     }
     new_labels = [custom_labels.get(label, label) for label in labels]

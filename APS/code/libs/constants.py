@@ -63,7 +63,7 @@ ETHNICITY_LIST = [ETHNICITY_BLACK,ETHNICITY_LATINO,ETHNICITY_WHITE,ETHNICITY_ASI
 ETHNICITY_SHORT_DICT = {ETHNICITY_BLACK:'Black',
                         ETHNICITY_ASIAN:ETHNICITY_ASIAN,
                         ETHNICITY_WHITE:ETHNICITY_WHITE,
-                        ETHNICITY_LATINO:'Latino',
+                        ETHNICITY_LATINO:'Hispanic',
                         ETHNICITY_MULTIPLE:'Multi.',
                         ETHNICITY_AMERICAN_INDIAN:'American\nIndian',
                         UNKNOWN_STR:UNKNOWN_STR
